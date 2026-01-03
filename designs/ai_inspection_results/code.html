@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Inspection Results</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f96706", // Safety Orange
+                        "background-light": "#f3f4f6", 
+                        "background-dark": "#18181b", // Zinc 950 (Dark Industrial Grey)
+                        "surface-dark": "#27272a", // Zinc 800 (Card Grey)
+                        "surface-hover": "#3f3f46", // Zinc 700 (Border/Hover Grey)
+                        "surface-active": "#52525b", // Zinc 600 (Active Grey)
+                        "text-secondary": "#a1a1aa", // Zinc 400 (Text Grey)
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #18181b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f96706;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col max-w-md mx-auto shadow-2xl overflow-hidden bg-background-dark">
+<header class="sticky top-0 z-50 flex items-center justify-between bg-surface-dark/95 backdrop-blur-md p-4 shadow-md border-b border-surface-hover">
+<button aria-label="Go back" class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-surface-hover active:bg-primary transition-colors touch-manipulation group">
+<span class="material-symbols-outlined text-white text-[28px] group-hover:scale-110 transition-transform">arrow_back</span>
+</button>
+<h1 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">AI Inspection Results</h1>
+<div class="size-12 shrink-0"></div>
+</header>
+<main class="flex-1 overflow-y-auto pb-8">
+<div class="bg-surface-dark border-b border-surface-hover py-3 px-4 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">directions_car</span>
+<p class="text-text-secondary text-sm font-medium tracking-wide">2018 Ford F-150 • VIN...882 • John Doe</p>
+</div>
+<div class="p-4">
+<div class="flex flex-col rounded-xl overflow-hidden shadow-lg bg-surface-dark border border-surface-hover">
+<div class="relative h-48 w-full bg-gray-800">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark to-transparent opacity-90 z-10"></div>
+<div class="w-full h-full bg-center bg-cover" data-alt="Technical schematic overlay of a car chassis" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB8MC1LSH7MQrA6QUy44gayjY67J4IAWB6rWrd1AhL7NNequoPl6xrJNJsMV2LsJKRlv6BsvNRsvXZeFitw785ma51CRJhU5ULn9nzLC8_t_zy84bvFy8J7fJTNORUnH-FRsWhgFzr_lYPT1HmFNdT3Sy2Zj_mMPDU_2dgGgl5hcu_2Iojkz6b4RC90ic2kuqZd8GvEmtj_olAtzgyfsT23dYprxQilUUP_dv6UdgAKuZLjnzVcRIKQ2Sdkh7Z6fhad70nNgTaQXqxA");'>
+</div>
+<div class="absolute top-4 right-4 z-20 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+                            Action Required
+                        </div>
+<div class="absolute bottom-0 left-0 w-full p-5 z-20">
+<div class="flex items-end justify-between">
+<div>
+<p class="text-text-secondary text-sm font-medium mb-1">Overall Health Score</p>
+<div class="flex items-baseline gap-2">
+<h2 class="text-4xl font-bold text-white">72%</h2>
+<span class="text-primary text-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">warning</span> 
+                                            Critical
+                                        </span>
+</div>
+</div>
+<div class="bg-white/10 backdrop-blur-sm rounded-lg p-2 text-center min-w-[80px]">
+<span class="block text-2xl font-bold text-white">3</span>
+<span class="text-[10px] text-gray-300 uppercase font-semibold">Issues</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 pt-2 pb-2 flex items-center justify-between">
+<h2 class="text-white text-xl font-bold tracking-tight">Detailed Findings</h2>
+<span class="text-xs text-text-secondary bg-surface-hover px-2 py-1 rounded">AI Confidence: 98%</span>
+</div>
+<div class="flex flex-col px-4 gap-4 pb-4">
+<details class="group flex flex-col rounded-xl bg-surface-dark border border-surface-hover overflow-hidden" open="">
+<summary class="flex cursor-pointer items-center justify-between gap-4 p-4 bg-surface-dark hover:bg-surface-hover transition-colors select-none list-none">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-full bg-primary/20 text-primary shrink-0">
+<span class="material-symbols-outlined">gpp_maybe</span>
+</div>
+<div>
+<h3 class="text-white text-base font-bold leading-tight">Braking System</h3>
+<p class="text-primary text-xs font-bold uppercase mt-1">Critical Attention</p>
+</div>
+</div>
+<div class="text-text-secondary group-open:rotate-180 transition-transform duration-200">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<div class="px-4 pb-4 pt-0 bg-surface-dark border-t border-surface-hover/50">
+<div class="mt-4 space-y-3">
+<div class="p-3 rounded-lg bg-background-dark border-l-4 border-primary">
+<p class="text-white text-sm leading-relaxed">
+<span class="font-bold text-primary block mb-1">Issue Detected:</span>
+                                    Pads worn below 3mm on front axle. Rotors show significant signs of warping. Immediate replacement recommended.
+                                </p>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-surface-hover hover:bg-surface-active text-white text-sm font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 touch-manipulation transition-colors">
+<span class="material-symbols-outlined text-[18px]">image</span>
+                                    View Scan
+                                </button>
+<button class="flex-1 bg-surface-hover hover:bg-surface-active text-white text-sm font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 touch-manipulation transition-colors">
+<span class="material-symbols-outlined text-[18px]">add_task</span>
+                                    Add Repair
+                                </button>
+</div>
+</div>
+</div>
+</details>
+<details class="group flex flex-col rounded-xl bg-surface-dark border border-surface-hover overflow-hidden">
+<summary class="flex cursor-pointer items-center justify-between gap-4 p-4 bg-surface-dark hover:bg-surface-hover transition-colors select-none list-none">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-full bg-yellow-500/20 text-yellow-500 shrink-0">
+<span class="material-symbols-outlined">tire_repair</span>
+</div>
+<div>
+<h3 class="text-white text-base font-bold leading-tight">Tires &amp; Suspension</h3>
+<p class="text-yellow-500 text-xs font-bold uppercase mt-1">Moderate Wear</p>
+</div>
+</div>
+<div class="text-text-secondary group-open:rotate-180 transition-transform duration-200">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<div class="px-4 pb-4 pt-0 bg-surface-dark border-t border-surface-hover/50">
+<div class="mt-4 p-3 rounded-lg bg-background-dark border-l-4 border-yellow-500">
+<p class="text-text-secondary text-sm leading-relaxed">
+                                Front left tread depth optimal. Rear right shows uneven wear pattern consistent with alignment issues. Suggest alignment check.
+                            </p>
+</div>
+</div>
+</details>
+<details class="group flex flex-col rounded-xl bg-surface-dark border border-surface-hover overflow-hidden">
+<summary class="flex cursor-pointer items-center justify-between gap-4 p-4 bg-surface-dark hover:bg-surface-hover transition-colors select-none list-none">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-full bg-green-500/20 text-green-500 shrink-0">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+<div>
+<h3 class="text-white text-base font-bold leading-tight">Fluid Analysis</h3>
+<p class="text-green-500 text-xs font-bold uppercase mt-1">Passed</p>
+</div>
+</div>
+<div class="text-text-secondary group-open:rotate-180 transition-transform duration-200">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<div class="px-4 pb-4 pt-0 bg-surface-dark border-t border-surface-hover/50">
+<div class="mt-4 p-3 rounded-lg bg-background-dark border-l-4 border-green-500">
+<p class="text-text-secondary text-sm leading-relaxed">
+                                Oil viscosity within normal operating range. Coolant levels adequate. Transmission fluid clear.
+                            </p>
+</div>
+</div>
+</details>
+<details class="group flex flex-col rounded-xl bg-surface-dark border border-surface-hover overflow-hidden">
+<summary class="flex cursor-pointer items-center justify-between gap-4 p-4 bg-surface-dark hover:bg-surface-hover transition-colors select-none list-none">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-full bg-green-500/20 text-green-500 shrink-0">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div>
+<h3 class="text-white text-base font-bold leading-tight">Electrical System</h3>
+<p class="text-green-500 text-xs font-bold uppercase mt-1">Passed</p>
+</div>
+</div>
+<div class="text-text-secondary group-open:rotate-180 transition-transform duration-200">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<div class="px-4 pb-4 pt-0 bg-surface-dark border-t border-surface-hover/50">
+<div class="mt-4 p-3 rounded-lg bg-background-dark border-l-4 border-green-500">
+<p class="text-text-secondary text-sm leading-relaxed">
+                                Battery voltage steady at 12.6V. Alternator output optimal. No fault codes detected in ECU scan.
+                            </p>
+</div>
+</div>
+</details>
+</div>
+</main>
+</div>
+
+</body></html>

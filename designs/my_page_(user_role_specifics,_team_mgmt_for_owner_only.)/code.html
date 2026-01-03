@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Page - Mechanic Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f96706",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#23170f",
+                        "surface-dark": "#2c2119",
+                        "surface-input": "#4a3121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #23170f; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a3121; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f96706; 
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen flex flex-col">
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 border-b border-[#3a2a20]">
+<button aria-label="Go back" class="text-gray-900 dark:text-white flex size-12 shrink-0 items-center justify-center rounded-full active:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[32px]">arrow_back</span>
+</button>
+<h2 class="text-gray-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12 uppercase">My Page</h2>
+</header>
+<main class="flex-1 overflow-y-auto w-full max-w-3xl mx-auto flex flex-col gap-6 p-4 pb-24">
+<section class="flex flex-col items-center bg-surface-dark rounded-xl p-6 shadow-lg border border-[#3a2a20]">
+<div class="flex flex-col items-center gap-4">
+<div class="relative">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-32 w-32 border-4 border-primary shadow-xl" data-alt="Portrait of a mechanic in uniform" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDuMaLTaXVfm_ftqMTY--1OAcqpEP1D2dx1njuTWv7yu-PArordiI19gpBF0B7sDTOlxIFMKJwZDPnAm0MaJUuEYryYQZ9lkreRu4CRpRFWhwDZuF9xc96iwZ7woY1TkqWwv6KTKXt8zvVSEvOccIJvW06erZARQfPgyQ26FJVn4ESB1vPpJ7NRyHQDtp3EhXoCZxJT7mv6BCLSwye6oxKAup0xA4kLhP9FtLCVYX0w_0ZVdScbMahibD_aWVWE-Qqv_MM2cpof1U4-");'>
+</div>
+<div class="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full border-4 border-surface-dark flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center gap-1">
+<h1 class="text-white text-[28px] font-bold leading-tight tracking-tight text-center">Alex Miller</h1>
+<div class="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-primary/20 border border-primary/50 mt-1">
+<span class="text-primary text-sm font-bold tracking-wider uppercase">Owner</span>
+</div>
+<p class="text-[#cca78e] text-lg font-medium leading-normal text-center mt-2">AutoFix Garage #402</p>
+</div>
+</div>
+</section>
+<section class="bg-surface-dark rounded-xl p-6 shadow-lg border border-[#3a2a20]">
+<div class="flex items-center gap-3 mb-4">
+<div class="bg-primary/20 p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<h3 class="text-white text-xl font-bold uppercase tracking-tight">Invite New Member</h3>
+</div>
+<div class="flex flex-col gap-4">
+<label class="flex flex-col w-full">
+<span class="text-[#cca78e] text-base font-medium pb-2 uppercase text-xs tracking-wider">Phone Number</span>
+<div class="relative">
+<input class="form-input flex w-full rounded-xl text-white focus:outline-0 focus:ring-2 focus:ring-primary border-2 border-transparent bg-surface-input h-16 placeholder:text-[#cca78e]/50 px-4 text-xl font-medium tracking-wide" placeholder="(555) 000-0000" type="tel"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[#cca78e]">dialpad</span>
+</div>
+</label>
+<button class="flex w-full cursor-pointer items-center justify-center rounded-xl h-16 px-6 bg-primary hover:bg-orange-600 active:scale-[0.98] transition-all text-white text-lg font-bold tracking-wider shadow-md uppercase">
+                    Send Invite Link
+                </button>
+</div>
+</section>
+<section class="flex flex-col gap-4">
+<h3 class="text-white text-lg font-bold px-2 uppercase tracking-tight flex items-center justify-between">
+<span>Garage Roster</span>
+<span class="text-[#cca78e] text-sm font-normal normal-case">8 Active</span>
+</h3>
+<div class="flex flex-col gap-3">
+<article class="bg-surface-dark p-4 rounded-xl border border-[#3a2a20] flex flex-col sm:flex-row sm:items-center gap-4 active:bg-[#3a2a20] transition-colors">
+<div class="flex items-center gap-4 flex-1">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-14 w-14 shrink-0 bg-gray-600" data-alt="Profile picture of Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC9XF-tc4km2lJKXrru1TDxLow28eoPFkn1qjmeP0ciDlxOrvr2DDVSpeg9qZSD9i2x8nhko1vyNAlwHVeO_XlMA-_eE5v-mI8pdye_cGI4X2Ugri3XMutkIVHtFjFsQyUmvphomZl9hl70jOabH_WVBFAcG0o7S127Kjam03MGFcxHhnrMbREIizna0fNQvj_dHfJq541BKfb5A3NkkJhd29yR1YEx1dj95-5oXvG9hDnnRTwLKdJTB--wkUnpkb0N5zeIQeky_ZS7");'></div>
+<div class="flex flex-col w-full">
+<p class="text-white text-lg font-bold">Sarah Jenkins</p>
+<div class="flex items-center bg-[#23170f] rounded-lg p-1 border border-[#3a2a20] mt-1.5 w-full max-w-[240px]">
+<button class="flex-1 py-2 px-2 rounded-md bg-primary text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-all">Manager</button>
+<button class="flex-1 py-2 px-2 rounded-md text-[#cca78e] hover:bg-[#3a2a20] hover:text-white text-xs font-bold uppercase tracking-wider transition-all">Engineer</button>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 sm:gap-8 w-full sm:w-auto border-t sm:border-t-0 border-[#3a2a20] pt-3 sm:pt-0">
+<div class="flex flex-col sm:items-end">
+<span class="text-[#888] text-xs uppercase">Joined</span>
+<span class="text-gray-300 font-mono text-sm">Oct 12, 2023</span>
+</div>
+<div class="flex flex-col items-end min-w-[100px]">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-900/40 text-green-400 text-xs font-bold uppercase border border-green-900/50">
+<span class="w-1.5 h-1.5 rounded-full bg-green-400"></span> Active
+                            </span>
+<span class="text-[#666] text-[10px] mt-1">Appr: You</span>
+</div>
+</div>
+</article>
+<article class="bg-surface-dark p-4 rounded-xl border border-[#3a2a20] flex flex-col sm:flex-row sm:items-center gap-4 active:bg-[#3a2a20] transition-colors">
+<div class="flex items-center gap-4 flex-1">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-14 w-14 shrink-0 bg-gray-600" data-alt="Profile picture of Mike Ross" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrYNqwdoRTmN6X8_t31o5HVd6Fs-iHhceFDG6CKqOjUvnPeKp-Er5uJsL2hFB90pGQTks2BUwsQXx0E0dYDLpuZWlDoOi70mJtOTGdyB_Lua0KM-4KxER9m7DIM_JDuPB43qryvt5SaeEBBlcn65_W4NtxXGs3NV0mUNeh8714Nd9Xc56Gsbmxr8wcktxT8hmA9-UhB6mRtktBUo5Jt_WpvxGVe4oK1IboeeUUtRM9n9I9Scov5hVoJSzCr6bU5Ko47Kz3TYHuy_7o");'></div>
+<div class="flex flex-col w-full">
+<p class="text-white text-lg font-bold">Mike Ross</p>
+<div class="flex items-center bg-[#23170f] rounded-lg p-1 border border-[#3a2a20] mt-1.5 w-full max-w-[240px]">
+<button class="flex-1 py-2 px-2 rounded-md text-[#cca78e] hover:bg-[#3a2a20] hover:text-white text-xs font-bold uppercase tracking-wider transition-all">Manager</button>
+<button class="flex-1 py-2 px-2 rounded-md bg-primary text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-all">Engineer</button>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 sm:gap-8 w-full sm:w-auto border-t sm:border-t-0 border-[#3a2a20] pt-3 sm:pt-0">
+<div class="flex flex-col sm:items-end">
+<span class="text-[#888] text-xs uppercase">Joined</span>
+<span class="text-gray-300 font-mono text-sm">Jan 04, 2024</span>
+</div>
+<div class="flex flex-col items-end min-w-[100px]">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-yellow-900/40 text-yellow-400 text-xs font-bold uppercase border border-yellow-900/50">
+<span class="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span> Pending
+                            </span>
+<span class="text-[#666] text-[10px] mt-1">Appr: --</span>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-[#3a2a20]/50">
+<button class="flex items-center justify-center gap-3 bg-[#3a2a20] hover:bg-[#4a3629] active:bg-[#2c1e15] h-14 rounded-xl text-white font-bold transition-colors">
+<span class="material-symbols-outlined">settings</span>
+                APP SETTINGS
+            </button>
+<button class="flex items-center justify-center gap-3 bg-[#3a2a20] hover:bg-red-900/30 active:bg-red-900/50 h-14 rounded-xl text-red-400 font-bold transition-colors border border-transparent hover:border-red-900/50">
+<span class="material-symbols-outlined">logout</span>
+                LOG OUT
+            </button>
+</section>
+</main>
+</body></html>

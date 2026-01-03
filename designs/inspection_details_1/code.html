@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inspection Details</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f96706",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#23170f",
+                        "card-dark": "#2d2017",
+                        "input-dark": "#1a120c",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-8">
+<header class="sticky top-0 z-50 flex items-center bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md p-4 pb-2 justify-between border-b border-stone-200 dark:border-stone-800">
+<button class="flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-stone-200 dark:hover:bg-white/10 active:scale-95 transition-all text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-3xl">arrow_back</span>
+</button>
+<h1 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">Inspection Details</h1>
+</header>
+<section class="flex flex-col gap-4 p-4 w-full">
+<div class="flex w-full flex-col gap-4 rounded-xl bg-white dark:bg-card-dark p-6 shadow-sm">
+<div class="flex flex-col justify-center gap-2">
+<h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">2018 Ford F-150</h2>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1.5 rounded bg-stone-200 dark:bg-white/10 text-sm font-mono font-bold text-stone-700 dark:text-stone-200">Plate Number: K89-X4F</span>
+</div>
+</div>
+</div>
+<div class="flex w-full flex-col gap-4 rounded-xl bg-white dark:bg-card-dark p-6 shadow-sm">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">AI Inspection</h3>
+<span class="flex items-center justify-center rounded-full bg-stone-100 dark:bg-white/10 p-2 text-primary">
+<span class="material-symbols-outlined">smart_toy</span>
+</span>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">Generation Status</label>
+<div class="flex items-center gap-3 rounded-lg bg-stone-100 dark:bg-white/5 p-4 border border-stone-200 dark:border-stone-800">
+<div class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-stone-200 dark:bg-white/10">
+<span class="material-symbols-outlined text-stone-500 dark:text-stone-400">hourglass_top</span>
+<span class="absolute top-0 right-0 flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+</span>
+</div>
+<div class="flex flex-col flex-1 gap-1">
+<div class="flex justify-between items-center">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Processing Scan...</span>
+<span class="text-xs font-bold text-primary">67%</span>
+</div>
+<div class="h-2 w-full rounded-full bg-stone-200 dark:bg-stone-700 overflow-hidden">
+<div class="h-full rounded-full bg-primary w-2/3 animate-pulse"></div>
+</div>
+</div>
+</div>
+<p class="text-xs font-medium text-stone-500 dark:text-stone-400 mt-1">
+                    Analyzing visual data for defects and wear patterns.
+                </p>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-3">
+<button class="flex flex-col items-center justify-center gap-2 rounded-xl h-24 px-4 bg-stone-200 dark:bg-white/5 border-2 border-transparent active:border-primary active:bg-primary/10 hover:bg-stone-300 dark:hover:bg-white/10 transition-all group">
+<span class="material-symbols-outlined text-3xl text-stone-600 dark:text-stone-300 group-active:text-primary">photo_camera</span>
+<span class="text-sm font-bold text-stone-700 dark:text-stone-200">OCR Scan</span>
+</button>
+</div>
+</section>
+<div class="flex items-center justify-between px-4 pt-6 pb-3">
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Under Hood Inspection</h2>
+<span class="text-sm font-medium text-stone-500 dark:text-stone-400">3 Items</span>
+</div>
+<div class="flex flex-col gap-4 px-4">
+<article class="flex flex-col rounded-xl bg-white dark:bg-card-dark p-5 shadow-sm border-l-4 border-emerald-500">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Engine Oil Level</h3>
+<button class="text-stone-400 dark:text-stone-500">
+<span class="material-symbols-outlined">info</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2 h-14 mb-4">
+<button class="relative flex items-center justify-center rounded-lg bg-emerald-600 text-white font-bold shadow-md ring-2 ring-emerald-500 ring-offset-2 ring-offset-[#2d2017]">
+<span class="material-symbols-outlined mr-1 text-xl">check_circle</span>
+                    Good
+                </button>
+<button class="flex items-center justify-center rounded-lg bg-stone-100 dark:bg-white/5 text-stone-500 dark:text-stone-400 font-semibold hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">
+                    Rec
+                </button>
+<button class="flex items-center justify-center rounded-lg bg-stone-100 dark:bg-white/5 text-stone-500 dark:text-stone-400 font-semibold hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">
+                    Bad
+                </button>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">Mechanic Notes</label>
+<div class="relative">
+<textarea class="w-full rounded-lg bg-stone-100 dark:bg-input-dark border-0 p-4 text-base text-slate-900 dark:text-white placeholder-stone-500 focus:ring-2 focus:ring-primary min-h-[80px] resize-none" placeholder="Add notes..."></textarea>
+</div>
+</div>
+</article>
+<article class="flex flex-col rounded-xl bg-white dark:bg-card-dark p-5 shadow-sm border-l-4 border-red-500">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Air Filter</h3>
+</div>
+<div class="grid grid-cols-3 gap-2 h-14 mb-4">
+<button class="flex items-center justify-center rounded-lg bg-stone-100 dark:bg-white/5 text-stone-500 dark:text-stone-400 font-semibold hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">
+                    Good
+                </button>
+<button class="flex items-center justify-center rounded-lg bg-stone-100 dark:bg-white/5 text-stone-500 dark:text-stone-400 font-semibold hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">
+                    Rec
+                </button>
+<button class="relative flex items-center justify-center rounded-lg bg-red-600 text-white font-bold shadow-md ring-2 ring-red-500 ring-offset-2 ring-offset-[#2d2017]">
+<span class="material-symbols-outlined mr-1 text-xl">cancel</span>
+                    Bad
+                </button>
+</div>
+<div class="flex flex-col gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
+<label class="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">Mechanic Notes</label>
+<div class="relative">
+<textarea class="w-full rounded-lg bg-stone-100 dark:bg-input-dark border-0 p-4 text-base text-slate-900 dark:text-white placeholder-stone-500 focus:ring-2 focus:ring-primary min-h-[100px] resize-none" placeholder="Describe the issue..."></textarea>
+</div>
+<div class="flex gap-2 mt-2">
+<button class="flex items-center gap-2 rounded-lg bg-stone-100 dark:bg-white/5 px-4 py-3 text-sm font-semibold text-slate-900 dark:text-white flex-1 justify-center border border-stone-200 dark:border-stone-700">
+<span class="material-symbols-outlined text-primary">add_a_photo</span>
+                        Add Photo
+                    </button>
+</div>
+</div>
+</article>
+<article class="flex flex-col rounded-xl bg-white dark:bg-card-dark p-5 shadow-sm border-l-4 border-primary">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Drive Belt</h3>
+</div>
+<div class="grid grid-cols-3 gap-2 h-14 mb-4">
+<button class="flex items-center justify-center rounded-lg bg-stone-100 dark:bg-white/5 text-stone-500 dark:text-stone-400 font-semibold hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">
+                    Good
+                </button>
+<button class="relative flex items-center justify-center rounded-lg bg-primary text-white font-bold shadow-md ring-2 ring-primary ring-offset-2 ring-offset-[#2d2017]">
+<span class="material-symbols-outlined mr-1 text-xl">warning</span>
+                    Rec
+                </button>
+<button class="flex items-center justify-center rounded-lg bg-stone-100 dark:bg-white/5 text-stone-500 dark:text-stone-400 font-semibold hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">
+                    Bad
+                </button>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">Mechanic Notes</label>
+<div class="relative">
+<textarea class="w-full rounded-lg bg-stone-100 dark:bg-input-dark border-0 p-4 text-base text-slate-900 dark:text-white placeholder-stone-500 focus:ring-2 focus:ring-primary min-h-[80px] resize-none" placeholder="Add notes...">Cracking visible on edges</textarea>
+</div>
+</div>
+</article>
+<article class="flex flex-col rounded-xl bg-white dark:bg-card-dark p-5 shadow-sm border-l-4 border-transparent">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Coolant Hoses</h3>
+</div>
+<div class="grid grid-cols-3 gap-2 h-14 mb-4">
+<button class="flex items-center justify-center rounded-lg bg-stone-100 dark:bg-white/5 text-stone-500 dark:text-stone-400 font-semibold hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">
+                    Good
+                </button>
+<button class="flex items-center justify-center rounded-lg bg-stone-100 dark:bg-white/5 text-stone-500 dark:text-stone-400 font-semibold hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">
+                    Rec
+                </button>
+<button class="flex items-center justify-center rounded-lg bg-stone-100 dark:bg-white/5 text-stone-500 dark:text-stone-400 font-semibold hover:bg-stone-200 dark:hover:bg-white/10 transition-colors">
+                    Bad
+                </button>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">Mechanic Notes</label>
+<div class="relative">
+<textarea class="w-full rounded-lg bg-stone-100 dark:bg-input-dark border-0 p-4 text-base text-slate-900 dark:text-white placeholder-stone-500 focus:ring-2 focus:ring-primary min-h-[80px] resize-none" placeholder="Add notes..."></textarea>
+</div>
+</div>
+</article>
+</div>
+<section class="px-4 mt-8">
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight mb-3 px-1">General Inspection Notes</h2>
+<div class="rounded-xl bg-white dark:bg-card-dark p-4 shadow-sm">
+<div class="relative">
+<textarea class="w-full rounded-lg bg-stone-100 dark:bg-input-dark border-0 p-4 text-lg text-slate-900 dark:text-white placeholder-stone-500 focus:ring-2 focus:ring-primary min-h-[140px] resize-none" placeholder="Overall inspection summary and recommendations..."></textarea>
+</div>
+</div>
+</section>
+<div class="p-4 mt-4 pb-12">
+<button class="flex w-full items-center justify-center gap-3 rounded-2xl bg-primary p-5 text-white shadow-lg shadow-orange-900/20 active:bg-orange-600 active:scale-[0.98] hover:bg-orange-500 transition-all">
+<span class="text-xl font-extrabold uppercase tracking-wide">Save</span>
+</button>
+</div>
+<div class="h-8"></div>
+</div>
+</body></html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mechanic Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f96706",
+                        "primary-dark": "#d15200",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#23170f",
+                        "surface-dark": "#2f221a",
+                        "surface-darker": "#1a120b",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col antialiased selection:bg-primary selection:text-white">
+<header class="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-stone-200 dark:border-stone-800">
+<div class="px-4 py-4 flex items-center justify-between max-w-xl mx-auto w-full">
+<div>
+<h1 class="text-2xl font-extrabold text-stone-900 dark:text-white tracking-tight">Service Queue</h1>
+<p class="text-sm font-medium text-stone-500 dark:text-stone-400">Oct 24, 2023</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors shadow-lg shadow-orange-900/20 active:scale-95">
+<span class="material-symbols-outlined text-3xl">person</span>
+</button>
+<button class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors shadow-lg shadow-orange-900/20 active:scale-95">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-4 flex flex-col gap-4 max-w-xl mx-auto w-full pb-40">
+<article class="relative flex flex-col rounded-xl bg-white dark:bg-surface-dark overflow-hidden shadow-sm dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] border border-stone-200 dark:border-stone-800">
+<div class="p-5 flex flex-col gap-4">
+<div class="flex items-start justify-between gap-4">
+<div>
+<h2 class="text-xl font-extrabold text-stone-900 dark:text-white leading-tight">2019 Ford F-150</h2>
+<p class="text-stone-500 dark:text-stone-400 text-sm mt-1 font-medium">Owner: John Doe</p>
+</div>
+<div class="shrink-0 bg-stone-100 dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded px-2 py-1 flex flex-col items-center justify-center min-w-[80px]">
+<span class="text-[10px] font-bold text-stone-400 uppercase leading-none mb-0.5">Plate</span>
+<span class="font-mono text-lg font-bold text-stone-900 dark:text-stone-200 tracking-wider">TX-4592</span>
+</div>
+</div>
+<div class="flex gap-3 items-center">
+<button class="flex-1 h-14 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 dark:hover:bg-stone-600 text-stone-800 dark:text-stone-200 rounded-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-[24px]">edit</span>
+                        EDIT
+                    </button>
+<button class="flex-1 h-14 bg-primary hover:bg-primary-dark active:bg-orange-700 text-white rounded-lg flex items-center justify-center gap-2 font-bold text-lg shadow-lg shadow-orange-900/20 transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-[24px]">visibility</span>
+                        VIEW
+                    </button>
+</div>
+</div>
+</article>
+<article class="relative flex flex-col rounded-xl bg-white dark:bg-surface-dark overflow-hidden shadow-sm dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] border border-stone-200 dark:border-stone-800">
+<div class="p-5 flex flex-col gap-4">
+<div class="flex items-start justify-between gap-4">
+<div>
+<h2 class="text-xl font-extrabold text-stone-900 dark:text-white leading-tight">2021 Toyota Camry</h2>
+<p class="text-stone-500 dark:text-stone-400 text-sm mt-1 font-medium">Owner: Sarah Smith</p>
+</div>
+<div class="shrink-0 bg-stone-100 dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded px-2 py-1 flex flex-col items-center justify-center min-w-[80px]">
+<span class="text-[10px] font-bold text-stone-400 uppercase leading-none mb-0.5">Plate</span>
+<span class="font-mono text-lg font-bold text-stone-900 dark:text-stone-200 tracking-wider">CA-8821</span>
+</div>
+</div>
+<div class="flex gap-3 items-center">
+<button class="flex-1 h-14 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 dark:hover:bg-stone-600 text-stone-800 dark:text-stone-200 rounded-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-[24px]">edit</span>
+                        EDIT
+                    </button>
+<button class="flex-1 h-14 bg-primary hover:bg-primary-dark active:bg-orange-700 text-white rounded-lg flex items-center justify-center gap-2 font-bold text-lg shadow-lg shadow-orange-900/20 transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-[24px]">visibility</span>
+                        VIEW
+                    </button>
+</div>
+</div>
+</article>
+<article class="relative flex flex-col rounded-xl bg-white dark:bg-surface-dark overflow-hidden shadow-sm dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] border border-stone-200 dark:border-stone-800">
+<div class="p-5 flex flex-col gap-4">
+<div class="flex items-start justify-between gap-4">
+<div>
+<h2 class="text-xl font-extrabold text-stone-900 dark:text-white leading-tight">2018 Honda Civic</h2>
+<p class="text-stone-500 dark:text-stone-400 text-sm mt-1 font-medium">Owner: Mike Ross</p>
+</div>
+<div class="shrink-0 bg-stone-100 dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded px-2 py-1 flex flex-col items-center justify-center min-w-[80px]">
+<span class="text-[10px] font-bold text-stone-400 uppercase leading-none mb-0.5">Plate</span>
+<span class="font-mono text-lg font-bold text-stone-900 dark:text-stone-200 tracking-wider">NY-1029</span>
+</div>
+</div>
+<div class="flex gap-3 items-center">
+<button class="flex-1 h-14 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 dark:hover:bg-stone-600 text-stone-800 dark:text-stone-200 rounded-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-[24px]">edit</span>
+                        EDIT
+                    </button>
+<button class="flex-1 h-14 bg-primary hover:bg-primary-dark active:bg-orange-700 text-white rounded-lg flex items-center justify-center gap-2 font-bold text-lg shadow-lg shadow-orange-900/20 transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-[24px]">visibility</span>
+                        VIEW
+                    </button>
+</div>
+</div>
+</article>
+<article class="relative flex flex-col rounded-xl bg-white dark:bg-surface-dark overflow-hidden shadow-sm dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] border border-stone-200 dark:border-stone-800 opacity-75">
+<div class="p-5 flex flex-col gap-4">
+<div class="flex items-start justify-between gap-4">
+<div>
+<h2 class="text-xl font-extrabold text-stone-900 dark:text-white leading-tight">2023 Tesla Model 3</h2>
+<p class="text-stone-500 dark:text-stone-400 text-sm mt-1 font-medium">Owner: Elon M.</p>
+</div>
+<div class="shrink-0 bg-stone-100 dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded px-2 py-1 flex flex-col items-center justify-center min-w-[80px]">
+<span class="text-[10px] font-bold text-stone-400 uppercase leading-none mb-0.5">Plate</span>
+<span class="font-mono text-lg font-bold text-stone-900 dark:text-stone-200 tracking-wider">TX-9999</span>
+</div>
+</div>
+<div class="flex gap-3 items-center">
+<button class="flex-1 h-14 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 dark:hover:bg-stone-600 text-stone-800 dark:text-stone-200 rounded-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-[24px]">edit</span>
+                        EDIT
+                    </button>
+<button class="flex-1 h-14 bg-primary hover:bg-primary-dark active:bg-orange-700 text-white rounded-lg flex items-center justify-center gap-2 font-bold text-lg shadow-lg shadow-orange-900/20 transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-[24px]">visibility</span>
+                        VIEW
+                    </button>
+</div>
+</div>
+</article>
+</main>
+</body></html>

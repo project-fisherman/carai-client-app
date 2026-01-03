@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Signatures &amp; Export</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f96706",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#23170f",
+                        "card-dark": "#2d2017",
+                        "input-dark": "#1a120c",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        .signature-pad {
+            background-image: radial-gradient(var(--tw-prose-body) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.8;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-8">
+<header class="sticky top-0 z-50 flex items-center bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md p-4 pb-2 justify-between border-b border-stone-200 dark:border-stone-800">
+<button class="flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-stone-200 dark:hover:bg-white/10 active:scale-95 transition-all text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-3xl">arrow_back</span>
+</button>
+<h1 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">Signatures &amp; Export</h1>
+</header>
+<section class="flex flex-col gap-4 p-4 w-full">
+<div class="flex w-full flex-col gap-4 rounded-xl bg-white dark:bg-card-dark p-6 shadow-sm">
+<div class="flex flex-col justify-center gap-2">
+<h2 class="text-slate-900 dark:text-white text-2xl font-bold leading-tight">Finalize Inspection</h2>
+<p class="text-sm text-stone-500 dark:text-stone-400">Please collect signatures to validate the inspection report for 2018 Ford F-150.</p>
+</div>
+</div>
+<div class="flex w-full flex-col gap-4 rounded-xl bg-white dark:bg-card-dark p-6 shadow-sm border-l-4 border-primary">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">engineering</span>
+                        Inspector Signature
+                    </h3>
+<button class="text-sm font-semibold text-primary uppercase tracking-wide">Clear</button>
+</div>
+<div class="relative h-48 w-full rounded-xl bg-stone-100 dark:bg-input-dark border-2 border-dashed border-stone-300 dark:border-stone-700 overflow-hidden">
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="text-stone-300 dark:text-stone-700 text-lg font-medium opacity-50">Sign Here</span>
+</div>
+<div class="absolute inset-0 signature-pad opacity-10"></div>
+<svg class="absolute inset-0 w-full h-full pointer-events-none text-slate-800 dark:text-white" style="opacity: 0.8;">
+<path d="M50,100 Q150,50 250,100 T450,100" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">Inspector Name</label>
+<input class="w-full rounded-lg bg-stone-100 dark:bg-input-dark border-0 p-3 text-base text-slate-900 dark:text-white placeholder-stone-500 focus:ring-2 focus:ring-primary" type="text" value="Mike Johnson"/>
+</div>
+</div>
+<div class="flex w-full flex-col gap-4 rounded-xl bg-white dark:bg-card-dark p-6 shadow-sm border-l-4 border-stone-400 dark:border-stone-600">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-stone-500">person</span>
+                        Customer Signature
+                    </h3>
+<button class="text-sm font-semibold text-primary uppercase tracking-wide">Clear</button>
+</div>
+<div class="relative h-48 w-full rounded-xl bg-stone-100 dark:bg-input-dark border-2 border-dashed border-stone-300 dark:border-stone-700 overflow-hidden hover:border-primary transition-colors cursor-pointer group">
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none group-hover:text-primary transition-colors">
+<span class="text-stone-400 dark:text-stone-600 text-lg font-medium">Tap to Sign</span>
+</div>
+<div class="absolute inset-0 signature-pad opacity-10"></div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center h-5">
+<input class="h-6 w-6 rounded border-stone-300 bg-stone-100 dark:bg-input-dark dark:border-stone-700 text-primary focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-card-dark" id="consent" type="checkbox"/>
+</div>
+<div class="ml-1 text-sm">
+<label class="font-medium text-slate-900 dark:text-white" for="consent">I acknowledge receiving the inspection report.</label>
+</div>
+</div>
+</div>
+</section>
+<section class="px-4 mt-2">
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight mb-3 px-1">Report Actions</h2>
+<div class="grid grid-cols-2 gap-3 mb-6">
+<button class="flex flex-col items-center justify-center gap-3 rounded-xl bg-white dark:bg-card-dark p-6 shadow-sm border-2 border-transparent active:border-primary hover:bg-stone-50 dark:hover:bg-white/5 transition-all">
+<span class="rounded-full bg-stone-100 dark:bg-white/10 p-3 text-stone-600 dark:text-stone-300">
+<span class="material-symbols-outlined text-2xl">print</span>
+</span>
+<span class="text-sm font-bold text-slate-900 dark:text-white">Print</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 rounded-xl bg-white dark:bg-card-dark p-6 shadow-sm border-2 border-transparent active:border-primary hover:bg-stone-50 dark:hover:bg-white/5 transition-all">
+<span class="rounded-full bg-stone-100 dark:bg-white/10 p-3 text-stone-600 dark:text-stone-300">
+<span class="material-symbols-outlined text-2xl">mail</span>
+</span>
+<span class="text-sm font-bold text-slate-900 dark:text-white">Email</span>
+</button>
+</div>
+</section>
+<div class="p-4 mt-auto pb-12">
+<button class="group flex w-full items-center justify-center gap-3 rounded-2xl bg-primary p-5 text-white shadow-lg shadow-orange-900/20 active:bg-orange-600 active:scale-[0.98] hover:bg-orange-500 transition-all">
+<span class="material-symbols-outlined text-2xl group-hover:animate-bounce">ios_share</span>
+<span class="text-xl font-extrabold uppercase tracking-wide">Export Report</span>
+</button>
+<p class="mt-4 text-center text-xs font-medium text-stone-400 dark:text-stone-600">
+            Report #INV-2023-8492 • Generated Oct 24, 2023
+        </p>
+</div>
+<div class="h-8"></div>
+</div>
+
+</body></html>
