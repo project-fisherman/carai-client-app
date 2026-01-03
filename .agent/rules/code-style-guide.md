@@ -2,54 +2,62 @@
 trigger: always_on
 ---
 
-# Flutter & Dart Expert Developer Rules
+# Carai Project Developer Rules
 
-You are an expert Flutter and Dart developer with a focus on Clean Architecture, strong type safety, and maintainable code.
+You are an expert Flutter developer working on **Carai**, a document scanner app for iOS and Android.
+Your goal is to maintain a scalable, strictly typed codebase following Clean Architecture and Atomic Design.
 
 ## 1. Terminal & Execution Rules (CRITICAL)
 - **FVM Enforcement**:
   - You **MUST** use `fvm` (Flutter Version Management) for ALL Flutter and Dart related commands.
   - **NEVER** execute `flutter <command>` or `dart <command>` directly.
   - **ALWAYS** prefix with `fvm`.
-  - **Examples**:
-    - ✅ Correct: `fvm flutter pub get`
-    - ✅ Correct: `fvm flutter run`
-    - ✅ Correct: `fvm dart run build_runner build`
-    - ❌ Wrong: `flutter pub get`
-    - ❌ Wrong: `dart pub get`
+- **Common Commands**:
+  - Run App: `fvm flutter run`
+  - Get Packages: `fvm flutter pub get`
+  - **Code Generation (Crucial)**: Whenever you modify Freezed models, Riverpod providers, or GoRouter routes, run:
+    `fvm dart run build_runner build --delete-conflicting-outputs`
 
-## 2. General Philosophy & Code Quality
-- **Clean Code**: Follow SOLID principles and DRY (Don't Repeat Yourself). Write self-documenting code with meaningful variable and function names.
+## 2. Project Architecture & File Structure
+- **Feature-first Clean Architecture**:
+  - `lib/features/<feature_name>/data`: Repositories, Data Sources, DTOs.
+  - `lib/features/<feature_name>/domain`: Entities, Repository Interfaces, UseCases.
+  - `lib/features/<feature_name>/presentation`: ViewModels (Riverpod), Screens, Widgets.
+- **Atomic Design System (`lib/design_system/`)**:
+  - `foundations`: Colors, Typography, Spacing.
+  - `atoms`: Basic components (Buttons, Inputs).
+  - `molecules`: Combinations of atoms (Search bars).
+  - `organisms`: Complex UI blocks.
+  - **RULE**: Components in `design_system` must be **PURE**. They **CANNOT** depend on Riverpod providers or Business Logic. Data must be passed via constructor parameters only.
+- **Core**: Place global utilities, network (Dio), routing (GoRouter), and failure classes in `lib/core/`.
+
+## 3. Tech Stack & Coding Standards
+- **State Management**: Use **Riverpod** with `@riverpod` annotation (Code Generation). Prefer `Notifier` or `AsyncNotifier`.
+- **Routing**: Use **GoRouter** with `go_router_builder` for **Type-safe routing**. Define routes in `lib/core/router/`.
+- **Immutability**:
+  - Use **Freezed** for all Data Classes, State classes, and Unions.
+  - All class fields must be `final`.
+- **Local Storage**: Use **Hive** for persisting local data.
+- **Network**: Use **Dio** with Interceptors for API calls.
+
+## 4. Error Handling & Logic Rules
+- **Functional Error Handling (fpdart)**:
+  - **NEVER** throw Exceptions in the Domain/Data layer.
+  - Repositories must return `Future<Either<Failure, T>>` using `fpdart`.
+  - Handle errors explicitly using `.fold()` in the Presentation layer.
+- **No BuildContext in Logic**:
+  - **STRICTLY FORBIDDEN**: Using `BuildContext` inside ViewModels, Notifiers, or Repositories.
+  - Use GlobalKeys or Router Listeners for navigation/dialogs triggered by logic.
 - **Strict Typing**:
-  - **NEVER** use `dynamic` explicitly. Always use strict types or generic parameters.
-  - Avoid type casting (`as Type`). Use `is` checks or safe handling methods.
-  - Ensure null safety is handled gracefully. Avoid force unwrapping (`!`) unless absolutely certain and documented.
-- **Immutability**: Prefer `final` fields and immutable data structures. Use `const` constructors for Widgets whenever possible to optimize performance.
-
-## 3. Architecture & File Structure Consistency
-- **Context Awareness**: Before creating or modifying files, ALWAYS analyze the existing folder structure and file naming conventions.
-- **Follow the Pattern**:
-  - Do not introduce new architectural patterns if one already exists (e.g., if the project uses Clean Architecture, stick to Domain/Data/Presentation layers).
-  - Place files in the correct directories corresponding to their function (e.g., repositories in `data/`, widgets in `presentation/`, models in `domain/` or `data/`).
-- **File Naming**: Use snake_case for file names and PascalCase for classes.
-
-## 4. Separation of Concerns (UI vs. Data)
-- **Strict Separation**:
-  - UI Widgets must ONLY contain rendering logic and user interaction handlers.
-  - **NO Business Logic in UI**: Never make direct API calls or complex data transformations inside a Widget's `build` method.
-- **State Management**:
-  - Delegate logic to Controllers, ViewModels, Blocs, or Providers.
-  - The UI should passively listen to state changes and rebuild accordingly.
-- **Models**:
-  - Data models must be completely decoupled from UI code (no `Material` or `Cupertino` imports in model files).
-  - Use `toJson`/`fromJson` factories for serialization.
+  - **NEVER** use `dynamic`. Use explicit types or Generics.
+  - Avoid casting (`as`). Use `is` checks.
 
 ## 5. Flutter Specifics
-- Use `SizedBox` instead of `Container` for simple spacing or dimensions.
-- Extract complex widget trees into smaller, private Widgets or separate files to maintain readability.
-- Prefer Dart's modern features: use `switch` expressions, records, and pattern matching where appropriate.
-- Use `async`/`await` properly. Always return `Future<void>` or `Future<T>` instead of `void` for asynchronous functions (except for event handlers).
+- **UI Composition**: Use `SizedBox` for spacing. Break down complex `build` methods into smaller Widgets.
+- **Async/Await**: Always return `Future<void>` or `Future<T>` for async functions.
+- **Target Platforms**: Focus on iOS and Android. Web and Desktop are disabled.
 
-## 6. Error Handling
-- Wrap external calls (API, Database) in try-catch blocks within the Data/Domain layer, not the UI.
-- Return structured error objects (e.g., `Result<T, E>` or `Either`) to the UI instead of throwing exceptions explicitly.
+## 6. Code Style
+- Follow Dart's official linting rules.
+- Use `snake_case` for files and `PascalCase` for classes.
+- Sort imports: Dart -> Package -> Project (Relative).
