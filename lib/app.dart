@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carai/core/router/router_provider.dart';
 import 'package:carai/core/utils/global_keys.dart';
+import 'package:carai/design_system/foundations/app_colors.dart';
 
 class CaraiApp extends ConsumerWidget {
   const CaraiApp({super.key});
@@ -14,7 +15,12 @@ class CaraiApp extends ConsumerWidget {
       title: 'Carai Document Scanner',
       scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primary,
+          background: AppColors.backgroundLight,
+          surface: AppColors.backgroundLight,
+        ),
+        scaffoldBackgroundColor: AppColors.backgroundLight,
         useMaterial3: true,
       ),
       routerConfig: router,

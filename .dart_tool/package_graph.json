@@ -41,6 +41,22 @@
       ]
     },
     {
+      "name": "riverpod_generator",
+      "version": "2.4.0",
+      "dependencies": [
+        "analyzer",
+        "build",
+        "build_config",
+        "collection",
+        "crypto",
+        "meta",
+        "path",
+        "riverpod_analyzer_utils",
+        "riverpod_annotation",
+        "source_gen"
+      ]
+    },
+    {
       "name": "freezed",
       "version": "2.5.2",
       "dependencies": [
@@ -308,9 +324,35 @@
       ]
     },
     {
+      "name": "riverpod_analyzer_utils",
+      "version": "0.5.1",
+      "dependencies": [
+        "analyzer",
+        "collection",
+        "crypto",
+        "custom_lint_core",
+        "freezed_annotation",
+        "meta",
+        "path",
+        "source_span"
+      ]
+    },
+    {
+      "name": "path",
+      "version": "1.9.1",
+      "dependencies": []
+    },
+    {
       "name": "meta",
       "version": "1.17.0",
       "dependencies": []
+    },
+    {
+      "name": "crypto",
+      "version": "3.0.7",
+      "dependencies": [
+        "typed_data"
+      ]
     },
     {
       "name": "collection",
@@ -345,11 +387,6 @@
       "dependencies": [
         "collection"
       ]
-    },
-    {
-      "name": "path",
-      "version": "1.9.1",
-      "dependencies": []
     },
     {
       "name": "async",
@@ -509,13 +546,6 @@
         "path",
         "pub_semver",
         "source_span"
-      ]
-    },
-    {
-      "name": "crypto",
-      "version": "3.0.7",
-      "dependencies": [
-        "typed_data"
       ]
     },
     {
@@ -760,6 +790,30 @@
       ]
     },
     {
+      "name": "custom_lint_core",
+      "version": "0.6.3",
+      "dependencies": [
+        "analyzer",
+        "analyzer_plugin",
+        "collection",
+        "glob",
+        "matcher",
+        "meta",
+        "package_config",
+        "path",
+        "pubspec_parse",
+        "source_span",
+        "yaml"
+      ]
+    },
+    {
+      "name": "typed_data",
+      "version": "1.4.0",
+      "dependencies": [
+        "collection"
+      ]
+    },
+    {
       "name": "checked_yaml",
       "version": "2.0.4",
       "dependencies": [
@@ -793,13 +847,6 @@
       "dependencies": [
         "meta",
         "path"
-      ]
-    },
-    {
-      "name": "typed_data",
-      "version": "1.4.0",
-      "dependencies": [
-        "collection"
       ]
     },
     {
@@ -897,6 +944,17 @@
       ]
     },
     {
+      "name": "analyzer_plugin",
+      "version": "0.11.3",
+      "dependencies": [
+        "analyzer",
+        "collection",
+        "dart_style",
+        "pub_semver",
+        "yaml"
+      ]
+    },
+    {
       "name": "fixnum",
       "version": "1.1.1",
       "dependencies": []
@@ -929,64 +987,6 @@
       "dependencies": [
         "meta",
         "path"
-      ]
-    },
-    {
-      "name": "riverpod_generator",
-      "version": "2.4.0",
-      "dependencies": [
-        "analyzer",
-        "build",
-        "build_config",
-        "collection",
-        "crypto",
-        "meta",
-        "path",
-        "riverpod_analyzer_utils",
-        "riverpod_annotation",
-        "source_gen"
-      ]
-    },
-    {
-      "name": "riverpod_analyzer_utils",
-      "version": "0.5.1",
-      "dependencies": [
-        "analyzer",
-        "collection",
-        "crypto",
-        "custom_lint_core",
-        "freezed_annotation",
-        "meta",
-        "path",
-        "source_span"
-      ]
-    },
-    {
-      "name": "analyzer_plugin",
-      "version": "0.11.3",
-      "dependencies": [
-        "analyzer",
-        "collection",
-        "dart_style",
-        "pub_semver",
-        "yaml"
-      ]
-    },
-    {
-      "name": "custom_lint_core",
-      "version": "0.6.3",
-      "dependencies": [
-        "analyzer",
-        "analyzer_plugin",
-        "collection",
-        "glob",
-        "matcher",
-        "meta",
-        "package_config",
-        "path",
-        "pubspec_parse",
-        "source_span",
-        "yaml"
       ]
     }
   ],
