@@ -8,17 +8,19 @@ part 'user_model.g.dart';
 class UserModel with _$UserModel {
   const factory UserModel({
     required String id,
-    @JsonKey(name: 'phone_number') required String phoneNumber,
-    required String token,
+    required String phoneNumber,
+    required String name,
   }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
-}
+  const UserModel._();
 
-extension UserModelX on UserModel {
-  User toEntity() => User(
-    id: id,
-    phoneNumber: phoneNumber,
-    token: token,
+  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+
+  User toEntity() => User(id: id, phoneNumber: phoneNumber, name: name);
+  
+  factory UserModel.fromEntity(User user) => UserModel(
+    id: user.id,
+    phoneNumber: user.phoneNumber,
+    name: user.name,
   );
 }

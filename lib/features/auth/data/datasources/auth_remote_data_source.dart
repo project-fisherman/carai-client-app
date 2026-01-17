@@ -15,20 +15,26 @@ class AuthRemoteDataSource {
 
   AuthRemoteDataSource(this._dio);
 
-  Future<UserModel> login({required String phoneNumber, required String password}) async {
-    // TODO: Replace with actual API endpoint
-    // For now, mocking the response
-    await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
-    
-    // In a real scenario:
-    // final response = await _dio.post('/auth/login', data: {'phone': phoneNumber, 'password': password});
-    // return UserModel.fromJson(response.data);
+  Future<LoginResponse> login({required LoginRequest request}) async {
+    final response = await _dio.post('/auth/login', data: request.toJson());
+    return LoginResponse.fromJson(response.data['data']);
+  }
 
-    // Mock response
-    return UserModel(
-      id: 'mock_id_123',
-      phoneNumber: phoneNumber,
-      token: 'mock_jwt_token',
-    );
+  Future<SendSmsCodeResponse> sendSmsCode({required SendSmsCodeRequest request}) async {
+    final response = await _dio.post('/auth/sms/send/code', data: request.toJson());
+    return SendSmsCodeResponse.fromJson(response.data['data']);
+  }
+
+  Future<VerifySmsCodeResponse> verifySmsCode({required VerifySmsCodeRequest request}) async {
+    final response = await _dio.post('/auth/sms/verify', data: request.toJson());
+    return VerifySmsCodeResponse.fromJson(response.data['data']); // Assuming 'data' contains the boolean/token? Check server.
+    // Server says: ApiResponse<Void> or VerifySmsCodeResponse?
+    // AuthController.kt: verifySms returns ApiResponse<Void> with true/false? No, ApiResponse(true) 
+    // Wait, let's re-read AuthController.kt
+  }
+  
+  Future<SignupResponse> signup({required SignupRequest request}) async {
+    final response = await _dio.post('/auth/signup', data: request.toJson());
+    return SignupResponse.fromJson(response.data['data']);
   }
 }

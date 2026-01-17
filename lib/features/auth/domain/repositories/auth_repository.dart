@@ -1,9 +1,19 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failure.dart';
-import '../entities/user.dart';
+import '../entities/auth_token.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, User>> login({required String phoneNumber, required String password});
+  Future<Either<Failure, User>> login({required String phoneNumber, required String username, required String password});
   Future<Either<Failure, void>> logout();
   Future<Either<Failure, User?>> checkAuthStatus();
+  
+  // Registration & SMS
+  Future<Either<Failure, void>> sendSmsCode({required String phoneNumber});
+  Future<Either<Failure, String>> verifySmsCode({required String phoneNumber, required String code});
+  Future<Either<Failure, AuthToken>> signup({
+    required String phoneNumber,
+    required String username,
+    required String password,
+    required String verificationToken,
+  });
 }

@@ -21,9 +21,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'phone_number')
   String get phoneNumber => throw _privateConstructorUsedError;
-  String get token => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,10 +35,7 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'phone_number') String phoneNumber,
-      String token});
+  $Res call({String id, String phoneNumber, String name});
 }
 
 /// @nodoc
@@ -57,7 +53,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? id = null,
     Object? phoneNumber = null,
-    Object? token = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -68,9 +64,9 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -84,10 +80,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       __$$UserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'phone_number') String phoneNumber,
-      String token});
+  $Res call({String id, String phoneNumber, String name});
 }
 
 /// @nodoc
@@ -103,7 +96,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? phoneNumber = null,
-    Object? token = null,
+    Object? name = null,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -114,9 +107,9 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -124,11 +117,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UserModelImpl implements _UserModel {
+class _$UserModelImpl extends _UserModel {
   const _$UserModelImpl(
-      {required this.id,
-      @JsonKey(name: 'phone_number') required this.phoneNumber,
-      required this.token});
+      {required this.id, required this.phoneNumber, required this.name})
+      : super._();
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -136,14 +128,13 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String id;
   @override
-  @JsonKey(name: 'phone_number')
   final String phoneNumber;
   @override
-  final String token;
+  final String name;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, phoneNumber: $phoneNumber, token: $token)';
+    return 'UserModel(id: $id, phoneNumber: $phoneNumber, name: $name)';
   }
 
   @override
@@ -154,12 +145,12 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
-            (identical(other.token, token) || other.token == token));
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, phoneNumber, token);
+  int get hashCode => Object.hash(runtimeType, id, phoneNumber, name);
 
   @JsonKey(ignore: true)
   @override
@@ -175,11 +166,12 @@ class _$UserModelImpl implements _UserModel {
   }
 }
 
-abstract class _UserModel implements UserModel {
+abstract class _UserModel extends UserModel {
   const factory _UserModel(
       {required final String id,
-      @JsonKey(name: 'phone_number') required final String phoneNumber,
-      required final String token}) = _$UserModelImpl;
+      required final String phoneNumber,
+      required final String name}) = _$UserModelImpl;
+  const _UserModel._() : super._();
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -187,10 +179,9 @@ abstract class _UserModel implements UserModel {
   @override
   String get id;
   @override
-  @JsonKey(name: 'phone_number')
   String get phoneNumber;
   @override
-  String get token;
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

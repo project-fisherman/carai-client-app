@@ -1,0 +1,266 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../design_system/atoms/app_button.dart';
+import '../../../../design_system/atoms/app_input.dart';
+import '../../../../design_system/foundations/app_colors.dart';
+import '../viewmodels/registration_view_model.dart';
+
+class RegistrationScreen extends ConsumerStatefulWidget {
+  const RegistrationScreen({super.key});
+
+  @override
+  ConsumerState<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
+  final _phoneController = TextEditingController();
+  final _usernameController = TextEditingController(); // Added username field for signup (design had it)
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  
+  // OTP Controllers
+  final List<TextEditingController> _otpControllers = List.generate(6, (_) => TextEditingController());
+  final List<FocusNode> _otpFocusNodes = List.generate(6, (_) => FocusNode());
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    for (var c in _otpControllers) c.dispose();
+    for (var f in _otpFocusNodes) f.dispose();
+    super.dispose();
+  }
+
+  void _onSendSms() {
+    if (_phoneController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter phone number')));
+      return;
+    }
+    ref.read(registrationViewModelProvider.notifier).sendSmsCode(_phoneController.text);
+  }
+
+  void _onRegister() {
+    final smsCode = _otpControllers.map((e) => e.text).join();
+    if (smsCode.length != 6) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter valid 6-digit code')));
+      return;
+    }
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+      return;
+    }
+
+    ref.read(registrationViewModelProvider.notifier).register(
+          phoneNumber: _phoneController.text,
+          smsCode: smsCode,
+          username: _usernameController.text,
+          password: _passwordController.text,
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen(registrationViewModelProvider, (previous, next) {
+      if (next.error != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(next.error!), backgroundColor: Colors.red));
+      }
+      if (next.successMessage != null) {
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(next.successMessage!)));
+         if (next.successMessage == "Registration Successful!") {
+           context.go('/home'); // Or login
+         }
+      }
+    });
+
+    final state = ref.watch(registrationViewModelProvider);
+    final isLoading = state.isLoading;
+    final isSmsSent = state.isSmsSent;
+
+    return Scaffold(
+      backgroundColor: AppColors.backgroundLight,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: BackButton(color: AppColors.textDark),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+             crossAxisAlignment: CrossAxisAlignment.stretch,
+             children: [
+               // Header
+               Center(
+                 child: Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+                    ),
+                    child: const Icon(Icons.phonelink_setup, color: AppColors.primary, size: 40),
+                 ),
+               ),
+               const SizedBox(height: 24),
+               const Text(
+                 'Device Registration',
+                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.textDark),
+                 textAlign: TextAlign.center,
+               ),
+               const SizedBox(height: 8),
+               const Text(
+                 'Enter your mobile number and create a password to set up access.',
+                 style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
+                 textAlign: TextAlign.center,
+               ),
+               const SizedBox(height: 32),
+
+               // Step 1: Phone
+               Container(
+                 padding: const EdgeInsets.all(24),
+                 decoration: BoxDecoration(
+                   color: Colors.white,
+                   borderRadius: BorderRadius.circular(16),
+                   boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
+                 ),
+                 child: Column(
+                   children: [
+                      AppInput(
+                        label: 'Mobile Number', // Actually label inside component covers layout
+                        placeholder: '(555) 000-0000',
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        suffixIcon: const Icon(Icons.smartphone, color: AppColors.placeholder),
+                      ),
+                      if (!isSmsSent) ...[
+                        const SizedBox(height: 24),
+                        AppButton(
+                          text: 'SEND SMS CODE',
+                          onPressed: isLoading ? () {} : _onSendSms,
+                          isLoading: isLoading && !isSmsSent, // Only show loading here if SMS not sent yet
+                        ),
+                      ]
+                   ],
+                 ),
+               ),
+
+               if (isSmsSent) ...[
+                 const SizedBox(height: 32),
+                 const Row(
+                   children: [
+                      Expanded(child: Divider()),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Text("Verification & Security", style: TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.bold)),
+                      ),
+                      Expanded(child: Divider()),
+                   ],
+                 ),
+                 const SizedBox(height: 32),
+                 
+                 // Step 2: Verification Details
+                 Container(
+                   padding: const EdgeInsets.all(24),
+                   decoration: BoxDecoration(
+                     color: Colors.white,
+                     borderRadius: BorderRadius.circular(16),
+                     boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
+                   ),
+                   child: Column(
+                     children: [
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           const Text("Enter SMS Code", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                           TextButton(
+                             onPressed: _onSendSms, 
+                             child: const Text("Resend", style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold))
+                           ),
+                         ],
+                       ),
+                       const SizedBox(height: 16),
+                       // OTP Input
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: List.generate(6, (index) => _buildOtpDigit(index)),
+                       ),
+                       const SizedBox(height: 24),
+                       const Divider(),
+                       const SizedBox(height: 24),
+                       
+                       AppInput(
+                         label: 'User Name',
+                         placeholder: 'Username',
+                         controller: _usernameController,
+                       ),
+                       const SizedBox(height: 16),
+                       AppInput(
+                         label: 'Create Password',
+                         placeholder: '••••••••',
+                         isPassword: true,
+                         controller: _passwordController,
+                       ),
+                       const SizedBox(height: 16),
+                       AppInput(
+                         label: 'Confirm Password',
+                         placeholder: '••••••••',
+                         isPassword: true,
+                         controller: _confirmPasswordController,
+                       ),
+                       const SizedBox(height: 32),
+                       
+                       AppButton(
+                         text: 'VERIFY & ENTER',
+                         onPressed: isLoading ? () {} : _onRegister,
+                         isLoading: isLoading && isSmsSent,
+                       ),
+                     ],
+                   ),
+                 ),
+               ],
+             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOtpDigit(int index) {
+    return SizedBox(
+      width: 48, // slightly smaller to fit
+      height: 64,
+      child: TextField(
+        controller: _otpControllers[index],
+        focusNode: _otpFocusNodes[index],
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        maxLength: 1,
+        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        decoration: InputDecoration(
+          counterText: "",
+          filled: true,
+          fillColor: AppColors.backgroundLight,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppColors.border)),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppColors.primary, width: 2)),
+        ),
+        onChanged: (value) {
+          if (value.isNotEmpty) {
+            if (index < 5) {
+              FocusScope.of(context).requestFocus(_otpFocusNodes[index + 1]);
+            } else {
+              FocusScope.of(context).unfocus();
+            }
+          } else {
+            if (index > 0) {
+               FocusScope.of(context).requestFocus(_otpFocusNodes[index - 1]);
+            }
+          }
+        },
+      ),
+    );
+  }
+}
