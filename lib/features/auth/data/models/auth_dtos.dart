@@ -46,7 +46,6 @@ class VerifySmsCodeResponse with _$VerifySmsCodeResponse {
 class LoginRequest with _$LoginRequest {
   const factory LoginRequest({
     required String phoneNumber,
-    required String username,
     required String password,
   }) = _LoginRequest;
 

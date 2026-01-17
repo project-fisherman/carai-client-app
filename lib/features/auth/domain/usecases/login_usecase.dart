@@ -8,7 +8,7 @@ class LoginUseCase {
 
   LoginUseCase(this._repository);
 
-  Future<Either<Failure, User>> call({required String phoneNumber, required String username, required String password}) {
-    return _repository.login(phoneNumber: phoneNumber, username: username, password: password);
+  Future<Either<Failure, User>> call({required String phoneNumber, required String password}) {
+    return _repository.login(phoneNumber: phoneNumber, password: password);
   }
 }

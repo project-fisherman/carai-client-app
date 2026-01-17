@@ -1,10 +1,13 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/error/failure.dart';
+import '../../domain/entities/auth_token.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_local_data_source.dart';
 import '../datasources/auth_remote_data_source.dart';
+import '../datasources/auth_remote_data_source.dart';
+import '../models/auth_dtos.dart';
 import '../models/user_model.dart';
 
 part 'auth_repository_impl.g.dart';
@@ -24,9 +27,9 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
-  Future<Either<Failure, User>> login({required String phoneNumber, required String username, required String password}) async {
+  Future<Either<Failure, User>> login({required String phoneNumber, required String password}) async {
     try {
-      final loginRequest = LoginRequest(phoneNumber: phoneNumber, username: username, password: password);
+      final loginRequest = LoginRequest(phoneNumber: phoneNumber, password: password);
       final response = await _remoteDataSource.login(request: loginRequest);
       
       // Save user and tokens

@@ -1,4 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../providers/auth_providers.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../../../core/error/failure.dart';
 
@@ -20,7 +22,7 @@ class LoginViewModel extends _$LoginViewModel {
     // If I send empty string, server might reject if NotBlank.
     // But I must follow "Do not submit".
     // I entered " " (space) or similar? No, I will modify DTO/Repo to pass empty string or handle logic.
-    final result = await loginUseCase(phoneNumber: phoneNumber, username: "", password: password);
+    final result = await loginUseCase(phoneNumber: phoneNumber, password: password);
     
     state = result.fold(
       (failure) => AsyncValue.error(failure.message, StackTrace.current),

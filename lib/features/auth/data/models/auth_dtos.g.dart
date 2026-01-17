@@ -62,14 +62,12 @@ Map<String, dynamic> _$$VerifySmsCodeResponseImplToJson(
 _$LoginRequestImpl _$$LoginRequestImplFromJson(Map<String, dynamic> json) =>
     _$LoginRequestImpl(
       phoneNumber: json['phoneNumber'] as String,
-      username: json['username'] as String,
       password: json['password'] as String,
     );
 
 Map<String, dynamic> _$$LoginRequestImplToJson(_$LoginRequestImpl instance) =>
     <String, dynamic>{
       'phoneNumber': instance.phoneNumber,
-      'username': instance.username,
       'password': instance.password,
     };
 
