@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/router/routes.dart';
 import '../../../../design_system/atoms/app_button.dart';
 import '../../../../design_system/atoms/app_input.dart';
 import '../../../../design_system/foundations/app_colors.dart';
@@ -34,7 +35,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _onSignup() {
-    context.push('/signup'); // Assuming route is defined
+    const RegistrationRoute().push(context); 
   }
 
   @override
