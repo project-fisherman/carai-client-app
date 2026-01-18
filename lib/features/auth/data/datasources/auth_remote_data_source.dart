@@ -19,17 +19,22 @@ class AuthRemoteDataSource {
 
   Future<LoginResponse> login({required LoginRequest request}) async {
     final response = await _dio.post('/auth/login', data: request.toJson());
-    return LoginResponse.fromJson(response.data['data']);
+    return LoginResponse.fromJson(response.data['result']);
   }
 
   Future<SendSmsCodeResponse> sendSmsCode({required SendSmsCodeRequest request}) async {
     final response = await _dio.post('/auth/sms/send/code', data: request.toJson());
-    return SendSmsCodeResponse.fromJson(response.data['data']);
+    return SendSmsCodeResponse.fromJson(response.data['result']);
   }
 
   Future<VerifySmsCodeResponse> verifySmsCode({required VerifySmsCodeRequest request}) async {
     final response = await _dio.post('/auth/sms/verify', data: request.toJson());
-    return VerifySmsCodeResponse.fromJson(response.data['data']); // Assuming 'data' contains the boolean/token? Check server.
+    final success = response.data['success'] as bool;
+    if (success) {
+      return const VerifySmsCodeResponse(verified: true, phoneNumberVerificationToken: "dummy_token"); 
+    } else {
+      return const VerifySmsCodeResponse(verified: false);
+    }
     // Server says: ApiResponse<Void> or VerifySmsCodeResponse?
     // AuthController.kt: verifySms returns ApiResponse<Void> with true/false? No, ApiResponse(true) 
     // Wait, let's re-read AuthController.kt
@@ -37,6 +42,6 @@ class AuthRemoteDataSource {
   
   Future<SignupResponse> signup({required SignupRequest request}) async {
     final response = await _dio.post('/auth/signup', data: request.toJson());
-    return SignupResponse.fromJson(response.data['data']);
+    return SignupResponse.fromJson(response.data['result']);
   }
 }

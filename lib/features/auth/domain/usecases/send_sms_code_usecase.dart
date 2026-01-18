@@ -7,7 +7,7 @@ class SendSmsCodeUseCase {
 
   SendSmsCodeUseCase(this._repository);
 
-  Future<Either<Failure, void>> call({required String phoneNumber}) {
+  Future<Either<Failure, int>> call({required String phoneNumber}) {
     return _repository.sendSmsCode(phoneNumber: phoneNumber);
   }
 }

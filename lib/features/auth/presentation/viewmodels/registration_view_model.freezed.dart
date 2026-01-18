@@ -20,6 +20,9 @@ mixin _$RegistrationState {
   bool get isLoading => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   String? get successMessage => throw _privateConstructorUsedError;
+  String? get verificationToken => throw _privateConstructorUsedError;
+  bool get isVerified => throw _privateConstructorUsedError;
+  int get remainingTime => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RegistrationStateCopyWith<RegistrationState> get copyWith =>
@@ -33,7 +36,13 @@ abstract class $RegistrationStateCopyWith<$Res> {
       _$RegistrationStateCopyWithImpl<$Res, RegistrationState>;
   @useResult
   $Res call(
-      {bool isSmsSent, bool isLoading, String? error, String? successMessage});
+      {bool isSmsSent,
+      bool isLoading,
+      String? error,
+      String? successMessage,
+      String? verificationToken,
+      bool isVerified,
+      int remainingTime});
 }
 
 /// @nodoc
@@ -53,6 +62,9 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
     Object? isLoading = null,
     Object? error = freezed,
     Object? successMessage = freezed,
+    Object? verificationToken = freezed,
+    Object? isVerified = null,
+    Object? remainingTime = null,
   }) {
     return _then(_value.copyWith(
       isSmsSent: null == isSmsSent
@@ -71,6 +83,18 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
           ? _value.successMessage
           : successMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      verificationToken: freezed == verificationToken
+          ? _value.verificationToken
+          : verificationToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isVerified: null == isVerified
+          ? _value.isVerified
+          : isVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
+      remainingTime: null == remainingTime
+          ? _value.remainingTime
+          : remainingTime // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -84,7 +108,13 @@ abstract class _$$RegistrationStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isSmsSent, bool isLoading, String? error, String? successMessage});
+      {bool isSmsSent,
+      bool isLoading,
+      String? error,
+      String? successMessage,
+      String? verificationToken,
+      bool isVerified,
+      int remainingTime});
 }
 
 /// @nodoc
@@ -102,6 +132,9 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? error = freezed,
     Object? successMessage = freezed,
+    Object? verificationToken = freezed,
+    Object? isVerified = null,
+    Object? remainingTime = null,
   }) {
     return _then(_$RegistrationStateImpl(
       isSmsSent: null == isSmsSent
@@ -120,6 +153,18 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
           ? _value.successMessage
           : successMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      verificationToken: freezed == verificationToken
+          ? _value.verificationToken
+          : verificationToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isVerified: null == isVerified
+          ? _value.isVerified
+          : isVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
+      remainingTime: null == remainingTime
+          ? _value.remainingTime
+          : remainingTime // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -131,7 +176,10 @@ class _$RegistrationStateImpl implements _RegistrationState {
       {this.isSmsSent = false,
       this.isLoading = false,
       this.error = null,
-      this.successMessage = null});
+      this.successMessage = null,
+      this.verificationToken = null,
+      this.isVerified = false,
+      this.remainingTime = 0});
 
   @override
   @JsonKey()
@@ -145,10 +193,19 @@ class _$RegistrationStateImpl implements _RegistrationState {
   @override
   @JsonKey()
   final String? successMessage;
+  @override
+  @JsonKey()
+  final String? verificationToken;
+  @override
+  @JsonKey()
+  final bool isVerified;
+  @override
+  @JsonKey()
+  final int remainingTime;
 
   @override
   String toString() {
-    return 'RegistrationState(isSmsSent: $isSmsSent, isLoading: $isLoading, error: $error, successMessage: $successMessage)';
+    return 'RegistrationState(isSmsSent: $isSmsSent, isLoading: $isLoading, error: $error, successMessage: $successMessage, verificationToken: $verificationToken, isVerified: $isVerified, remainingTime: $remainingTime)';
   }
 
   @override
@@ -162,12 +219,18 @@ class _$RegistrationStateImpl implements _RegistrationState {
                 other.isLoading == isLoading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.successMessage, successMessage) ||
-                other.successMessage == successMessage));
+                other.successMessage == successMessage) &&
+            (identical(other.verificationToken, verificationToken) ||
+                other.verificationToken == verificationToken) &&
+            (identical(other.isVerified, isVerified) ||
+                other.isVerified == isVerified) &&
+            (identical(other.remainingTime, remainingTime) ||
+                other.remainingTime == remainingTime));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isSmsSent, isLoading, error, successMessage);
+  int get hashCode => Object.hash(runtimeType, isSmsSent, isLoading, error,
+      successMessage, verificationToken, isVerified, remainingTime);
 
   @JsonKey(ignore: true)
   @override
@@ -182,7 +245,10 @@ abstract class _RegistrationState implements RegistrationState {
       {final bool isSmsSent,
       final bool isLoading,
       final String? error,
-      final String? successMessage}) = _$RegistrationStateImpl;
+      final String? successMessage,
+      final String? verificationToken,
+      final bool isVerified,
+      final int remainingTime}) = _$RegistrationStateImpl;
 
   @override
   bool get isSmsSent;
@@ -192,6 +258,12 @@ abstract class _RegistrationState implements RegistrationState {
   String? get error;
   @override
   String? get successMessage;
+  @override
+  String? get verificationToken;
+  @override
+  bool get isVerified;
+  @override
+  int get remainingTime;
   @override
   @JsonKey(ignore: true)
   _$$RegistrationStateImplCopyWith<_$RegistrationStateImpl> get copyWith =>

@@ -42,12 +42,19 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     ref.read(registrationViewModelProvider.notifier).sendSmsCode(_phoneController.text);
   }
 
-  void _onRegister() {
+  void _onVerify() {
     final smsCode = _otpControllers.map((e) => e.text).join();
     if (smsCode.length != 6) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter valid 6-digit code')));
       return;
     }
+    ref.read(registrationViewModelProvider.notifier).verifySmsCode(
+          phoneNumber: _phoneController.text,
+          smsCode: smsCode,
+        );
+  }
+
+  void _onRegister() {
     if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
       return;
@@ -55,7 +62,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
     ref.read(registrationViewModelProvider.notifier).register(
           phoneNumber: _phoneController.text,
-          smsCode: smsCode,
           username: _usernameController.text,
           password: _passwordController.text,
         );
@@ -64,10 +70,10 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(registrationViewModelProvider, (previous, next) {
-      if (next.error != null) {
+      if (next.error != null && next.error != previous?.error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(next.error!), backgroundColor: Colors.red));
       }
-      if (next.successMessage != null) {
+      if (next.successMessage != null && next.successMessage != previous?.successMessage) {
          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(next.successMessage!)));
          if (next.successMessage == "Registration Successful!") {
            context.go('/home'); // Or login
@@ -78,6 +84,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     final state = ref.watch(registrationViewModelProvider);
     final isLoading = state.isLoading;
     final isSmsSent = state.isSmsSent;
+    final isVerified = state.isVerified;
+    final remainingTime = state.remainingTime;
 
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
@@ -176,9 +184,24 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: [
                            const Text("Enter SMS Code", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                           TextButton(
-                             onPressed: _onSendSms, 
-                             child: const Text("Resend", style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold))
+                           Row(
+                             children: [
+                               if (remainingTime > 0)
+                                 Text(
+                                   "${remainingTime}s",
+                                   style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                                 ),
+                               TextButton(
+                                 onPressed: (remainingTime > 0 || isVerified) ? null : _onSendSms, 
+                                 child: Text(
+                                   "Resend",
+                                   style: TextStyle(
+                                     color: (remainingTime > 0 || isVerified) ? AppColors.textSecondary : AppColors.primary,
+                                     fontWeight: FontWeight.bold,
+                                   ),
+                                 )
+                               ),
+                             ],
                            ),
                          ],
                        ),
@@ -189,35 +212,46 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                          children: List.generate(6, (index) => _buildOtpDigit(index)),
                        ),
                        const SizedBox(height: 24),
-                       const Divider(),
-                       const SizedBox(height: 24),
                        
-                       AppInput(
-                         label: 'User Name',
-                         placeholder: 'Username',
-                         controller: _usernameController,
-                       ),
-                       const SizedBox(height: 16),
-                       AppInput(
-                         label: 'Create Password',
-                         placeholder: '••••••••',
-                         isPassword: true,
-                         controller: _passwordController,
-                       ),
-                       const SizedBox(height: 16),
-                       AppInput(
-                         label: 'Confirm Password',
-                         placeholder: '••••••••',
-                         isPassword: true,
-                         controller: _confirmPasswordController,
-                       ),
-                       const SizedBox(height: 32),
-                       
-                       AppButton(
-                         text: 'VERIFY & ENTER',
-                         onPressed: isLoading ? () {} : _onRegister,
-                         isLoading: isLoading && isSmsSent,
-                       ),
+                       if (!isVerified)
+                         AppButton(
+                           text: 'VERIFY',
+                           onPressed: isLoading ? () {} : _onVerify,
+                           isLoading: isLoading,
+                         ),
+
+                       if (isVerified) ...[
+                         const SizedBox(height: 24),
+                         const Divider(),
+                         const SizedBox(height: 24),
+                         
+                         AppInput(
+                           label: 'User Name',
+                           placeholder: 'Username',
+                           controller: _usernameController,
+                         ),
+                         const SizedBox(height: 16),
+                         AppInput(
+                           label: 'Create Password',
+                           placeholder: '••••••••',
+                           isPassword: true,
+                           controller: _passwordController,
+                         ),
+                         const SizedBox(height: 16),
+                         AppInput(
+                           label: 'Confirm Password',
+                           placeholder: '••••••••',
+                           isPassword: true,
+                           controller: _confirmPasswordController,
+                         ),
+                         const SizedBox(height: 32),
+                         
+                         AppButton(
+                           text: 'COMPLETE REGISTRATION',
+                           onPressed: isLoading ? () {} : _onRegister,
+                           isLoading: isLoading,
+                         ),
+                       ],
                      ],
                    ),
                  ),

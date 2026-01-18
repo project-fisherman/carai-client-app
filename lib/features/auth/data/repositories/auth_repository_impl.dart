@@ -65,10 +65,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> sendSmsCode({required String phoneNumber}) async {
+  Future<Either<Failure, int>> sendSmsCode({required String phoneNumber}) async {
     try {
-      await _remoteDataSource.sendSmsCode(request: SendSmsCodeRequest(phoneNumber: phoneNumber));
-      return const Right(null);
+      final response = await _remoteDataSource.sendSmsCode(request: SendSmsCodeRequest(phoneNumber: phoneNumber));
+      return Right(response.expireSeconds);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

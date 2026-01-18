@@ -9,7 +9,7 @@ abstract class AuthRepository {
   Future<Either<Failure, User?>> checkAuthStatus();
   
   // Registration & SMS
-  Future<Either<Failure, void>> sendSmsCode({required String phoneNumber});
+  Future<Either<Failure, int>> sendSmsCode({required String phoneNumber});
   Future<Either<Failure, String>> verifySmsCode({required String phoneNumber, required String code});
   Future<Either<Failure, AuthToken>> signup({
     required String phoneNumber,
