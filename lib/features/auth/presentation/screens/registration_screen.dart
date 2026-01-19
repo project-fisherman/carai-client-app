@@ -15,12 +15,16 @@ class RegistrationScreen extends ConsumerStatefulWidget {
 
 class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   final _phoneController = TextEditingController();
-  final _usernameController = TextEditingController(); // Added username field for signup (design had it)
+  final _usernameController =
+      TextEditingController(); // Added username field for signup (design had it)
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  
+
   // OTP Controllers
-  final List<TextEditingController> _otpControllers = List.generate(6, (_) => TextEditingController());
+  final List<TextEditingController> _otpControllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
   final List<FocusNode> _otpFocusNodes = List.generate(6, (_) => FocusNode());
 
   @override
@@ -36,31 +40,40 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   void _onSendSms() {
     if (_phoneController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter phone number')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter phone number')),
+      );
       return;
     }
-    ref.read(registrationViewModelProvider.notifier).sendSmsCode(_phoneController.text);
+    ref
+        .read(registrationViewModelProvider.notifier)
+        .sendSmsCode(_phoneController.text);
   }
 
   void _onVerify() {
     final smsCode = _otpControllers.map((e) => e.text).join();
     if (smsCode.length != 6) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter valid 6-digit code')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter valid 6-digit code')),
+      );
       return;
     }
-    ref.read(registrationViewModelProvider.notifier).verifySmsCode(
-          phoneNumber: _phoneController.text,
-          smsCode: smsCode,
-        );
+    ref
+        .read(registrationViewModelProvider.notifier)
+        .verifySmsCode(phoneNumber: _phoneController.text, smsCode: smsCode);
   }
 
   void _onRegister() {
     if (_passwordController.text != _confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
       return;
     }
 
-    ref.read(registrationViewModelProvider.notifier).register(
+    ref
+        .read(registrationViewModelProvider.notifier)
+        .register(
           phoneNumber: _phoneController.text,
           username: _usernameController.text,
           password: _passwordController.text,
@@ -71,13 +84,18 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   Widget build(BuildContext context) {
     ref.listen(registrationViewModelProvider, (previous, next) {
       if (next.error != null && next.error != previous?.error) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(next.error!), backgroundColor: Colors.red));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error!), backgroundColor: Colors.red),
+        );
       }
-      if (next.successMessage != null && next.successMessage != previous?.successMessage) {
-         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(next.successMessage!)));
-         if (next.successMessage == "Registration Successful!") {
-           context.go('/home'); // Or login
-         }
+      if (next.successMessage != null &&
+          next.successMessage != previous?.successMessage) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.successMessage!)));
+        if (next.successMessage == "Registration Successful!") {
+          context.go('/home'); // Or login
+        }
       }
     });
 
@@ -98,166 +116,219 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-             crossAxisAlignment: CrossAxisAlignment.stretch,
-             children: [
-               // Header
-               Center(
-                 child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Header
+              Center(
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: AppColors.primary.withOpacity(0.2),
                     ),
-                    child: const Icon(Icons.phonelink_setup, color: AppColors.primary, size: 40),
-                 ),
-               ),
-               const SizedBox(height: 24),
-               const Text(
-                 'Device Registration',
-                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.textDark),
-                 textAlign: TextAlign.center,
-               ),
-               const SizedBox(height: 8),
-               const Text(
-                 'Enter your mobile number and create a password to set up access.',
-                 style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
-                 textAlign: TextAlign.center,
-               ),
-               const SizedBox(height: 32),
+                  ),
+                  child: const Icon(
+                    Icons.phonelink_setup,
+                    color: AppColors.primary,
+                    size: 40,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Device Registration',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textDark,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Enter your mobile number and create a password to set up access.',
+                style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
 
-               // Step 1: Phone
-               Container(
-                 padding: const EdgeInsets.all(24),
-                 decoration: BoxDecoration(
-                   color: Colors.white,
-                   borderRadius: BorderRadius.circular(16),
-                   boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
-                 ),
-                 child: Column(
-                   children: [
-                      AppInput(
-                        label: 'Mobile Number', // Actually label inside component covers layout
-                        placeholder: '(555) 000-0000',
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        suffixIcon: const Icon(Icons.smartphone, color: AppColors.placeholder),
-                        enabled: !isVerified,
+              // Step 1: Phone
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    AppInput(
+                      label:
+                          'Mobile Number', // Actually label inside component covers layout
+                      placeholder: '(555) 000-0000',
+                      controller: _phoneController,
+                      keyboardType: TextInputType.phone,
+                      suffixIcon: const Icon(
+                        Icons.smartphone,
+                        color: AppColors.placeholder,
                       ),
-                      if (!isSmsSent) ...[
-                        const SizedBox(height: 24),
-                        AppButton(
-                          text: 'SEND SMS CODE',
-                          onPressed: isLoading ? () {} : _onSendSms,
-                          isLoading: isLoading && !isSmsSent, // Only show loading here if SMS not sent yet
+                      enabled: !isVerified,
+                    ),
+                    if (!isSmsSent) ...[
+                      const SizedBox(height: 24),
+                      AppButton(
+                        text: 'SEND SMS CODE',
+                        onPressed: isLoading ? () {} : _onSendSms,
+                        isLoading:
+                            isLoading &&
+                            !isSmsSent, // Only show loading here if SMS not sent yet
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+
+              if (isSmsSent) ...[
+                const SizedBox(height: 32),
+                const Row(
+                  children: [
+                    Expanded(child: Divider()),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        "Verification & Security",
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ]
-                   ],
-                 ),
-               ),
-
-               if (isSmsSent) ...[
-                 const SizedBox(height: 32),
-                 const Row(
-                   children: [
-                      Expanded(child: Divider()),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text("Verification & Security", style: TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.bold)),
                       ),
-                      Expanded(child: Divider()),
-                   ],
-                 ),
-                 const SizedBox(height: 32),
-                 
-                 // Step 2: Verification Details
-                 Container(
-                   padding: const EdgeInsets.all(24),
-                   decoration: BoxDecoration(
-                     color: Colors.white,
-                     borderRadius: BorderRadius.circular(16),
-                     boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
-                   ),
-                   child: Column(
-                     children: [
-                       Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         children: [
-                           const Text("Enter SMS Code", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                           Row(
-                             children: [
-                               if (remainingTime > 0)
-                                 Text(
-                                   "${remainingTime}s",
-                                   style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
-                                 ),
-                               TextButton(
-                                 onPressed: (remainingTime > 0 || isVerified) ? null : _onSendSms, 
-                                 child: Text(
-                                   "Resend",
-                                   style: TextStyle(
-                                     color: (remainingTime > 0 || isVerified) ? AppColors.textSecondary : AppColors.primary,
-                                     fontWeight: FontWeight.bold,
-                                   ),
-                                 )
-                               ),
-                             ],
-                           ),
-                         ],
-                       ),
-                       const SizedBox(height: 16),
-                       // OTP Input
-                       Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         children: List.generate(6, (index) => _buildOtpDigit(index)),
-                       ),
-                       const SizedBox(height: 24),
-                       
-                       if (!isVerified)
-                         AppButton(
-                           text: 'VERIFY',
-                           onPressed: isLoading ? () {} : _onVerify,
-                           isLoading: isLoading,
-                         ),
+                    ),
+                    Expanded(child: Divider()),
+                  ],
+                ),
+                const SizedBox(height: 32),
 
-                       if (isVerified) ...[
-                         const SizedBox(height: 24),
-                         const Divider(),
-                         const SizedBox(height: 24),
-                         
-                         AppInput(
-                           label: 'User Name',
-                           placeholder: 'Username',
-                           controller: _usernameController,
-                         ),
-                         const SizedBox(height: 16),
-                         AppInput(
-                           label: 'Create Password',
-                           placeholder: '••••••••',
-                           isPassword: true,
-                           controller: _passwordController,
-                         ),
-                         const SizedBox(height: 16),
-                         AppInput(
-                           label: 'Confirm Password',
-                           placeholder: '••••••••',
-                           isPassword: true,
-                           controller: _confirmPasswordController,
-                         ),
-                         const SizedBox(height: 32),
-                         
-                         AppButton(
-                           text: 'COMPLETE REGISTRATION',
-                           onPressed: isLoading ? () {} : _onRegister,
-                           isLoading: isLoading,
-                         ),
-                       ],
-                     ],
-                   ),
-                 ),
-               ],
-             ],
+                // Step 2: Verification Details
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Enter SMS Code",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              if (remainingTime > 0)
+                                Text(
+                                  "${remainingTime}s",
+                                  style: const TextStyle(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              TextButton(
+                                onPressed: (remainingTime > 0 || isVerified)
+                                    ? null
+                                    : _onSendSms,
+                                child: Text(
+                                  "Resend",
+                                  style: TextStyle(
+                                    color: (remainingTime > 0 || isVerified)
+                                        ? AppColors.textSecondary
+                                        : AppColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      // OTP Input
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(
+                          6,
+                          (index) => _buildOtpDigit(index),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      if (!isVerified)
+                        AppButton(
+                          text: 'VERIFY',
+                          onPressed: isLoading ? () {} : _onVerify,
+                          isLoading: isLoading,
+                        ),
+
+                      if (isVerified) ...[
+                        const SizedBox(height: 24),
+                        const Divider(),
+                        const SizedBox(height: 24),
+
+                        AppInput(
+                          label: 'User Name',
+                          placeholder: 'Username',
+                          controller: _usernameController,
+                          keyboardType: TextInputType.name,
+                        ),
+                        const SizedBox(height: 16),
+                        AppInput(
+                          label: 'Create Password',
+                          placeholder: '••••••••',
+                          isPassword: true,
+                          controller: _passwordController,
+                          keyboardType: TextInputType.visiblePassword,
+                        ),
+                        const SizedBox(height: 16),
+                        AppInput(
+                          label: 'Confirm Password',
+                          placeholder: '••••••••',
+                          isPassword: true,
+                          controller: _confirmPasswordController,
+                          keyboardType: TextInputType.visiblePassword,
+                        ),
+                        const SizedBox(height: 32),
+
+                        AppButton(
+                          text: 'COMPLETE REGISTRATION',
+                          onPressed: isLoading ? () {} : _onRegister,
+                          isLoading: isLoading,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
       ),
@@ -280,8 +351,14 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           counterText: "",
           filled: true,
           fillColor: AppColors.backgroundLight,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppColors.border)),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppColors.primary, width: 2)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: AppColors.border),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: AppColors.primary, width: 2),
+          ),
         ),
         onChanged: (value) {
           if (value.isNotEmpty) {
@@ -292,7 +369,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             }
           } else {
             if (index > 0) {
-               FocusScope.of(context).requestFocus(_otpFocusNodes[index - 1]);
+              FocusScope.of(context).requestFocus(_otpFocusNodes[index - 1]);
             }
           }
         },

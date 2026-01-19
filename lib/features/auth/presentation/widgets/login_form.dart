@@ -46,7 +46,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
       next.whenOrNull(
         error: (message, _) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: $message'), backgroundColor: Colors.red),
+            SnackBar(
+              content: Text('Error: $message'),
+              backgroundColor: Colors.red,
+            ),
           );
         },
       );
@@ -60,7 +63,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           placeholder: '(555) 000-0000',
           controller: _phoneController,
           keyboardType: TextInputType.phone,
-          suffixIcon: const Icon(Icons.smartphone, color: AppColors.placeholder),
+          suffixIcon: const Icon(
+            Icons.smartphone,
+            color: AppColors.placeholder,
+          ),
         ),
         const SizedBox(height: 20),
         AppInput(
@@ -68,6 +74,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           placeholder: '••••••••',
           isPassword: !_isPasswordVisible,
           controller: _passwordController,
+          keyboardType: TextInputType.visiblePassword,
           suffixIcon: IconButton(
             icon: Icon(
               _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
@@ -81,11 +88,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           ),
         ),
         const SizedBox(height: 32),
-        AppButton(
-          text: 'Log In',
-          onPressed: _onLogin,
-          isLoading: isLoading,
-        ),
+        AppButton(text: 'Log In', onPressed: _onLogin, isLoading: isLoading),
         const SizedBox(height: 16),
         AppButton(
           text: 'Sign Up',
