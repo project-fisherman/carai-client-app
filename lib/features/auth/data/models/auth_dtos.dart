@@ -6,20 +6,20 @@ part 'auth_dtos.g.dart';
 
 @freezed
 class SendSmsCodeRequest with _$SendSmsCodeRequest {
-  const factory SendSmsCodeRequest({
-    required String phoneNumber,
-  }) = _SendSmsCodeRequest;
+  const factory SendSmsCodeRequest({required String phoneNumber}) =
+      _SendSmsCodeRequest;
 
-  factory SendSmsCodeRequest.fromJson(Map<String, dynamic> json) => _$SendSmsCodeRequestFromJson(json);
+  factory SendSmsCodeRequest.fromJson(Map<String, dynamic> json) =>
+      _$SendSmsCodeRequestFromJson(json);
 }
 
 @freezed
 class SendSmsCodeResponse with _$SendSmsCodeResponse {
-  const factory SendSmsCodeResponse({
-    required int expireSeconds,
-  }) = _SendSmsCodeResponse;
+  const factory SendSmsCodeResponse({required int expireSeconds}) =
+      _SendSmsCodeResponse;
 
-  factory SendSmsCodeResponse.fromJson(Map<String, dynamic> json) => _$SendSmsCodeResponseFromJson(json);
+  factory SendSmsCodeResponse.fromJson(Map<String, dynamic> json) =>
+      _$SendSmsCodeResponseFromJson(json);
 }
 
 @freezed
@@ -29,7 +29,8 @@ class VerifySmsCodeRequest with _$VerifySmsCodeRequest {
     required String code,
   }) = _VerifySmsCodeRequest;
 
-  factory VerifySmsCodeRequest.fromJson(Map<String, dynamic> json) => _$VerifySmsCodeRequestFromJson(json);
+  factory VerifySmsCodeRequest.fromJson(Map<String, dynamic> json) =>
+      _$VerifySmsCodeRequestFromJson(json);
 }
 
 @freezed
@@ -39,17 +40,20 @@ class VerifySmsCodeResponse with _$VerifySmsCodeResponse {
     String? phoneNumberVerificationToken,
   }) = _VerifySmsCodeResponse;
 
-  factory VerifySmsCodeResponse.fromJson(Map<String, dynamic> json) => _$VerifySmsCodeResponseFromJson(json);
+  factory VerifySmsCodeResponse.fromJson(Map<String, dynamic> json) =>
+      _$VerifySmsCodeResponseFromJson(json);
 }
 
 @freezed
 class LoginRequest with _$LoginRequest {
   const factory LoginRequest({
     required String phoneNumber,
+    required String username,
     required String password,
   }) = _LoginRequest;
 
-  factory LoginRequest.fromJson(Map<String, dynamic> json) => _$LoginRequestFromJson(json);
+  factory LoginRequest.fromJson(Map<String, dynamic> json) =>
+      _$LoginRequestFromJson(json);
 }
 
 @freezed
@@ -60,7 +64,8 @@ class LoginResponse with _$LoginResponse {
     required String refreshToken,
   }) = _LoginResponse;
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
 }
 
 @freezed
@@ -73,7 +78,8 @@ class SignupRequest with _$SignupRequest {
     required String phoneNumberVerificationToken,
   }) = _SignupRequest;
 
-  factory SignupRequest.fromJson(Map<String, dynamic> json) => _$SignupRequestFromJson(json);
+  factory SignupRequest.fromJson(Map<String, dynamic> json) =>
+      _$SignupRequestFromJson(json);
 }
 
 @freezed
@@ -83,7 +89,8 @@ class SignupResponse with _$SignupResponse {
     required String refreshToken,
   }) = _SignupResponse;
 
-  factory SignupResponse.fromJson(Map<String, dynamic> json) => _$SignupResponseFromJson(json);
+  factory SignupResponse.fromJson(Map<String, dynamic> json) =>
+      _$SignupResponseFromJson(json);
 }
 
 @freezed
@@ -94,8 +101,9 @@ class UserDto with _$UserDto {
     required String name,
   }) = _UserDto;
 
-  factory UserDto.fromJson(Map<String, dynamic> json) => _$UserDtoFromJson(json);
-  
+  factory UserDto.fromJson(Map<String, dynamic> json) =>
+      _$UserDtoFromJson(json);
+
   // Mapper
   const UserDto._();
   User toDomain() => User(id: userId, phoneNumber: phoneNumber, name: name);

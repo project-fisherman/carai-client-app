@@ -26,17 +26,25 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
-  Future<Either<Failure, User>> login({required String phoneNumber, required String password}) async {
+  Future<Either<Failure, User>> login({
+    required String phoneNumber,
+    required String password,
+  }) async {
     try {
-      final loginRequest = LoginRequest(phoneNumber: phoneNumber, password: password);
+      // TODO: Will be deleted
+      final loginRequest = LoginRequest(
+        phoneNumber: phoneNumber,
+        username: '1234',
+        password: password,
+      );
       final response = await _remoteDataSource.login(request: loginRequest);
-      
+
       // Save user and tokens
       final user = response.user.toDomain();
       await _localDataSource.saveUser(UserModel.fromEntity(user));
       return Right(user);
     } catch (e) {
-       // Ideally handle DioException to map to specific failures
+      // Ideally handle DioException to map to specific failures
       return Left(ServerFailure(e.toString()));
     }
   }
@@ -65,9 +73,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, int>> sendSmsCode({required String phoneNumber}) async {
+  Future<Either<Failure, int>> sendSmsCode({
+    required String phoneNumber,
+  }) async {
     try {
-      final response = await _remoteDataSource.sendSmsCode(request: SendSmsCodeRequest(phoneNumber: phoneNumber));
+      final response = await _remoteDataSource.sendSmsCode(
+        request: SendSmsCodeRequest(phoneNumber: phoneNumber),
+      );
       return Right(response.expireSeconds);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
@@ -75,9 +87,14 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, String>> verifySmsCode({required String phoneNumber, required String code}) async {
+  Future<Either<Failure, String>> verifySmsCode({
+    required String phoneNumber,
+    required String code,
+  }) async {
     try {
-      final response = await _remoteDataSource.verifySmsCode(request: VerifySmsCodeRequest(phoneNumber: phoneNumber, code: code));
+      final response = await _remoteDataSource.verifySmsCode(
+        request: VerifySmsCodeRequest(phoneNumber: phoneNumber, code: code),
+      );
       if (response.verified && response.phoneNumberVerificationToken != null) {
         return Right(response.phoneNumberVerificationToken!);
       } else {
@@ -101,7 +118,8 @@ class AuthRepositoryImpl implements AuthRepository {
           phoneNumber: phoneNumber,
           username: username,
           password: password,
-          passwordConfirmation: password, // As per UI, only 1 password field implies we might send same or UI handles it.
+          passwordConfirmation:
+              password, // As per UI, only 1 password field implies we might send same or UI handles it.
           // Wait, UI has "Confirm Password".
           // So repository should accept confirmPassword? Or UseCase?
           // Domain layer should probably just take password if validation happened in UI?
@@ -111,7 +129,12 @@ class AuthRepositoryImpl implements AuthRepository {
           phoneNumberVerificationToken: verificationToken,
         ),
       );
-      return Right(AuthToken(accessToken: response.accessToken, refreshToken: response.refreshToken));
+      return Right(
+        AuthToken(
+          accessToken: response.accessToken,
+          refreshToken: response.refreshToken,
+        ),
+      );
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
