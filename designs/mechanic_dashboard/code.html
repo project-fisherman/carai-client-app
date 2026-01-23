@@ -2,12 +2,10 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Mechanic Dashboard</title>
+<title>MechanicMate - Workshop Selection</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -15,31 +13,27 @@
                 extend: {
                     colors: {
                         "primary": "#f96706",
-                        "primary-dark": "#d15200",
                         "background-light": "#f8f7f5",
-                        "background-dark": "#23170f",
-                        "surface-dark": "#2f221a",
-                        "surface-darker": "#1a120b",
+                        "background-dark": "#23170f", // Deep brown/black base
+                        "card-dark": "#2C2C2C", // Lighter grey for cards per request
+                        "surface-dark": "#1A1A1A", // Very dark grey for variety
                     },
                     fontFamily: {
-                        "display": ["Inter", "sans-serif"],
-                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                        "display": ["Inter", "sans-serif"]
                     },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px" },
                 },
             },
         }
     </script>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }.no-scrollbar {
+            -ms-overflow-style: none;scrollbar-width: none;}
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
 <style>
     body {
       min-height: max(884px, 100dvh);
@@ -51,119 +45,83 @@
     }
   </style>
   </head>
-<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col antialiased selection:bg-primary selection:text-white">
-<header class="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-stone-200 dark:border-stone-800">
-<div class="px-4 py-4 flex items-center justify-between max-w-xl mx-auto w-full">
-<div>
-<h1 class="text-2xl font-extrabold text-stone-900 dark:text-white tracking-tight">Service Queue</h1>
-<p class="text-sm font-medium text-stone-500 dark:text-stone-400">Oct 24, 2023</p>
-</div>
-<div class="flex items-center gap-3">
-<button class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors shadow-lg shadow-orange-900/20 active:scale-95">
-<span class="material-symbols-outlined text-3xl">person</span>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col overflow-hidden text-slate-900 dark:text-white selection:bg-primary selection:text-white">
+<header class="flex items-center justify-between px-6 py-6 z-10">
+<button class="flex items-center justify-center w-14 h-14 rounded-xl bg-black/10 dark:bg-white/5 active:bg-primary/20 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined" style="font-size: 32px;">menu</span>
 </button>
-<button class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors shadow-lg shadow-orange-900/20 active:scale-95">
-<span class="material-symbols-outlined text-3xl">add</span>
+<div class="flex flex-col items-center">
+<span class="text-xs font-bold tracking-[0.2em] text-primary uppercase">MechanicMate</span>
+<span class="text-lg font-black tracking-tighter">DASHBOARD</span>
+</div>
+<button class="relative flex items-center justify-center w-14 h-14 rounded-xl overflow-hidden bg-black/10 dark:bg-white/5 border-2 border-transparent active:border-primary transition-all text-slate-900 dark:text-white">
+<span class="material-symbols-outlined" style="font-size: 32px;">account_circle</span>
 </button>
-</div>
-</div>
 </header>
-<main class="flex-1 px-4 py-4 flex flex-col gap-4 max-w-xl mx-auto w-full pb-40">
-<article class="relative flex flex-col rounded-xl bg-white dark:bg-surface-dark overflow-hidden shadow-sm dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] border border-stone-200 dark:border-stone-800">
-<div class="p-5 flex flex-col gap-4">
-<div class="flex items-start justify-between gap-4">
-<div>
-<h2 class="text-xl font-extrabold text-stone-900 dark:text-white leading-tight">2019 Ford F-150</h2>
-<p class="text-stone-500 dark:text-stone-400 text-sm mt-1 font-medium">Owner: John Doe</p>
+<section class="px-6 pb-2 pt-2">
+<h1 class="text-3xl md:text-4xl font-bold leading-tight tracking-tight">
+            Welcome back, <br/>
+<span class="text-primary">Mechanic.</span>
+</h1>
+<p class="text-slate-500 dark:text-gray-400 text-lg mt-2 font-medium tracking-wide">
+            Select a workshop to view active jobs.
+        </p>
+</section>
+<main class="flex-1 flex flex-col justify-center py-4 relative">
+<div class="flex overflow-x-auto snap-x snap-mandatory gap-6 px-6 pb-8 pt-4 no-scrollbar items-center h-full">
+<article class="relative group snap-center shrink-0 w-[85vw] md:w-[60vw] h-[55vh] rounded-2xl overflow-hidden shadow-2xl bg-card-dark border border-white/5 cursor-pointer transform transition-transform active:scale-[0.98]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Interior of a busy auto repair garage with cars on lifts" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuADDutPxMTr1hLNgfBEzx-fsQ6rkxICovsTvlYTmv39n3G9NJP7J037G8_03f_5kPdezfMQOlLepmqrVnANcEXNQHDjvUHsgTbhNHHEP-17dFV98J6cDPPaac_lsGvfTg4iSRCyjMFLSHCU5Tos1WXRr-xAqkZ4VmjYtDuBjHvJqDVwmCMhIyghbEQZir8tjVbcvoL9sQqHD-rp7Mb1FEQgqKnQSL9itEeb_KONcGcaZ50VuirDxirVv7duRXzLFATLKsEZGFI7L1Q5');">
 </div>
-<div class="shrink-0 bg-stone-100 dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded px-2 py-1 flex flex-col items-center justify-center min-w-[80px]">
-<span class="text-[10px] font-bold text-stone-400 uppercase leading-none mb-0.5">Plate</span>
-<span class="font-mono text-lg font-bold text-stone-900 dark:text-stone-200 tracking-wider">TX-4592</span>
-</div>
-</div>
-<div class="flex gap-3 items-center">
-<button class="flex-1 h-14 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 dark:hover:bg-stone-600 text-stone-800 dark:text-stone-200 rounded-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-[0.98]">
-<span class="material-symbols-outlined text-[24px]">edit</span>
-                        EDIT
-                    </button>
-<button class="flex-1 h-14 bg-primary hover:bg-primary-dark active:bg-orange-700 text-white rounded-lg flex items-center justify-center gap-2 font-bold text-lg shadow-lg shadow-orange-900/20 transition-transform active:scale-[0.98]">
-<span class="material-symbols-outlined text-[24px]">visibility</span>
-                        VIEW
-                    </button>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+<div class="absolute top-6 right-6">
+<div class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg shadow-lg font-bold text-lg">
+<span class="material-symbols-outlined" style="font-size: 20px;">engineering</span>
+<span>4 Jobs</span>
 </div>
 </div>
-</article>
-<article class="relative flex flex-col rounded-xl bg-white dark:bg-surface-dark overflow-hidden shadow-sm dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] border border-stone-200 dark:border-stone-800">
-<div class="p-5 flex flex-col gap-4">
-<div class="flex items-start justify-between gap-4">
-<div>
-<h2 class="text-xl font-extrabold text-stone-900 dark:text-white leading-tight">2021 Toyota Camry</h2>
-<p class="text-stone-500 dark:text-stone-400 text-sm mt-1 font-medium">Owner: Sarah Smith</p>
-</div>
-<div class="shrink-0 bg-stone-100 dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded px-2 py-1 flex flex-col items-center justify-center min-w-[80px]">
-<span class="text-[10px] font-bold text-stone-400 uppercase leading-none mb-0.5">Plate</span>
-<span class="font-mono text-lg font-bold text-stone-900 dark:text-stone-200 tracking-wider">CA-8821</span>
-</div>
-</div>
-<div class="flex gap-3 items-center">
-<button class="flex-1 h-14 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 dark:hover:bg-stone-600 text-stone-800 dark:text-stone-200 rounded-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-[0.98]">
-<span class="material-symbols-outlined text-[24px]">edit</span>
-                        EDIT
-                    </button>
-<button class="flex-1 h-14 bg-primary hover:bg-primary-dark active:bg-orange-700 text-white rounded-lg flex items-center justify-center gap-2 font-bold text-lg shadow-lg shadow-orange-900/20 transition-transform active:scale-[0.98]">
-<span class="material-symbols-outlined text-[24px]">visibility</span>
-                        VIEW
-                    </button>
+<div class="absolute bottom-0 left-0 w-full p-6 md:p-8 flex flex-col gap-3">
+<div class="w-16 h-1 bg-primary rounded-full mb-2"></div>
+<h2 class="text-3xl font-black text-white uppercase tracking-tight leading-none">Downtown Garage</h2>
+<div class="flex items-center text-gray-300 gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<span class="text-xl font-medium">123 Main St, Sector 4</span>
 </div>
 </div>
 </article>
-<article class="relative flex flex-col rounded-xl bg-white dark:bg-surface-dark overflow-hidden shadow-sm dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] border border-stone-200 dark:border-stone-800">
-<div class="p-5 flex flex-col gap-4">
-<div class="flex items-start justify-between gap-4">
-<div>
-<h2 class="text-xl font-extrabold text-stone-900 dark:text-white leading-tight">2018 Honda Civic</h2>
-<p class="text-stone-500 dark:text-stone-400 text-sm mt-1 font-medium">Owner: Mike Ross</p>
+<article class="relative group snap-center shrink-0 w-[85vw] md:w-[60vw] h-[55vh] rounded-2xl overflow-hidden shadow-xl bg-card-dark border border-white/5 cursor-pointer transform transition-transform active:scale-[0.98]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Close up of mechanic tools on a workbench with oil cans" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBbIJhitV-Pf6wIgt2FD9p2nR4Zt35fLpRP40sgm93r1nrWYLy985BZRo-NeGFw2mD4o4IZtib_8FR_DGk-lHsQpC_KP1C2DxMA8AmpxhY7XSgkfVPfyybqC3i9LUdOFCJ8ZkQzfbv5hH0pVHHmswuCAtZFDnR5aKPfza8CLwwkAB1kpnlsFDOPEJvbDM1eZ-Ir0CJO44BlHlC0KWP-BSYE7HdUWNxkNbFmkEiEyHQd4J7lOk2sLppEsVHKBt5rYD3ZOVv_IgwsIsbh');">
 </div>
-<div class="shrink-0 bg-stone-100 dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded px-2 py-1 flex flex-col items-center justify-center min-w-[80px]">
-<span class="text-[10px] font-bold text-stone-400 uppercase leading-none mb-0.5">Plate</span>
-<span class="font-mono text-lg font-bold text-stone-900 dark:text-stone-200 tracking-wider">NY-1029</span>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+<div class="absolute top-6 right-6">
+<div class="flex items-center gap-2 bg-zinc-800/90 backdrop-blur-md text-white px-4 py-2 rounded-lg border border-white/10 font-bold text-lg">
+<span class="material-symbols-outlined text-green-500" style="font-size: 20px;">check_circle</span>
+<span>1 Job</span>
 </div>
 </div>
-<div class="flex gap-3 items-center">
-<button class="flex-1 h-14 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 dark:hover:bg-stone-600 text-stone-800 dark:text-stone-200 rounded-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-[0.98]">
-<span class="material-symbols-outlined text-[24px]">edit</span>
-                        EDIT
-                    </button>
-<button class="flex-1 h-14 bg-primary hover:bg-primary-dark active:bg-orange-700 text-white rounded-lg flex items-center justify-center gap-2 font-bold text-lg shadow-lg shadow-orange-900/20 transition-transform active:scale-[0.98]">
-<span class="material-symbols-outlined text-[24px]">visibility</span>
-                        VIEW
-                    </button>
+<div class="absolute bottom-0 left-0 w-full p-6 md:p-8 flex flex-col gap-3">
+<h2 class="text-3xl font-black text-white uppercase tracking-tight leading-none">Northside Quick Lube</h2>
+<div class="flex items-center text-gray-300 gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<span class="text-xl font-medium">89 North Ave</span>
 </div>
 </div>
 </article>
-<article class="relative flex flex-col rounded-xl bg-white dark:bg-surface-dark overflow-hidden shadow-sm dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] border border-stone-200 dark:border-stone-800 opacity-75">
-<div class="p-5 flex flex-col gap-4">
-<div class="flex items-start justify-between gap-4">
-<div>
-<h2 class="text-xl font-extrabold text-stone-900 dark:text-white leading-tight">2023 Tesla Model 3</h2>
-<p class="text-stone-500 dark:text-stone-400 text-sm mt-1 font-medium">Owner: Elon M.</p>
+<article class="relative snap-center shrink-0 w-[85vw] md:w-[60vw] h-[55vh] rounded-2xl overflow-hidden bg-surface-dark border-4 border-dashed border-zinc-700 hover:border-primary/50 active:bg-zinc-800 transition-all cursor-pointer flex flex-col items-center justify-center gap-6 group">
+<div class="w-24 h-24 rounded-full bg-zinc-800 group-hover:bg-primary/20 flex items-center justify-center transition-colors border border-zinc-600 group-hover:border-primary">
+<span class="material-symbols-outlined text-zinc-400 group-hover:text-primary transition-colors" style="font-size: 48px;">add</span>
 </div>
-<div class="shrink-0 bg-stone-100 dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded px-2 py-1 flex flex-col items-center justify-center min-w-[80px]">
-<span class="text-[10px] font-bold text-stone-400 uppercase leading-none mb-0.5">Plate</span>
-<span class="font-mono text-lg font-bold text-stone-900 dark:text-stone-200 tracking-wider">TX-9999</span>
-</div>
-</div>
-<div class="flex gap-3 items-center">
-<button class="flex-1 h-14 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 dark:hover:bg-stone-600 text-stone-800 dark:text-stone-200 rounded-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-[0.98]">
-<span class="material-symbols-outlined text-[24px]">edit</span>
-                        EDIT
-                    </button>
-<button class="flex-1 h-14 bg-primary hover:bg-primary-dark active:bg-orange-700 text-white rounded-lg flex items-center justify-center gap-2 font-bold text-lg shadow-lg shadow-orange-900/20 transition-transform active:scale-[0.98]">
-<span class="material-symbols-outlined text-[24px]">visibility</span>
-                        VIEW
-                    </button>
-</div>
+<div class="text-center">
+<h3 class="text-2xl font-bold text-white group-hover:text-primary transition-colors">Add Workshop</h3>
+<p class="text-zinc-500 mt-2 font-medium">Register a new location</p>
 </div>
 </article>
+<div class="w-2 shrink-0"></div>
+</div>
 </main>
+<div class="flex w-full flex-row items-center justify-center gap-4 pb-12">
+<div class="h-3 w-3 rounded-full bg-primary shadow-[0_0_10px_rgba(249,103,6,0.5)]"></div>
+<div class="h-3 w-3 rounded-full bg-zinc-700"></div>
+<div class="h-3 w-3 rounded-full bg-zinc-700"></div>
+</div>
+
 </body></html>
