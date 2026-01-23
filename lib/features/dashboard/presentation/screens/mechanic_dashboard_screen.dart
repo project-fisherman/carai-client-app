@@ -4,11 +4,49 @@ import 'package:carai/features/dashboard/presentation/widgets/workshop_card.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MechanicDashboardScreen extends ConsumerWidget {
+class MechanicDashboardScreen extends ConsumerStatefulWidget {
   const MechanicDashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MechanicDashboardScreen> createState() =>
+      _MechanicDashboardScreenState();
+}
+
+class _MechanicDashboardScreenState
+    extends ConsumerState<MechanicDashboardScreen> {
+  final PageController _pageController = PageController(viewportFraction: 0.9);
+  int _currentPage = 0;
+
+  final List<Widget> _dashboardCards = [
+    const WorkshopCard(
+      imagePath:
+          'https://lh3.googleusercontent.com/aida-public/AB6AXuADDutPxMTr1hLNgfBEzx-fsQ6rkxICovsTvlYTmv39n3G9NJP7J037G8_03f_5kPdezfMQOlLepmqrVnANcEXNQHDjvUHsgTbhNHHEP-17dFV98J6cDPPaac_lsGvfTg4iSRCyjMFLSHCU5Tos1WXRr-xAqkZ4VmjYtDuBjHvJqDVwmCMhIyghbEQZir8tjVbcvoL9sQqHD-rp7Mb1FEQgqKnQSL9itEeb_KONcGcaZ50VuirDxirVv7duRXzLFATLKsEZGFI7L1Q5',
+      workshopName: 'Downtown Garage',
+      address: '123 Main St, Sector 4',
+      jobCount: 4,
+    ),
+    const WorkshopCard(
+      imagePath:
+          'https://lh3.googleusercontent.com/aida-public/AB6AXuBbIJhitV-Pf6wIgt2FD9p2nR4Zt35fLpRP40sgm93r1nrWYLy985BZRo-NeGFw2mD4o4IZtib_8FR_DGk-lHsQpC_KP1C2DxMA8AmpxhY7XSgkfVPfyybqC3i9LUdOFCJ8ZkQzfbv5hH0pVHHmswuCAtZFDnR5aKPfza8CLwwkAB1kpnlsFDOPEJvbDM1eZ-Ir0CJO44BlHlC0KWP-BSYE7HdUWNxkNbFmkEiEyHQd4J7lOk2sLppEsVHKBt5rYD3ZOVv_IgwsIsbh',
+      workshopName: 'Northside Quick Lube',
+      address: '89 North Ave',
+      jobCount: 1,
+    ),
+    AddWorkshopCard(
+      onTap: () {
+        // Handle add workshop tap
+      },
+    ),
+  ];
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
@@ -22,8 +60,8 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 children: [
                   _buildIconButton(Icons.menu),
                   Column(
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'MECHANICMATE',
                         style: TextStyle(
                           color: AppColors.primary,
@@ -32,7 +70,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                           letterSpacing: 2.0,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'DASHBOARD',
                         style: TextStyle(
                           color: Colors.white,
@@ -58,8 +96,8 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       'Welcome back,',
                       style: TextStyle(
                         color: Colors.white,
@@ -68,7 +106,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                         height: 1.1,
                       ),
                     ),
-                    Text(
+                    const Text(
                       'Mechanic.',
                       style: TextStyle(
                         color: AppColors.primary,
@@ -77,8 +115,8 @@ class MechanicDashboardScreen extends ConsumerWidget {
                         height: 1.1,
                       ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
+                    const SizedBox(height: 8),
+                    const Text(
                       'Select a workshop to view active jobs.',
                       style: TextStyle(
                         color:
@@ -94,33 +132,23 @@ class MechanicDashboardScreen extends ConsumerWidget {
 
             // Cards List
             Expanded(
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 32,
-                ),
-                children: [
-                  const WorkshopCard(
-                    imagePath:
-                        'https://lh3.googleusercontent.com/aida-public/AB6AXuADDutPxMTr1hLNgfBEzx-fsQ6rkxICovsTvlYTmv39n3G9NJP7J037G8_03f_5kPdezfMQOlLepmqrVnANcEXNQHDjvUHsgTbhNHHEP-17dFV98J6cDPPaac_lsGvfTg4iSRCyjMFLSHCU5Tos1WXRr-xAqkZ4VmjYtDuBjHvJqDVwmCMhIyghbEQZir8tjVbcvoL9sQqHD-rp7Mb1FEQgqKnQSL9itEeb_KONcGcaZ50VuirDxirVv7duRXzLFATLKsEZGFI7L1Q5',
-                    workshopName: 'Downtown Garage',
-                    address: '123 Main St, Sector 4',
-                    jobCount: 4,
-                  ),
-                  const WorkshopCard(
-                    imagePath:
-                        'https://lh3.googleusercontent.com/aida-public/AB6AXuBbIJhitV-Pf6wIgt2FD9p2nR4Zt35fLpRP40sgm93r1nrWYLy985BZRo-NeGFw2mD4o4IZtib_8FR_DGk-lHsQpC_KP1C2DxMA8AmpxhY7XSgkfVPfyybqC3i9LUdOFCJ8ZkQzfbv5hH0pVHHmswuCAtZFDnR5aKPfza8CLwwkAB1kpnlsFDOPEJvbDM1eZ-Ir0CJO44BlHlC0KWP-BSYE7HdUWNxkNbFmkEiEyHQd4J7lOk2sLppEsVHKBt5rYD3ZOVv_IgwsIsbh',
-                    workshopName: 'Northside Quick Lube',
-                    address: '89 North Ave',
-                    jobCount: 1,
-                  ),
-                  AddWorkshopCard(
-                    onTap: () {
-                      // Handle add workshop tap
-                    },
-                  ),
-                ],
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: _dashboardCards.length,
+                onPageChanged: (int page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0,
+                      vertical: 32.0,
+                    ),
+                    child: _dashboardCards[index],
+                  );
+                },
               ),
             ),
 
@@ -129,11 +157,10 @@ class MechanicDashboardScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 48.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildDot(isActive: true),
-                  _buildDot(isActive: false),
-                  _buildDot(isActive: false),
-                ],
+                children: List.generate(
+                  _dashboardCards.length,
+                  (index) => _buildDot(isActive: index == _currentPage),
+                ),
               ),
             ),
           ],
@@ -155,12 +182,14 @@ class MechanicDashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildDot({required bool isActive}) {
-    return Container(
-      width: 12,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      width: isActive ? 24 : 12,
       height: 12,
       margin: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
+        borderRadius: BorderRadius.circular(6),
         color: isActive ? AppColors.primary : Colors.grey[700],
         boxShadow: isActive
             ? [
