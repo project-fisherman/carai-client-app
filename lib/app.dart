@@ -17,9 +17,10 @@ class CaraiApp extends ConsumerWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primary,
-          surface: AppColors.backgroundLight,
+          surface: AppColors.backgroundDark,
         ),
-        scaffoldBackgroundColor: AppColors.backgroundLight,
+        scaffoldBackgroundColor: AppColors.backgroundDark,
+        canvasColor: AppColors.backgroundDark,
         useMaterial3: true,
       ),
       routerConfig: router,

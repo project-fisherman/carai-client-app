@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
       $dashboardRoute,
       $loginRoute,
       $registrationRoute,
+      $myPageRoute,
       $documentRoute,
       $successRoute,
     ];
@@ -70,6 +71,28 @@ extension $RegistrationRouteExtension on RegistrationRoute {
 
   String get location => GoRouteData.$location(
         '/signup',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $myPageRoute => GoRouteData.$route(
+      path: '/mypage',
+      factory: $MyPageRouteExtension._fromState,
+    );
+
+extension $MyPageRouteExtension on MyPageRoute {
+  static MyPageRoute _fromState(GoRouterState state) => const MyPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/mypage',
       );
 
   void go(BuildContext context) => context.go(location);

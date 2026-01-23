@@ -2,6 +2,7 @@ import 'package:carai/design_system/foundations/app_colors.dart';
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:carai/features/dashboard/presentation/widgets/add_workshop_card.dart';
 import 'package:carai/features/dashboard/presentation/widgets/workshop_card.dart';
+import 'package:carai/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -171,14 +172,21 @@ class _MechanicDashboardScreenState
   }
 
   Widget _buildIconButton(IconData icon) {
-    return Container(
-      width: 56,
-      height: 56,
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(16),
+    return GestureDetector(
+      onTap: () {
+        if (icon == Icons.account_circle) {
+          const MyPageRoute().push(context);
+        }
+      },
+      child: Container(
+        width: 56,
+        height: 56,
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Icon(icon, color: Colors.white, size: 32),
       ),
-      child: Icon(icon, color: Colors.white, size: 32),
     );
   }
 

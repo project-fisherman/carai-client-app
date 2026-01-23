@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/registration_screen.dart';
 import '../../features/dashboard/presentation/screens/mechanic_dashboard_screen.dart';
+import '../../features/mypage/presentation/screens/my_page_screen.dart';
 import '../../design_system/molecules/app_scaffold.dart';
 
 part 'routes.g.dart';
@@ -35,6 +36,16 @@ class RegistrationRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const RegistrationScreen();
+  }
+}
+
+@TypedGoRoute<MyPageRoute>(path: '/mypage')
+class MyPageRoute extends GoRouteData {
+  const MyPageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const MyPageScreen();
   }
 }
 
