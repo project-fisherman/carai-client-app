@@ -1,4 +1,5 @@
 import 'package:carai/design_system/foundations/app_colors.dart';
+import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:carai/features/dashboard/presentation/widgets/add_workshop_card.dart';
 import 'package:carai/features/dashboard/presentation/widgets/workshop_card.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _MechanicDashboardScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold(
       backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
         child: Column(

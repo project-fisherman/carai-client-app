@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../design_system/atoms/app_button.dart';
 import '../../../../design_system/atoms/app_input.dart';
+import '../../../../design_system/molecules/app_scaffold.dart';
 import '../../../../design_system/foundations/app_colors.dart';
 import '../viewmodels/registration_view_model.dart';
 
@@ -109,7 +110,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     final isVerified = state.isVerified;
     final remainingTime = state.remainingTime;
 
-    return Scaffold(
+    return AppScaffold(
       backgroundColor: AppColors.backgroundLight,
       appBar: AppBar(
         backgroundColor: Colors.transparent,

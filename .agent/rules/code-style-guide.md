@@ -56,6 +56,7 @@ Your goal is to maintain a scalable, strictly typed codebase following Clean Arc
 - **UI Composition**: Use `SizedBox` for spacing. Break down complex `build` methods into smaller Widgets.
 - **Async/Await**: Always return `Future<void>` or `Future<T>` for async functions.
 - **Target Platforms**: Focus on iOS and Android. Web and Desktop are disabled.
+- **AppScaffold Usage**: You **MUST** use `AppScaffold` (from `design_system/molecules`) instead of `Scaffold` for all screens to ensure dynamic status bar coloring.
 
 ## 6. Code Style
 - Follow Dart's official linting rules.
