@@ -14,22 +14,25 @@ class LoginForm extends ConsumerStatefulWidget {
 
 class _LoginFormState extends ConsumerState<LoginForm> {
   final _phoneController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
   @override
   void dispose() {
     _phoneController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   void _onLogin() {
     final phone = _phoneController.text.trim();
+    final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
     if (phone.isNotEmpty && password.isNotEmpty) {
-      ref.read(authNotifierProvider.notifier).login(phone, password);
+      ref.read(authNotifierProvider.notifier).login(phone, username, password);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill in all fields')),
@@ -46,7 +49,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
       next.whenOrNull(
         error: (message, _) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: $message'), backgroundColor: Colors.red),
+            SnackBar(
+              content: Text('Error: $message'),
+              backgroundColor: Colors.red,
+            ),
           );
         },
       );
@@ -60,7 +66,16 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           placeholder: '(555) 000-0000',
           controller: _phoneController,
           keyboardType: TextInputType.phone,
-          suffixIcon: const Icon(Icons.smartphone, color: AppColors.placeholder),
+          suffixIcon: const Icon(
+            Icons.smartphone,
+            color: AppColors.placeholder,
+          ),
+        ),
+        const SizedBox(height: 20),
+        AppInput(
+          label: 'Username',
+          placeholder: 'Enter username',
+          controller: _usernameController,
         ),
         const SizedBox(height: 20),
         AppInput(
@@ -68,6 +83,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           placeholder: '••••••••',
           isPassword: !_isPasswordVisible,
           controller: _passwordController,
+          keyboardType: TextInputType.visiblePassword,
           suffixIcon: IconButton(
             icon: Icon(
               _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
@@ -81,11 +97,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           ),
         ),
         const SizedBox(height: 32),
-        AppButton(
-          text: 'Log In',
-          onPressed: _onLogin,
-          isLoading: isLoading,
-        ),
+        AppButton(text: 'Log In', onPressed: _onLogin, isLoading: isLoading),
         const SizedBox(height: 16),
         AppButton(
           text: 'Sign Up',

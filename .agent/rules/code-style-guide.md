@@ -70,3 +70,11 @@ Your goal is to maintain a scalable, strictly typed codebase following Clean Arc
 - **Localization (Korean Only)**:
   - Even if the design prototypes or screenshots are in English, the actual app content **MUST BE in Korean**.
   - All UI text, error messages, and user-facing strings must be in Korean.
+
+## 8. Server Side Reference Guidelines
+- **Read-Only Access**:
+  - The `server` folder contains the backend code and is included as a git submodule.
+  - **NEVER** modify files inside the `server` directory. It is strictly for reference to understand the API and data structures.
+- **Submodule Sync**:
+  - When referencing `server` code for implementing new client features, **ALWAYS** update the submodule from the remote first to ensure you are looking at the latest backend logic.
+  - Command: `git submodule update --remote --merge`

@@ -8,6 +8,7 @@ class AppInput extends StatelessWidget {
   final TextEditingController? controller;
   final Widget? suffixIcon;
   final TextInputType? keyboardType;
+  final bool enabled;
 
   const AppInput({
     super.key,
@@ -17,6 +18,7 @@ class AppInput extends StatelessWidget {
     this.controller,
     this.suffixIcon,
     this.keyboardType,
+    this.enabled = true,
   });
 
   @override
@@ -44,13 +46,14 @@ class AppInput extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 2,
                 offset: const Offset(0, 1),
               ),
             ],
           ),
           child: TextField(
+            enabled: enabled,
             controller: controller,
             obscureText: isPassword,
             keyboardType: keyboardType,
@@ -67,7 +70,10 @@ class AppInput extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 16,
+              ),
               suffixIcon: suffixIcon,
             ),
           ),

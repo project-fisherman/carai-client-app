@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$User {
   String get id => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
-  String get token => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
@@ -29,7 +29,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String id, String phoneNumber, String token});
+  $Res call({String id, String phoneNumber, String name});
 }
 
 /// @nodoc
@@ -47,7 +47,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $Res call({
     Object? id = null,
     Object? phoneNumber = null,
-    Object? token = null,
+    Object? name = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -58,9 +58,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -73,7 +73,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String phoneNumber, String token});
+  $Res call({String id, String phoneNumber, String name});
 }
 
 /// @nodoc
@@ -88,7 +88,7 @@ class __$$UserImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? phoneNumber = null,
-    Object? token = null,
+    Object? name = null,
   }) {
     return _then(_$UserImpl(
       id: null == id
@@ -99,9 +99,9 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -111,18 +111,18 @@ class __$$UserImplCopyWithImpl<$Res>
 
 class _$UserImpl implements _User {
   const _$UserImpl(
-      {required this.id, required this.phoneNumber, required this.token});
+      {required this.id, required this.phoneNumber, required this.name});
 
   @override
   final String id;
   @override
   final String phoneNumber;
   @override
-  final String token;
+  final String name;
 
   @override
   String toString() {
-    return 'User(id: $id, phoneNumber: $phoneNumber, token: $token)';
+    return 'User(id: $id, phoneNumber: $phoneNumber, name: $name)';
   }
 
   @override
@@ -133,11 +133,11 @@ class _$UserImpl implements _User {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
-            (identical(other.token, token) || other.token == token));
+            (identical(other.name, name) || other.name == name));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, phoneNumber, token);
+  int get hashCode => Object.hash(runtimeType, id, phoneNumber, name);
 
   @JsonKey(ignore: true)
   @override
@@ -150,14 +150,14 @@ abstract class _User implements User {
   const factory _User(
       {required final String id,
       required final String phoneNumber,
-      required final String token}) = _$UserImpl;
+      required final String name}) = _$UserImpl;
 
   @override
   String get id;
   @override
   String get phoneNumber;
   @override
-  String get token;
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

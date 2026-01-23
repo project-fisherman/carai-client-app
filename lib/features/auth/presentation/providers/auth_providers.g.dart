@@ -53,5 +53,54 @@ final checkAuthStatusUseCaseProvider =
 
 typedef CheckAuthStatusUseCaseRef
     = AutoDisposeProviderRef<CheckAuthStatusUseCase>;
+String _$sendSmsCodeUseCaseHash() =>
+    r'f0e5a3569e4648410308e3070f75c4c5915f6b55';
+
+/// See also [sendSmsCodeUseCase].
+@ProviderFor(sendSmsCodeUseCase)
+final sendSmsCodeUseCaseProvider =
+    AutoDisposeProvider<SendSmsCodeUseCase>.internal(
+  sendSmsCodeUseCase,
+  name: r'sendSmsCodeUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$sendSmsCodeUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SendSmsCodeUseCaseRef = AutoDisposeProviderRef<SendSmsCodeUseCase>;
+String _$verifySmsCodeUseCaseHash() =>
+    r'c7153296f657efce3b69b81347626b7ae79b382e';
+
+/// See also [verifySmsCodeUseCase].
+@ProviderFor(verifySmsCodeUseCase)
+final verifySmsCodeUseCaseProvider =
+    AutoDisposeProvider<VerifySmsCodeUseCase>.internal(
+  verifySmsCodeUseCase,
+  name: r'verifySmsCodeUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$verifySmsCodeUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef VerifySmsCodeUseCaseRef = AutoDisposeProviderRef<VerifySmsCodeUseCase>;
+String _$signupUseCaseHash() => r'ff756281afe5bc122fcd2a2dc2a7effeaae71e41';
+
+/// See also [signupUseCase].
+@ProviderFor(signupUseCase)
+final signupUseCaseProvider = AutoDisposeProvider<SignupUseCase>.internal(
+  signupUseCase,
+  name: r'signupUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$signupUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SignupUseCaseRef = AutoDisposeProviderRef<SignupUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

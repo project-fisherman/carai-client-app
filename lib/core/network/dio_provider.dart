@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_provider.g.dart';
@@ -7,7 +8,7 @@ part 'dio_provider.g.dart';
 Dio dio(DioRef ref) {
   final dio = Dio(
     BaseOptions(
-      baseUrl: 'https://api.example.com', // Replace with actual API URL
+      baseUrl: 'http://34.64.161.110:8080/',
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
     ),
@@ -16,13 +17,22 @@ Dio dio(DioRef ref) {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
-        // Add auth token header if needed
+        debugPrint('🌐 [DIO] Request: ${options.method} ${options.uri}');
+        if (options.data != null) {
+          debugPrint('🌐 [DIO] Body: ${options.data}');
+        }
         return handler.next(options);
       },
+      onResponse: (response, handler) {
+        debugPrint(
+          '✅ [DIO] Response [${response.statusCode}]: ${response.data}',
+        );
+        return handler.next(response);
+      },
       onError: (DioException e, handler) async {
-        if (e.response?.statusCode == 401) {
-          // Handle 401 Unauthorized (e.g., refresh token or logout)
-          // For now, we just pass it through
+        debugPrint('❌ [DIO] Error: ${e.message}');
+        if (e.response != null) {
+          debugPrint('❌ [DIO] Error Response: ${e.response?.data}');
         }
         return handler.next(e);
       },
