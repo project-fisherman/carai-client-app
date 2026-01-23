@@ -97,7 +97,7 @@ class SignupResponse with _$SignupResponse {
 class UserDto with _$UserDto {
   const factory UserDto({
     required String userId,
-    required String phoneNumber,
+    required PhoneNumberDto phoneNumber,
     required String name,
   }) = _UserDto;
 
@@ -106,5 +106,17 @@ class UserDto with _$UserDto {
 
   // Mapper
   const UserDto._();
-  User toDomain() => User(id: userId, phoneNumber: phoneNumber, name: name);
+  User toDomain() =>
+      User(id: userId, phoneNumber: phoneNumber.number, name: name);
+}
+
+@freezed
+class PhoneNumberDto with _$PhoneNumberDto {
+  const factory PhoneNumberDto({
+    required String number,
+    required String normalizedNumber,
+  }) = _PhoneNumberDto;
+
+  factory PhoneNumberDto.fromJson(Map<String, dynamic> json) =>
+      _$PhoneNumberDtoFromJson(json);
 }

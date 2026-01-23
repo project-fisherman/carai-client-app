@@ -122,7 +122,8 @@ Map<String, dynamic> _$$SignupResponseImplToJson(
 _$UserDtoImpl _$$UserDtoImplFromJson(Map<String, dynamic> json) =>
     _$UserDtoImpl(
       userId: json['userId'] as String,
-      phoneNumber: json['phoneNumber'] as String,
+      phoneNumber:
+          PhoneNumberDto.fromJson(json['phoneNumber'] as Map<String, dynamic>),
       name: json['name'] as String,
     );
 
@@ -131,4 +132,17 @@ Map<String, dynamic> _$$UserDtoImplToJson(_$UserDtoImpl instance) =>
       'userId': instance.userId,
       'phoneNumber': instance.phoneNumber,
       'name': instance.name,
+    };
+
+_$PhoneNumberDtoImpl _$$PhoneNumberDtoImplFromJson(Map<String, dynamic> json) =>
+    _$PhoneNumberDtoImpl(
+      number: json['number'] as String,
+      normalizedNumber: json['normalizedNumber'] as String,
+    );
+
+Map<String, dynamic> _$$PhoneNumberDtoImplToJson(
+        _$PhoneNumberDtoImpl instance) =>
+    <String, dynamic>{
+      'number': instance.number,
+      'normalizedNumber': instance.normalizedNumber,
     };

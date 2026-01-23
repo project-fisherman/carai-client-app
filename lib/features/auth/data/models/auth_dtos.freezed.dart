@@ -1379,7 +1379,7 @@ UserDto _$UserDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserDto {
   String get userId => throw _privateConstructorUsedError;
-  String get phoneNumber => throw _privateConstructorUsedError;
+  PhoneNumberDto get phoneNumber => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1392,7 +1392,9 @@ abstract class $UserDtoCopyWith<$Res> {
   factory $UserDtoCopyWith(UserDto value, $Res Function(UserDto) then) =
       _$UserDtoCopyWithImpl<$Res, UserDto>;
   @useResult
-  $Res call({String userId, String phoneNumber, String name});
+  $Res call({String userId, PhoneNumberDto phoneNumber, String name});
+
+  $PhoneNumberDtoCopyWith<$Res> get phoneNumber;
 }
 
 /// @nodoc
@@ -1420,12 +1422,20 @@ class _$UserDtoCopyWithImpl<$Res, $Val extends UserDto>
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PhoneNumberDto,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PhoneNumberDtoCopyWith<$Res> get phoneNumber {
+    return $PhoneNumberDtoCopyWith<$Res>(_value.phoneNumber, (value) {
+      return _then(_value.copyWith(phoneNumber: value) as $Val);
+    });
   }
 }
 
@@ -1436,7 +1446,10 @@ abstract class _$$UserDtoImplCopyWith<$Res> implements $UserDtoCopyWith<$Res> {
       __$$UserDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, String phoneNumber, String name});
+  $Res call({String userId, PhoneNumberDto phoneNumber, String name});
+
+  @override
+  $PhoneNumberDtoCopyWith<$Res> get phoneNumber;
 }
 
 /// @nodoc
@@ -1462,7 +1475,7 @@ class __$$UserDtoImplCopyWithImpl<$Res>
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PhoneNumberDto,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -1484,7 +1497,7 @@ class _$UserDtoImpl extends _UserDto {
   @override
   final String userId;
   @override
-  final String phoneNumber;
+  final PhoneNumberDto phoneNumber;
   @override
   final String name;
 
@@ -1525,7 +1538,7 @@ class _$UserDtoImpl extends _UserDto {
 abstract class _UserDto extends UserDto {
   const factory _UserDto(
       {required final String userId,
-      required final String phoneNumber,
+      required final PhoneNumberDto phoneNumber,
       required final String name}) = _$UserDtoImpl;
   const _UserDto._() : super._();
 
@@ -1534,11 +1547,168 @@ abstract class _UserDto extends UserDto {
   @override
   String get userId;
   @override
-  String get phoneNumber;
+  PhoneNumberDto get phoneNumber;
   @override
   String get name;
   @override
   @JsonKey(ignore: true)
   _$$UserDtoImplCopyWith<_$UserDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PhoneNumberDto _$PhoneNumberDtoFromJson(Map<String, dynamic> json) {
+  return _PhoneNumberDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PhoneNumberDto {
+  String get number => throw _privateConstructorUsedError;
+  String get normalizedNumber => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PhoneNumberDtoCopyWith<PhoneNumberDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PhoneNumberDtoCopyWith<$Res> {
+  factory $PhoneNumberDtoCopyWith(
+          PhoneNumberDto value, $Res Function(PhoneNumberDto) then) =
+      _$PhoneNumberDtoCopyWithImpl<$Res, PhoneNumberDto>;
+  @useResult
+  $Res call({String number, String normalizedNumber});
+}
+
+/// @nodoc
+class _$PhoneNumberDtoCopyWithImpl<$Res, $Val extends PhoneNumberDto>
+    implements $PhoneNumberDtoCopyWith<$Res> {
+  _$PhoneNumberDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? number = null,
+    Object? normalizedNumber = null,
+  }) {
+    return _then(_value.copyWith(
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as String,
+      normalizedNumber: null == normalizedNumber
+          ? _value.normalizedNumber
+          : normalizedNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PhoneNumberDtoImplCopyWith<$Res>
+    implements $PhoneNumberDtoCopyWith<$Res> {
+  factory _$$PhoneNumberDtoImplCopyWith(_$PhoneNumberDtoImpl value,
+          $Res Function(_$PhoneNumberDtoImpl) then) =
+      __$$PhoneNumberDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String number, String normalizedNumber});
+}
+
+/// @nodoc
+class __$$PhoneNumberDtoImplCopyWithImpl<$Res>
+    extends _$PhoneNumberDtoCopyWithImpl<$Res, _$PhoneNumberDtoImpl>
+    implements _$$PhoneNumberDtoImplCopyWith<$Res> {
+  __$$PhoneNumberDtoImplCopyWithImpl(
+      _$PhoneNumberDtoImpl _value, $Res Function(_$PhoneNumberDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? number = null,
+    Object? normalizedNumber = null,
+  }) {
+    return _then(_$PhoneNumberDtoImpl(
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as String,
+      normalizedNumber: null == normalizedNumber
+          ? _value.normalizedNumber
+          : normalizedNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PhoneNumberDtoImpl implements _PhoneNumberDto {
+  const _$PhoneNumberDtoImpl(
+      {required this.number, required this.normalizedNumber});
+
+  factory _$PhoneNumberDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PhoneNumberDtoImplFromJson(json);
+
+  @override
+  final String number;
+  @override
+  final String normalizedNumber;
+
+  @override
+  String toString() {
+    return 'PhoneNumberDto(number: $number, normalizedNumber: $normalizedNumber)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PhoneNumberDtoImpl &&
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.normalizedNumber, normalizedNumber) ||
+                other.normalizedNumber == normalizedNumber));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, number, normalizedNumber);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PhoneNumberDtoImplCopyWith<_$PhoneNumberDtoImpl> get copyWith =>
+      __$$PhoneNumberDtoImplCopyWithImpl<_$PhoneNumberDtoImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PhoneNumberDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PhoneNumberDto implements PhoneNumberDto {
+  const factory _PhoneNumberDto(
+      {required final String number,
+      required final String normalizedNumber}) = _$PhoneNumberDtoImpl;
+
+  factory _PhoneNumberDto.fromJson(Map<String, dynamic> json) =
+      _$PhoneNumberDtoImpl.fromJson;
+
+  @override
+  String get number;
+  @override
+  String get normalizedNumber;
+  @override
+  @JsonKey(ignore: true)
+  _$$PhoneNumberDtoImplCopyWith<_$PhoneNumberDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
