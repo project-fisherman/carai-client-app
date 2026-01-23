@@ -18,22 +18,31 @@ class AuthNotifier extends _$AuthNotifier {
     _loginUseCase = ref.watch(loginUseCaseProvider);
     _logoutUseCase = ref.watch(logoutUseCaseProvider);
     _checkAuthStatusUseCase = ref.watch(checkAuthStatusUseCaseProvider);
-    
+
     return _checkAuthStatus();
   }
 
   Future<User?> _checkAuthStatus() async {
     final result = await _checkAuthStatusUseCase();
     return result.fold(
-      (failure) => null, // Or throw if you want to show error on startup, but usually silence.
+      (failure) =>
+          null, // Or throw if you want to show error on startup, but usually silence.
       (user) => user,
     );
   }
 
-  Future<void> login(String phoneNumber, String password) async {
+  Future<void> login(
+    String phoneNumber,
+    String username,
+    String password,
+  ) async {
     state = const AsyncValue.loading();
-    final result = await _loginUseCase(phoneNumber: phoneNumber, password: password);
-    
+    final result = await _loginUseCase(
+      phoneNumber: phoneNumber,
+      username: username,
+      password: password,
+    );
+
     state = result.fold(
       (failure) => AsyncValue.error(failure.message, StackTrace.current),
       (user) => AsyncValue.data(user),
@@ -43,7 +52,7 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> logout() async {
     state = const AsyncValue.loading();
     final result = await _logoutUseCase();
-    
+
     state = result.fold(
       (failure) => AsyncValue.error(failure.message, StackTrace.current),
       (_) => const AsyncValue.data(null),

@@ -13,6 +13,7 @@ class LoginViewModel extends _$LoginViewModel {
 
   Future<void> login({
     required String phoneNumber,
+    required String username,
     required String password,
   }) async {
     state = const AsyncValue.loading();
@@ -22,7 +23,7 @@ class LoginViewModel extends _$LoginViewModel {
     // Delegate to AuthNotifier to update global auth state
     await ref
         .read(authNotifierProvider.notifier)
-        .login(sanitizedPhoneNumber, password);
+        .login(sanitizedPhoneNumber, username, password);
 
     // Reflect AuthNotifier state in this ViewModel
     final authState = ref.read(authNotifierProvider);

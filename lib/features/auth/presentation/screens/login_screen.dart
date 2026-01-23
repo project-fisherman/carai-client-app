@@ -16,12 +16,14 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _phoneController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isAutoLogin = false;
 
   @override
   void dispose() {
     _phoneController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -31,6 +33,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         .read(loginViewModelProvider.notifier)
         .login(
           phoneNumber: _phoneController.text,
+          username: _usernameController.text,
           password: _passwordController.text,
         );
   }
@@ -128,7 +131,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                // Username field removed as per user request
+                AppInput(
+                  label: 'Username',
+                  placeholder: 'Enter username',
+                  controller: _usernameController,
+                ),
+                const SizedBox(height: 16),
                 AppInput(
                   label: 'Password',
                   placeholder: '••••••••',
