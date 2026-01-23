@@ -12,7 +12,7 @@ GoRouter router(RouterRef ref) {
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: const HomeRoute().location,
+    initialLocation: const DashboardRoute().location,
     routes: $appRoutes,
     redirect: (context, state) {
       if (authState.isLoading || authState.hasError) {
@@ -28,7 +28,7 @@ GoRouter router(RouterRef ref) {
       }
 
       if (isLoggedIn && isLoggingIn) {
-        return const HomeRoute().location;
+        return const DashboardRoute().location;
       }
 
       return null;

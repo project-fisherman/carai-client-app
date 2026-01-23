@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import '../../../../core/router/routes.dart';
 import '../../../../design_system/atoms/app_button.dart';
 import '../../../../design_system/atoms/app_input.dart';
+import '../../../../design_system/molecules/app_scaffold.dart';
 import '../../../../design_system/foundations/app_colors.dart';
 import '../viewmodels/login_view_model.dart';
 
@@ -52,7 +53,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             context,
           ).showSnackBar(const SnackBar(content: Text('Login Successful!')));
           // Navigate to home or dashboard
-          context.go('/home'); // Example route
+          const DashboardRoute().go(context);
         },
         error: (err, stack) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -69,7 +70,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final state = ref.watch(loginViewModelProvider);
     final isLoading = state.isLoading;
 
-    return Scaffold(
+    return AppScaffold(
       backgroundColor: AppColors.backgroundLight,
       body: SafeArea(
         child: Center(

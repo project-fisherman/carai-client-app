@@ -7,20 +7,22 @@ part of 'routes.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $homeRoute,
+      $dashboardRoute,
       $loginRoute,
       $registrationRoute,
+      $myPageRoute,
       $documentRoute,
       $successRoute,
     ];
 
-RouteBase get $homeRoute => GoRouteData.$route(
+RouteBase get $dashboardRoute => GoRouteData.$route(
       path: '/',
-      factory: $HomeRouteExtension._fromState,
+      factory: $DashboardRouteExtension._fromState,
     );
 
-extension $HomeRouteExtension on HomeRoute {
-  static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
+extension $DashboardRouteExtension on DashboardRoute {
+  static DashboardRoute _fromState(GoRouterState state) =>
+      const DashboardRoute();
 
   String get location => GoRouteData.$location(
         '/',
@@ -69,6 +71,28 @@ extension $RegistrationRouteExtension on RegistrationRoute {
 
   String get location => GoRouteData.$location(
         '/signup',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $myPageRoute => GoRouteData.$route(
+      path: '/mypage',
+      factory: $MyPageRouteExtension._fromState,
+    );
+
+extension $MyPageRouteExtension on MyPageRoute {
+  static MyPageRoute _fromState(GoRouterState state) => const MyPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/mypage',
       );
 
   void go(BuildContext context) => context.go(location);

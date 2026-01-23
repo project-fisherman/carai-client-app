@@ -1,0 +1,73 @@
+name: Android Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  release:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read Flutter Version from FVM
+        id: get-flutter-version
+        run: |
+          FLUTTER_VERSION=$(jq -r .flutter .fvmrc)
+          echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB_ENV
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Run Build Runner
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Get Version
+        id: get_version
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | sed 's/^version:[[:space:]]*//')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Generate Release Notes
+        id: release_notes
+        run: |
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            git log --pretty=format:"* %s" ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} >> $GITHUB_ENV
+          else
+            echo "* Manual Release Build" >> $GITHUB_ENV
+          fi
+          echo "" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: Release v${{ env.VERSION }}
+          body: ${{ env.CHANGELOG }}
+          files: build/app/outputs/flutter-apk/app-release.apk
