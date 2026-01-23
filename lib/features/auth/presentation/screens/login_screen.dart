@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import '../../../../core/router/routes.dart';
 import '../../../../design_system/atoms/app_button.dart';
 import '../../../../design_system/atoms/app_input.dart';
@@ -52,7 +52,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             context,
           ).showSnackBar(const SnackBar(content: Text('Login Successful!')));
           // Navigate to home or dashboard
-          context.go('/home'); // Example route
+          const DashboardRoute().go(context);
         },
         error: (err, stack) {
           ScaffoldMessenger.of(context).showSnackBar(
