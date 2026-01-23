@@ -1,4 +1,5 @@
 import 'package:carai/design_system/foundations/app_colors.dart';
+import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:carai/features/dashboard/presentation/widgets/add_workshop_card.dart';
 import 'package:carai/features/dashboard/presentation/widgets/workshop_card.dart';
@@ -50,50 +51,46 @@ class _MechanicDashboardScreenState
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      appBar: AppNavigationBar(
+        leading: Center(child: _buildIconButton(Icons.menu)),
+        titleWidget: Column(
+          children: const [
+            Text(
+              'MECHANICMATE',
+              style: TextStyle(
+                color: AppColors.primary,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 2.0,
+              ),
+            ),
+            Text(
+              'DASHBOARD',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
+                letterSpacing: -0.5,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: _buildIconButton(Icons.account_circle),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
         child: Column(
           children: [
-            // Header
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildIconButton(Icons.menu),
-                  Column(
-                    children: [
-                      const Text(
-                        'MECHANICMATE',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
-                        ),
-                      ),
-                      const Text(
-                        'DASHBOARD',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                  _buildIconButton(Icons.account_circle),
-                ],
-              ),
-            ),
-
             // Welcome Section
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 8.0,
-              ),
+              padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 8.0),
               child: SizedBox(
                 width: double.infinity,
                 child: Column(
@@ -156,7 +153,7 @@ class _MechanicDashboardScreenState
 
             // Pagination Dots
             Padding(
-              padding: const EdgeInsets.only(bottom: 48.0),
+              padding: const EdgeInsets.only(bottom: 32.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
@@ -181,10 +178,7 @@ class _MechanicDashboardScreenState
       child: Container(
         width: 56,
         height: 56,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(16),
-        ),
+        alignment: Alignment.center,
         child: Icon(icon, color: Colors.white, size: 32),
       ),
     );
