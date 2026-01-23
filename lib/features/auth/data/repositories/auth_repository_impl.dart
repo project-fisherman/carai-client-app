@@ -31,7 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      // TODO: Will be deleted
+      // Temporary: Hardcoded username as per requirement
       final loginRequest = LoginRequest(
         phoneNumber: phoneNumber,
         username: '1234',

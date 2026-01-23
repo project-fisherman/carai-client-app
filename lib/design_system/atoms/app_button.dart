@@ -20,9 +20,11 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPrimary = style == AppButtonStyle.primary;
-    final backgroundColor = isPrimary ? AppColors.primary : const Color(0xFFEEF0F3);
+    final backgroundColor = isPrimary
+        ? AppColors.primary
+        : const Color(0xFFEEF0F3);
     final textColor = isPrimary ? Colors.white : AppColors.textDark;
-    
+
     return SizedBox(
       height: 64,
       width: double.infinity,
@@ -32,7 +34,9 @@ class AppButton extends StatelessWidget {
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
           elevation: isPrimary ? 4 : 0,
-          shadowColor: isPrimary ? AppColors.primary.withOpacity(0.4) : Colors.transparent,
+          shadowColor: isPrimary
+              ? AppColors.primary.withValues(alpha: 0.4)
+              : Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

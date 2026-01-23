@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:carai/core/router/router_provider.dart';
 import 'package:carai/core/router/routes.dart';
-import 'package:carai/core/error/failure.dart';
 import 'package:carai/features/document/data/repositories/document_repository_impl.dart';
 
 part 'document_view_model.g.dart';
@@ -30,7 +28,7 @@ class DocumentViewModel extends _$DocumentViewModel {
       (successId) {
         state = const AsyncData(null);
         // Navigate on success using typed routes
-        ref.read(routerProvider).go(const SuccessRoute().location); 
+        ref.read(routerProvider).go(const SuccessRoute().location);
       },
     );
   }

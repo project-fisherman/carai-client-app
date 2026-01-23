@@ -6,7 +6,6 @@ import '../../../../design_system/atoms/app_button.dart';
 import '../../../../design_system/atoms/app_input.dart';
 import '../../../../design_system/foundations/app_colors.dart';
 import '../viewmodels/login_view_model.dart';
-import '../../domain/entities/user.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -28,14 +27,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _onLogin() {
-    ref.read(loginViewModelProvider.notifier).login(
+    ref
+        .read(loginViewModelProvider.notifier)
+        .login(
           phoneNumber: _phoneController.text,
           password: _passwordController.text,
         );
   }
 
   void _onSignup() {
-    const RegistrationRoute().push(context); 
+    const RegistrationRoute().push(context);
   }
 
   @override
@@ -44,15 +45,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.listen(loginViewModelProvider, (previous, next) {
       next.when(
         data: (_) {
-           ScaffoldMessenger.of(context).showSnackBar(
-             const SnackBar(content: Text('Login Successful!')),
-           );
-           // Navigate to home or dashboard
-           context.go('/home'); // Example route
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Login Successful!')));
+          // Navigate to home or dashboard
+          context.go('/home'); // Example route
         },
         error: (err, stack) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login Failed: $err'), backgroundColor: Colors.red),
+            SnackBar(
+              content: Text('Login Failed: $err'),
+              backgroundColor: Colors.red,
+            ),
           );
         },
         loading: () {},
@@ -76,9 +80,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.2),
+                    color: AppColors.primary.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.primary.withOpacity(0.2), width: 2),
+                    border: Border.all(
+                      color: AppColors.primary.withValues(alpha: 0.2),
+                      width: 2,
+                    ),
                   ),
                   child: const Icon(
                     Icons.build,
@@ -108,14 +115,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40),
-                
+
                 // Form
                 AppInput(
                   label: 'Phone number',
                   placeholder: '(555) 000-0000',
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
-                  suffixIcon: const Icon(Icons.smartphone, color: AppColors.placeholder),
+                  suffixIcon: const Icon(
+                    Icons.smartphone,
+                    color: AppColors.placeholder,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 // Username field removed as per user request
@@ -126,7 +136,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   controller: _passwordController,
                 ),
                 const SizedBox(height: 16),
-                
+
                 // Auto-login Checkbox
                 Row(
                   children: [
@@ -150,11 +160,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ],
                 ),
                 const SizedBox(height: 32),
-                
+
                 // Buttons
                 AppButton(
                   text: 'LOG IN',
-                  onPressed: isLoading ? () {} : _onLogin, // Prevent clicks logic handled in AppButton too but explicitly null callback disables styles often
+                  onPressed: isLoading
+                      ? () {}
+                      : _onLogin, // Prevent clicks logic handled in AppButton too but explicitly null callback disables styles often
                   isLoading: isLoading,
                 ),
                 const SizedBox(height: 16),
@@ -163,11 +175,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   onPressed: isLoading ? () {} : _onSignup,
                   style: AppButtonStyle.secondary,
                 ),
-                
+
                 const SizedBox(height: 40),
                 const Text(
                   'Need help? Contact Supervisor',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),

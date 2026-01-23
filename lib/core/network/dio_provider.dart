@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_provider.g.dart';
@@ -16,20 +17,22 @@ Dio dio(DioRef ref) {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
-        print('🌐 [DIO] Request: ${options.method} ${options.uri}');
+        debugPrint('🌐 [DIO] Request: ${options.method} ${options.uri}');
         if (options.data != null) {
-          print('🌐 [DIO] Body: ${options.data}');
+          debugPrint('🌐 [DIO] Body: ${options.data}');
         }
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        print('✅ [DIO] Response [${response.statusCode}]: ${response.data}');
+        debugPrint(
+          '✅ [DIO] Response [${response.statusCode}]: ${response.data}',
+        );
         return handler.next(response);
       },
       onError: (DioException e, handler) async {
-        print('❌ [DIO] Error: ${e.message}');
+        debugPrint('❌ [DIO] Error: ${e.message}');
         if (e.response != null) {
-          print('❌ [DIO] Error Response: ${e.response?.data}');
+          debugPrint('❌ [DIO] Error Response: ${e.response?.data}');
         }
         return handler.next(e);
       },

@@ -81,7 +81,7 @@
     },
     {
       "name": "built_value",
-      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/built_value-8.12.1",
+      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/built_value-8.12.3",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -104,8 +104,14 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "code_assets",
+      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/code_assets-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
       "name": "code_builder",
-      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/code_builder-4.11.0",
+      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/code_builder-4.11.1",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -165,7 +171,7 @@
     },
     {
       "name": "ffi",
-      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/ffi-2.1.4",
+      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/ffi-2.1.5",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -278,6 +284,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "hooks",
+      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/hooks-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
       "name": "http_multi_server",
       "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/http_multi_server-3.2.2",
       "packageUri": "lib/",
@@ -368,6 +380,18 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "native_toolchain_c",
+      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/native_toolchain_c-0.17.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
+      "name": "objective_c",
+      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/objective_c-9.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.10"
+    },
+    {
       "name": "package_config",
       "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/package_config-2.2.0",
       "packageUri": "lib/",
@@ -393,9 +417,9 @@
     },
     {
       "name": "path_provider_foundation",
-      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/path_provider_foundation-2.5.1",
+      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.10"
     },
     {
       "name": "path_provider_linux",
@@ -573,7 +597,7 @@
     },
     {
       "name": "watcher",
-      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/watcher-1.2.0",
+      "rootUri": "file:///Users/koreanhole/.pub-cache/hosted/pub.dev/watcher-1.2.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },

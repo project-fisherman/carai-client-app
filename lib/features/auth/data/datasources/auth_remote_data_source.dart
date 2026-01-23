@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/network/dio_provider.dart';
-import '../../../../core/network/dio_provider.dart';
+
 import '../models/auth_dtos.dart';
-import '../models/user_model.dart';
 
 part 'auth_remote_data_source.g.dart';
 
