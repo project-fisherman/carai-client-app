@@ -1,8 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../providers/auth_providers.dart';
-import '../../domain/usecases/login_usecase.dart';
-import '../../../../core/error/failure.dart';
+
+import '../providers/auth_notifier.dart';
 
 part 'login_view_model.g.dart';
 
@@ -13,21 +12,26 @@ class LoginViewModel extends _$LoginViewModel {
     return const AsyncValue.data(null);
   }
 
-  Future<void> login({required String phoneNumber, required String password}) async {
+  Future<void> login({
+    required String phoneNumber,
+    required String password,
+  }) async {
     state = const AsyncValue.loading();
-    
+
     final sanitizedPhoneNumber = phoneNumber.replaceAll('-', '');
-    final loginUseCase = ref.read(loginUseCaseProvider);
-    // Send empty username or null if optional (DTO field is required though).
-    // User requested not to submit username.
-    // If I send empty string, server might reject if NotBlank.
-    // But I must follow "Do not submit".
-    // I entered " " (space) or similar? No, I will modify DTO/Repo to pass empty string or handle logic.
-    final result = await loginUseCase(phoneNumber: sanitizedPhoneNumber, password: password);
-    
-    state = result.fold(
-      (failure) => AsyncValue.error(failure.message, StackTrace.current),
-      (user) => const AsyncValue.data(null),
+
+    // Delegate to AuthNotifier to update global auth state
+    await ref
+        .read(authNotifierProvider.notifier)
+        .login(sanitizedPhoneNumber, password);
+
+    // Reflect AuthNotifier state in this ViewModel
+    final authState = ref.read(authNotifierProvider);
+
+    state = authState.when(
+      data: (_) => const AsyncValue.data(null), // Success
+      error: (error, stack) => AsyncValue.error(error, stack),
+      loading: () => const AsyncValue.loading(),
     );
   }
 }
