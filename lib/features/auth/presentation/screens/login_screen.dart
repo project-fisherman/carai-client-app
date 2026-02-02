@@ -72,7 +72,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final isLoading = state.isLoading;
 
     return AppScaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -104,7 +104,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textDark,
+                    color: Colors.white,
                     letterSpacing: -0.5,
                   ),
                   textAlign: TextAlign.center,
@@ -115,7 +115,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.textSecondary,
+                    color: Color(0xFF999999),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -127,6 +127,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   placeholder: '(555) 000-0000',
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
+                  isDarkMode: true,
                   suffixIcon: const Icon(
                     Icons.smartphone,
                     color: AppColors.placeholder,
@@ -137,6 +138,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   label: 'Username',
                   placeholder: 'Enter username',
                   controller: _usernameController,
+                  isDarkMode: true,
                 ),
                 const SizedBox(height: 16),
                 AppInput(
@@ -144,6 +146,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   placeholder: '••••••••',
                   isPassword: true,
                   controller: _passwordController,
+                  isDarkMode: true,
                 ),
                 const SizedBox(height: 32),
 
