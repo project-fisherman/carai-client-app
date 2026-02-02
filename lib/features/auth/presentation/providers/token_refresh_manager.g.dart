@@ -7,9 +7,10 @@ part of 'token_refresh_manager.dart';
 // **************************************************************************
 
 String _$tokenRefreshManagerHash() =>
-    r'6a4611eb7b505b1b8974f457956c3e7902797599';
+    r'2c2d453df96f3ce3d106535efa0cb6eaadd1fe40';
 
-/// This provider is kept alive so it can listen to app lifecycle changes
+/// This provider is kept alive and refreshes token only on app cold start
+/// (equivalent to Android's onStart)
 ///
 /// Copied from [TokenRefreshManager].
 @ProviderFor(TokenRefreshManager)

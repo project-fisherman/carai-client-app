@@ -1,31 +1,18 @@
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/repositories/auth_repository_impl.dart';
 
 part 'token_refresh_manager.g.dart';
 
-/// This provider is kept alive so it can listen to app lifecycle changes
+/// This provider is kept alive and refreshes token only on app cold start
+/// (equivalent to Android's onStart)
 @Riverpod(keepAlive: true)
-class TokenRefreshManager extends _$TokenRefreshManager
-    with WidgetsBindingObserver {
+class TokenRefreshManager extends _$TokenRefreshManager {
   @override
   void build() {
-    // Add observer when initialized
-    WidgetsBinding.instance.addObserver(this);
-
-    // Cleanup when disposed
-    ref.onDispose(() {
-      WidgetsBinding.instance.removeObserver(this);
-    });
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _refreshToken();
-    }
+    // Refresh token only once on app cold start (when this provider is first built)
+    _refreshToken();
   }
 
   Future<void> _refreshToken() async {
@@ -34,7 +21,7 @@ class TokenRefreshManager extends _$TokenRefreshManager
     final isLoggedIn = authStatus.fold((_) => false, (user) => user != null);
 
     if (isLoggedIn) {
-      debugPrint('🔄 [TokenRefreshManager] App resumed, refreshing token...');
+      debugPrint('🔄 [TokenRefreshManager] App started, refreshing token...');
       final result = await ref.read(authRepositoryProvider).refreshToken();
       result.fold(
         (failure) => debugPrint(
