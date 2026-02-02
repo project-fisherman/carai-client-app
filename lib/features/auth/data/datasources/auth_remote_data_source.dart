@@ -45,4 +45,14 @@ class AuthRemoteDataSource {
     final response = await _dio.post('/auth/signup', data: request.toJson());
     return SignupResponse.fromJson(response.data['result']);
   }
+
+  Future<RefreshTokenResponse> refreshToken({
+    required String refreshToken,
+  }) async {
+    final response = await _dio.post(
+      '/auth/token/refresh',
+      data: RefreshTokenRequest(refreshToken: refreshToken).toJson(),
+    );
+    return RefreshTokenResponse.fromJson(response.data['result']);
+  }
 }

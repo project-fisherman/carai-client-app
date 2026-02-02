@@ -69,6 +69,26 @@ class LoginResponse with _$LoginResponse {
 }
 
 @freezed
+class RefreshTokenRequest with _$RefreshTokenRequest {
+  const factory RefreshTokenRequest({required String refreshToken}) =
+      _RefreshTokenRequest;
+
+  factory RefreshTokenRequest.fromJson(Map<String, dynamic> json) =>
+      _$RefreshTokenRequestFromJson(json);
+}
+
+@freezed
+class RefreshTokenResponse with _$RefreshTokenResponse {
+  const factory RefreshTokenResponse({
+    required String accessToken,
+    required String refreshToken,
+  }) = _RefreshTokenResponse;
+
+  factory RefreshTokenResponse.fromJson(Map<String, dynamic> json) =>
+      _$RefreshTokenResponseFromJson(json);
+}
+
+@freezed
 class SignupRequest with _$SignupRequest {
   const factory SignupRequest({
     required String phoneNumber,

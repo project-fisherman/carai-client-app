@@ -12,6 +12,7 @@ List<RouteBase> get $appRoutes => [
       $registrationRoute,
       $myPageRoute,
       $documentRoute,
+      $createShopRoute,
       $successRoute,
     ];
 
@@ -115,6 +116,29 @@ extension $DocumentRouteExtension on DocumentRoute {
 
   String get location => GoRouteData.$location(
         '/document',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $createShopRoute => GoRouteData.$route(
+      path: '/create-shop',
+      factory: $CreateShopRouteExtension._fromState,
+    );
+
+extension $CreateShopRouteExtension on CreateShopRoute {
+  static CreateShopRoute _fromState(GoRouterState state) =>
+      const CreateShopRoute();
+
+  String get location => GoRouteData.$location(
+        '/create-shop',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -5,6 +5,7 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/registration_screen.dart';
 import '../../features/dashboard/presentation/screens/mechanic_dashboard_screen.dart';
 import '../../features/mypage/presentation/screens/my_page_screen.dart';
+import '../../features/dashboard/presentation/screens/create_shop_screen.dart';
 import '../../design_system/molecules/app_scaffold.dart';
 
 part 'routes.g.dart';
@@ -58,6 +59,16 @@ class DocumentRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     // Placeholder until the actual screen is implemented
     return const AppScaffold(body: Center(child: Text('Document Screen')));
+  }
+}
+
+@TypedGoRoute<CreateShopRoute>(path: '/create-shop')
+class CreateShopRoute extends GoRouteData {
+  const CreateShopRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const CreateShopScreen();
   }
 }
 

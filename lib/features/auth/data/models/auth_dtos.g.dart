@@ -87,6 +87,32 @@ Map<String, dynamic> _$$LoginResponseImplToJson(_$LoginResponseImpl instance) =>
       'refreshToken': instance.refreshToken,
     };
 
+_$RefreshTokenRequestImpl _$$RefreshTokenRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RefreshTokenRequestImpl(
+      refreshToken: json['refreshToken'] as String,
+    );
+
+Map<String, dynamic> _$$RefreshTokenRequestImplToJson(
+        _$RefreshTokenRequestImpl instance) =>
+    <String, dynamic>{
+      'refreshToken': instance.refreshToken,
+    };
+
+_$RefreshTokenResponseImpl _$$RefreshTokenResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RefreshTokenResponseImpl(
+      accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String,
+    );
+
+Map<String, dynamic> _$$RefreshTokenResponseImplToJson(
+        _$RefreshTokenResponseImpl instance) =>
+    <String, dynamic>{
+      'accessToken': instance.accessToken,
+      'refreshToken': instance.refreshToken,
+    };
+
 _$SignupRequestImpl _$$SignupRequestImplFromJson(Map<String, dynamic> json) =>
     _$SignupRequestImpl(
       phoneNumber: json['phoneNumber'] as String,

@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../features/auth/data/datasources/auth_local_data_source.dart';
+import 'auth_interceptor.dart';
 
 part 'dio_provider.g.dart';
 
@@ -13,6 +15,8 @@ Dio dio(DioRef ref) {
       receiveTimeout: const Duration(seconds: 10),
     ),
   );
+
+  dio.interceptors.add(AuthInterceptor(ref.watch(authLocalDataSourceProvider)));
 
   dio.interceptors.add(
     InterceptorsWrapper(

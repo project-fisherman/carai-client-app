@@ -6,6 +6,7 @@ import 'package:carai/features/dashboard/presentation/widgets/workshop_card.dart
 import 'package:carai/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/dashboard_view_model.dart';
 
 class MechanicDashboardScreen extends ConsumerStatefulWidget {
   const MechanicDashboardScreen({super.key});
@@ -20,28 +21,6 @@ class _MechanicDashboardScreenState
   final PageController _pageController = PageController(viewportFraction: 0.9);
   int _currentPage = 0;
 
-  final List<Widget> _dashboardCards = [
-    const WorkshopCard(
-      imagePath:
-          'https://lh3.googleusercontent.com/aida-public/AB6AXuADDutPxMTr1hLNgfBEzx-fsQ6rkxICovsTvlYTmv39n3G9NJP7J037G8_03f_5kPdezfMQOlLepmqrVnANcEXNQHDjvUHsgTbhNHHEP-17dFV98J6cDPPaac_lsGvfTg4iSRCyjMFLSHCU5Tos1WXRr-xAqkZ4VmjYtDuBjHvJqDVwmCMhIyghbEQZir8tjVbcvoL9sQqHD-rp7Mb1FEQgqKnQSL9itEeb_KONcGcaZ50VuirDxirVv7duRXzLFATLKsEZGFI7L1Q5',
-      workshopName: 'Downtown Garage',
-      address: '123 Main St, Sector 4',
-      jobCount: 4,
-    ),
-    const WorkshopCard(
-      imagePath:
-          'https://lh3.googleusercontent.com/aida-public/AB6AXuBbIJhitV-Pf6wIgt2FD9p2nR4Zt35fLpRP40sgm93r1nrWYLy985BZRo-NeGFw2mD4o4IZtib_8FR_DGk-lHsQpC_KP1C2DxMA8AmpxhY7XSgkfVPfyybqC3i9LUdOFCJ8ZkQzfbv5hH0pVHHmswuCAtZFDnR5aKPfza8CLwwkAB1kpnlsFDOPEJvbDM1eZ-Ir0CJO44BlHlC0KWP-BSYE7HdUWNxkNbFmkEiEyHQd4J7lOk2sLppEsVHKBt5rYD3ZOVv_IgwsIsbh',
-      workshopName: 'Northside Quick Lube',
-      address: '89 North Ave',
-      jobCount: 1,
-    ),
-    AddWorkshopCard(
-      onTap: () {
-        // Handle add workshop tap
-      },
-    ),
-  ];
-
   @override
   void dispose() {
     _pageController.dispose();
@@ -50,6 +29,8 @@ class _MechanicDashboardScreenState
 
   @override
   Widget build(BuildContext context) {
+    final shopsState = ref.watch(dashboardViewModelProvider);
+
     return AppScaffold(
       appBar: AppNavigationBar(
         leading: Center(child: _buildIconButton(Icons.menu)),
@@ -131,36 +112,77 @@ class _MechanicDashboardScreenState
 
             // Cards List
             Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: _dashboardCards.length,
-                onPageChanged: (int page) {
-                  setState(() {
-                    _currentPage = page;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0,
-                      vertical: 32.0,
+              child: shopsState.when(
+                data: (shops) {
+                  final shopCards = shops
+                      .map(
+                        (shop) => WorkshopCard(
+                          imagePath:
+                              shop.profileImageUrl ??
+                              'https://via.placeholder.com/300',
+                          workshopName: shop.name,
+                          address: shop.address,
+                          jobCount: 0, // Not available in API yet
+                        ),
+                      )
+                      .toList();
+
+                  final allCards = <Widget>[
+                    ...shopCards,
+                    AddWorkshopCard(
+                      onTap: () async {
+                        await const CreateShopRoute().push(context);
+                        // Refresh when back? ViewModel optimistically updates but if we want to force refresh:
+                        // ref.read(dashboardViewModelProvider.notifier).refresh();
+                      },
                     ),
-                    child: _dashboardCards[index],
+                  ];
+
+                  return PageView.builder(
+                    controller: _pageController,
+                    itemCount: allCards.length,
+                    onPageChanged: (int page) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 32.0,
+                        ),
+                        child: allCards[index],
+                      );
+                    },
                   );
                 },
+                loading: () => const Center(
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                ),
+                error: (err, stack) => Center(
+                  child: Text(
+                    'Error: $err',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
             ),
 
             // Pagination Dots
-            Padding(
-              padding: const EdgeInsets.only(bottom: 32.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  _dashboardCards.length,
-                  (index) => _buildDot(isActive: index == _currentPage),
+            shopsState.when(
+              data: (shops) => Padding(
+                padding: const EdgeInsets.only(bottom: 32.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    shops.length + 1, // +1 for Add Card
+                    (index) => _buildDot(isActive: index == _currentPage),
+                  ),
                 ),
               ),
+              loading: () => const SizedBox(),
+              error: (_, __) => const SizedBox(),
             ),
           ],
         ),
