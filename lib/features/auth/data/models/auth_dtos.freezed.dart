@@ -1862,7 +1862,7 @@ PhoneNumberDto _$PhoneNumberDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PhoneNumberDto {
   String get number => throw _privateConstructorUsedError;
-  String get normalizedNumber => throw _privateConstructorUsedError;
+  String? get normalizedNumber => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1876,7 +1876,7 @@ abstract class $PhoneNumberDtoCopyWith<$Res> {
           PhoneNumberDto value, $Res Function(PhoneNumberDto) then) =
       _$PhoneNumberDtoCopyWithImpl<$Res, PhoneNumberDto>;
   @useResult
-  $Res call({String number, String normalizedNumber});
+  $Res call({String number, String? normalizedNumber});
 }
 
 /// @nodoc
@@ -1893,17 +1893,17 @@ class _$PhoneNumberDtoCopyWithImpl<$Res, $Val extends PhoneNumberDto>
   @override
   $Res call({
     Object? number = null,
-    Object? normalizedNumber = null,
+    Object? normalizedNumber = freezed,
   }) {
     return _then(_value.copyWith(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
-      normalizedNumber: null == normalizedNumber
+      normalizedNumber: freezed == normalizedNumber
           ? _value.normalizedNumber
           : normalizedNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -1916,7 +1916,7 @@ abstract class _$$PhoneNumberDtoImplCopyWith<$Res>
       __$$PhoneNumberDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String number, String normalizedNumber});
+  $Res call({String number, String? normalizedNumber});
 }
 
 /// @nodoc
@@ -1931,17 +1931,17 @@ class __$$PhoneNumberDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? number = null,
-    Object? normalizedNumber = null,
+    Object? normalizedNumber = freezed,
   }) {
     return _then(_$PhoneNumberDtoImpl(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
-      normalizedNumber: null == normalizedNumber
+      normalizedNumber: freezed == normalizedNumber
           ? _value.normalizedNumber
           : normalizedNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -1949,8 +1949,7 @@ class __$$PhoneNumberDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PhoneNumberDtoImpl implements _PhoneNumberDto {
-  const _$PhoneNumberDtoImpl(
-      {required this.number, required this.normalizedNumber});
+  const _$PhoneNumberDtoImpl({required this.number, this.normalizedNumber});
 
   factory _$PhoneNumberDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$PhoneNumberDtoImplFromJson(json);
@@ -1958,7 +1957,7 @@ class _$PhoneNumberDtoImpl implements _PhoneNumberDto {
   @override
   final String number;
   @override
-  final String normalizedNumber;
+  final String? normalizedNumber;
 
   @override
   String toString() {
@@ -1997,7 +1996,7 @@ class _$PhoneNumberDtoImpl implements _PhoneNumberDto {
 abstract class _PhoneNumberDto implements PhoneNumberDto {
   const factory _PhoneNumberDto(
       {required final String number,
-      required final String normalizedNumber}) = _$PhoneNumberDtoImpl;
+      final String? normalizedNumber}) = _$PhoneNumberDtoImpl;
 
   factory _PhoneNumberDto.fromJson(Map<String, dynamic> json) =
       _$PhoneNumberDtoImpl.fromJson;
@@ -2005,7 +2004,7 @@ abstract class _PhoneNumberDto implements PhoneNumberDto {
   @override
   String get number;
   @override
-  String get normalizedNumber;
+  String? get normalizedNumber;
   @override
   @JsonKey(ignore: true)
   _$$PhoneNumberDtoImplCopyWith<_$PhoneNumberDtoImpl> get copyWith =>

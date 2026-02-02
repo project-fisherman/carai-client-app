@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../features/auth/data/datasources/auth_local_data_source.dart';
 import '../../features/auth/presentation/providers/auth_notifier.dart';
 import 'routes.dart';
 import '../utils/global_keys.dart';
@@ -9,6 +10,7 @@ part 'router_provider.g.dart';
 @riverpod
 GoRouter router(RouterRef ref) {
   final authState = ref.watch(authNotifierProvider);
+  final authLocalDataSource = ref.watch(authLocalDataSourceProvider);
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -19,7 +21,11 @@ GoRouter router(RouterRef ref) {
         return null; // Handle loading/error appropriately, maybe stay on splash
       }
 
-      final isLoggedIn = authState.value != null;
+      // Check both user state AND token existence to ensure login is fully complete
+      final hasUser = authState.value != null;
+      final hasToken = authLocalDataSource.getAccessToken() != null;
+      final isLoggedIn = hasUser && hasToken;
+
       final isLoggingIn = state.uri.path == const LoginRoute().location;
       final isSigningUp = state.uri.path == const RegistrationRoute().location;
 

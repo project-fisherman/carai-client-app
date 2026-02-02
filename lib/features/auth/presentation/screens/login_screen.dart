@@ -29,30 +29,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  void _onLogin() {
-    ref
+  Future<void> _onLogin() async {
+    // Call login and wait for completion
+    await ref
         .read(loginViewModelProvider.notifier)
         .login(
           phoneNumber: _phoneController.text,
           username: _usernameController.text,
           password: _passwordController.text,
         );
-  }
 
-  void _onSignup() {
-    const RegistrationRoute().push(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Listen to state changes
-    ref.listen(loginViewModelProvider, (previous, next) {
-      next.when(
+    // Check result after login completes
+    final state = ref.read(loginViewModelProvider);
+    if (mounted) {
+      state.when(
         data: (_) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(const SnackBar(content: Text('Login Successful!')));
-          // Navigate to home or dashboard
+          // Navigate only after login is fully complete
           const DashboardRoute().go(context);
         },
         error: (err, stack) {
@@ -65,8 +60,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         },
         loading: () {},
       );
-    });
+    }
+  }
 
+  void _onSignup() {
+    const RegistrationRoute().push(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(loginViewModelProvider);
     final isLoading = state.isLoading;
 

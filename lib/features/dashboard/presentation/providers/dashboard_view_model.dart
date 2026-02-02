@@ -1,5 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../auth/data/datasources/auth_local_data_source.dart';
 import '../../domain/entities/repair_shop.dart';
 import '../../domain/usecases/mechanic_dashboard_use_cases.dart';
 
@@ -9,6 +10,12 @@ part 'dashboard_view_model.g.dart';
 class DashboardViewModel extends _$DashboardViewModel {
   @override
   Future<List<RepairShop>> build() async {
+    // Wait for token to be available before fetching
+    final token = ref.watch(authLocalDataSourceProvider).getAccessToken();
+    if (token == null) {
+      // No token yet, return empty list - will be refreshed after login
+      return [];
+    }
     return _fetchShops();
   }
 

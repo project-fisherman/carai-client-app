@@ -163,7 +163,7 @@ Map<String, dynamic> _$$UserDtoImplToJson(_$UserDtoImpl instance) =>
 _$PhoneNumberDtoImpl _$$PhoneNumberDtoImplFromJson(Map<String, dynamic> json) =>
     _$PhoneNumberDtoImpl(
       number: json['number'] as String,
-      normalizedNumber: json['normalizedNumber'] as String,
+      normalizedNumber: json['normalizedNumber'] as String?,
     );
 
 Map<String, dynamic> _$$PhoneNumberDtoImplToJson(

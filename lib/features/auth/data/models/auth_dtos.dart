@@ -134,7 +134,7 @@ class UserDto with _$UserDto {
 class PhoneNumberDto with _$PhoneNumberDto {
   const factory PhoneNumberDto({
     required String number,
-    required String normalizedNumber,
+    String? normalizedNumber,
   }) = _PhoneNumberDto;
 
   factory PhoneNumberDto.fromJson(Map<String, dynamic> json) =>

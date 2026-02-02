@@ -10,10 +10,10 @@ class AuthInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // Add Authorization header if not already present
-    if (!options.headers.containsKey('Authorization')) {
+    if (!options.headers.containsKey('carai-token')) {
       final token = _authLocalDataSource.getAccessToken();
       if (token != null) {
-        options.headers['Authorization'] = 'Bearer $token';
+        options.headers['carai-token'] = token;
         debugPrint('🔐 [AuthInterceptor] Added AccessToken to ${options.uri}');
       }
     }

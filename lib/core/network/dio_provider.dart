@@ -22,6 +22,7 @@ Dio dio(DioRef ref) {
     InterceptorsWrapper(
       onRequest: (options, handler) {
         debugPrint('🌐 [DIO] Request: ${options.method} ${options.uri}');
+        debugPrint('🌐 [DIO] Headers: ${options.headers}');
         if (options.data != null) {
           debugPrint('🌐 [DIO] Body: ${options.data}');
         }
