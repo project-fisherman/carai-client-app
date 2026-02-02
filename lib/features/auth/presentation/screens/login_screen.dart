@@ -19,7 +19,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _phoneController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isAutoLogin = false;
 
   @override
   void dispose() {
@@ -145,30 +144,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   placeholder: '••••••••',
                   isPassword: true,
                   controller: _passwordController,
-                ),
-                const SizedBox(height: 16),
-
-                // Auto-login Checkbox
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _isAutoLogin,
-                      activeColor: AppColors.primary,
-                      onChanged: (val) {
-                        setState(() {
-                          _isAutoLogin = val ?? false;
-                        });
-                      },
-                    ),
-                    const Text(
-                      'Auto-login',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textDark,
-                      ),
-                    ),
-                  ],
                 ),
                 const SizedBox(height: 32),
 
