@@ -29,13 +29,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _onLogin() async {
+    final phoneNumber = _phoneController.text.trim();
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (phoneNumber.isEmpty || username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            '모든 항목을 입력해주세요.',
+          ), // "Please fill in all fields" in Korean
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     // Call login and wait for completion
     await ref
         .read(loginViewModelProvider.notifier)
         .login(
-          phoneNumber: _phoneController.text,
-          username: _usernameController.text,
-          password: _passwordController.text,
+          phoneNumber: phoneNumber,
+          username: username,
+          password: password,
         );
 
     // Check result after login completes
@@ -45,14 +61,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         data: (_) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(const SnackBar(content: Text('Login Successful!')));
+          ).showSnackBar(const SnackBar(content: Text('로그인 성공!')));
           // Navigate only after login is fully complete
           const DashboardRoute().go(context);
         },
         error: (err, stack) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Login Failed: $err'),
+              content: Text('로그인 실패: $err'),
               backgroundColor: Colors.red,
             ),
           );

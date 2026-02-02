@@ -18,7 +18,13 @@ class AuthRemoteDataSource {
 
   Future<LoginResponse> login({required LoginRequest request}) async {
     final response = await _dio.post('/auth/login', data: request.toJson());
-    return LoginResponse.fromJson(response.data['result']);
+
+    final data = response.data;
+    if (data['success'] != true) {
+      throw Exception(data['message'] ?? 'Login failed');
+    }
+
+    return LoginResponse.fromJson(data['result']);
   }
 
   Future<SendSmsCodeResponse> sendSmsCode({
