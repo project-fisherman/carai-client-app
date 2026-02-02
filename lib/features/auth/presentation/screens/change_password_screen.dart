@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../design_system/atoms/app_button.dart';
-import '../../../../design_system/atoms/app_input.dart';
 import '../../../../design_system/molecules/app_navigation_bar.dart';
 import '../../../../design_system/molecules/app_scaffold.dart';
 import '../../../../design_system/foundations/app_colors.dart';
@@ -21,6 +20,9 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   bool _isLoading = false;
+  bool _showOldPassword = false;
+  bool _showNewPassword = false;
+  bool _showConfirmPassword = false;
 
   @override
   void dispose() {
@@ -90,10 +92,65 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     }
   }
 
+  Widget _buildPasswordField({
+    required String label,
+    required String placeholder,
+    required TextEditingController controller,
+    required bool obscureText,
+    required VoidCallback onToggleVisibility,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(color: Color(0xFF999999), fontSize: 14),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFF2C2C2C),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: TextField(
+            controller: controller,
+            obscureText: obscureText,
+            enabled: !_isLoading,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+            decoration: InputDecoration(
+              hintText: placeholder,
+              hintStyle: const TextStyle(
+                color: Color(0xFF666666),
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 20,
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: const Color(0xFF999999),
+                ),
+                onPressed: onToggleVisibility,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: const Color(0xFF23170f),
       appBar: const AppNavigationBar(title: 'CHANGE PASSWORD'),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -101,30 +158,36 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              AppInput(
-                label: 'Old Password',
-                placeholder: 'Enter old password',
-                isPassword: true,
+              _buildPasswordField(
+                label: 'Current Password',
+                placeholder: 'Enter current password',
                 controller: _oldPasswordController,
-                enabled: !_isLoading,
+                obscureText: !_showOldPassword,
+                onToggleVisibility: () {
+                  setState(() => _showOldPassword = !_showOldPassword);
+                },
               ),
-              const SizedBox(height: 16),
-              AppInput(
+              const SizedBox(height: 24),
+              _buildPasswordField(
                 label: 'New Password',
                 placeholder: 'Enter new password',
-                isPassword: true,
                 controller: _newPasswordController,
-                enabled: !_isLoading,
+                obscureText: !_showNewPassword,
+                onToggleVisibility: () {
+                  setState(() => _showNewPassword = !_showNewPassword);
+                },
               ),
-              const SizedBox(height: 16),
-              AppInput(
+              const SizedBox(height: 24),
+              _buildPasswordField(
                 label: 'Confirm New Password',
                 placeholder: 'Re-enter new password',
-                isPassword: true,
                 controller: _confirmPasswordController,
-                enabled: !_isLoading,
+                obscureText: !_showConfirmPassword,
+                onToggleVisibility: () {
+                  setState(() => _showConfirmPassword = !_showConfirmPassword);
+                },
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 48),
               AppButton(
                 text: 'CHANGE PASSWORD',
                 onPressed: _isLoading ? () {} : _submit,
