@@ -24,3 +24,9 @@ Initiate the testing protocol upon:
 ## 4. Output Requirements
 - Provide the test execution logs.
 - Confirm the successful web build and test pass status before marking the task as complete.
+
+## 5. Test Data (Credentials)
+For login success scenarios during UI testing, use the following credentials:
+- **Username**: `1234`
+- **PhoneNumber**: `01095531034`
+- **Password**: `rnjstns12!`
