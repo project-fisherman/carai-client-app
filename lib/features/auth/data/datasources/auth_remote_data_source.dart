@@ -55,4 +55,8 @@ class AuthRemoteDataSource {
     );
     return RefreshTokenResponse.fromJson(response.data['result']);
   }
+
+  Future<void> changePassword({required ChangePasswordRequest request}) async {
+    await _dio.post('/auth/password/change', data: request.toJson());
+  }
 }

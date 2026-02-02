@@ -140,3 +140,17 @@ class PhoneNumberDto with _$PhoneNumberDto {
   factory PhoneNumberDto.fromJson(Map<String, dynamic> json) =>
       _$PhoneNumberDtoFromJson(json);
 }
+
+@freezed
+class ChangePasswordRequest with _$ChangePasswordRequest {
+  const factory ChangePasswordRequest({
+    required String phoneNumber,
+    required String username,
+    required String oldPassword,
+    required String newPassword,
+    required String newPasswordConfirmation,
+  }) = _ChangePasswordRequest;
+
+  factory ChangePasswordRequest.fromJson(Map<String, dynamic> json) =>
+      _$ChangePasswordRequestFromJson(json);
+}

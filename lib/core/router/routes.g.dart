@@ -14,6 +14,7 @@ List<RouteBase> get $appRoutes => [
       $documentRoute,
       $createShopRoute,
       $successRoute,
+      $changePasswordRoute,
     ];
 
 RouteBase get $dashboardRoute => GoRouteData.$route(
@@ -161,6 +162,29 @@ extension $SuccessRouteExtension on SuccessRoute {
 
   String get location => GoRouteData.$location(
         '/success',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $changePasswordRoute => GoRouteData.$route(
+      path: '/change-password',
+      factory: $ChangePasswordRouteExtension._fromState,
+    );
+
+extension $ChangePasswordRouteExtension on ChangePasswordRoute {
+  static ChangePasswordRoute _fromState(GoRouterState state) =>
+      const ChangePasswordRoute();
+
+  String get location => GoRouteData.$location(
+        '/change-password',
       );
 
   void go(BuildContext context) => context.go(location);

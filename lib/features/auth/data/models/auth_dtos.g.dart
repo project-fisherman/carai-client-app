@@ -172,3 +172,23 @@ Map<String, dynamic> _$$PhoneNumberDtoImplToJson(
       'number': instance.number,
       'normalizedNumber': instance.normalizedNumber,
     };
+
+_$ChangePasswordRequestImpl _$$ChangePasswordRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChangePasswordRequestImpl(
+      phoneNumber: json['phoneNumber'] as String,
+      username: json['username'] as String,
+      oldPassword: json['oldPassword'] as String,
+      newPassword: json['newPassword'] as String,
+      newPasswordConfirmation: json['newPasswordConfirmation'] as String,
+    );
+
+Map<String, dynamic> _$$ChangePasswordRequestImplToJson(
+        _$ChangePasswordRequestImpl instance) =>
+    <String, dynamic>{
+      'phoneNumber': instance.phoneNumber,
+      'username': instance.username,
+      'oldPassword': instance.oldPassword,
+      'newPassword': instance.newPassword,
+      'newPasswordConfirmation': instance.newPasswordConfirmation,
+    };
