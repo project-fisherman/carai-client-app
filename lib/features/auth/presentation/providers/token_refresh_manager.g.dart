@@ -7,15 +7,16 @@ part of 'token_refresh_manager.dart';
 // **************************************************************************
 
 String _$tokenRefreshManagerHash() =>
-    r'2c2d453df96f3ce3d106535efa0cb6eaadd1fe40';
+    r'c5ad2a43f3e6c2431435bf7827cea38d3cab8dd0';
 
 /// This provider is kept alive and refreshes token only on app cold start
-/// (equivalent to Android's onStart)
+/// Returns true if token refresh succeeded or user is not logged in (no refresh needed)
+/// Returns false if token refresh failed
 ///
 /// Copied from [TokenRefreshManager].
 @ProviderFor(TokenRefreshManager)
 final tokenRefreshManagerProvider =
-    NotifierProvider<TokenRefreshManager, void>.internal(
+    AsyncNotifierProvider<TokenRefreshManager, bool>.internal(
   TokenRefreshManager.new,
   name: r'tokenRefreshManagerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -25,6 +26,6 @@ final tokenRefreshManagerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$TokenRefreshManager = Notifier<void>;
+typedef _$TokenRefreshManager = AsyncNotifier<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

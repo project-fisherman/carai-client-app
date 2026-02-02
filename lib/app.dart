@@ -11,9 +11,7 @@ class CaraiApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-
-    // Initialize TokenRefreshManager
-    ref.watch(tokenRefreshManagerProvider);
+    final tokenRefreshState = ref.watch(tokenRefreshManagerProvider);
 
     return MaterialApp.router(
       title: 'Carai Document Scanner',
@@ -28,6 +26,19 @@ class CaraiApp extends ConsumerWidget {
         useMaterial3: true,
       ),
       routerConfig: router,
+      // Show loading overlay during token refresh
+      builder: (context, child) {
+        return tokenRefreshState.when(
+          data: (_) => child ?? const SizedBox(),
+          loading: () => const Scaffold(
+            backgroundColor: AppColors.backgroundDark,
+            body: Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            ),
+          ),
+          error: (_, __) => child ?? const SizedBox(),
+        );
+      },
     );
   }
 }

@@ -1,6 +1,8 @@
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../auth/data/datasources/auth_local_data_source.dart';
+import '../../../auth/presentation/providers/token_refresh_manager.dart';
 import '../../domain/entities/repair_shop.dart';
 import '../../domain/usecases/mechanic_dashboard_use_cases.dart';
 
@@ -10,12 +12,33 @@ part 'dashboard_view_model.g.dart';
 class DashboardViewModel extends _$DashboardViewModel {
   @override
   Future<List<RepairShop>> build() async {
-    // Wait for token to be available before fetching
+    // Wait for token refresh to complete
+    final tokenRefreshState = ref.watch(tokenRefreshManagerProvider);
+
+    // If still loading, wait for it
+    if (tokenRefreshState.isLoading) {
+      debugPrint('⏳ [DashboardViewModel] Waiting for token refresh...');
+      final refreshSuccess = await ref.watch(
+        tokenRefreshManagerProvider.future,
+      );
+      if (!refreshSuccess) {
+        debugPrint(
+          '⚠️ [DashboardViewModel] Token refresh failed, skipping shop fetch',
+        );
+        return [];
+      }
+    }
+
+    // Token is refreshed and valid, check if we have a token
     final token = ref.watch(authLocalDataSourceProvider).getAccessToken();
     if (token == null) {
-      // No token yet, return empty list - will be refreshed after login
+      debugPrint(
+        '⚠️ [DashboardViewModel] No token available, skipping shop fetch',
+      );
       return [];
     }
+
+    debugPrint('✅ [DashboardViewModel] Token ready, fetching shops...');
     return _fetchShops();
   }
 
