@@ -87,6 +87,32 @@ Map<String, dynamic> _$$LoginResponseImplToJson(_$LoginResponseImpl instance) =>
       'refreshToken': instance.refreshToken,
     };
 
+_$RefreshTokenRequestImpl _$$RefreshTokenRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RefreshTokenRequestImpl(
+      refreshToken: json['refreshToken'] as String,
+    );
+
+Map<String, dynamic> _$$RefreshTokenRequestImplToJson(
+        _$RefreshTokenRequestImpl instance) =>
+    <String, dynamic>{
+      'refreshToken': instance.refreshToken,
+    };
+
+_$RefreshTokenResponseImpl _$$RefreshTokenResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RefreshTokenResponseImpl(
+      accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String,
+    );
+
+Map<String, dynamic> _$$RefreshTokenResponseImplToJson(
+        _$RefreshTokenResponseImpl instance) =>
+    <String, dynamic>{
+      'accessToken': instance.accessToken,
+      'refreshToken': instance.refreshToken,
+    };
+
 _$SignupRequestImpl _$$SignupRequestImplFromJson(Map<String, dynamic> json) =>
     _$SignupRequestImpl(
       phoneNumber: json['phoneNumber'] as String,
@@ -137,7 +163,7 @@ Map<String, dynamic> _$$UserDtoImplToJson(_$UserDtoImpl instance) =>
 _$PhoneNumberDtoImpl _$$PhoneNumberDtoImplFromJson(Map<String, dynamic> json) =>
     _$PhoneNumberDtoImpl(
       number: json['number'] as String,
-      normalizedNumber: json['normalizedNumber'] as String,
+      normalizedNumber: json['normalizedNumber'] as String?,
     );
 
 Map<String, dynamic> _$$PhoneNumberDtoImplToJson(
@@ -145,4 +171,24 @@ Map<String, dynamic> _$$PhoneNumberDtoImplToJson(
     <String, dynamic>{
       'number': instance.number,
       'normalizedNumber': instance.normalizedNumber,
+    };
+
+_$ChangePasswordRequestImpl _$$ChangePasswordRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChangePasswordRequestImpl(
+      phoneNumber: json['phoneNumber'] as String,
+      username: json['username'] as String,
+      oldPassword: json['oldPassword'] as String,
+      newPassword: json['newPassword'] as String,
+      newPasswordConfirmation: json['newPasswordConfirmation'] as String,
+    );
+
+Map<String, dynamic> _$$ChangePasswordRequestImplToJson(
+        _$ChangePasswordRequestImpl instance) =>
+    <String, dynamic>{
+      'phoneNumber': instance.phoneNumber,
+      'username': instance.username,
+      'oldPassword': instance.oldPassword,
+      'newPassword': instance.newPassword,
+      'newPasswordConfirmation': instance.newPasswordConfirmation,
     };

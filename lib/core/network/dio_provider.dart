@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../features/auth/data/datasources/auth_local_data_source.dart';
+import 'auth_interceptor.dart';
 
 part 'dio_provider.g.dart';
 
@@ -14,10 +16,13 @@ Dio dio(DioRef ref) {
     ),
   );
 
+  dio.interceptors.add(AuthInterceptor(ref.watch(authLocalDataSourceProvider)));
+
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
         debugPrint('🌐 [DIO] Request: ${options.method} ${options.uri}');
+        debugPrint('🌐 [DIO] Headers: ${options.headers}');
         if (options.data != null) {
           debugPrint('🌐 [DIO] Body: ${options.data}');
         }

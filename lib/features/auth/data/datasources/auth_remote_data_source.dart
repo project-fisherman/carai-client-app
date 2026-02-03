@@ -18,7 +18,13 @@ class AuthRemoteDataSource {
 
   Future<LoginResponse> login({required LoginRequest request}) async {
     final response = await _dio.post('/auth/login', data: request.toJson());
-    return LoginResponse.fromJson(response.data['result']);
+
+    final data = response.data;
+    if (data['success'] != true) {
+      throw Exception(data['message'] ?? 'Login failed');
+    }
+
+    return LoginResponse.fromJson(data['result']);
   }
 
   Future<SendSmsCodeResponse> sendSmsCode({
@@ -44,5 +50,19 @@ class AuthRemoteDataSource {
   Future<SignupResponse> signup({required SignupRequest request}) async {
     final response = await _dio.post('/auth/signup', data: request.toJson());
     return SignupResponse.fromJson(response.data['result']);
+  }
+
+  Future<RefreshTokenResponse> refreshToken({
+    required String refreshToken,
+  }) async {
+    final response = await _dio.post(
+      '/auth/token/refresh',
+      data: RefreshTokenRequest(refreshToken: refreshToken).toJson(),
+    );
+    return RefreshTokenResponse.fromJson(response.data['result']);
+  }
+
+  Future<void> changePassword({required ChangePasswordRequest request}) async {
+    await _dio.post('/auth/password/change', data: request.toJson());
   }
 }

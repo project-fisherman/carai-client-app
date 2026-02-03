@@ -9,6 +9,7 @@ class AppInput extends StatelessWidget {
   final Widget? suffixIcon;
   final TextInputType? keyboardType;
   final bool enabled;
+  final bool isDarkMode;
 
   const AppInput({
     super.key,
@@ -19,12 +20,19 @@ class AppInput extends StatelessWidget {
     this.suffixIcon,
     this.keyboardType,
     this.enabled = true,
+    this.isDarkMode = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    const textColor = AppColors.textDark;
-    const backgroundColor = AppColors.inputBackgroundLight;
+    // Color scheme based on theme
+    final textColor = isDarkMode ? Colors.white : AppColors.textDark;
+    final backgroundColor = isDarkMode
+        ? const Color(0xFF2C2C2C)
+        : AppColors.inputBackgroundLight;
+    final labelColor = isDarkMode
+        ? const Color(0xFF999999)
+        : AppColors.textDark;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,8 +41,8 @@ class AppInput extends StatelessWidget {
           padding: const EdgeInsets.only(left: 4.0, bottom: 8.0),
           child: Text(
             label,
-            style: const TextStyle(
-              color: textColor,
+            style: TextStyle(
+              color: labelColor,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -44,13 +52,15 @@ class AppInput extends StatelessWidget {
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 2,
-                offset: const Offset(0, 1),
-              ),
-            ],
+            boxShadow: isDarkMode
+                ? []
+                : [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
           ),
           child: TextField(
             enabled: enabled,

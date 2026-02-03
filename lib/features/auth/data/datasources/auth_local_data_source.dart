@@ -7,7 +7,9 @@ part 'auth_local_data_source.g.dart';
 
 @riverpod
 AuthLocalDataSource authLocalDataSource(AuthLocalDataSourceRef ref) {
-  return AuthLocalDataSource(Hive.box('authBox')); // Box should be opened before accessing
+  return AuthLocalDataSource(
+    Hive.box('authBox'),
+  ); // Box should be opened before accessing
 }
 
 class AuthLocalDataSource {
@@ -18,6 +20,27 @@ class AuthLocalDataSource {
 
   Future<void> saveUser(UserModel user) async {
     await _box.put(_userKey, jsonEncode(user.toJson()));
+  }
+
+  Future<void> saveTokens({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    await _box.put('access_token', accessToken);
+    await _box.put('refresh_token', refreshToken);
+  }
+
+  String? getAccessToken() {
+    return _box.get('access_token');
+  }
+
+  String? getRefreshToken() {
+    return _box.get('refresh_token');
+  }
+
+  Future<void> clearTokens() async {
+    await _box.delete('access_token');
+    await _box.delete('refresh_token');
   }
 
   Future<UserModel?> getUser() async {

@@ -24,4 +24,11 @@ abstract class AuthRepository {
     required String password,
     required String verificationToken,
   });
+  Future<Either<Failure, AuthToken>> refreshToken();
+  Future<Either<Failure, void>> changePassword({
+    required String phoneNumber,
+    required String username,
+    required String oldPassword,
+    required String newPassword,
+  });
 }

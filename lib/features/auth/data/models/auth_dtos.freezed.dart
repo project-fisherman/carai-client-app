@@ -985,6 +985,305 @@ abstract class _LoginResponse implements LoginResponse {
       throw _privateConstructorUsedError;
 }
 
+RefreshTokenRequest _$RefreshTokenRequestFromJson(Map<String, dynamic> json) {
+  return _RefreshTokenRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RefreshTokenRequest {
+  String get refreshToken => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RefreshTokenRequestCopyWith<RefreshTokenRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RefreshTokenRequestCopyWith<$Res> {
+  factory $RefreshTokenRequestCopyWith(
+          RefreshTokenRequest value, $Res Function(RefreshTokenRequest) then) =
+      _$RefreshTokenRequestCopyWithImpl<$Res, RefreshTokenRequest>;
+  @useResult
+  $Res call({String refreshToken});
+}
+
+/// @nodoc
+class _$RefreshTokenRequestCopyWithImpl<$Res, $Val extends RefreshTokenRequest>
+    implements $RefreshTokenRequestCopyWith<$Res> {
+  _$RefreshTokenRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? refreshToken = null,
+  }) {
+    return _then(_value.copyWith(
+      refreshToken: null == refreshToken
+          ? _value.refreshToken
+          : refreshToken // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RefreshTokenRequestImplCopyWith<$Res>
+    implements $RefreshTokenRequestCopyWith<$Res> {
+  factory _$$RefreshTokenRequestImplCopyWith(_$RefreshTokenRequestImpl value,
+          $Res Function(_$RefreshTokenRequestImpl) then) =
+      __$$RefreshTokenRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String refreshToken});
+}
+
+/// @nodoc
+class __$$RefreshTokenRequestImplCopyWithImpl<$Res>
+    extends _$RefreshTokenRequestCopyWithImpl<$Res, _$RefreshTokenRequestImpl>
+    implements _$$RefreshTokenRequestImplCopyWith<$Res> {
+  __$$RefreshTokenRequestImplCopyWithImpl(_$RefreshTokenRequestImpl _value,
+      $Res Function(_$RefreshTokenRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? refreshToken = null,
+  }) {
+    return _then(_$RefreshTokenRequestImpl(
+      refreshToken: null == refreshToken
+          ? _value.refreshToken
+          : refreshToken // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RefreshTokenRequestImpl implements _RefreshTokenRequest {
+  const _$RefreshTokenRequestImpl({required this.refreshToken});
+
+  factory _$RefreshTokenRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RefreshTokenRequestImplFromJson(json);
+
+  @override
+  final String refreshToken;
+
+  @override
+  String toString() {
+    return 'RefreshTokenRequest(refreshToken: $refreshToken)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RefreshTokenRequestImpl &&
+            (identical(other.refreshToken, refreshToken) ||
+                other.refreshToken == refreshToken));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, refreshToken);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RefreshTokenRequestImplCopyWith<_$RefreshTokenRequestImpl> get copyWith =>
+      __$$RefreshTokenRequestImplCopyWithImpl<_$RefreshTokenRequestImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RefreshTokenRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RefreshTokenRequest implements RefreshTokenRequest {
+  const factory _RefreshTokenRequest({required final String refreshToken}) =
+      _$RefreshTokenRequestImpl;
+
+  factory _RefreshTokenRequest.fromJson(Map<String, dynamic> json) =
+      _$RefreshTokenRequestImpl.fromJson;
+
+  @override
+  String get refreshToken;
+  @override
+  @JsonKey(ignore: true)
+  _$$RefreshTokenRequestImplCopyWith<_$RefreshTokenRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RefreshTokenResponse _$RefreshTokenResponseFromJson(Map<String, dynamic> json) {
+  return _RefreshTokenResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RefreshTokenResponse {
+  String get accessToken => throw _privateConstructorUsedError;
+  String get refreshToken => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RefreshTokenResponseCopyWith<RefreshTokenResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RefreshTokenResponseCopyWith<$Res> {
+  factory $RefreshTokenResponseCopyWith(RefreshTokenResponse value,
+          $Res Function(RefreshTokenResponse) then) =
+      _$RefreshTokenResponseCopyWithImpl<$Res, RefreshTokenResponse>;
+  @useResult
+  $Res call({String accessToken, String refreshToken});
+}
+
+/// @nodoc
+class _$RefreshTokenResponseCopyWithImpl<$Res,
+        $Val extends RefreshTokenResponse>
+    implements $RefreshTokenResponseCopyWith<$Res> {
+  _$RefreshTokenResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? accessToken = null,
+    Object? refreshToken = null,
+  }) {
+    return _then(_value.copyWith(
+      accessToken: null == accessToken
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      refreshToken: null == refreshToken
+          ? _value.refreshToken
+          : refreshToken // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RefreshTokenResponseImplCopyWith<$Res>
+    implements $RefreshTokenResponseCopyWith<$Res> {
+  factory _$$RefreshTokenResponseImplCopyWith(_$RefreshTokenResponseImpl value,
+          $Res Function(_$RefreshTokenResponseImpl) then) =
+      __$$RefreshTokenResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String accessToken, String refreshToken});
+}
+
+/// @nodoc
+class __$$RefreshTokenResponseImplCopyWithImpl<$Res>
+    extends _$RefreshTokenResponseCopyWithImpl<$Res, _$RefreshTokenResponseImpl>
+    implements _$$RefreshTokenResponseImplCopyWith<$Res> {
+  __$$RefreshTokenResponseImplCopyWithImpl(_$RefreshTokenResponseImpl _value,
+      $Res Function(_$RefreshTokenResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? accessToken = null,
+    Object? refreshToken = null,
+  }) {
+    return _then(_$RefreshTokenResponseImpl(
+      accessToken: null == accessToken
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      refreshToken: null == refreshToken
+          ? _value.refreshToken
+          : refreshToken // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RefreshTokenResponseImpl implements _RefreshTokenResponse {
+  const _$RefreshTokenResponseImpl(
+      {required this.accessToken, required this.refreshToken});
+
+  factory _$RefreshTokenResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RefreshTokenResponseImplFromJson(json);
+
+  @override
+  final String accessToken;
+  @override
+  final String refreshToken;
+
+  @override
+  String toString() {
+    return 'RefreshTokenResponse(accessToken: $accessToken, refreshToken: $refreshToken)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RefreshTokenResponseImpl &&
+            (identical(other.accessToken, accessToken) ||
+                other.accessToken == accessToken) &&
+            (identical(other.refreshToken, refreshToken) ||
+                other.refreshToken == refreshToken));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, accessToken, refreshToken);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RefreshTokenResponseImplCopyWith<_$RefreshTokenResponseImpl>
+      get copyWith =>
+          __$$RefreshTokenResponseImplCopyWithImpl<_$RefreshTokenResponseImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RefreshTokenResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RefreshTokenResponse implements RefreshTokenResponse {
+  const factory _RefreshTokenResponse(
+      {required final String accessToken,
+      required final String refreshToken}) = _$RefreshTokenResponseImpl;
+
+  factory _RefreshTokenResponse.fromJson(Map<String, dynamic> json) =
+      _$RefreshTokenResponseImpl.fromJson;
+
+  @override
+  String get accessToken;
+  @override
+  String get refreshToken;
+  @override
+  @JsonKey(ignore: true)
+  _$$RefreshTokenResponseImplCopyWith<_$RefreshTokenResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 SignupRequest _$SignupRequestFromJson(Map<String, dynamic> json) {
   return _SignupRequest.fromJson(json);
 }
@@ -1563,7 +1862,7 @@ PhoneNumberDto _$PhoneNumberDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PhoneNumberDto {
   String get number => throw _privateConstructorUsedError;
-  String get normalizedNumber => throw _privateConstructorUsedError;
+  String? get normalizedNumber => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1577,7 +1876,7 @@ abstract class $PhoneNumberDtoCopyWith<$Res> {
           PhoneNumberDto value, $Res Function(PhoneNumberDto) then) =
       _$PhoneNumberDtoCopyWithImpl<$Res, PhoneNumberDto>;
   @useResult
-  $Res call({String number, String normalizedNumber});
+  $Res call({String number, String? normalizedNumber});
 }
 
 /// @nodoc
@@ -1594,17 +1893,17 @@ class _$PhoneNumberDtoCopyWithImpl<$Res, $Val extends PhoneNumberDto>
   @override
   $Res call({
     Object? number = null,
-    Object? normalizedNumber = null,
+    Object? normalizedNumber = freezed,
   }) {
     return _then(_value.copyWith(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
-      normalizedNumber: null == normalizedNumber
+      normalizedNumber: freezed == normalizedNumber
           ? _value.normalizedNumber
           : normalizedNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -1617,7 +1916,7 @@ abstract class _$$PhoneNumberDtoImplCopyWith<$Res>
       __$$PhoneNumberDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String number, String normalizedNumber});
+  $Res call({String number, String? normalizedNumber});
 }
 
 /// @nodoc
@@ -1632,17 +1931,17 @@ class __$$PhoneNumberDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? number = null,
-    Object? normalizedNumber = null,
+    Object? normalizedNumber = freezed,
   }) {
     return _then(_$PhoneNumberDtoImpl(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
-      normalizedNumber: null == normalizedNumber
+      normalizedNumber: freezed == normalizedNumber
           ? _value.normalizedNumber
           : normalizedNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -1650,8 +1949,7 @@ class __$$PhoneNumberDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PhoneNumberDtoImpl implements _PhoneNumberDto {
-  const _$PhoneNumberDtoImpl(
-      {required this.number, required this.normalizedNumber});
+  const _$PhoneNumberDtoImpl({required this.number, this.normalizedNumber});
 
   factory _$PhoneNumberDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$PhoneNumberDtoImplFromJson(json);
@@ -1659,7 +1957,7 @@ class _$PhoneNumberDtoImpl implements _PhoneNumberDto {
   @override
   final String number;
   @override
-  final String normalizedNumber;
+  final String? normalizedNumber;
 
   @override
   String toString() {
@@ -1698,7 +1996,7 @@ class _$PhoneNumberDtoImpl implements _PhoneNumberDto {
 abstract class _PhoneNumberDto implements PhoneNumberDto {
   const factory _PhoneNumberDto(
       {required final String number,
-      required final String normalizedNumber}) = _$PhoneNumberDtoImpl;
+      final String? normalizedNumber}) = _$PhoneNumberDtoImpl;
 
   factory _PhoneNumberDto.fromJson(Map<String, dynamic> json) =
       _$PhoneNumberDtoImpl.fromJson;
@@ -1706,9 +2004,242 @@ abstract class _PhoneNumberDto implements PhoneNumberDto {
   @override
   String get number;
   @override
-  String get normalizedNumber;
+  String? get normalizedNumber;
   @override
   @JsonKey(ignore: true)
   _$$PhoneNumberDtoImplCopyWith<_$PhoneNumberDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+ChangePasswordRequest _$ChangePasswordRequestFromJson(
+    Map<String, dynamic> json) {
+  return _ChangePasswordRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChangePasswordRequest {
+  String get phoneNumber => throw _privateConstructorUsedError;
+  String get username => throw _privateConstructorUsedError;
+  String get oldPassword => throw _privateConstructorUsedError;
+  String get newPassword => throw _privateConstructorUsedError;
+  String get newPasswordConfirmation => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ChangePasswordRequestCopyWith<ChangePasswordRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChangePasswordRequestCopyWith<$Res> {
+  factory $ChangePasswordRequestCopyWith(ChangePasswordRequest value,
+          $Res Function(ChangePasswordRequest) then) =
+      _$ChangePasswordRequestCopyWithImpl<$Res, ChangePasswordRequest>;
+  @useResult
+  $Res call(
+      {String phoneNumber,
+      String username,
+      String oldPassword,
+      String newPassword,
+      String newPasswordConfirmation});
+}
+
+/// @nodoc
+class _$ChangePasswordRequestCopyWithImpl<$Res,
+        $Val extends ChangePasswordRequest>
+    implements $ChangePasswordRequestCopyWith<$Res> {
+  _$ChangePasswordRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? phoneNumber = null,
+    Object? username = null,
+    Object? oldPassword = null,
+    Object? newPassword = null,
+    Object? newPasswordConfirmation = null,
+  }) {
+    return _then(_value.copyWith(
+      phoneNumber: null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      oldPassword: null == oldPassword
+          ? _value.oldPassword
+          : oldPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      newPassword: null == newPassword
+          ? _value.newPassword
+          : newPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      newPasswordConfirmation: null == newPasswordConfirmation
+          ? _value.newPasswordConfirmation
+          : newPasswordConfirmation // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChangePasswordRequestImplCopyWith<$Res>
+    implements $ChangePasswordRequestCopyWith<$Res> {
+  factory _$$ChangePasswordRequestImplCopyWith(
+          _$ChangePasswordRequestImpl value,
+          $Res Function(_$ChangePasswordRequestImpl) then) =
+      __$$ChangePasswordRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String phoneNumber,
+      String username,
+      String oldPassword,
+      String newPassword,
+      String newPasswordConfirmation});
+}
+
+/// @nodoc
+class __$$ChangePasswordRequestImplCopyWithImpl<$Res>
+    extends _$ChangePasswordRequestCopyWithImpl<$Res,
+        _$ChangePasswordRequestImpl>
+    implements _$$ChangePasswordRequestImplCopyWith<$Res> {
+  __$$ChangePasswordRequestImplCopyWithImpl(_$ChangePasswordRequestImpl _value,
+      $Res Function(_$ChangePasswordRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? phoneNumber = null,
+    Object? username = null,
+    Object? oldPassword = null,
+    Object? newPassword = null,
+    Object? newPasswordConfirmation = null,
+  }) {
+    return _then(_$ChangePasswordRequestImpl(
+      phoneNumber: null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      oldPassword: null == oldPassword
+          ? _value.oldPassword
+          : oldPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      newPassword: null == newPassword
+          ? _value.newPassword
+          : newPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      newPasswordConfirmation: null == newPasswordConfirmation
+          ? _value.newPasswordConfirmation
+          : newPasswordConfirmation // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChangePasswordRequestImpl implements _ChangePasswordRequest {
+  const _$ChangePasswordRequestImpl(
+      {required this.phoneNumber,
+      required this.username,
+      required this.oldPassword,
+      required this.newPassword,
+      required this.newPasswordConfirmation});
+
+  factory _$ChangePasswordRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChangePasswordRequestImplFromJson(json);
+
+  @override
+  final String phoneNumber;
+  @override
+  final String username;
+  @override
+  final String oldPassword;
+  @override
+  final String newPassword;
+  @override
+  final String newPasswordConfirmation;
+
+  @override
+  String toString() {
+    return 'ChangePasswordRequest(phoneNumber: $phoneNumber, username: $username, oldPassword: $oldPassword, newPassword: $newPassword, newPasswordConfirmation: $newPasswordConfirmation)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChangePasswordRequestImpl &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.oldPassword, oldPassword) ||
+                other.oldPassword == oldPassword) &&
+            (identical(other.newPassword, newPassword) ||
+                other.newPassword == newPassword) &&
+            (identical(
+                    other.newPasswordConfirmation, newPasswordConfirmation) ||
+                other.newPasswordConfirmation == newPasswordConfirmation));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, phoneNumber, username,
+      oldPassword, newPassword, newPasswordConfirmation);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChangePasswordRequestImplCopyWith<_$ChangePasswordRequestImpl>
+      get copyWith => __$$ChangePasswordRequestImplCopyWithImpl<
+          _$ChangePasswordRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChangePasswordRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChangePasswordRequest implements ChangePasswordRequest {
+  const factory _ChangePasswordRequest(
+          {required final String phoneNumber,
+          required final String username,
+          required final String oldPassword,
+          required final String newPassword,
+          required final String newPasswordConfirmation}) =
+      _$ChangePasswordRequestImpl;
+
+  factory _ChangePasswordRequest.fromJson(Map<String, dynamic> json) =
+      _$ChangePasswordRequestImpl.fromJson;
+
+  @override
+  String get phoneNumber;
+  @override
+  String get username;
+  @override
+  String get oldPassword;
+  @override
+  String get newPassword;
+  @override
+  String get newPasswordConfirmation;
+  @override
+  @JsonKey(ignore: true)
+  _$$ChangePasswordRequestImplCopyWith<_$ChangePasswordRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

@@ -42,6 +42,10 @@ class AuthRepositoryImpl implements AuthRepository {
       // Save user and tokens
       final user = response.user.toDomain();
       await _localDataSource.saveUser(UserModel.fromEntity(user));
+      await _localDataSource.saveTokens(
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+      );
       return Right(user);
     } catch (e) {
       // Ideally handle DioException to map to specific failures
@@ -53,6 +57,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, void>> logout() async {
     try {
       await _localDataSource.deleteUser();
+      await _localDataSource.clearTokens();
       return const Right(null);
     } catch (e) {
       return Left(UnknownFailure(e.toString()));
@@ -129,12 +134,74 @@ class AuthRepositoryImpl implements AuthRepository {
           phoneNumberVerificationToken: verificationToken,
         ),
       );
+
+      await _localDataSource.saveTokens(
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+      );
+
       return Right(
         AuthToken(
           accessToken: response.accessToken,
           refreshToken: response.refreshToken,
         ),
       );
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthToken>> refreshToken() async {
+    try {
+      final refreshToken = _localDataSource.getRefreshToken();
+      if (refreshToken == null) {
+        return const Left(CacheFailure("No refresh token found"));
+      }
+
+      // We need to implement refreshToken in RemoteDataSource first, or just call API directly if needed but better to stick to pattern.
+      // I will assume RemoteDataSource needs update too, but for now I'll create the method call here and fixing RemoteDataSource next.
+      // Wait, I should verify RemoteDataSource first.
+      // I'll leave this commented out or implement it assuming I'll fix RemoteDataSource immediately.
+      // The instruction said "Implement refreshToken using /auth/token/refresh API".
+      final response = await _remoteDataSource.refreshToken(
+        refreshToken: refreshToken,
+      );
+
+      await _localDataSource.saveTokens(
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+      );
+
+      return Right(
+        AuthToken(
+          accessToken: response.accessToken,
+          refreshToken: response.refreshToken,
+        ),
+      );
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> changePassword({
+    required String phoneNumber,
+    required String username,
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    try {
+      await _remoteDataSource.changePassword(
+        request: ChangePasswordRequest(
+          phoneNumber: phoneNumber,
+          username: username,
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+          newPasswordConfirmation: newPassword,
+        ),
+      );
+      return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

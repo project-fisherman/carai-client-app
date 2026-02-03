@@ -19,7 +19,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _phoneController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isAutoLogin = false;
 
   @override
   void dispose() {
@@ -29,14 +28,54 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
-  void _onLogin() {
-    ref
+  Future<void> _onLogin() async {
+    final phoneNumber = _phoneController.text.trim();
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (phoneNumber.isEmpty || username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            '모든 항목을 입력해주세요.',
+          ), // "Please fill in all fields" in Korean
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Call login and wait for completion
+    await ref
         .read(loginViewModelProvider.notifier)
         .login(
-          phoneNumber: _phoneController.text,
-          username: _usernameController.text,
-          password: _passwordController.text,
+          phoneNumber: phoneNumber,
+          username: username,
+          password: password,
         );
+
+    // Check result after login completes
+    final state = ref.read(loginViewModelProvider);
+    if (mounted) {
+      state.when(
+        data: (_) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('로그인 성공!')));
+          // Navigate only after login is fully complete
+          const DashboardRoute().go(context);
+        },
+        error: (err, stack) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('로그인 실패: $err'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        },
+        loading: () {},
+      );
+    }
   }
 
   void _onSignup() {
@@ -45,33 +84,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Listen to state changes
-    ref.listen(loginViewModelProvider, (previous, next) {
-      next.when(
-        data: (_) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('Login Successful!')));
-          // Navigate to home or dashboard
-          const DashboardRoute().go(context);
-        },
-        error: (err, stack) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Login Failed: $err'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        },
-        loading: () {},
-      );
-    });
-
     final state = ref.watch(loginViewModelProvider);
     final isLoading = state.isLoading;
 
     return AppScaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -103,7 +120,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textDark,
+                    color: Colors.white,
                     letterSpacing: -0.5,
                   ),
                   textAlign: TextAlign.center,
@@ -114,7 +131,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.textSecondary,
+                    color: Color(0xFF999999),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -126,6 +143,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   placeholder: '(555) 000-0000',
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
+                  isDarkMode: true,
                   suffixIcon: const Icon(
                     Icons.smartphone,
                     color: AppColors.placeholder,
@@ -136,6 +154,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   label: 'Username',
                   placeholder: 'Enter username',
                   controller: _usernameController,
+                  isDarkMode: true,
                 ),
                 const SizedBox(height: 16),
                 AppInput(
@@ -143,30 +162,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   placeholder: '••••••••',
                   isPassword: true,
                   controller: _passwordController,
-                ),
-                const SizedBox(height: 16),
-
-                // Auto-login Checkbox
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _isAutoLogin,
-                      activeColor: AppColors.primary,
-                      onChanged: (val) {
-                        setState(() {
-                          _isAutoLogin = val ?? false;
-                        });
-                      },
-                    ),
-                    const Text(
-                      'Auto-login',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textDark,
-                      ),
-                    ),
-                  ],
+                  isDarkMode: true,
                 ),
                 const SizedBox(height: 32),
 

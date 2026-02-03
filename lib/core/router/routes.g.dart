@@ -12,7 +12,9 @@ List<RouteBase> get $appRoutes => [
       $registrationRoute,
       $myPageRoute,
       $documentRoute,
+      $createShopRoute,
       $successRoute,
+      $changePasswordRoute,
     ];
 
 RouteBase get $dashboardRoute => GoRouteData.$route(
@@ -127,6 +129,29 @@ extension $DocumentRouteExtension on DocumentRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+RouteBase get $createShopRoute => GoRouteData.$route(
+      path: '/create-shop',
+      factory: $CreateShopRouteExtension._fromState,
+    );
+
+extension $CreateShopRouteExtension on CreateShopRoute {
+  static CreateShopRoute _fromState(GoRouterState state) =>
+      const CreateShopRoute();
+
+  String get location => GoRouteData.$location(
+        '/create-shop',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 RouteBase get $successRoute => GoRouteData.$route(
       path: '/success',
       factory: $SuccessRouteExtension._fromState,
@@ -137,6 +162,29 @@ extension $SuccessRouteExtension on SuccessRoute {
 
   String get location => GoRouteData.$location(
         '/success',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $changePasswordRoute => GoRouteData.$route(
+      path: '/change-password',
+      factory: $ChangePasswordRouteExtension._fromState,
+    );
+
+extension $ChangePasswordRouteExtension on ChangePasswordRoute {
+  static ChangePasswordRoute _fromState(GoRouterState state) =>
+      const ChangePasswordRoute();
+
+  String get location => GoRouteData.$location(
+        '/change-password',
       );
 
   void go(BuildContext context) => context.go(location);
