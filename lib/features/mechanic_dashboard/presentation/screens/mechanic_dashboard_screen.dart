@@ -1,6 +1,7 @@
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
 import '../widgets/mechanic_dashboard_drawer.dart';
 import '../widgets/service_queue_card.dart';
@@ -104,7 +105,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'Service Queue',
                   style: TextStyle(
@@ -116,7 +117,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Oct 24, 2023', // Hardcoded date matching design
+                  DateFormat('MMM dd, yyyy').format(DateTime.now()),
                   style: TextStyle(
                     color: Color(0xFFA8A29E), // text-stone-400
                     fontSize: 14,
