@@ -18,8 +18,8 @@ class MechanicDashboardScreen extends ConsumerWidget {
     );
 
     return AppScaffold(
-      // Pass drawer to AppScaffold
-      drawer: const MechanicDashboardDrawer(),
+      // Pass endDrawer to AppScaffold to make it appear from right
+      endDrawer: const MechanicDashboardDrawer(),
       backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
         child: Column(
@@ -92,48 +92,52 @@ class MechanicDashboardScreen extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              // Hamburger Menu Button (Manual implementations usually needed if custom header)
-              // But since we use Scaffold drawer, we can use IconButton that calls Scaffold.of(context).openDrawer()
-              Builder(
-                builder: (context) {
-                  return IconButton(
-                    icon: const Icon(Icons.menu, color: Colors.white, size: 28),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  );
-                },
-              ),
-              const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Service Queue',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800, // extrabold
-                      letterSpacing: -0.5, // tracking-tight
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Oct 24, 2023', // Hardcoded date matching design
-                    style: TextStyle(
-                      color: Color(0xFFA8A29E), // text-stone-400
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          // Back Button (Left)
+          IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white, size: 28),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
 
-          // No person/add buttons as requested
+          // Title (Center)
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Text(
+                  'Service Queue',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800, // extrabold
+                    letterSpacing: -0.5, // tracking-tight
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Oct 24, 2023', // Hardcoded date matching design
+                  style: TextStyle(
+                    color: Color(0xFFA8A29E), // text-stone-400
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Hamburger Menu Button (Right)
+          Builder(
+            builder: (context) {
+              return IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white, size: 28),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
+            },
+          ),
         ],
       ),
     );
