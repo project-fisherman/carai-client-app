@@ -21,8 +21,9 @@ Dio dio(DioRef ref) {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
-        debugPrint('🌐 [DIO] Request: ${options.method} ${options.uri}');
-        debugPrint('🌐 [DIO] Headers: ${options.headers}');
+        debugPrint(
+          '🌐 [DIO] Request: ${options.method} ${options.uri} Headers: ${options.headers}',
+        );
         if (options.data != null) {
           debugPrint('🌐 [DIO] Body: ${options.data}');
         }
@@ -30,7 +31,7 @@ Dio dio(DioRef ref) {
       },
       onResponse: (response, handler) {
         debugPrint(
-          '✅ [DIO] Response [${response.statusCode}]: ${response.data}',
+          '✅ [DIO] Response [${response.statusCode}] ${response.requestOptions.method} ${response.requestOptions.uri}: ${response.data}',
         );
         return handler.next(response);
       },
