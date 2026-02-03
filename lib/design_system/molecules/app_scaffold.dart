@@ -8,6 +8,8 @@ class AppScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
+  final Widget? drawer;
+  final Widget? endDrawer;
 
   const AppScaffold({
     super.key,
@@ -17,6 +19,8 @@ class AppScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
+    this.drawer,
+    this.endDrawer,
   });
 
   @override
@@ -51,6 +55,8 @@ class AppScaffold extends StatelessWidget {
         bottomNavigationBar: bottomNavigationBar,
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,
+        drawer: drawer,
+        endDrawer: endDrawer,
       ),
     );
   }

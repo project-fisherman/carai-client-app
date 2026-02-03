@@ -3,21 +3,23 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/registration_screen.dart';
-import '../../features/dashboard/presentation/screens/mechanic_dashboard_screen.dart';
+import '../../features/dashboard/presentation/screens/main_screen.dart';
 import '../../features/mypage/presentation/screens/my_page_screen.dart';
 import '../../features/dashboard/presentation/screens/create_shop_screen.dart';
+
 import '../../features/auth/presentation/screens/change_password_screen.dart';
+import '../../features/mechanic_dashboard/presentation/screens/mechanic_dashboard_screen.dart';
 import '../../design_system/molecules/app_scaffold.dart';
 
 part 'routes.g.dart';
 
-@TypedGoRoute<DashboardRoute>(path: '/')
-class DashboardRoute extends GoRouteData {
-  const DashboardRoute();
+@TypedGoRoute<MainRoute>(path: '/')
+class MainRoute extends GoRouteData {
+  const MainRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const MechanicDashboardScreen();
+    return const MainScreen();
   }
 }
 
@@ -52,14 +54,15 @@ class MyPageRoute extends GoRouteData {
 }
 
 // Keeping other existing routes as placeholders
-@TypedGoRoute<DocumentRoute>(path: '/document')
+@TypedGoRoute<DocumentRoute>(path: '/document/:shopId')
 class DocumentRoute extends GoRouteData {
-  const DocumentRoute();
+  const DocumentRoute({required this.shopId});
+
+  final String shopId;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    // Placeholder until the actual screen is implemented
-    return const AppScaffold(body: Center(child: Text('Document Screen')));
+    return MechanicDashboardScreen(shopId: int.parse(shopId));
   }
 }
 
@@ -90,5 +93,15 @@ class ChangePasswordRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const ChangePasswordScreen();
+  }
+}
+@TypedGoRoute<MechanicDashboardRoute>(path: '/mechanic-dashboard/:shopId')
+class MechanicDashboardRoute extends GoRouteData {
+  final int shopId;
+  const MechanicDashboardRoute({required this.shopId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return MechanicDashboardScreen(shopId: shopId);
   }
 }

@@ -68,7 +68,6 @@ macos/Pods/
 # -----------------------
 # Web
 # -----------------------
-lib/generated_plugin_registrant.dart
 
 # -----------------------
 # IDE & System (Mac/Windows)

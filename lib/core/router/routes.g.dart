@@ -7,7 +7,7 @@ part of 'routes.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $dashboardRoute,
+      $mainRoute,
       $loginRoute,
       $registrationRoute,
       $myPageRoute,
@@ -15,16 +15,16 @@ List<RouteBase> get $appRoutes => [
       $createShopRoute,
       $successRoute,
       $changePasswordRoute,
+      $mechanicDashboardRoute,
     ];
 
-RouteBase get $dashboardRoute => GoRouteData.$route(
+RouteBase get $mainRoute => GoRouteData.$route(
       path: '/',
-      factory: $DashboardRouteExtension._fromState,
+      factory: $MainRouteExtension._fromState,
     );
 
-extension $DashboardRouteExtension on DashboardRoute {
-  static DashboardRoute _fromState(GoRouterState state) =>
-      const DashboardRoute();
+extension $MainRouteExtension on MainRoute {
+  static MainRoute _fromState(GoRouterState state) => const MainRoute();
 
   String get location => GoRouteData.$location(
         '/',
@@ -108,15 +108,17 @@ extension $MyPageRouteExtension on MyPageRoute {
 }
 
 RouteBase get $documentRoute => GoRouteData.$route(
-      path: '/document',
+      path: '/document/:shopId',
       factory: $DocumentRouteExtension._fromState,
     );
 
 extension $DocumentRouteExtension on DocumentRoute {
-  static DocumentRoute _fromState(GoRouterState state) => const DocumentRoute();
+  static DocumentRoute _fromState(GoRouterState state) => DocumentRoute(
+        shopId: state.pathParameters['shopId']!,
+      );
 
   String get location => GoRouteData.$location(
-        '/document',
+        '/document/${Uri.encodeComponent(shopId)}',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -185,6 +187,31 @@ extension $ChangePasswordRouteExtension on ChangePasswordRoute {
 
   String get location => GoRouteData.$location(
         '/change-password',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $mechanicDashboardRoute => GoRouteData.$route(
+      path: '/mechanic-dashboard/:shopId',
+      factory: $MechanicDashboardRouteExtension._fromState,
+    );
+
+extension $MechanicDashboardRouteExtension on MechanicDashboardRoute {
+  static MechanicDashboardRoute _fromState(GoRouterState state) =>
+      MechanicDashboardRoute(
+        shopId: int.parse(state.pathParameters['shopId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/mechanic-dashboard/${Uri.encodeComponent(shopId.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);
