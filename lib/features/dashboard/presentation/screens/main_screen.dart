@@ -3,6 +3,7 @@ import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:carai/features/dashboard/presentation/widgets/add_workshop_card.dart';
 import 'package:carai/features/dashboard/presentation/widgets/workshop_card.dart';
+import 'package:carai/features/user/presentation/providers/user_notifier.dart';
 import 'package:carai/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final shopsState = ref.watch(dashboardViewModelProvider);
+    final userState = ref.watch(userNotifierProvider);
 
     return AppScaffold(
       appBar: AppNavigationBar(
@@ -84,13 +86,33 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         height: 1.1,
                       ),
                     ),
-                    const Text(
-                      'Mechanic.',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 32, // md:text-4xl
-                        fontWeight: FontWeight.bold,
-                        height: 1.1,
+                    userState.when(
+                      data: (user) => Text(
+                        '${user?.name ?? "Mechanic"}.',
+                        style: const TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 32, // md:text-4xl
+                          fontWeight: FontWeight.bold,
+                          height: 1.1,
+                        ),
+                      ),
+                      loading: () => const Text(
+                        'Mechanic.',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 32, // md:text-4xl
+                          fontWeight: FontWeight.bold,
+                          height: 1.1,
+                        ),
+                      ),
+                      error: (_, __) => const Text(
+                        'Mechanic.',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 32, // md:text-4xl
+                          fontWeight: FontWeight.bold,
+                          height: 1.1,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 8),
