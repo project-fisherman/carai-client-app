@@ -121,6 +121,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           workshopName: shop.name,
                           address: shop.address,
                           jobCount: 0, // Not available in API yet
+                          onTap: () {
+                            MechanicDashboardRoute(
+                              shopId: shop.id,
+                            ).push(context);
+                          },
                         ),
                       )
                       .toList();
