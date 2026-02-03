@@ -7,7 +7,7 @@ part of 'routes.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $dashboardRoute,
+      $mainRoute,
       $loginRoute,
       $registrationRoute,
       $myPageRoute,
@@ -17,14 +17,13 @@ List<RouteBase> get $appRoutes => [
       $changePasswordRoute,
     ];
 
-RouteBase get $dashboardRoute => GoRouteData.$route(
+RouteBase get $mainRoute => GoRouteData.$route(
       path: '/',
-      factory: $DashboardRouteExtension._fromState,
+      factory: $MainRouteExtension._fromState,
     );
 
-extension $DashboardRouteExtension on DashboardRoute {
-  static DashboardRoute _fromState(GoRouterState state) =>
-      const DashboardRoute();
+extension $MainRouteExtension on MainRoute {
+  static MainRoute _fromState(GoRouterState state) => const MainRoute();
 
   String get location => GoRouteData.$location(
         '/',

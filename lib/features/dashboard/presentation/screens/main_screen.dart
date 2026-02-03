@@ -8,16 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/dashboard_view_model.dart';
 
-class MechanicDashboardScreen extends ConsumerStatefulWidget {
-  const MechanicDashboardScreen({super.key});
+class MainScreen extends ConsumerStatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  ConsumerState<MechanicDashboardScreen> createState() =>
-      _MechanicDashboardScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MechanicDashboardScreenState
-    extends ConsumerState<MechanicDashboardScreen> {
+class _MainScreenState extends ConsumerState<MainScreen> {
   final PageController _pageController = PageController(viewportFraction: 0.9);
   int _currentPage = 0;
 

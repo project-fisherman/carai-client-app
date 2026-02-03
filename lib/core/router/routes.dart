@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/registration_screen.dart';
-import '../../features/dashboard/presentation/screens/mechanic_dashboard_screen.dart';
+import '../../features/dashboard/presentation/screens/main_screen.dart';
 import '../../features/mypage/presentation/screens/my_page_screen.dart';
 import '../../features/dashboard/presentation/screens/create_shop_screen.dart';
 import '../../features/auth/presentation/screens/change_password_screen.dart';
@@ -11,13 +11,13 @@ import '../../design_system/molecules/app_scaffold.dart';
 
 part 'routes.g.dart';
 
-@TypedGoRoute<DashboardRoute>(path: '/')
-class DashboardRoute extends GoRouteData {
-  const DashboardRoute();
+@TypedGoRoute<MainRoute>(path: '/')
+class MainRoute extends GoRouteData {
+  const MainRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const MechanicDashboardScreen();
+    return const MainScreen();
   }
 }
 

@@ -17,7 +17,7 @@ GoRouter router(RouterRef ref) {
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: const DashboardRoute().location,
+    initialLocation: const MainRoute().location,
     routes: $appRoutes,
     redirect: (context, state) {
       // Wait for token refresh to complete
@@ -43,7 +43,7 @@ GoRouter router(RouterRef ref) {
       }
 
       if (isLoggedIn && isLoggingIn) {
-        return const DashboardRoute().location;
+        return const MainRoute().location;
       }
 
       return null;

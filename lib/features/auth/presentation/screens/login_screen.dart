@@ -63,7 +63,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             context,
           ).showSnackBar(const SnackBar(content: Text('로그인 성공!')));
           // Navigate only after login is fully complete
-          const DashboardRoute().go(context);
+          const MainRoute().go(context);
         },
         error: (err, stack) {
           ScaffoldMessenger.of(context).showSnackBar(
