@@ -31,7 +31,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     return AppScaffold(
       appBar: AppNavigationBar(
-        leading: Center(child: _buildIconButton(Icons.menu)),
+        automaticallyImplyLeading: false,
         titleWidget: Column(
           children: const [
             Text(
