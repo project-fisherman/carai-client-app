@@ -36,9 +36,13 @@ Dio dio(DioRef ref) {
         return handler.next(response);
       },
       onError: (DioException e, handler) async {
-        debugPrint('❌ [DIO] Error: ${e.message}');
+        debugPrint(
+          '❌ [DIO] Error: ${e.requestOptions.method} ${e.requestOptions.uri} - ${e.message}',
+        );
         if (e.response != null) {
-          debugPrint('❌ [DIO] Error Response: ${e.response?.data}');
+          debugPrint(
+            '❌ [DIO] Error Response: ${e.requestOptions.method} ${e.requestOptions.uri} - ${e.response?.data}',
+          );
         }
         return handler.next(e);
       },
