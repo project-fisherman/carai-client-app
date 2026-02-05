@@ -115,4 +115,19 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> leaveShop({required int shopId}) async {
+    try {
+      await _repairShopApi.leaveShop(shopId: shopId);
+
+      // Remove from local cache
+      final box = Hive.box('repairShopsBox');
+      await box.delete(shopId.toString());
+
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

@@ -20,7 +20,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
 
     return AppScaffold(
       // Pass endDrawer to AppScaffold to make it appear from right
-      endDrawer: const MechanicDashboardDrawer(),
+      endDrawer: MechanicDashboardDrawer(shopId: shopId),
       backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
         child: Column(
