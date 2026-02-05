@@ -5,7 +5,6 @@ class WorkshopCard extends StatelessWidget {
   final String imagePath;
   final String workshopName;
   final String address;
-  final int jobCount;
   final VoidCallback? onTap;
 
   const WorkshopCard({
@@ -13,7 +12,6 @@ class WorkshopCard extends StatelessWidget {
     required this.imagePath,
     required this.workshopName,
     required this.address,
-    required this.jobCount,
     this.onTap,
   });
 
@@ -42,11 +40,37 @@ class WorkshopCard extends StatelessWidget {
             // Background Image
             Positioned.fill(
               child: Image.network(
-                // Using network image for now as per design placeholder, should be asset or network
                 imagePath,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    Container(color: Colors.grey[800]),
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    color: const Color(0xFF2C2C2C),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                            : null,
+                        color: Colors.white.withValues(alpha: 0.3),
+                      ),
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  // Debug: print error to console
+                  debugPrint('Image loading error for $imagePath: $error');
+                  return Container(
+                    color: const Color(0xFF2C2C2C),
+                    child: Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        color: Colors.grey[600],
+                        size: 64,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
 
@@ -64,46 +88,6 @@ class WorkshopCard extends StatelessWidget {
                     ],
                     stops: const [0.0, 0.5, 1.0],
                   ),
-                ),
-              ),
-            ),
-
-            // Job Count Badge
-            Positioned(
-              top: 24,
-              right: 24,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 4,
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.engineering,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '$jobCount Jobs',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ),

@@ -142,7 +142,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               'https://via.placeholder.com/300',
                           workshopName: shop.name,
                           address: shop.address,
-                          jobCount: 0, // Not available in API yet
                           onTap: () {
                             MechanicDashboardRoute(
                               shopId: shop.id,
