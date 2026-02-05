@@ -63,7 +63,8 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
       final box = Hive.box(
         'repairShopsBox',
       ); // Ensure this box is opened in main.dart
-      await box.put(shop.id, shop.toJson());
+      // Use string key to avoid Hive integer key range limitation (0-0xFFFFFFFF)
+      await box.put(shop.id.toString(), shop.toJson());
 
       return Right(shop);
     } catch (e) {
@@ -92,7 +93,8 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
       await box
           .clear(); // Clear old cache or update intelligently? Clearing for now to be simple sync.
       for (var shop in shops) {
-        await box.put(shop.id, shop.toJson());
+        // Use string key to avoid Hive integer key range limitation (0-0xFFFFFFFF)
+        await box.put(shop.id.toString(), shop.toJson());
       }
 
       return Right(shops);
