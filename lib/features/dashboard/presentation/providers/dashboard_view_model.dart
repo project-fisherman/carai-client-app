@@ -44,30 +44,10 @@ class DashboardViewModel extends _$DashboardViewModel {
 
   Future<List<RepairShop>> _fetchShops() async {
     final result = await ref.read(getMyShopsUseCaseProvider)();
-    return result.fold((failure) => throw Exception(failure.message), (shops) {
-      // Mock data for demonstration
-      final mockShops = [
-        const RepairShop(
-          id: -1,
-          name: 'Gangnam Auto Repair',
-          address: '123 Teheran-ro, Gangnam-gu, Seoul',
-          phoneNumber: '02-123-4567',
-          profileImageUrl: 'https://picsum.photos/id/10/200/200',
-        ),
-        const RepairShop(
-          id: -2,
-          name: 'Speedy Motors',
-          address: '456  Seongsu-iro, Seongdong-gu, Seoul',
-          phoneNumber: '02-987-6543',
-          profileImageUrl: 'https://picsum.photos/id/20/200/200',
-        ),
-      ];
-
-      if (shops.isEmpty) {
-        return mockShops;
-      }
-      return [...shops, ...mockShops];
-    });
+    return result.fold(
+      (failure) => throw Exception(failure.message),
+      (shops) => shops,
+    );
   }
 
   Future<void> refresh() async {
