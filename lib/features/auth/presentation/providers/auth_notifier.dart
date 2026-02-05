@@ -1,9 +1,12 @@
+import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/usecases/check_auth_status_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
 import 'auth_providers.dart';
+import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
+import '../../../user/presentation/providers/user_notifier.dart';
 
 part 'auth_notifier.g.dart';
 
@@ -45,7 +48,13 @@ class AuthNotifier extends _$AuthNotifier {
 
     state = result.fold(
       (failure) => AsyncValue.error(failure.message, StackTrace.current),
-      (user) => AsyncValue.data(user),
+      (user) {
+        debugPrint('✅ [AuthNotifier] Login successful, invalidating providers');
+        // Invalidate providers to refresh with new token
+        ref.invalidate(dashboardViewModelProvider);
+        ref.invalidate(userNotifierProvider);
+        return AsyncValue.data(user);
+      },
     );
   }
 

@@ -10,7 +10,7 @@ part 'dio_provider.g.dart';
 Dio dio(DioRef ref) {
   final dio = Dio(
     BaseOptions(
-      baseUrl: 'http://34.64.161.110:8080/',
+      baseUrl: 'http://34.47.126.40:8080/',
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
     ),
@@ -36,9 +36,13 @@ Dio dio(DioRef ref) {
         return handler.next(response);
       },
       onError: (DioException e, handler) async {
-        debugPrint('❌ [DIO] Error: ${e.message}');
+        debugPrint(
+          '❌ [DIO] Error: ${e.requestOptions.method} ${e.requestOptions.uri} - ${e.message}',
+        );
         if (e.response != null) {
-          debugPrint('❌ [DIO] Error Response: ${e.response?.data}');
+          debugPrint(
+            '❌ [DIO] Error Response: ${e.requestOptions.method} ${e.requestOptions.uri} - ${e.response?.data}',
+          );
         }
         return handler.next(e);
       },
