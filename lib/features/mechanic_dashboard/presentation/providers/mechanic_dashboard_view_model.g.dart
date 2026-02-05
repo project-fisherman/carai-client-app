@@ -7,7 +7,7 @@ part of 'mechanic_dashboard_view_model.dart';
 // **************************************************************************
 
 String _$mechanicDashboardViewModelHash() =>
-    r'ff640f3e1fee92cb0ee02a0dd202db80c514b8b1';
+    r'63f7eef172a52fb333c2995fdd58a887e22e9e83';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 }
 
 abstract class _$MechanicDashboardViewModel
-    extends BuildlessAutoDisposeAsyncNotifier<List<ServiceVehicle>> {
+    extends BuildlessAutoDisposeAsyncNotifier<List<RepairJob>> {
   late final int shopId;
 
-  FutureOr<List<ServiceVehicle>> build(
+  FutureOr<List<RepairJob>> build(
     int shopId,
   );
 }
@@ -45,7 +45,7 @@ const mechanicDashboardViewModelProvider = MechanicDashboardViewModelFamily();
 
 /// See also [MechanicDashboardViewModel].
 class MechanicDashboardViewModelFamily
-    extends Family<AsyncValue<List<ServiceVehicle>>> {
+    extends Family<AsyncValue<List<RepairJob>>> {
   /// See also [MechanicDashboardViewModel].
   const MechanicDashboardViewModelFamily();
 
@@ -85,7 +85,7 @@ class MechanicDashboardViewModelFamily
 /// See also [MechanicDashboardViewModel].
 class MechanicDashboardViewModelProvider
     extends AutoDisposeAsyncNotifierProviderImpl<MechanicDashboardViewModel,
-        List<ServiceVehicle>> {
+        List<RepairJob>> {
   /// See also [MechanicDashboardViewModel].
   MechanicDashboardViewModelProvider(
     int shopId,
@@ -116,7 +116,7 @@ class MechanicDashboardViewModelProvider
   final int shopId;
 
   @override
-  FutureOr<List<ServiceVehicle>> runNotifierBuild(
+  FutureOr<List<RepairJob>> runNotifierBuild(
     covariant MechanicDashboardViewModel notifier,
   ) {
     return notifier.build(
@@ -142,7 +142,7 @@ class MechanicDashboardViewModelProvider
 
   @override
   AutoDisposeAsyncNotifierProviderElement<MechanicDashboardViewModel,
-      List<ServiceVehicle>> createElement() {
+      List<RepairJob>> createElement() {
     return _MechanicDashboardViewModelProviderElement(this);
   }
 
@@ -162,14 +162,14 @@ class MechanicDashboardViewModelProvider
 }
 
 mixin MechanicDashboardViewModelRef
-    on AutoDisposeAsyncNotifierProviderRef<List<ServiceVehicle>> {
+    on AutoDisposeAsyncNotifierProviderRef<List<RepairJob>> {
   /// The parameter `shopId` of this provider.
   int get shopId;
 }
 
 class _MechanicDashboardViewModelProviderElement
     extends AutoDisposeAsyncNotifierProviderElement<MechanicDashboardViewModel,
-        List<ServiceVehicle>> with MechanicDashboardViewModelRef {
+        List<RepairJob>> with MechanicDashboardViewModelRef {
   _MechanicDashboardViewModelProviderElement(super.provider);
 
   @override

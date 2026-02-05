@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dashboard_view_model.dart';
+part of 'repair_job_repository_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dashboardViewModelHash() =>
-    r'405226fee57584569d09916184ccaa13959b1294';
+String _$repairJobRepositoryHash() =>
+    r'3b4b98c80df5ef1d0ef00248d4bae6750d0ae4e9';
 
-/// See also [DashboardViewModel].
-@ProviderFor(DashboardViewModel)
-final dashboardViewModelProvider = AutoDisposeAsyncNotifierProvider<
-    DashboardViewModel, List<RepairShop>>.internal(
-  DashboardViewModel.new,
-  name: r'dashboardViewModelProvider',
+/// See also [repairJobRepository].
+@ProviderFor(repairJobRepository)
+final repairJobRepositoryProvider =
+    AutoDisposeProvider<RepairJobRepository>.internal(
+  repairJobRepository,
+  name: r'repairJobRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$dashboardViewModelHash,
+      : _$repairJobRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$DashboardViewModel = AutoDisposeAsyncNotifier<List<RepairShop>>;
+typedef RepairJobRepositoryRef = AutoDisposeProviderRef<RepairJobRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

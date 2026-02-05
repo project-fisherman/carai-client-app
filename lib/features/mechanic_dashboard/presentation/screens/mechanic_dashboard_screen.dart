@@ -13,14 +13,14 @@ class MechanicDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the view model to get vehicle list
+    // Watch the view model to get job list
     final vehicleListAsync = ref.watch(
       mechanicDashboardViewModelProvider(shopId),
     );
 
     return AppScaffold(
       // Pass endDrawer to AppScaffold to make it appear from right
-      endDrawer: const MechanicDashboardDrawer(),
+      endDrawer: MechanicDashboardDrawer(shopId: shopId),
       backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
         child: Column(
@@ -32,6 +32,39 @@ class MechanicDashboardScreen extends ConsumerWidget {
             Expanded(
               child: vehicleListAsync.when(
                 data: (vehicles) {
+                  // Show empty state if no jobs
+                  if (vehicles.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.inbox_outlined,
+                            size: 80,
+                            color: Colors.white.withOpacity(0.3),
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            'No Jobs Yet',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.7),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Jobs will appear here when assigned',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
                   return ListView.separated(
                     padding: const EdgeInsets.only(
                       left: 16,
@@ -43,13 +76,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 16),
                     itemBuilder: (context, index) {
-                      final vehicle = vehicles[index];
+                      final job = vehicles[index];
                       return ServiceQueueCard(
-                        year: vehicle.year,
-                        make: vehicle.make,
-                        model: vehicle.model,
-                        ownerName: vehicle.ownerName,
-                        licensePlate: vehicle.licensePlate,
+                        jobId: job.id,
+                        status: job.status,
+                        description: job.description,
                         // Example logic for opacity: last item reduced opacity like design
                         isOpacityReduced:
                             index == vehicles.length - 1 && vehicles.length > 3,

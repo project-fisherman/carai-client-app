@@ -63,7 +63,8 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
       final box = Hive.box(
         'repairShopsBox',
       ); // Ensure this box is opened in main.dart
-      await box.put(shop.id, shop.toJson());
+      // Use string key to avoid Hive integer key range limitation (0-0xFFFFFFFF)
+      await box.put(shop.id.toString(), shop.toJson());
 
       return Right(shop);
     } catch (e) {
@@ -92,7 +93,8 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
       await box
           .clear(); // Clear old cache or update intelligently? Clearing for now to be simple sync.
       for (var shop in shops) {
-        await box.put(shop.id, shop.toJson());
+        // Use string key to avoid Hive integer key range limitation (0-0xFFFFFFFF)
+        await box.put(shop.id.toString(), shop.toJson());
       }
 
       return Right(shops);
@@ -110,6 +112,21 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
       } catch (hiveError) {
         // Ignore hive error and return original error
       }
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> leaveShop({required int shopId}) async {
+    try {
+      await _repairShopApi.leaveShop(shopId: shopId);
+
+      // Remove from local cache
+      final box = Hive.box('repairShopsBox');
+      await box.delete(shopId.toString());
+
+      return const Right(null);
+    } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }

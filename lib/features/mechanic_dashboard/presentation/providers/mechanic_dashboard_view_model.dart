@@ -1,15 +1,18 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../domain/entities/service_vehicle.dart';
-import '../../data/repositories/mock_mechanic_dashboard_repository.dart';
+import '../../domain/entities/repair_job.dart';
+import '../../data/repositories/repair_job_repository_impl.dart';
 
 part 'mechanic_dashboard_view_model.g.dart';
 
 @riverpod
 class MechanicDashboardViewModel extends _$MechanicDashboardViewModel {
   @override
-  FutureOr<List<ServiceVehicle>> build(int shopId) {
-    return ref
-        .watch(mockMechanicDashboardRepositoryProvider)
-        .getServiceQueue(shopId);
+  FutureOr<List<RepairJob>> build(int shopId) async {
+    final result = await ref.watch(repairJobRepositoryProvider).getMyJobs();
+
+    return result.fold(
+      (failure) => throw Exception(failure.message),
+      (jobs) => jobs,
+    );
   }
 }

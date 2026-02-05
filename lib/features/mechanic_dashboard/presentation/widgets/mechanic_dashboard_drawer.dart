@@ -1,8 +1,99 @@
 import 'package:carai/design_system/foundations/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../dashboard/data/repositories/mechanic_dashboard_repository_impl.dart';
+import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
 
-class MechanicDashboardDrawer extends StatelessWidget {
-  const MechanicDashboardDrawer({super.key});
+class MechanicDashboardDrawer extends ConsumerStatefulWidget {
+  final int shopId;
+
+  const MechanicDashboardDrawer({super.key, required this.shopId});
+
+  @override
+  ConsumerState<MechanicDashboardDrawer> createState() =>
+      _MechanicDashboardDrawerState();
+}
+
+class _MechanicDashboardDrawerState
+    extends ConsumerState<MechanicDashboardDrawer> {
+  bool _isLeaving = false;
+
+  Future<void> _handleLeaveWorkshop() async {
+    if (_isLeaving) return;
+
+    // Show confirmation dialog
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF2f221a),
+        title: const Text(
+          'Leave Workshop',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: const Text(
+          'Are you sure you want to leave this workshop?',
+          style: TextStyle(color: Color(0xFFA8A29E)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFFF87171),
+            ),
+            child: const Text('Leave'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    setState(() {
+      _isLeaving = true;
+    });
+
+    final repository = ref.read(mechanicDashboardRepositoryProvider);
+    final result = await repository.leaveShop(shopId: widget.shopId);
+
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        setState(() {
+          _isLeaving = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to leave workshop: ${failure.message}'),
+            backgroundColor: const Color(0xFFEF4444),
+          ),
+        );
+      },
+      (_) {
+        // Success - refresh workshop list and navigate back
+        ref.invalidate(dashboardViewModelProvider);
+
+        // Close drawer first
+        Navigator.of(context).pop();
+
+        // Navigate back to main screen
+        context.go('/');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Successfully left the workshop'),
+            backgroundColor: Color(0xFF22C55E),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +216,8 @@ class MechanicDashboardDrawer extends StatelessWidget {
                   icon: Icons.logout,
                   label: 'Leave Workshop',
                   isDestructive: true,
-                  onTap: () {},
+                  onTap: _isLeaving ? null : _handleLeaveWorkshop,
+                  isLoading: _isLeaving,
                 ),
               ],
             ),
@@ -153,8 +245,9 @@ class MechanicDashboardDrawer extends StatelessWidget {
   Widget _buildMenuItem({
     required IconData icon,
     required String label,
-    required VoidCallback onTap,
+    required VoidCallback? onTap,
     bool isDestructive = false,
+    bool isLoading = false,
   }) {
     final textColor = isDestructive
         ? const Color(0xFFF87171)
@@ -180,7 +273,17 @@ class MechanicDashboardDrawer extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Icon(icon, color: iconColor, size: 24),
+                if (isLoading)
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      color: iconColor,
+                      strokeWidth: 2,
+                    ),
+                  )
+                else
+                  Icon(icon, color: iconColor, size: 24),
                 const SizedBox(width: 16),
                 Text(
                   label,

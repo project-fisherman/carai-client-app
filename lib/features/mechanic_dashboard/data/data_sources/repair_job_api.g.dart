@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dio_provider.dart';
+part of 'repair_job_api.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dioHash() => r'a8841d7cfd52b888f3bd3e70113faa6def7c96ab';
+String _$repairJobApiHash() => r'201dc5e2bbdac0a70b00a80af9714f601f1fde18';
 
-/// See also [dio].
-@ProviderFor(dio)
-final dioProvider = AutoDisposeProvider<Dio>.internal(
-  dio,
-  name: r'dioProvider',
+/// See also [repairJobApi].
+@ProviderFor(repairJobApi)
+final repairJobApiProvider = AutoDisposeProvider<RepairJobApi>.internal(
+  repairJobApi,
+  name: r'repairJobApiProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$dioHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$repairJobApiHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef DioRef = AutoDisposeProviderRef<Dio>;
+typedef RepairJobApiRef = AutoDisposeProviderRef<RepairJobApi>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
