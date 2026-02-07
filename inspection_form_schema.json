@@ -1,0 +1,90 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Inspection Form Schema",
+    "description": "Schema for a complete vehicle inspection report including vehicle details and inspection items.",
+    "type": "object",
+    "properties": {
+        "meta": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier for the inspection report (UUID)."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "draft",
+                        "completed",
+                        "sent"
+                    ],
+                    "description": "Status of the inspection report."
+                }
+            },
+            "required": [
+                "id",
+                "status"
+            ]
+        },
+        "header": {
+            "type": "array",
+            "description": "List of form fields for the header section (Vehicle & Customer Info).",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Field identifier (key for submission)."
+                    },
+                    "label": {
+                        "type": "string",
+                        "description": "Display label for the input field."
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "text",
+                            "number",
+                            "date"
+                        ],
+                        "description": "Input type for the field."
+                    }
+                },
+                "required": [
+                    "id",
+                    "label",
+                    "type"
+                ]
+            }
+        },
+        "groups": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "group_seq": {
+                        "type": "integer"
+                    },
+                    "group_label": {
+                        "type": "string"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "inspection_item_schema.json"
+                        }
+                    }
+                },
+                "required": [
+                    "group_seq",
+                    "items"
+                ]
+            }
+        }
+    },
+    "required": [
+        "meta",
+        "header",
+        "groups"
+    ]
+}

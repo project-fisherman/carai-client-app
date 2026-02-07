@@ -1,0 +1,33 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Inspection Item Configuration Schema",
+    "description": "Schema for defining inspection form items with contract-based strict types. This schema defines the UI structure provided by the server.",
+    "type": "object",
+    "properties": {
+        "seq_no": {
+            "type": "integer",
+            "description": "Sequence number of the item."
+        },
+        "item_name": {
+            "type": "string",
+            "description": "Name of the inspection item."
+        },
+        "method": {
+            "type": "string",
+            "description": "Inspection method text. May contain '%s' placeholders for value injection if the widget type requires it."
+        },
+        "widget_type": {
+            "type": "string",
+            "enum": [
+                "basic_check",
+                "front_and_rear_measurement_check"
+            ],
+            "description": "The strict contract type of the widget."
+        }
+    },
+    "required": [
+        "seq_no",
+        "item_name",
+        "widget_type"
+    ]
+}
