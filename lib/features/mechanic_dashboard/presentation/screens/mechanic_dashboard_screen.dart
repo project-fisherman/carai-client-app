@@ -85,48 +85,19 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                   ),
                                 );
                               }
-                              return Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    _buildNoJobsView(),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Debug: Role=${role.name}, Count=$checklistCount',
-                                      style: const TextStyle(color: Colors.red),
-                                    ),
-                                  ],
-                                ),
-                              );
+                              return _buildNoJobsView();
                             },
                             loading: () => const Center(
                               child: CircularProgressIndicator(
                                 color: Colors.orange,
                               ),
                             ),
-                            error: (err, stack) => Center(
-                              child: Text(
-                                'Error loading role: $err',
-                                style: const TextStyle(color: Colors.red),
-                              ),
-                            ),
+                            error: (err, stack) => _buildNoJobsView(),
                           );
                         },
                       );
                     }
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildNoJobsView(),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Debug: Count=$checklistCount (Not 0)',
-                            style: const TextStyle(color: Colors.red),
-                          ),
-                        ],
-                      ),
-                    );
+                    return _buildNoJobsView();
                   }
 
                   return ListView.separated(
