@@ -3,73 +3,111 @@ import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../domain/entities/repair_shop_user.dart';
-import '../providers/manage_team_view_model.dart';
+import '../providers/manage_workshop_view_model.dart';
 import '../../../auth/presentation/providers/auth_notifier.dart';
+import '../../../dashboard/data/repositories/mechanic_dashboard_repository_impl.dart';
+import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
 
-class ManageTeamScreen extends ConsumerStatefulWidget {
+class ManageWorkshopScreen extends ConsumerStatefulWidget {
   final int shopId;
 
-  const ManageTeamScreen({super.key, required this.shopId});
+  const ManageWorkshopScreen({super.key, required this.shopId});
 
   @override
-  ConsumerState<ManageTeamScreen> createState() => _ManageTeamScreenState();
+  ConsumerState<ManageWorkshopScreen> createState() =>
+      _ManageWorkshopScreenState();
 }
 
-class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
-  // Mock current user ID until we have a proper Auth Provider or User Object accessible
-  // For now, let's assume we can get it or we just check roles from the list if 'me' is indicated?
-  // Actually, without knowing who 'I' am, I can't filter 'Pending' visibility securely on client side purely by logic.
-  // But the requirement is: "Pending users list should appear only if Manager".
-  // I will check if the current user has Manager role.
-  // To do this, I need to know my own ID or have a property 'isMe' on the user object.
-  // The server `RepairShopUser` doesn't have `isMe`.
-  // However, `RepairShopController` has `/me` endpoint.
-  // I should probably fetch `me` as well or rely on the VM to tell me my role.
-  // For this implementation, I will just show the list if there are pending users,
-  // assuming the Backend *should* have filtered it or the previous instruction meant "In the UI, don't show it if I am not a manager".
-  // I will add a `myRole` future to the view model or just fetch it here.
-  // Let's keep it simple: I will fetch the full list.
-  // If I am a Staff, I shouldn't see Pending.
-  // I will implement a check: I need to find "Me" in the list.
-  // The ViewModel can derive "my role" if we know "my userId".
-  // `UserController` `/users/me` returns `userId`.
-  // I'll assume for now I show it if the user is a Manager.
-  // Since I don't have the auth state readily available in this snippet, I will implement the UI
-  // and maybe add a TODO or just show it for now, as hiding it requires extra state.
-  // Wait, I can use `ref.watch(userProvider)` if it exists?
-  // I'll stick to the design. The design shows it. I'll implement it.
+class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
+  bool _isLeaving = false;
+
+  Future<void> _handleLeaveWorkshop() async {
+    if (_isLeaving) return;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF2f221a),
+        title: const Text(
+          'Leave Workshop',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: const Text(
+          'Are you sure you want to leave this workshop?',
+          style: TextStyle(color: Color(0xFFA8A29E)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFFF87171),
+            ),
+            child: const Text('Leave'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    setState(() {
+      _isLeaving = true;
+    });
+
+    final repository = ref.read(mechanicDashboardRepositoryProvider);
+    final result = await repository.leaveShop(shopId: widget.shopId);
+
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        setState(() {
+          _isLeaving = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to leave workshop: ${failure.message}'),
+            backgroundColor: const Color(0xFFEF4444),
+          ),
+        );
+      },
+      (_) {
+        ref.invalidate(dashboardViewModelProvider);
+        context.go('/');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Successfully left the workshop'),
+            backgroundColor: Color(0xFF22C55E),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final teamState = ref.watch(manageTeamViewModelProvider(widget.shopId));
+    final workshopState = ref.watch(
+      manageWorkshopViewModelProvider(widget.shopId),
+    );
 
     return AppScaffold(
-      // The design has a custom header in the body, but we should use AppNavigationBar for consistency if possible,
-      // or match the design exactly? The design has "Manage Team" centered header.
-      // `AppNavigationBar` usually provides a back button.
-      appBar: const AppNavigationBar(
-        title: 'Manage Team',
-      ), // centerTitle is default true in AppNavigationBar
-      body: teamState.when(
+      appBar: const AppNavigationBar(title: 'Manage Workshop'),
+      body: workshopState.when(
         data: (users) {
-          // Verify I am a manager to show Pending
-          // Since I don't have 'my id' easily here without extra fetch, I'll filter purely by list content for now.
-          // In a real app, we'd fetch 'me' first.
-
           final pendingUsers = users
               .where((u) => u.role == RepairShopRole.invited)
               .toList();
           final activeUsers = users
               .where((u) => u.role != RepairShopRole.invited)
               .toList();
-
-          // Note: User requires "Active Team Members" to be shown even if the user is alone (list size 1).
-          // Do not add logic to hide this section based on size.
-
-          // Basic role check simulation: If there is ANY owner/manager in the list, we assume *I* might be one of them?
-          // No, that's flawed.
-          // For now, I will display the Pending section. Secure filtering should happen on server or with proper Auth context.
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -82,7 +120,9 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
                   const SizedBox(height: 32),
                 ],
                 _buildActiveSection(activeUsers),
-                const SizedBox(height: 100), // Bottom padding
+                const SizedBox(height: 32),
+                _buildLeaveWorkshopButton(),
+                const SizedBox(height: 100),
               ],
             ),
           );
@@ -106,10 +146,7 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            // User instruction: "inviting doesn't need to be implemented right now"
-            // So we do nothing.
-          },
+          onTap: () {},
           borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: const EdgeInsets.all(12),
@@ -153,7 +190,7 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
           child: Text(
             'PENDING REQUESTS (${users.length})',
             style: const TextStyle(
-              color: Color(0xFFA8A29E), // text-stone-400
+              color: Color(0xFFA8A29E),
               fontSize: 12,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.5,
@@ -162,11 +199,9 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF2f221a), // surface-dark
+            color: const Color(0xFF2f221a),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: const Color(0xFF292524),
-            ), // border-stone-800
+            border: Border.all(color: const Color(0xFF292524)),
           ),
           child: Column(
             children: users.asMap().entries.map((entry) {
@@ -215,12 +250,7 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
                           children: [
                             Expanded(
                               child: ElevatedButton.icon(
-                                onPressed: () {
-                                  // Placeholder: Manager cannot accept via API yet
-                                  print(
-                                    'Accept clicked for ${user.userId} - No API endpoint',
-                                  );
-                                },
+                                onPressed: () {},
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primary,
                                   foregroundColor: Colors.white,
@@ -239,14 +269,7 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
                             SizedBox(
                               width: 60,
                               child: OutlinedButton(
-                                onPressed: () {
-                                  // Placeholder: No API for rejection
-                                  print(
-                                    'Reject clicked for ${user.userId} - No API endpoint',
-                                  );
-                                  // Mapped to kickUser ? No, allow user to stay invited until cancelled?
-                                  // User said "nothing if no api".
-                                },
+                                onPressed: () {},
                                 style: OutlinedButton.styleFrom(
                                   foregroundColor: const Color(0xFFA8A29E),
                                   side: const BorderSide(
@@ -287,9 +310,9 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
               child: Text(
-                'ACTIVE TEAM MEMBERS',
+                'ACTIVE WORKSHOP MEMBERS',
                 style: TextStyle(
-                  color: Color(0xFFA8A29E), // text-stone-400
+                  color: Color(0xFFA8A29E),
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
@@ -299,7 +322,7 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
             Text(
               'TOTAL: ${users.length}',
               style: const TextStyle(
-                color: Color(0xFF57534E), // text-stone-600
+                color: Color(0xFF57534E),
                 fontSize: 12,
                 fontFamily: 'monospace',
               ),
@@ -308,11 +331,9 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF2f221a), // surface-dark
+            color: const Color(0xFF2f221a),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: const Color(0xFF292524),
-            ), // border-stone-800
+            border: Border.all(color: const Color(0xFF292524)),
           ),
           child: Column(
             children: users.asMap().entries.map((entry) {
@@ -335,9 +356,6 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
   }
 
   Widget _buildUserItem(RepairShopUser user) {
-    // We don't have 'isMe' directly, but we can check the name or fetch ID later.
-    // For now, no '(Me)' tag unless we implement `UserService` too.
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -350,7 +368,7 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
                 decoration: BoxDecoration(
                   color: user.role == RepairShopRole.owner
                       ? AppColors.primary
-                      : const Color(0xFF374151), // primary or stone-700
+                      : const Color(0xFF374151),
                   shape: BoxShape.circle,
                   border: Border.all(color: const Color(0xFF2f221a), width: 2),
                 ),
@@ -386,7 +404,6 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        // Show "(Me)" tag if this is the current user
                         if (user.userId ==
                             ref.watch(authNotifierProvider).value?.id)
                           Container(
@@ -440,17 +457,13 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
               ),
             ],
           ),
-          // "Modify" and "Remove" buttons - Design shows them in a grid below the user info
-          // Hide buttons for the current user (can't modify/remove yourself)
           if (user.userId != ref.watch(authNotifierProvider).value?.id) ...[
             const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () {
-                      // Modify Role Logic
-                    },
+                    onPressed: () {},
                     style: OutlinedButton.styleFrom(
                       backgroundColor: const Color(0xFF292524),
                       foregroundColor: const Color(0xFFD6D3D1),
@@ -468,26 +481,23 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: () {
-                      // Remove Logic
                       ref
                           .read(
-                            manageTeamViewModelProvider(widget.shopId).notifier,
+                            manageWorkshopViewModelProvider(
+                              widget.shopId,
+                            ).notifier,
                           )
                           .kickUser(user.userId);
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: const Color(
-                        0x80292524,
-                      ), // 50% opacity stone-800
-                      foregroundColor: const Color(0xFF78716C), // stone-500
+                      backgroundColor: const Color(0x80292524),
+                      foregroundColor: const Color(0xFF78716C),
                       side: const BorderSide(color: Color(0xFF292524)),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    // Hover effect logic in Flutter is implicit with ButtonStyle, but we want the 'Red on hover' style from design.
-                    // For now, basic style.
                     icon: const Icon(Icons.person_remove, size: 20),
                     label: const Text('Remove'),
                   ),
@@ -496,6 +506,54 @@ class _ManageTeamScreenState extends ConsumerState<ManageTeamScreen> {
             ),
           ],
         ],
+      ),
+    );
+  }
+
+  Widget _buildLeaveWorkshopButton() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: const Color(0xFF2f221a),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFF292524)),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: _isLeaving ? null : _handleLeaveWorkshop,
+          borderRadius: BorderRadius.circular(12),
+          hoverColor: const Color(0xFF292524),
+          splashColor: const Color(0xFF44403C),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (_isLeaving)
+                  const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      color: Color(0xCCEF4444),
+                      strokeWidth: 2,
+                    ),
+                  )
+                else
+                  const Icon(Icons.logout, color: Color(0xCCEF4444), size: 24),
+                const SizedBox(width: 16),
+                const Text(
+                  'Leave Workshop',
+                  style: TextStyle(
+                    color: Color(0xFFF87171),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failure.dart';
 import '../../domain/entities/repair_shop_user.dart';
-import '../../domain/repositories/manage_team_repository.dart';
-import '../dtos/manage_team_dtos.dart';
+import '../../domain/repositories/manage_workshop_repository.dart';
+import '../dtos/manage_workshop_dtos.dart';
 
-class ManageTeamRepositoryImpl implements ManageTeamRepository {
+class ManageWorkshopRepositoryImpl implements ManageWorkshopRepository {
   final Dio _dio;
 
-  ManageTeamRepositoryImpl(this._dio);
+  ManageWorkshopRepositoryImpl(this._dio);
 
   @override
   Future<Either<Failure, List<RepairShopUser>>> getShopUsers({

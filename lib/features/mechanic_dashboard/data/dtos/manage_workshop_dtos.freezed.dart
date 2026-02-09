@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'manage_team_dtos.dart';
+part of 'manage_workshop_dtos.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,11 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-RepairShopUserResponse _$RepairShopUserResponseFromJson(
-    Map<String, dynamic> json) {
-  return _RepairShopUserResponse.fromJson(json);
-}
-
 /// @nodoc
 mixin _$RepairShopUserResponse {
   int get id => throw _privateConstructorUsedError;
@@ -26,7 +21,6 @@ mixin _$RepairShopUserResponse {
   String get userId => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RepairShopUserResponseCopyWith<RepairShopUserResponse> get copyWith =>
       throw _privateConstructorUsedError;
@@ -133,7 +127,7 @@ class __$$RepairShopUserResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$RepairShopUserResponseImpl extends _RepairShopUserResponse {
   const _$RepairShopUserResponseImpl(
       {required this.id,
@@ -141,9 +135,6 @@ class _$RepairShopUserResponseImpl extends _RepairShopUserResponse {
       required this.userId,
       required this.role})
       : super._();
-
-  factory _$RepairShopUserResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RepairShopUserResponseImplFromJson(json);
 
   @override
   final int id;
@@ -171,7 +162,6 @@ class _$RepairShopUserResponseImpl extends _RepairShopUserResponse {
             (identical(other.role, role) || other.role == role));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, repairShopId, userId, role);
 
@@ -181,13 +171,6 @@ class _$RepairShopUserResponseImpl extends _RepairShopUserResponse {
   _$$RepairShopUserResponseImplCopyWith<_$RepairShopUserResponseImpl>
       get copyWith => __$$RepairShopUserResponseImplCopyWithImpl<
           _$RepairShopUserResponseImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$RepairShopUserResponseImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _RepairShopUserResponse extends RepairShopUserResponse {
@@ -197,9 +180,6 @@ abstract class _RepairShopUserResponse extends RepairShopUserResponse {
       required final String userId,
       required final String role}) = _$RepairShopUserResponseImpl;
   const _RepairShopUserResponse._() : super._();
-
-  factory _RepairShopUserResponse.fromJson(Map<String, dynamic> json) =
-      _$RepairShopUserResponseImpl.fromJson;
 
   @override
   int get id;
@@ -308,9 +288,10 @@ class __$$ChangeRoleRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ChangeRoleRequestImpl implements _ChangeRoleRequest {
+class _$ChangeRoleRequestImpl extends _ChangeRoleRequest {
   const _$ChangeRoleRequestImpl(
-      {required this.targetUserId, required this.role});
+      {required this.targetUserId, required this.role})
+      : super._();
 
   factory _$ChangeRoleRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChangeRoleRequestImplFromJson(json);
@@ -354,10 +335,11 @@ class _$ChangeRoleRequestImpl implements _ChangeRoleRequest {
   }
 }
 
-abstract class _ChangeRoleRequest implements ChangeRoleRequest {
+abstract class _ChangeRoleRequest extends ChangeRoleRequest {
   const factory _ChangeRoleRequest(
       {required final String targetUserId,
       required final String role}) = _$ChangeRoleRequestImpl;
+  const _ChangeRoleRequest._() : super._();
 
   factory _ChangeRoleRequest.fromJson(Map<String, dynamic> json) =
       _$ChangeRoleRequestImpl.fromJson;
@@ -454,8 +436,8 @@ class __$$KickUserRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$KickUserRequestImpl implements _KickUserRequest {
-  const _$KickUserRequestImpl({required this.targetUserId});
+class _$KickUserRequestImpl extends _KickUserRequest {
+  const _$KickUserRequestImpl({required this.targetUserId}) : super._();
 
   factory _$KickUserRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$KickUserRequestImplFromJson(json);
@@ -496,9 +478,10 @@ class _$KickUserRequestImpl implements _KickUserRequest {
   }
 }
 
-abstract class _KickUserRequest implements KickUserRequest {
+abstract class _KickUserRequest extends KickUserRequest {
   const factory _KickUserRequest({required final String targetUserId}) =
       _$KickUserRequestImpl;
+  const _KickUserRequest._() : super._();
 
   factory _KickUserRequest.fromJson(Map<String, dynamic> json) =
       _$KickUserRequestImpl.fromJson;

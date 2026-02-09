@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/repair_shop_user.dart';
 
-part 'manage_team_dtos.freezed.dart';
-part 'manage_team_dtos.g.dart';
+part 'manage_workshop_dtos.freezed.dart';
+part 'manage_workshop_dtos.g.dart';
 
 @freezed
 class RepairShopUserResponse with _$RepairShopUserResponse {
@@ -51,6 +51,7 @@ class ChangeRoleRequest with _$ChangeRoleRequest {
   factory ChangeRoleRequest.fromJson(Map<String, dynamic> json) =>
       _$ChangeRoleRequestFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() {
     // Server expects int (Long), but we use String
     return {'targetUserId': int.parse(targetUserId), 'role': role};
@@ -67,6 +68,7 @@ class KickUserRequest with _$KickUserRequest {
   factory KickUserRequest.fromJson(Map<String, dynamic> json) =>
       _$KickUserRequestFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() {
     // Server expects int (Long), but we use String
     return {'targetUserId': int.parse(targetUserId)};

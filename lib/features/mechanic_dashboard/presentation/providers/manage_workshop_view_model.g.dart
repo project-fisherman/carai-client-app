@@ -1,30 +1,31 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'manage_team_view_model.dart';
+part of 'manage_workshop_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$manageTeamRepositoryHash() =>
-    r'e518e36643872c5606a002d770f32cbf134a5958';
+String _$manageWorkshopRepositoryHash() =>
+    r'05594b7c009ebc75593df9662f4bfb911800d20c';
 
-/// See also [manageTeamRepository].
-@ProviderFor(manageTeamRepository)
-final manageTeamRepositoryProvider =
-    AutoDisposeProvider<ManageTeamRepository>.internal(
-  manageTeamRepository,
-  name: r'manageTeamRepositoryProvider',
+/// See also [manageWorkshopRepository].
+@ProviderFor(manageWorkshopRepository)
+final manageWorkshopRepositoryProvider =
+    AutoDisposeProvider<ManageWorkshopRepository>.internal(
+  manageWorkshopRepository,
+  name: r'manageWorkshopRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$manageTeamRepositoryHash,
+      : _$manageWorkshopRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef ManageTeamRepositoryRef = AutoDisposeProviderRef<ManageTeamRepository>;
-String _$manageTeamViewModelHash() =>
-    r'29d735b4764477dc475b8afa1a78f326d5f751a3';
+typedef ManageWorkshopRepositoryRef
+    = AutoDisposeProviderRef<ManageWorkshopRepository>;
+String _$manageWorkshopViewModelHash() =>
+    r'db69af1aec67473451e2f9fec0c7c00f2f2a617b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -47,7 +48,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$ManageTeamViewModel
+abstract class _$ManageWorkshopViewModel
     extends BuildlessAutoDisposeAsyncNotifier<List<RepairShopUser>> {
   late final int shopId;
 
@@ -56,28 +57,28 @@ abstract class _$ManageTeamViewModel
   );
 }
 
-/// See also [ManageTeamViewModel].
-@ProviderFor(ManageTeamViewModel)
-const manageTeamViewModelProvider = ManageTeamViewModelFamily();
+/// See also [ManageWorkshopViewModel].
+@ProviderFor(ManageWorkshopViewModel)
+const manageWorkshopViewModelProvider = ManageWorkshopViewModelFamily();
 
-/// See also [ManageTeamViewModel].
-class ManageTeamViewModelFamily
+/// See also [ManageWorkshopViewModel].
+class ManageWorkshopViewModelFamily
     extends Family<AsyncValue<List<RepairShopUser>>> {
-  /// See also [ManageTeamViewModel].
-  const ManageTeamViewModelFamily();
+  /// See also [ManageWorkshopViewModel].
+  const ManageWorkshopViewModelFamily();
 
-  /// See also [ManageTeamViewModel].
-  ManageTeamViewModelProvider call(
+  /// See also [ManageWorkshopViewModel].
+  ManageWorkshopViewModelProvider call(
     int shopId,
   ) {
-    return ManageTeamViewModelProvider(
+    return ManageWorkshopViewModelProvider(
       shopId,
     );
   }
 
   @override
-  ManageTeamViewModelProvider getProviderOverride(
-    covariant ManageTeamViewModelProvider provider,
+  ManageWorkshopViewModelProvider getProviderOverride(
+    covariant ManageWorkshopViewModelProvider provider,
   ) {
     return call(
       provider.shopId,
@@ -96,30 +97,31 @@ class ManageTeamViewModelFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'manageTeamViewModelProvider';
+  String? get name => r'manageWorkshopViewModelProvider';
 }
 
-/// See also [ManageTeamViewModel].
-class ManageTeamViewModelProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    ManageTeamViewModel, List<RepairShopUser>> {
-  /// See also [ManageTeamViewModel].
-  ManageTeamViewModelProvider(
+/// See also [ManageWorkshopViewModel].
+class ManageWorkshopViewModelProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<ManageWorkshopViewModel,
+        List<RepairShopUser>> {
+  /// See also [ManageWorkshopViewModel].
+  ManageWorkshopViewModelProvider(
     int shopId,
   ) : this._internal(
-          () => ManageTeamViewModel()..shopId = shopId,
-          from: manageTeamViewModelProvider,
-          name: r'manageTeamViewModelProvider',
+          () => ManageWorkshopViewModel()..shopId = shopId,
+          from: manageWorkshopViewModelProvider,
+          name: r'manageWorkshopViewModelProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$manageTeamViewModelHash,
-          dependencies: ManageTeamViewModelFamily._dependencies,
+                  : _$manageWorkshopViewModelHash,
+          dependencies: ManageWorkshopViewModelFamily._dependencies,
           allTransitiveDependencies:
-              ManageTeamViewModelFamily._allTransitiveDependencies,
+              ManageWorkshopViewModelFamily._allTransitiveDependencies,
           shopId: shopId,
         );
 
-  ManageTeamViewModelProvider._internal(
+  ManageWorkshopViewModelProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -133,7 +135,7 @@ class ManageTeamViewModelProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   FutureOr<List<RepairShopUser>> runNotifierBuild(
-    covariant ManageTeamViewModel notifier,
+    covariant ManageWorkshopViewModel notifier,
   ) {
     return notifier.build(
       shopId,
@@ -141,10 +143,10 @@ class ManageTeamViewModelProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  Override overrideWith(ManageTeamViewModel Function() create) {
+  Override overrideWith(ManageWorkshopViewModel Function() create) {
     return ProviderOverride(
       origin: this,
-      override: ManageTeamViewModelProvider._internal(
+      override: ManageWorkshopViewModelProvider._internal(
         () => create()..shopId = shopId,
         from: from,
         name: null,
@@ -157,14 +159,14 @@ class ManageTeamViewModelProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<ManageTeamViewModel,
+  AutoDisposeAsyncNotifierProviderElement<ManageWorkshopViewModel,
       List<RepairShopUser>> createElement() {
-    return _ManageTeamViewModelProviderElement(this);
+    return _ManageWorkshopViewModelProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ManageTeamViewModelProvider && other.shopId == shopId;
+    return other is ManageWorkshopViewModelProvider && other.shopId == shopId;
   }
 
   @override
@@ -176,19 +178,19 @@ class ManageTeamViewModelProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
-mixin ManageTeamViewModelRef
+mixin ManageWorkshopViewModelRef
     on AutoDisposeAsyncNotifierProviderRef<List<RepairShopUser>> {
   /// The parameter `shopId` of this provider.
   int get shopId;
 }
 
-class _ManageTeamViewModelProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<ManageTeamViewModel,
-        List<RepairShopUser>> with ManageTeamViewModelRef {
-  _ManageTeamViewModelProviderElement(super.provider);
+class _ManageWorkshopViewModelProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ManageWorkshopViewModel,
+        List<RepairShopUser>> with ManageWorkshopViewModelRef {
+  _ManageWorkshopViewModelProviderElement(super.provider);
 
   @override
-  int get shopId => (origin as ManageTeamViewModelProvider).shopId;
+  int get shopId => (origin as ManageWorkshopViewModelProvider).shopId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

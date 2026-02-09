@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failure.dart';
 import '../entities/repair_shop_user.dart';
 
-abstract class ManageTeamRepository {
+abstract class ManageWorkshopRepository {
   Future<Either<Failure, List<RepairShopUser>>> getShopUsers({
     required int shopId,
   });

@@ -1,26 +1,28 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/network/dio_provider.dart';
 import '../../domain/entities/repair_shop_user.dart';
-import '../../domain/repositories/manage_team_repository.dart';
-import '../../data/repositories/manage_team_repository_impl.dart';
+import '../../domain/repositories/manage_workshop_repository.dart';
+import '../../data/repositories/manage_workshop_repository_impl.dart';
 
-part 'manage_team_view_model.g.dart';
+part 'manage_workshop_view_model.g.dart';
 
 @riverpod
-ManageTeamRepository manageTeamRepository(ManageTeamRepositoryRef ref) {
+ManageWorkshopRepository manageWorkshopRepository(
+  ManageWorkshopRepositoryRef ref,
+) {
   final dio = ref.watch(dioProvider);
-  return ManageTeamRepositoryImpl(dio);
+  return ManageWorkshopRepositoryImpl(dio);
 }
 
 @riverpod
-class ManageTeamViewModel extends _$ManageTeamViewModel {
+class ManageWorkshopViewModel extends _$ManageWorkshopViewModel {
   @override
   FutureOr<List<RepairShopUser>> build(int shopId) async {
     return _fetchUsers(shopId);
   }
 
   Future<List<RepairShopUser>> _fetchUsers(int shopId) async {
-    final repository = ref.read(manageTeamRepositoryProvider);
+    final repository = ref.read(manageWorkshopRepositoryProvider);
     final result = await repository.getShopUsers(shopId: shopId);
 
     return result.fold(
@@ -44,7 +46,7 @@ class ManageTeamViewModel extends _$ManageTeamViewModel {
   }
 
   Future<void> kickUser(String targetUserId) async {
-    final repository = ref.read(manageTeamRepositoryProvider);
+    final repository = ref.read(manageWorkshopRepositoryProvider);
     final result = await repository.kickUser(
       shopId: shopId,
       targetUserId: targetUserId,

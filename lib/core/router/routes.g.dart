@@ -204,8 +204,8 @@ RouteBase get $mechanicDashboardRoute => GoRouteData.$route(
       factory: $MechanicDashboardRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
-          path: 'team',
-          factory: $ManageTeamRouteExtension._fromState,
+          path: 'workshop',
+          factory: $ManageWorkshopRouteExtension._fromState,
         ),
       ],
     );
@@ -230,13 +230,14 @@ extension $MechanicDashboardRouteExtension on MechanicDashboardRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ManageTeamRouteExtension on ManageTeamRoute {
-  static ManageTeamRoute _fromState(GoRouterState state) => ManageTeamRoute(
+extension $ManageWorkshopRouteExtension on ManageWorkshopRoute {
+  static ManageWorkshopRoute _fromState(GoRouterState state) =>
+      ManageWorkshopRoute(
         shopId: int.parse(state.pathParameters['shopId']!),
       );
 
   String get location => GoRouteData.$location(
-        '/mechanic-dashboard/${Uri.encodeComponent(shopId.toString())}/team',
+        '/mechanic-dashboard/${Uri.encodeComponent(shopId.toString())}/workshop',
       );
 
   void go(BuildContext context) => context.go(location);
