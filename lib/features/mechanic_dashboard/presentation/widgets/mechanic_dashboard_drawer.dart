@@ -2,6 +2,7 @@ import 'package:carai/design_system/foundations/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/router/routes.dart';
 import '../../../dashboard/data/repositories/mechanic_dashboard_repository_impl.dart';
 import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
 
@@ -163,7 +164,7 @@ class _MechanicDashboardDrawerState
                 const SizedBox(height: 12),
                 _buildManageTeamCard(
                   onTap: () {
-                    // TODO: Navigate to Team Management screen
+                    ManageTeamRoute(shopId: widget.shopId).push(context);
                   },
                 ),
 
