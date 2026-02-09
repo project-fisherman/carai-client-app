@@ -156,7 +156,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(Icons.person_add, color: Colors.white),
@@ -172,7 +172,10 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                     ),
                   ),
                 ),
-                Icon(Icons.arrow_forward, color: Colors.white.withOpacity(0.7)),
+                Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white.withValues(alpha: 0.7),
+                ),
               ],
             ),
           ),

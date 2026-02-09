@@ -36,7 +36,7 @@ class CaraiApp extends ConsumerWidget {
               child: CircularProgressIndicator(color: AppColors.primary),
             ),
           ),
-          error: (_, __) => child ?? const SizedBox(),
+          error: (error, stackTrace) => child ?? const SizedBox(),
         );
       },
     );
