@@ -5,6 +5,7 @@ class WorkshopCard extends StatelessWidget {
   final String imagePath;
   final String workshopName;
   final String address;
+  final int checklistCount;
   final VoidCallback? onTap;
 
   const WorkshopCard({
@@ -12,6 +13,7 @@ class WorkshopCard extends StatelessWidget {
     required this.imagePath,
     required this.workshopName,
     required this.address,
+    required this.checklistCount,
     this.onTap,
   });
 
@@ -143,6 +145,27 @@ class WorkshopCard extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                             overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Checklist Count
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.fact_check_outlined,
+                          color: AppColors.primary,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '$checklistCount Checklists',
+                          style: TextStyle(
+                            color: Colors.grey[300],
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],

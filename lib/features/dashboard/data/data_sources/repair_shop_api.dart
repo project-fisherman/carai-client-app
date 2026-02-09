@@ -31,4 +31,11 @@ class RepairShopApi {
   Future<void> leaveShop({required String shopId}) async {
     await _dio.post('/repair-shops/$shopId/leave');
   }
+
+  Future<RepairShopUserResponseDto> getMyProfile({
+    required String shopId,
+  }) async {
+    final response = await _dio.get('/repair-shops/$shopId/me');
+    return RepairShopUserResponseDto.fromJson(response.data['result']);
+  }
 }

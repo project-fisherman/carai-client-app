@@ -142,9 +142,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               'https://via.placeholder.com/300',
                           workshopName: shop.name,
                           address: shop.address,
+                          checklistCount: shop.checklistCount,
                           onTap: () {
                             MechanicDashboardRoute(
                               shopId: shop.id,
+                              checklistCount: shop.checklistCount,
                             ).push(context);
                           },
                         ),

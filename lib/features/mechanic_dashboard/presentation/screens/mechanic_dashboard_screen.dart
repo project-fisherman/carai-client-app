@@ -4,12 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/router/routes.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
+import 'package:carai/core/router/routes.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
   final String shopId;
+  final int checklistCount;
 
-  const MechanicDashboardScreen({super.key, required this.shopId});
+  const MechanicDashboardScreen({
+    super.key,
+    required this.shopId,
+    required this.checklistCount,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,35 +38,67 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 data: (vehicles) {
                   // Show empty state if no jobs
                   if (vehicles.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.inbox_outlined,
-                            size: 80,
-                            color: Colors.white.withValues(alpha: 0.3),
-                          ),
-                          const SizedBox(height: 24),
-                          Text(
-                            'No Jobs Yet',
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.7),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
+                    if (checklistCount == 0) {
+                      return Consumer(
+                        builder: (context, ref, child) {
+                          final roleAsync = ref.watch(userRoleProvider(shopId));
+                          return roleAsync.when(
+                            data: (role) {
+                              if (role.isOwnerOrManager) {
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 24.0,
+                                        ),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            ChecklistSelectionRoute(
+                                              shopId: shopId,
+                                            ).push(context);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.orange,
+                                            shape: const CircleBorder(),
+                                            padding: const EdgeInsets.all(16),
+                                          ),
+                                          child: const Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                            size: 32,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Text(
+                                        'Create First Checklist',
+                                        style: TextStyle(
+                                          color: Colors.white.withValues(
+                                            alpha: 0.7,
+                                          ),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                              return _buildNoJobsView();
+                            },
+                            loading: () => const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.orange,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Jobs will appear here when assigned',
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.5),
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+                            error: (err, stack) => _buildNoJobsView(),
+                          );
+                        },
+                      );
+                    }
+                    return _buildNoJobsView();
                   }
 
                   return ListView.separated(
@@ -167,6 +205,38 @@ class MechanicDashboardScreen extends ConsumerWidget {
             onPressed: () {
               ManageWorkshopRoute(shopId: shopId).push(context);
             },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNoJobsView() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.inbox_outlined,
+            size: 80,
+            color: Colors.white.withValues(alpha: 0.3),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            'No Jobs Yet',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.7),
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Jobs will appear here when assigned',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.5),
+              fontSize: 14,
+            ),
           ),
         ],
       ),

@@ -23,9 +23,33 @@ class RepairShopResponseDto with _$RepairShopResponseDto {
     required String name,
     required String address,
     required String phoneNumber,
+    required int checklistCount,
     String? profileImageUrl,
   }) = _RepairShopResponseDto;
 
   factory RepairShopResponseDto.fromJson(Map<String, dynamic> json) =>
       _$RepairShopResponseDtoFromJson(json);
+}
+
+enum RepairShopRole {
+  OWNER,
+  MANAGER,
+  STAFF,
+  INVITED;
+
+  bool get isOwnerOrManager =>
+      this == RepairShopRole.OWNER || this == RepairShopRole.MANAGER;
+}
+
+@freezed
+class RepairShopUserResponseDto with _$RepairShopUserResponseDto {
+  const factory RepairShopUserResponseDto({
+    required String id,
+    required String repairShopId,
+    required String userId,
+    required RepairShopRole role,
+  }) = _RepairShopUserResponseDto;
+
+  factory RepairShopUserResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$RepairShopUserResponseDtoFromJson(json);
 }
