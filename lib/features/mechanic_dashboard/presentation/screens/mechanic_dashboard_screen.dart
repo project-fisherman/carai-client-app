@@ -2,8 +2,8 @@ import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/router/routes.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
-import '../widgets/mechanic_dashboard_drawer.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
@@ -19,8 +19,6 @@ class MechanicDashboardScreen extends ConsumerWidget {
     );
 
     return AppScaffold(
-      // Pass endDrawer to AppScaffold to make it appear from right
-      endDrawer: MechanicDashboardDrawer(shopId: shopId),
       backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
         child: Column(
@@ -41,13 +39,13 @@ class MechanicDashboardScreen extends ConsumerWidget {
                           Icon(
                             Icons.inbox_outlined,
                             size: 80,
-                            color: Colors.white.withOpacity(0.3),
+                            color: Colors.white.withValues(alpha: 0.3),
                           ),
                           const SizedBox(height: 24),
                           Text(
                             'No Jobs Yet',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
+                              color: Colors.white.withValues(alpha: 0.7),
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),
@@ -56,7 +54,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                           Text(
                             'Jobs will appear here when assigned',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.5),
+                              color: Colors.white.withValues(alpha: 0.5),
                               fontSize: 14,
                             ),
                           ),
@@ -159,15 +157,15 @@ class MechanicDashboardScreen extends ConsumerWidget {
             ),
           ),
 
-          // Hamburger Menu Button (Right)
-          Builder(
-            builder: (context) {
-              return IconButton(
-                icon: const Icon(Icons.menu, color: Colors.white, size: 28),
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-              );
+          // Profile Button (Right)
+          IconButton(
+            icon: const Icon(
+              Icons.account_circle,
+              color: Colors.white,
+              size: 28,
+            ),
+            onPressed: () {
+              ManageWorkshopRoute(shopId: shopId).push(context);
             },
           ),
         ],

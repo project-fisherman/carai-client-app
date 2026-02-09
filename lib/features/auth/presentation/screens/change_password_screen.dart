@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../design_system/atoms/app_button.dart';
 import '../../../../design_system/molecules/app_navigation_bar.dart';
 import '../../../../design_system/molecules/app_scaffold.dart';
-import '../../../../design_system/foundations/app_colors.dart';
 import '../../../user/presentation/providers/user_notifier.dart';
 import '../../domain/usecases/change_password_usecase.dart';
 
