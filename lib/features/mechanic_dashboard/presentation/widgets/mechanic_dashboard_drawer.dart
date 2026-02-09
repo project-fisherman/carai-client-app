@@ -159,45 +159,12 @@ class _MechanicDashboardDrawerState
             child: ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                _buildSectionTitle('User Management'),
+                _buildSectionTitle('Team Administration'),
                 const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.manage_accounts,
-                  label: 'Modify User Role',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.person_remove,
-                  label: 'Remove User',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.group,
-                  label: 'View Users',
-                  onTap: () {},
-                ),
-
-                const SizedBox(height: 16),
-                const Divider(
-                  color: Color(0xFF292524),
-                  height: 1,
-                ), // border-stone-800
-                const SizedBox(height: 16),
-
-                _buildSectionTitle('Invitations'),
-                const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.person_add,
-                  label: 'Invite User',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 12),
-                _buildMenuItem(
-                  icon: Icons.mark_email_read,
-                  label: 'Accept Invite',
-                  onTap: () {},
+                _buildManageTeamCard(
+                  onTap: () {
+                    // TODO: Navigate to Team Management screen
+                  },
                 ),
 
                 const SizedBox(height: 16),
@@ -237,6 +204,87 @@ class _MechanicDashboardDrawerState
           fontSize: 12,
           fontWeight: FontWeight.bold,
           letterSpacing: 1.5,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildManageTeamCard({required VoidCallback onTap}) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF2f221a), // surface-dark
+            Color(0xFF1c1917), // stone-900
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFF374151)), // border-stone-700
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.diversity_3,
+                    color: AppColors.primary,
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Manage Team',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Roles, Invites & Users',
+                        style: TextStyle(
+                          color: Color(0xFFA8A29E), // text-stone-400
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Icons.chevron_right,
+                  color: Color(0xFF78716C),
+                  size: 24,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
