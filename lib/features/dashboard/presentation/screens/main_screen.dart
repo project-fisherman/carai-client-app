@@ -105,7 +105,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           height: 1.1,
                         ),
                       ),
-                      error: (_, __) => const Text(
+                      error: (error, stackTrace) => const Text(
                         'Mechanic.',
                         style: TextStyle(
                           color: AppColors.primary,
@@ -208,7 +208,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 ),
               ),
               loading: () => const SizedBox(),
-              error: (_, __) => const SizedBox(),
+              error: (error, stackTrace) => const SizedBox(),
             ),
           ],
         ),

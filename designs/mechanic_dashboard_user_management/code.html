@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manage Team - Mechanic Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f96706",
+                        "primary-dark": "#d15200",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#23170f",
+                        "surface-dark": "#2f221a",
+                        "surface-darker": "#1a120b",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col antialiased selection:bg-primary selection:text-white overflow-hidden">
+<div class="fixed inset-0 z-[60] flex pointer-events-none">
+<div class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity"></div>
+<aside class="pointer-events-auto relative w-80 h-full bg-surface-darker text-white shadow-2xl border-r border-stone-800 flex flex-col transform transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0 hidden lg:flex">
+<div class="p-6 border-b border-stone-800 bg-surface-dark">
+<div class="flex items-center gap-3 mb-1">
+<div class="h-10 w-10 rounded bg-primary flex items-center justify-center text-white font-bold text-lg">
+<span class="material-symbols-outlined">garage_home</span>
+</div>
+<div>
+<h2 class="text-lg font-bold leading-tight">Admin Console</h2>
+<p class="text-xs text-stone-400">Workshop Management</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto p-4 space-y-2">
+<div class="space-y-3">
+<p class="px-2 text-xs font-bold text-stone-500 uppercase tracking-widest mt-2 mb-3">Navigation</p>
+<button class="w-full flex items-center gap-4 p-4 rounded-xl bg-transparent hover:bg-stone-800 active:bg-stone-700 transition-colors text-stone-400 hover:text-white group">
+<span class="material-symbols-outlined text-stone-500 group-hover:text-primary transition-colors text-2xl">dashboard</span>
+<span class="font-semibold text-lg">Dashboard</span>
+</button>
+<button class="w-full flex items-center gap-4 p-4 rounded-xl bg-surface-dark border border-stone-700 hover:bg-stone-800 active:bg-stone-700 transition-colors text-white group">
+<span class="material-symbols-outlined text-primary transition-colors text-2xl">groups</span>
+<span class="font-semibold text-lg">Manage Team</span>
+</button>
+</div>
+<div class="space-y-3 pt-4 border-t border-stone-800 mt-4">
+<p class="px-2 text-xs font-bold text-stone-500 uppercase tracking-widest mb-3">My Account</p>
+<button class="w-full flex items-center gap-4 p-4 rounded-xl bg-transparent hover:bg-stone-800 active:bg-stone-700 transition-colors text-stone-400 hover:text-white group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors text-2xl">account_circle</span>
+<span class="font-semibold text-lg">My Profile</span>
+</button>
+<button class="w-full flex items-center gap-4 p-4 rounded-xl bg-transparent hover:bg-stone-800 active:bg-stone-700 transition-colors text-red-400 hover:text-red-300 group">
+<span class="material-symbols-outlined text-red-500/80 group-hover:text-red-400 transition-colors text-2xl">logout</span>
+<span class="font-semibold text-lg">Logout</span>
+</button>
+</div>
+</nav>
+</aside>
+</div>
+<div class="flex-1 flex flex-col lg:pl-80 transition-all duration-300">
+<header class="sticky top-0 z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-stone-200 dark:border-stone-800">
+<div class="px-4 py-4 flex items-center justify-center max-w-2xl mx-auto w-full relative">
+<div class="text-center">
+<h1 class="text-2xl font-extrabold text-stone-900 dark:text-white tracking-tight">Manage Team</h1>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-6 flex flex-col gap-6 max-w-2xl mx-auto w-full pb-40">
+<button class="relative flex items-center gap-4 p-3 rounded-xl bg-primary hover:bg-primary-dark active:bg-stone-700 group transition-all duration-200 shadow-lg active:scale-[0.99] w-full">
+<div class="h-10 w-10 rounded-lg bg-white/20 flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-2xl">person_add</span>
+</div>
+<div class="text-left flex-1">
+<h3 class="text-lg font-bold text-white">Invite New Member</h3>
+</div>
+<span class="material-symbols-outlined text-white/70 text-2xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<div class="space-y-8">
+<div>
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="text-stone-400 font-bold uppercase tracking-widest text-xs">Pending Requests (2)</h3>
+</div>
+<div class="bg-surface-dark rounded-xl border border-stone-800 overflow-hidden divide-y divide-stone-700">
+<div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-stone-800/30 transition-colors">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-400 font-bold text-lg">
+<span class="material-symbols-outlined">hourglass_empty</span>
+</div>
+<div>
+<p class="text-white font-bold text-lg">David Chen</p>
+</div>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none h-12 px-6 bg-primary hover:bg-primary-dark active:bg-primary-dark/80 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">check</span>
+                            Accept
+                        </button>
+<button class="flex-1 sm:flex-none h-12 px-4 bg-transparent border border-stone-700 text-stone-400 hover:text-white hover:bg-stone-800 rounded-lg transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-stone-800/30 transition-colors">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-stone-800 border border-stone-700 flex items-center justify-center text-stone-400 font-bold text-lg">
+<span class="material-symbols-outlined">hourglass_empty</span>
+</div>
+<div>
+<p class="text-white font-bold text-lg">Alex Johnson</p>
+</div>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none h-12 px-6 bg-primary hover:bg-primary-dark active:bg-primary-dark/80 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">check</span>
+                            Accept
+                        </button>
+<button class="flex-1 sm:flex-none h-12 px-4 bg-transparent border border-stone-700 text-stone-400 hover:text-white hover:bg-stone-800 rounded-lg transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="text-stone-400 font-bold uppercase tracking-widest text-xs">Active Team Members</h3>
+<span class="text-xs text-stone-600 font-mono">TOTAL: 3</span>
+</div>
+<div class="bg-surface-dark rounded-xl border border-stone-800 overflow-hidden divide-y divide-stone-700">
+<div class="p-4 flex flex-col gap-4 bg-stone-800/20 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg border-2 border-surface-dark">JD</div>
+<div>
+<div class="flex items-center gap-2">
+<p class="text-white font-bold text-lg">John Doe</p>
+<span class="text-xs font-bold text-stone-500 bg-stone-800 px-1.5 py-0.5 rounded border border-stone-700">(Me)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary/20 text-primary uppercase tracking-wide border border-primary/20">Manager</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4 hover:bg-stone-800/30 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-stone-700 flex items-center justify-center text-stone-300 font-bold text-lg border-2 border-surface-dark">SM</div>
+<div>
+<p class="text-white font-bold text-lg">Sarah Miller</p>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-stone-700 text-stone-400 uppercase tracking-wide border border-stone-600">Staff</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-1">
+<button class="h-12 bg-stone-800 border border-stone-700 hover:bg-stone-700 hover:border-stone-600 active:bg-stone-600 text-stone-300 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">edit_square</span>
+                            Modify
+                        </button>
+<button class="h-12 bg-stone-800/50 border border-stone-800 hover:bg-red-900/20 hover:border-red-900/50 hover:text-red-400 active:bg-red-900/30 text-stone-500 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">person_remove</span>
+                            Remove
+                        </button>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4 hover:bg-stone-800/30 transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full bg-stone-700 flex items-center justify-center text-stone-300 font-bold text-lg border-2 border-surface-dark">MR</div>
+<div>
+<p class="text-white font-bold text-lg">Mike Ross</p>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-stone-700 text-stone-400 uppercase tracking-wide border border-stone-600">Staff</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-1">
+<button class="h-12 bg-stone-800 border border-stone-700 hover:bg-stone-700 hover:border-stone-600 active:bg-stone-600 text-stone-300 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">edit_square</span>
+                            Modify
+                        </button>
+<button class="h-12 bg-stone-800/50 border border-stone-800 hover:bg-red-900/20 hover:border-red-900/50 hover:text-red-400 active:bg-red-900/30 text-stone-500 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">person_remove</span>
+                            Remove
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

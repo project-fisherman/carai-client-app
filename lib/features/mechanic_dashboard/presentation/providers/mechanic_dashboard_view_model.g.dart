@@ -6,7 +6,8 @@ part of 'mechanic_dashboard_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userRoleHash() => r'8c614aef0f4ed7807876a7a6daccb460fb890e9d';
+String _$mechanicDashboardViewModelHash() =>
+    r'096d6a2edcef2497be8f40afbb4f35a65f44e928';
 
 /// Copied from Dart SDK
 class _SystemHash {

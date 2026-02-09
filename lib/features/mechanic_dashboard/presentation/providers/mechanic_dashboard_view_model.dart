@@ -14,7 +14,7 @@ class MechanicDashboardViewModel extends _$MechanicDashboardViewModel {
 
     return result.fold(
       (failure) => throw Exception(failure.message),
-      (jobs) => jobs,
+      (jobs) => jobs.where((job) => job.repairShopId == shopId).toList(),
     );
   }
 }
