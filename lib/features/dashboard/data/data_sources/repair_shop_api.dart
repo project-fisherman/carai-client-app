@@ -28,7 +28,7 @@ class RepairShopApi {
     return list.map((e) => RepairShopResponseDto.fromJson(e)).toList();
   }
 
-  Future<void> leaveShop({required int shopId}) async {
+  Future<void> leaveShop({required String shopId}) async {
     await _dio.post('/repair-shops/$shopId/leave');
   }
 }

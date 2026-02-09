@@ -11,7 +11,7 @@ import '../../../dashboard/data/repositories/mechanic_dashboard_repository_impl.
 import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
 
 class ManageWorkshopScreen extends ConsumerStatefulWidget {
-  final int shopId;
+  final String shopId;
 
   const ManageWorkshopScreen({super.key, required this.shopId});
 

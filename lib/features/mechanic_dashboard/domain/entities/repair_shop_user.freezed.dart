@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RepairShopUser {
-  int get id => throw _privateConstructorUsedError;
-  int get repairShopId => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get repairShopId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   RepairShopRole get role => throw _privateConstructorUsedError;
@@ -35,8 +35,8 @@ abstract class $RepairShopUserCopyWith<$Res> {
       _$RepairShopUserCopyWithImpl<$Res, RepairShopUser>;
   @useResult
   $Res call(
-      {int id,
-      int repairShopId,
+      {String id,
+      String repairShopId,
       String userId,
       String name,
       RepairShopRole role,
@@ -67,11 +67,11 @@ class _$RepairShopUserCopyWithImpl<$Res, $Val extends RepairShopUser>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       repairShopId: null == repairShopId
           ? _value.repairShopId
           : repairShopId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -101,8 +101,8 @@ abstract class _$$RepairShopUserImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
-      int repairShopId,
+      {String id,
+      String repairShopId,
       String userId,
       String name,
       RepairShopRole role,
@@ -131,11 +131,11 @@ class __$$RepairShopUserImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       repairShopId: null == repairShopId
           ? _value.repairShopId
           : repairShopId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -168,9 +168,9 @@ class _$RepairShopUserImpl implements _RepairShopUser {
       this.profileImageUrl});
 
   @override
-  final int id;
+  final String id;
   @override
-  final int repairShopId;
+  final String repairShopId;
   @override
   final String userId;
   @override
@@ -214,17 +214,17 @@ class _$RepairShopUserImpl implements _RepairShopUser {
 
 abstract class _RepairShopUser implements RepairShopUser {
   const factory _RepairShopUser(
-      {required final int id,
-      required final int repairShopId,
+      {required final String id,
+      required final String repairShopId,
       required final String userId,
       required final String name,
       required final RepairShopRole role,
       final String? profileImageUrl}) = _$RepairShopUserImpl;
 
   @override
-  int get id;
+  String get id;
   @override
-  int get repairShopId;
+  String get repairShopId;
   @override
   String get userId;
   @override

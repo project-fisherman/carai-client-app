@@ -27,7 +27,7 @@ Map<String, dynamic> _$$CreateShopRequestDtoImplToJson(
 _$RepairShopResponseDtoImpl _$$RepairShopResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$RepairShopResponseDtoImpl(
-      id: (json['id'] as num).toInt(),
+      id: json['id'] as String,
       name: json['name'] as String,
       address: json['address'] as String,
       phoneNumber: json['phoneNumber'] as String,

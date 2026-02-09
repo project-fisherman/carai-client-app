@@ -16,9 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RepairJob {
-  int get id => throw _privateConstructorUsedError;
-  int get repairShopId => throw _privateConstructorUsedError;
-  int get assigneeUserId => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get repairShopId => throw _privateConstructorUsedError;
+  String get assigneeUserId => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
 
@@ -33,9 +33,9 @@ abstract class $RepairJobCopyWith<$Res> {
       _$RepairJobCopyWithImpl<$Res, RepairJob>;
   @useResult
   $Res call(
-      {int id,
-      int repairShopId,
-      int assigneeUserId,
+      {String id,
+      String repairShopId,
+      String assigneeUserId,
       String status,
       String? description});
 }
@@ -63,15 +63,15 @@ class _$RepairJobCopyWithImpl<$Res, $Val extends RepairJob>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       repairShopId: null == repairShopId
           ? _value.repairShopId
           : repairShopId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       assigneeUserId: null == assigneeUserId
           ? _value.assigneeUserId
           : assigneeUserId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -93,9 +93,9 @@ abstract class _$$RepairJobImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
-      int repairShopId,
-      int assigneeUserId,
+      {String id,
+      String repairShopId,
+      String assigneeUserId,
       String status,
       String? description});
 }
@@ -121,15 +121,15 @@ class __$$RepairJobImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       repairShopId: null == repairShopId
           ? _value.repairShopId
           : repairShopId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       assigneeUserId: null == assigneeUserId
           ? _value.assigneeUserId
           : assigneeUserId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -153,11 +153,11 @@ class _$RepairJobImpl implements _RepairJob {
       this.description});
 
   @override
-  final int id;
+  final String id;
   @override
-  final int repairShopId;
+  final String repairShopId;
   @override
-  final int assigneeUserId;
+  final String assigneeUserId;
   @override
   final String status;
   @override
@@ -196,18 +196,18 @@ class _$RepairJobImpl implements _RepairJob {
 
 abstract class _RepairJob implements RepairJob {
   const factory _RepairJob(
-      {required final int id,
-      required final int repairShopId,
-      required final int assigneeUserId,
+      {required final String id,
+      required final String repairShopId,
+      required final String assigneeUserId,
       required final String status,
       final String? description}) = _$RepairJobImpl;
 
   @override
-  int get id;
+  String get id;
   @override
-  int get repairShopId;
+  String get repairShopId;
   @override
-  int get assigneeUserId;
+  String get assigneeUserId;
   @override
   String get status;
   @override

@@ -12,7 +12,7 @@ class ManageWorkshopRepositoryImpl implements ManageWorkshopRepository {
 
   @override
   Future<Either<Failure, List<RepairShopUser>>> getShopUsers({
-    required int shopId,
+    required String shopId,
   }) async {
     try {
       final response = await _dio.get('/repair-shops/$shopId/users');
@@ -35,13 +35,13 @@ class ManageWorkshopRepositoryImpl implements ManageWorkshopRepository {
 
   @override
   Future<Either<Failure, void>> kickUser({
-    required int shopId,
+    required String shopId,
     required String targetUserId,
   }) async {
     try {
       await _dio.post(
         '/repair-shops/$shopId/kick',
-        data: KickUserRequest(targetUserId: targetUserId).toJson(),
+        data: KickUserRequest(targetUserId: int.parse(targetUserId)).toJson(),
       );
       return const Right(null);
     } on DioException catch (e) {
@@ -53,7 +53,7 @@ class ManageWorkshopRepositoryImpl implements ManageWorkshopRepository {
 
   @override
   Future<Either<Failure, void>> changeRole({
-    required int shopId,
+    required String shopId,
     required String targetUserId,
     required RepairShopRole newRole,
   }) async {
@@ -61,7 +61,7 @@ class ManageWorkshopRepositoryImpl implements ManageWorkshopRepository {
       await _dio.post(
         '/repair-shops/$shopId/role',
         data: ChangeRoleRequest(
-          targetUserId: targetUserId,
+          targetUserId: int.parse(targetUserId),
           role: newRole.name.toUpperCase(),
         ).toJson(),
       );

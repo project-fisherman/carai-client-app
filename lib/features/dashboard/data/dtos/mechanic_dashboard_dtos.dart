@@ -19,7 +19,7 @@ class CreateShopRequestDto with _$CreateShopRequestDto {
 @freezed
 class RepairShopResponseDto with _$RepairShopResponseDto {
   const factory RepairShopResponseDto({
-    required int id,
+    required String id,
     required String name,
     required String address,
     required String phoneNumber,

@@ -64,7 +64,7 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
         'repairShopsBox',
       ); // Ensure this box is opened in main.dart
       // Use string key to avoid Hive integer key range limitation (0-0xFFFFFFFF)
-      await box.put(shop.id.toString(), shop.toJson());
+      await box.put(shop.id, shop.toJson());
 
       return Right(shop);
     } catch (e) {
@@ -94,7 +94,7 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
           .clear(); // Clear old cache or update intelligently? Clearing for now to be simple sync.
       for (var shop in shops) {
         // Use string key to avoid Hive integer key range limitation (0-0xFFFFFFFF)
-        await box.put(shop.id.toString(), shop.toJson());
+        await box.put(shop.id, shop.toJson());
       }
 
       return Right(shops);
@@ -117,13 +117,13 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
   }
 
   @override
-  Future<Either<Failure, void>> leaveShop({required int shopId}) async {
+  Future<Either<Failure, void>> leaveShop({required String shopId}) async {
     try {
       await _repairShopApi.leaveShop(shopId: shopId);
 
       // Remove from local cache
       final box = Hive.box('repairShopsBox');
-      await box.delete(shopId.toString());
+      await box.delete(shopId);
 
       return const Right(null);
     } catch (e) {

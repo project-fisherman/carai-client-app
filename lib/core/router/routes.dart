@@ -63,7 +63,7 @@ class DocumentRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return MechanicDashboardScreen(shopId: int.parse(shopId));
+    return MechanicDashboardScreen(shopId: shopId);
   }
 }
 
@@ -102,7 +102,7 @@ class ChangePasswordRoute extends GoRouteData {
   routes: [TypedGoRoute<ManageWorkshopRoute>(path: 'workshop')],
 )
 class MechanicDashboardRoute extends GoRouteData {
-  final int shopId;
+  final String shopId;
   const MechanicDashboardRoute({required this.shopId});
 
   @override
@@ -112,7 +112,7 @@ class MechanicDashboardRoute extends GoRouteData {
 }
 
 class ManageWorkshopRoute extends GoRouteData {
-  final int shopId;
+  final String shopId;
 
   const ManageWorkshopRoute({required this.shopId});
 

@@ -7,7 +7,7 @@ part of 'mechanic_dashboard_view_model.dart';
 // **************************************************************************
 
 String _$mechanicDashboardViewModelHash() =>
-    r'63f7eef172a52fb333c2995fdd58a887e22e9e83';
+    r'096d6a2edcef2497be8f40afbb4f35a65f44e928';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -32,10 +32,10 @@ class _SystemHash {
 
 abstract class _$MechanicDashboardViewModel
     extends BuildlessAutoDisposeAsyncNotifier<List<RepairJob>> {
-  late final int shopId;
+  late final String shopId;
 
   FutureOr<List<RepairJob>> build(
-    int shopId,
+    String shopId,
   );
 }
 
@@ -51,7 +51,7 @@ class MechanicDashboardViewModelFamily
 
   /// See also [MechanicDashboardViewModel].
   MechanicDashboardViewModelProvider call(
-    int shopId,
+    String shopId,
   ) {
     return MechanicDashboardViewModelProvider(
       shopId,
@@ -88,7 +88,7 @@ class MechanicDashboardViewModelProvider
         List<RepairJob>> {
   /// See also [MechanicDashboardViewModel].
   MechanicDashboardViewModelProvider(
-    int shopId,
+    String shopId,
   ) : this._internal(
           () => MechanicDashboardViewModel()..shopId = shopId,
           from: mechanicDashboardViewModelProvider,
@@ -113,7 +113,7 @@ class MechanicDashboardViewModelProvider
     required this.shopId,
   }) : super.internal();
 
-  final int shopId;
+  final String shopId;
 
   @override
   FutureOr<List<RepairJob>> runNotifierBuild(
@@ -164,7 +164,7 @@ class MechanicDashboardViewModelProvider
 mixin MechanicDashboardViewModelRef
     on AutoDisposeAsyncNotifierProviderRef<List<RepairJob>> {
   /// The parameter `shopId` of this provider.
-  int get shopId;
+  String get shopId;
 }
 
 class _MechanicDashboardViewModelProviderElement
@@ -173,7 +173,7 @@ class _MechanicDashboardViewModelProviderElement
   _MechanicDashboardViewModelProviderElement(super.provider);
 
   @override
-  int get shopId => (origin as MechanicDashboardViewModelProvider).shopId;
+  String get shopId => (origin as MechanicDashboardViewModelProvider).shopId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
