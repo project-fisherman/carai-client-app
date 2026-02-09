@@ -7,9 +7,14 @@ import '../widgets/mechanic_dashboard_drawer.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
-  final int shopId;
+  final String shopId;
+  final int checklistCount;
 
-  const MechanicDashboardScreen({super.key, required this.shopId});
+  const MechanicDashboardScreen({
+    super.key,
+    required this.shopId,
+    required this.checklistCount,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,31 +39,90 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 data: (vehicles) {
                   // Show empty state if no jobs
                   if (vehicles.isEmpty) {
+                    if (checklistCount == 0) {
+                      return Consumer(
+                        builder: (context, ref, child) {
+                          final roleAsync = ref.watch(userRoleProvider(shopId));
+                          return roleAsync.when(
+                            data: (role) {
+                              if (role.isOwnerOrManager) {
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 24.0,
+                                        ),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            // TODO: Navigate to create checklist or similar action
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.orange,
+                                            shape: const CircleBorder(),
+                                            padding: const EdgeInsets.all(16),
+                                          ),
+                                          child: const Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                            size: 32,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Text(
+                                        'Create First Checklist',
+                                        style: TextStyle(
+                                          color: Colors.white.withValues(
+                                            alpha: 0.7,
+                                          ),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    _buildNoJobsView(),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Debug: Role=${role.name}, Count=$checklistCount',
+                                      style: const TextStyle(color: Colors.red),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            loading: () => const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.orange,
+                              ),
+                            ),
+                            error: (err, stack) => Center(
+                              child: Text(
+                                'Error loading role: $err',
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.inbox_outlined,
-                            size: 80,
-                            color: Colors.white.withOpacity(0.3),
-                          ),
-                          const SizedBox(height: 24),
-                          Text(
-                            'No Jobs Yet',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          _buildNoJobsView(),
                           const SizedBox(height: 8),
                           Text(
-                            'Jobs will appear here when assigned',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.5),
-                              fontSize: 14,
-                            ),
+                            'Debug: Count=$checklistCount (Not 0)',
+                            style: const TextStyle(color: Colors.red),
                           ),
                         ],
                       ),
@@ -169,6 +233,38 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 },
               );
             },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNoJobsView() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.inbox_outlined,
+            size: 80,
+            color: Colors.white.withValues(alpha: 0.3),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            'No Jobs Yet',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.7),
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Jobs will appear here when assigned',
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.5),
+              fontSize: 14,
+            ),
           ),
         ],
       ),

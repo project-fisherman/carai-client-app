@@ -6,7 +6,7 @@ import '../../../dashboard/data/repositories/mechanic_dashboard_repository_impl.
 import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
 
 class MechanicDashboardDrawer extends ConsumerStatefulWidget {
-  final int shopId;
+  final String shopId;
 
   const MechanicDashboardDrawer({super.key, required this.shopId});
 

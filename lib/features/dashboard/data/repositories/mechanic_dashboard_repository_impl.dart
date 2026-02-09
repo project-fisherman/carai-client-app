@@ -119,7 +119,7 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
   }
 
   @override
-  Future<Either<Failure, void>> leaveShop({required int shopId}) async {
+  Future<Either<Failure, void>> leaveShop({required String shopId}) async {
     try {
       await _repairShopApi.leaveShop(shopId: shopId);
 

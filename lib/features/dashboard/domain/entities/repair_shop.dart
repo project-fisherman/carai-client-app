@@ -6,7 +6,7 @@ part 'repair_shop.g.dart';
 @freezed
 class RepairShop with _$RepairShop {
   const factory RepairShop({
-    required int id,
+    required String id,
     required String name,
     required String address,
     required String phoneNumber,

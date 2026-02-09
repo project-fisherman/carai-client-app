@@ -27,7 +27,7 @@ Map<String, dynamic> _$$CreateShopRequestDtoImplToJson(
 _$RepairShopResponseDtoImpl _$$RepairShopResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$RepairShopResponseDtoImpl(
-      id: (json['id'] as num).toInt(),
+      id: json['id'] as String,
       name: json['name'] as String,
       address: json['address'] as String,
       phoneNumber: json['phoneNumber'] as String,
@@ -45,3 +45,28 @@ Map<String, dynamic> _$$RepairShopResponseDtoImplToJson(
       'checklistCount': instance.checklistCount,
       'profileImageUrl': instance.profileImageUrl,
     };
+
+_$RepairShopUserResponseDtoImpl _$$RepairShopUserResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RepairShopUserResponseDtoImpl(
+      id: json['id'] as String,
+      repairShopId: json['repairShopId'] as String,
+      userId: json['userId'] as String,
+      role: $enumDecode(_$RepairShopRoleEnumMap, json['role']),
+    );
+
+Map<String, dynamic> _$$RepairShopUserResponseDtoImplToJson(
+        _$RepairShopUserResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'repairShopId': instance.repairShopId,
+      'userId': instance.userId,
+      'role': _$RepairShopRoleEnumMap[instance.role]!,
+    };
+
+const _$RepairShopRoleEnumMap = {
+  RepairShopRole.OWNER: 'OWNER',
+  RepairShopRole.MANAGER: 'MANAGER',
+  RepairShopRole.STAFF: 'STAFF',
+  RepairShopRole.INVITED: 'INVITED',
+};

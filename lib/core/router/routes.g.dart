@@ -207,11 +207,16 @@ RouteBase get $mechanicDashboardRoute => GoRouteData.$route(
 extension $MechanicDashboardRouteExtension on MechanicDashboardRoute {
   static MechanicDashboardRoute _fromState(GoRouterState state) =>
       MechanicDashboardRoute(
-        shopId: int.parse(state.pathParameters['shopId']!),
+        shopId: state.pathParameters['shopId']!,
+        checklistCount:
+            int.parse(state.uri.queryParameters['checklist-count']!),
       );
 
   String get location => GoRouteData.$location(
-        '/mechanic-dashboard/${Uri.encodeComponent(shopId.toString())}',
+        '/mechanic-dashboard/${Uri.encodeComponent(shopId)}',
+        queryParams: {
+          'checklist-count': checklistCount.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);

@@ -8,7 +8,7 @@ part of 'repair_shop.dart';
 
 _$RepairShopImpl _$$RepairShopImplFromJson(Map<String, dynamic> json) =>
     _$RepairShopImpl(
-      id: (json['id'] as num).toInt(),
+      id: json['id'] as String,
       name: json['name'] as String,
       address: json['address'] as String,
       phoneNumber: json['phoneNumber'] as String,

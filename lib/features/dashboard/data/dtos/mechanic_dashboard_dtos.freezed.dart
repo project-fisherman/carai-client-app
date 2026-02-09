@@ -227,7 +227,7 @@ RepairShopResponseDto _$RepairShopResponseDtoFromJson(
 
 /// @nodoc
 mixin _$RepairShopResponseDto {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
@@ -247,7 +247,7 @@ abstract class $RepairShopResponseDtoCopyWith<$Res> {
       _$RepairShopResponseDtoCopyWithImpl<$Res, RepairShopResponseDto>;
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       String address,
       String phoneNumber,
@@ -280,7 +280,7 @@ class _$RepairShopResponseDtoCopyWithImpl<$Res,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -315,7 +315,7 @@ abstract class _$$RepairShopResponseDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       String address,
       String phoneNumber,
@@ -346,7 +346,7 @@ class __$$RepairShopResponseDtoImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -386,7 +386,7 @@ class _$RepairShopResponseDtoImpl implements _RepairShopResponseDto {
       _$$RepairShopResponseDtoImplFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
   final String name;
   @override
@@ -441,7 +441,7 @@ class _$RepairShopResponseDtoImpl implements _RepairShopResponseDto {
 
 abstract class _RepairShopResponseDto implements RepairShopResponseDto {
   const factory _RepairShopResponseDto(
-      {required final int id,
+      {required final String id,
       required final String name,
       required final String address,
       required final String phoneNumber,
@@ -452,7 +452,7 @@ abstract class _RepairShopResponseDto implements RepairShopResponseDto {
       _$RepairShopResponseDtoImpl.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
   String get name;
   @override
@@ -466,5 +466,206 @@ abstract class _RepairShopResponseDto implements RepairShopResponseDto {
   @override
   @JsonKey(ignore: true)
   _$$RepairShopResponseDtoImplCopyWith<_$RepairShopResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+RepairShopUserResponseDto _$RepairShopUserResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _RepairShopUserResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RepairShopUserResponseDto {
+  String get id => throw _privateConstructorUsedError;
+  String get repairShopId => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
+  RepairShopRole get role => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RepairShopUserResponseDtoCopyWith<RepairShopUserResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RepairShopUserResponseDtoCopyWith<$Res> {
+  factory $RepairShopUserResponseDtoCopyWith(RepairShopUserResponseDto value,
+          $Res Function(RepairShopUserResponseDto) then) =
+      _$RepairShopUserResponseDtoCopyWithImpl<$Res, RepairShopUserResponseDto>;
+  @useResult
+  $Res call(
+      {String id, String repairShopId, String userId, RepairShopRole role});
+}
+
+/// @nodoc
+class _$RepairShopUserResponseDtoCopyWithImpl<$Res,
+        $Val extends RepairShopUserResponseDto>
+    implements $RepairShopUserResponseDtoCopyWith<$Res> {
+  _$RepairShopUserResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? repairShopId = null,
+    Object? userId = null,
+    Object? role = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      repairShopId: null == repairShopId
+          ? _value.repairShopId
+          : repairShopId // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as RepairShopRole,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RepairShopUserResponseDtoImplCopyWith<$Res>
+    implements $RepairShopUserResponseDtoCopyWith<$Res> {
+  factory _$$RepairShopUserResponseDtoImplCopyWith(
+          _$RepairShopUserResponseDtoImpl value,
+          $Res Function(_$RepairShopUserResponseDtoImpl) then) =
+      __$$RepairShopUserResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id, String repairShopId, String userId, RepairShopRole role});
+}
+
+/// @nodoc
+class __$$RepairShopUserResponseDtoImplCopyWithImpl<$Res>
+    extends _$RepairShopUserResponseDtoCopyWithImpl<$Res,
+        _$RepairShopUserResponseDtoImpl>
+    implements _$$RepairShopUserResponseDtoImplCopyWith<$Res> {
+  __$$RepairShopUserResponseDtoImplCopyWithImpl(
+      _$RepairShopUserResponseDtoImpl _value,
+      $Res Function(_$RepairShopUserResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? repairShopId = null,
+    Object? userId = null,
+    Object? role = null,
+  }) {
+    return _then(_$RepairShopUserResponseDtoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      repairShopId: null == repairShopId
+          ? _value.repairShopId
+          : repairShopId // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as RepairShopRole,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RepairShopUserResponseDtoImpl implements _RepairShopUserResponseDto {
+  const _$RepairShopUserResponseDtoImpl(
+      {required this.id,
+      required this.repairShopId,
+      required this.userId,
+      required this.role});
+
+  factory _$RepairShopUserResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RepairShopUserResponseDtoImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String repairShopId;
+  @override
+  final String userId;
+  @override
+  final RepairShopRole role;
+
+  @override
+  String toString() {
+    return 'RepairShopUserResponseDto(id: $id, repairShopId: $repairShopId, userId: $userId, role: $role)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RepairShopUserResponseDtoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.repairShopId, repairShopId) ||
+                other.repairShopId == repairShopId) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.role, role) || other.role == role));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, repairShopId, userId, role);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RepairShopUserResponseDtoImplCopyWith<_$RepairShopUserResponseDtoImpl>
+      get copyWith => __$$RepairShopUserResponseDtoImplCopyWithImpl<
+          _$RepairShopUserResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RepairShopUserResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RepairShopUserResponseDto implements RepairShopUserResponseDto {
+  const factory _RepairShopUserResponseDto(
+      {required final String id,
+      required final String repairShopId,
+      required final String userId,
+      required final RepairShopRole role}) = _$RepairShopUserResponseDtoImpl;
+
+  factory _RepairShopUserResponseDto.fromJson(Map<String, dynamic> json) =
+      _$RepairShopUserResponseDtoImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get repairShopId;
+  @override
+  String get userId;
+  @override
+  RepairShopRole get role;
+  @override
+  @JsonKey(ignore: true)
+  _$$RepairShopUserResponseDtoImplCopyWith<_$RepairShopUserResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

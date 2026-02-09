@@ -20,7 +20,7 @@ RepairShop _$RepairShopFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RepairShop {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $RepairShopCopyWith<$Res> {
       _$RepairShopCopyWithImpl<$Res, RepairShop>;
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       String address,
       String phoneNumber,
@@ -72,7 +72,7 @@ class _$RepairShopCopyWithImpl<$Res, $Val extends RepairShop>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$$RepairShopImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       String address,
       String phoneNumber,
@@ -136,7 +136,7 @@ class __$$RepairShopImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ class _$RepairShopImpl implements _RepairShop {
       _$$RepairShopImplFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
   final String name;
   @override
@@ -230,7 +230,7 @@ class _$RepairShopImpl implements _RepairShop {
 
 abstract class _RepairShop implements RepairShop {
   const factory _RepairShop(
-      {required final int id,
+      {required final String id,
       required final String name,
       required final String address,
       required final String phoneNumber,
@@ -241,7 +241,7 @@ abstract class _RepairShop implements RepairShop {
       _$RepairShopImpl.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
   String get name;
   @override
