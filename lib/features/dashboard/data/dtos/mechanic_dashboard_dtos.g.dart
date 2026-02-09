@@ -31,6 +31,7 @@ _$RepairShopResponseDtoImpl _$$RepairShopResponseDtoImplFromJson(
       name: json['name'] as String,
       address: json['address'] as String,
       phoneNumber: json['phoneNumber'] as String,
+      checklistCount: (json['checklistCount'] as num).toInt(),
       profileImageUrl: json['profileImageUrl'] as String?,
     );
 
@@ -41,5 +42,6 @@ Map<String, dynamic> _$$RepairShopResponseDtoImplToJson(
       'name': instance.name,
       'address': instance.address,
       'phoneNumber': instance.phoneNumber,
+      'checklistCount': instance.checklistCount,
       'profileImageUrl': instance.profileImageUrl,
     };

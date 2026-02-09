@@ -23,6 +23,7 @@ class RepairShopResponseDto with _$RepairShopResponseDto {
     required String name,
     required String address,
     required String phoneNumber,
+    required int checklistCount,
     String? profileImageUrl,
   }) = _RepairShopResponseDto;
 

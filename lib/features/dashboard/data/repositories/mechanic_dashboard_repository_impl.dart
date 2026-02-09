@@ -54,6 +54,7 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
         name: responseDto.name,
         address: responseDto.address,
         phoneNumber: responseDto.phoneNumber,
+        checklistCount: responseDto.checklistCount,
         profileImageUrl: responseDto.profileImageUrl,
       );
 
@@ -83,6 +84,7 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
               name: dto.name,
               address: dto.address,
               phoneNumber: dto.phoneNumber,
+              checklistCount: dto.checklistCount,
               profileImageUrl: dto.profileImageUrl,
             ),
           )

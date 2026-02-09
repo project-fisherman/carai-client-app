@@ -231,6 +231,7 @@ mixin _$RepairShopResponseDto {
   String get name => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
+  int get checklistCount => throw _privateConstructorUsedError;
   String? get profileImageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -250,6 +251,7 @@ abstract class $RepairShopResponseDtoCopyWith<$Res> {
       String name,
       String address,
       String phoneNumber,
+      int checklistCount,
       String? profileImageUrl});
 }
 
@@ -271,6 +273,7 @@ class _$RepairShopResponseDtoCopyWithImpl<$Res,
     Object? name = null,
     Object? address = null,
     Object? phoneNumber = null,
+    Object? checklistCount = null,
     Object? profileImageUrl = freezed,
   }) {
     return _then(_value.copyWith(
@@ -290,6 +293,10 @@ class _$RepairShopResponseDtoCopyWithImpl<$Res,
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
+      checklistCount: null == checklistCount
+          ? _value.checklistCount
+          : checklistCount // ignore: cast_nullable_to_non_nullable
+              as int,
       profileImageUrl: freezed == profileImageUrl
           ? _value.profileImageUrl
           : profileImageUrl // ignore: cast_nullable_to_non_nullable
@@ -312,6 +319,7 @@ abstract class _$$RepairShopResponseDtoImplCopyWith<$Res>
       String name,
       String address,
       String phoneNumber,
+      int checklistCount,
       String? profileImageUrl});
 }
 
@@ -331,6 +339,7 @@ class __$$RepairShopResponseDtoImplCopyWithImpl<$Res>
     Object? name = null,
     Object? address = null,
     Object? phoneNumber = null,
+    Object? checklistCount = null,
     Object? profileImageUrl = freezed,
   }) {
     return _then(_$RepairShopResponseDtoImpl(
@@ -350,6 +359,10 @@ class __$$RepairShopResponseDtoImplCopyWithImpl<$Res>
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
+      checklistCount: null == checklistCount
+          ? _value.checklistCount
+          : checklistCount // ignore: cast_nullable_to_non_nullable
+              as int,
       profileImageUrl: freezed == profileImageUrl
           ? _value.profileImageUrl
           : profileImageUrl // ignore: cast_nullable_to_non_nullable
@@ -366,6 +379,7 @@ class _$RepairShopResponseDtoImpl implements _RepairShopResponseDto {
       required this.name,
       required this.address,
       required this.phoneNumber,
+      required this.checklistCount,
       this.profileImageUrl});
 
   factory _$RepairShopResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -380,11 +394,13 @@ class _$RepairShopResponseDtoImpl implements _RepairShopResponseDto {
   @override
   final String phoneNumber;
   @override
+  final int checklistCount;
+  @override
   final String? profileImageUrl;
 
   @override
   String toString() {
-    return 'RepairShopResponseDto(id: $id, name: $name, address: $address, phoneNumber: $phoneNumber, profileImageUrl: $profileImageUrl)';
+    return 'RepairShopResponseDto(id: $id, name: $name, address: $address, phoneNumber: $phoneNumber, checklistCount: $checklistCount, profileImageUrl: $profileImageUrl)';
   }
 
   @override
@@ -397,14 +413,16 @@ class _$RepairShopResponseDtoImpl implements _RepairShopResponseDto {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
+            (identical(other.checklistCount, checklistCount) ||
+                other.checklistCount == checklistCount) &&
             (identical(other.profileImageUrl, profileImageUrl) ||
                 other.profileImageUrl == profileImageUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, address, phoneNumber, profileImageUrl);
+  int get hashCode => Object.hash(runtimeType, id, name, address, phoneNumber,
+      checklistCount, profileImageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -427,6 +445,7 @@ abstract class _RepairShopResponseDto implements RepairShopResponseDto {
       required final String name,
       required final String address,
       required final String phoneNumber,
+      required final int checklistCount,
       final String? profileImageUrl}) = _$RepairShopResponseDtoImpl;
 
   factory _RepairShopResponseDto.fromJson(Map<String, dynamic> json) =
@@ -440,6 +459,8 @@ abstract class _RepairShopResponseDto implements RepairShopResponseDto {
   String get address;
   @override
   String get phoneNumber;
+  @override
+  int get checklistCount;
   @override
   String? get profileImageUrl;
   @override

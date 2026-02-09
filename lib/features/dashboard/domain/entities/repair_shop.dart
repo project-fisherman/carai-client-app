@@ -10,6 +10,7 @@ class RepairShop with _$RepairShop {
     required String name,
     required String address,
     required String phoneNumber,
+    required int checklistCount,
     String? profileImageUrl,
   }) = _RepairShop;
 

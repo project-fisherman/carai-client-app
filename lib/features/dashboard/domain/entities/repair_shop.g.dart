@@ -12,6 +12,7 @@ _$RepairShopImpl _$$RepairShopImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       address: json['address'] as String,
       phoneNumber: json['phoneNumber'] as String,
+      checklistCount: (json['checklistCount'] as num).toInt(),
       profileImageUrl: json['profileImageUrl'] as String?,
     );
 
@@ -21,5 +22,6 @@ Map<String, dynamic> _$$RepairShopImplToJson(_$RepairShopImpl instance) =>
       'name': instance.name,
       'address': instance.address,
       'phoneNumber': instance.phoneNumber,
+      'checklistCount': instance.checklistCount,
       'profileImageUrl': instance.profileImageUrl,
     };

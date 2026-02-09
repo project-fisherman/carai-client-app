@@ -24,6 +24,7 @@ mixin _$RepairShop {
   String get name => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
+  int get checklistCount => throw _privateConstructorUsedError;
   String? get profileImageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $RepairShopCopyWith<$Res> {
       String name,
       String address,
       String phoneNumber,
+      int checklistCount,
       String? profileImageUrl});
 }
 
@@ -63,6 +65,7 @@ class _$RepairShopCopyWithImpl<$Res, $Val extends RepairShop>
     Object? name = null,
     Object? address = null,
     Object? phoneNumber = null,
+    Object? checklistCount = null,
     Object? profileImageUrl = freezed,
   }) {
     return _then(_value.copyWith(
@@ -82,6 +85,10 @@ class _$RepairShopCopyWithImpl<$Res, $Val extends RepairShop>
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
+      checklistCount: null == checklistCount
+          ? _value.checklistCount
+          : checklistCount // ignore: cast_nullable_to_non_nullable
+              as int,
       profileImageUrl: freezed == profileImageUrl
           ? _value.profileImageUrl
           : profileImageUrl // ignore: cast_nullable_to_non_nullable
@@ -103,6 +110,7 @@ abstract class _$$RepairShopImplCopyWith<$Res>
       String name,
       String address,
       String phoneNumber,
+      int checklistCount,
       String? profileImageUrl});
 }
 
@@ -121,6 +129,7 @@ class __$$RepairShopImplCopyWithImpl<$Res>
     Object? name = null,
     Object? address = null,
     Object? phoneNumber = null,
+    Object? checklistCount = null,
     Object? profileImageUrl = freezed,
   }) {
     return _then(_$RepairShopImpl(
@@ -140,6 +149,10 @@ class __$$RepairShopImplCopyWithImpl<$Res>
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
+      checklistCount: null == checklistCount
+          ? _value.checklistCount
+          : checklistCount // ignore: cast_nullable_to_non_nullable
+              as int,
       profileImageUrl: freezed == profileImageUrl
           ? _value.profileImageUrl
           : profileImageUrl // ignore: cast_nullable_to_non_nullable
@@ -156,6 +169,7 @@ class _$RepairShopImpl implements _RepairShop {
       required this.name,
       required this.address,
       required this.phoneNumber,
+      required this.checklistCount,
       this.profileImageUrl});
 
   factory _$RepairShopImpl.fromJson(Map<String, dynamic> json) =>
@@ -170,11 +184,13 @@ class _$RepairShopImpl implements _RepairShop {
   @override
   final String phoneNumber;
   @override
+  final int checklistCount;
+  @override
   final String? profileImageUrl;
 
   @override
   String toString() {
-    return 'RepairShop(id: $id, name: $name, address: $address, phoneNumber: $phoneNumber, profileImageUrl: $profileImageUrl)';
+    return 'RepairShop(id: $id, name: $name, address: $address, phoneNumber: $phoneNumber, checklistCount: $checklistCount, profileImageUrl: $profileImageUrl)';
   }
 
   @override
@@ -187,14 +203,16 @@ class _$RepairShopImpl implements _RepairShop {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
+            (identical(other.checklistCount, checklistCount) ||
+                other.checklistCount == checklistCount) &&
             (identical(other.profileImageUrl, profileImageUrl) ||
                 other.profileImageUrl == profileImageUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, address, phoneNumber, profileImageUrl);
+  int get hashCode => Object.hash(runtimeType, id, name, address, phoneNumber,
+      checklistCount, profileImageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -216,6 +234,7 @@ abstract class _RepairShop implements RepairShop {
       required final String name,
       required final String address,
       required final String phoneNumber,
+      required final int checklistCount,
       final String? profileImageUrl}) = _$RepairShopImpl;
 
   factory _RepairShop.fromJson(Map<String, dynamic> json) =
@@ -229,6 +248,8 @@ abstract class _RepairShop implements RepairShop {
   String get address;
   @override
   String get phoneNumber;
+  @override
+  int get checklistCount;
   @override
   String? get profileImageUrl;
   @override
