@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
 import '../widgets/mechanic_dashboard_drawer.dart';
+import 'package:carai/core/router/routes.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
@@ -56,7 +57,9 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                         ),
                                         child: ElevatedButton(
                                           onPressed: () {
-                                            // TODO: Navigate to create checklist or similar action
+                                            ChecklistSelectionRoute(
+                                              shopId: shopId,
+                                            ).push(context);
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.orange,

@@ -16,6 +16,7 @@ List<RouteBase> get $appRoutes => [
       $successRoute,
       $changePasswordRoute,
       $mechanicDashboardRoute,
+      $checklistSelectionRoute,
     ];
 
 RouteBase get $mainRoute => GoRouteData.$route(
@@ -217,6 +218,31 @@ extension $MechanicDashboardRouteExtension on MechanicDashboardRoute {
         queryParams: {
           'checklist-count': checklistCount.toString(),
         },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $checklistSelectionRoute => GoRouteData.$route(
+      path: '/select-checklist/:shopId',
+      factory: $ChecklistSelectionRouteExtension._fromState,
+    );
+
+extension $ChecklistSelectionRouteExtension on ChecklistSelectionRoute {
+  static ChecklistSelectionRoute _fromState(GoRouterState state) =>
+      ChecklistSelectionRoute(
+        shopId: state.pathParameters['shopId']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/select-checklist/${Uri.encodeComponent(shopId)}',
       );
 
   void go(BuildContext context) => context.go(location);
