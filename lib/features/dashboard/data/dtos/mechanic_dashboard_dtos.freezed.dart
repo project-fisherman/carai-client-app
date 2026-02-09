@@ -227,7 +227,7 @@ RepairShopResponseDto _$RepairShopResponseDtoFromJson(
 
 /// @nodoc
 mixin _$RepairShopResponseDto {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
@@ -246,7 +246,7 @@ abstract class $RepairShopResponseDtoCopyWith<$Res> {
       _$RepairShopResponseDtoCopyWithImpl<$Res, RepairShopResponseDto>;
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       String address,
       String phoneNumber,
@@ -277,7 +277,7 @@ class _$RepairShopResponseDtoCopyWithImpl<$Res,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -308,7 +308,7 @@ abstract class _$$RepairShopResponseDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {String id,
       String name,
       String address,
       String phoneNumber,
@@ -337,7 +337,7 @@ class __$$RepairShopResponseDtoImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -372,7 +372,7 @@ class _$RepairShopResponseDtoImpl implements _RepairShopResponseDto {
       _$$RepairShopResponseDtoImplFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
   final String name;
   @override
@@ -423,7 +423,7 @@ class _$RepairShopResponseDtoImpl implements _RepairShopResponseDto {
 
 abstract class _RepairShopResponseDto implements RepairShopResponseDto {
   const factory _RepairShopResponseDto(
-      {required final int id,
+      {required final String id,
       required final String name,
       required final String address,
       required final String phoneNumber,
@@ -433,7 +433,7 @@ abstract class _RepairShopResponseDto implements RepairShopResponseDto {
       _$RepairShopResponseDtoImpl.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
   String get name;
   @override

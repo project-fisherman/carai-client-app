@@ -25,7 +25,7 @@ final manageWorkshopRepositoryProvider =
 typedef ManageWorkshopRepositoryRef
     = AutoDisposeProviderRef<ManageWorkshopRepository>;
 String _$manageWorkshopViewModelHash() =>
-    r'db69af1aec67473451e2f9fec0c7c00f2f2a617b';
+    r'ebef4039cd78ea5a24f1b84c658c5029dec9f3fe';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -50,10 +50,10 @@ class _SystemHash {
 
 abstract class _$ManageWorkshopViewModel
     extends BuildlessAutoDisposeAsyncNotifier<List<RepairShopUser>> {
-  late final int shopId;
+  late final String shopId;
 
   FutureOr<List<RepairShopUser>> build(
-    int shopId,
+    String shopId,
   );
 }
 
@@ -69,7 +69,7 @@ class ManageWorkshopViewModelFamily
 
   /// See also [ManageWorkshopViewModel].
   ManageWorkshopViewModelProvider call(
-    int shopId,
+    String shopId,
   ) {
     return ManageWorkshopViewModelProvider(
       shopId,
@@ -106,7 +106,7 @@ class ManageWorkshopViewModelProvider
         List<RepairShopUser>> {
   /// See also [ManageWorkshopViewModel].
   ManageWorkshopViewModelProvider(
-    int shopId,
+    String shopId,
   ) : this._internal(
           () => ManageWorkshopViewModel()..shopId = shopId,
           from: manageWorkshopViewModelProvider,
@@ -131,7 +131,7 @@ class ManageWorkshopViewModelProvider
     required this.shopId,
   }) : super.internal();
 
-  final int shopId;
+  final String shopId;
 
   @override
   FutureOr<List<RepairShopUser>> runNotifierBuild(
@@ -181,7 +181,7 @@ class ManageWorkshopViewModelProvider
 mixin ManageWorkshopViewModelRef
     on AutoDisposeAsyncNotifierProviderRef<List<RepairShopUser>> {
   /// The parameter `shopId` of this provider.
-  int get shopId;
+  String get shopId;
 }
 
 class _ManageWorkshopViewModelProviderElement
@@ -190,7 +190,7 @@ class _ManageWorkshopViewModelProviderElement
   _ManageWorkshopViewModelProviderElement(super.provider);
 
   @override
-  int get shopId => (origin as ManageWorkshopViewModelProvider).shopId;
+  String get shopId => (origin as ManageWorkshopViewModelProvider).shopId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -9,9 +9,9 @@ part of 'repair_job_dtos.dart';
 _$RepairJobResponseDtoImpl _$$RepairJobResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$RepairJobResponseDtoImpl(
-      id: (json['id'] as num).toInt(),
-      repairShopId: (json['repairShopId'] as num).toInt(),
-      assigneeUserId: (json['assigneeUserId'] as num).toInt(),
+      id: json['id'] as String,
+      repairShopId: json['repairShopId'] as String,
+      assigneeUserId: json['assigneeUserId'] as String,
       status: json['status'] as String,
       description: json['description'] as String?,
     );

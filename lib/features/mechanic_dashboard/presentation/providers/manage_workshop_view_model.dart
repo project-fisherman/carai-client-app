@@ -17,11 +17,12 @@ ManageWorkshopRepository manageWorkshopRepository(
 @riverpod
 class ManageWorkshopViewModel extends _$ManageWorkshopViewModel {
   @override
-  FutureOr<List<RepairShopUser>> build(int shopId) async {
+  @override
+  FutureOr<List<RepairShopUser>> build(String shopId) async {
     return _fetchUsers(shopId);
   }
 
-  Future<List<RepairShopUser>> _fetchUsers(int shopId) async {
+  Future<List<RepairShopUser>> _fetchUsers(String shopId) async {
     final repository = ref.read(manageWorkshopRepositoryProvider);
     final result = await repository.getShopUsers(shopId: shopId);
 

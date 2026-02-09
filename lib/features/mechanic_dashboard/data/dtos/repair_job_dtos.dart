@@ -6,9 +6,9 @@ part 'repair_job_dtos.g.dart';
 @freezed
 class RepairJobResponseDto with _$RepairJobResponseDto {
   const factory RepairJobResponseDto({
-    required int id,
-    required int repairShopId,
-    required int assigneeUserId,
+    required String id,
+    required String repairShopId,
+    required String assigneeUserId,
     required String status,
     String? description,
   }) = _RepairJobResponseDto;

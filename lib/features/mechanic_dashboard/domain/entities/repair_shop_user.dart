@@ -19,8 +19,8 @@ enum RepairShopRole {
 @freezed
 class RepairShopUser with _$RepairShopUser {
   const factory RepairShopUser({
-    required int id,
-    required int repairShopId,
+    required String id,
+    required String repairShopId,
     required String userId,
     required String name,
     required RepairShopRole role,

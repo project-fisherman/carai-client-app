@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ServiceQueueCard extends StatelessWidget {
-  final int jobId;
+  final String jobId;
   final String status;
   final String? description;
   final bool isOpacityReduced;

@@ -14,13 +14,19 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+RepairShopUserResponse _$RepairShopUserResponseFromJson(
+    Map<String, dynamic> json) {
+  return _RepairShopUserResponse.fromJson(json);
+}
+
 /// @nodoc
 mixin _$RepairShopUserResponse {
-  int get id => throw _privateConstructorUsedError;
-  int get repairShopId => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get repairShopId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RepairShopUserResponseCopyWith<RepairShopUserResponse> get copyWith =>
       throw _privateConstructorUsedError;
@@ -32,7 +38,7 @@ abstract class $RepairShopUserResponseCopyWith<$Res> {
           $Res Function(RepairShopUserResponse) then) =
       _$RepairShopUserResponseCopyWithImpl<$Res, RepairShopUserResponse>;
   @useResult
-  $Res call({int id, int repairShopId, String userId, String role});
+  $Res call({String id, String repairShopId, String userId, String role});
 }
 
 /// @nodoc
@@ -58,11 +64,11 @@ class _$RepairShopUserResponseCopyWithImpl<$Res,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       repairShopId: null == repairShopId
           ? _value.repairShopId
           : repairShopId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -84,7 +90,7 @@ abstract class _$$RepairShopUserResponseImplCopyWith<$Res>
       __$$RepairShopUserResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, int repairShopId, String userId, String role});
+  $Res call({String id, String repairShopId, String userId, String role});
 }
 
 /// @nodoc
@@ -109,11 +115,11 @@ class __$$RepairShopUserResponseImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       repairShopId: null == repairShopId
           ? _value.repairShopId
           : repairShopId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -127,7 +133,7 @@ class __$$RepairShopUserResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$RepairShopUserResponseImpl extends _RepairShopUserResponse {
   const _$RepairShopUserResponseImpl(
       {required this.id,
@@ -136,10 +142,13 @@ class _$RepairShopUserResponseImpl extends _RepairShopUserResponse {
       required this.role})
       : super._();
 
+  factory _$RepairShopUserResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RepairShopUserResponseImplFromJson(json);
+
   @override
-  final int id;
+  final String id;
   @override
-  final int repairShopId;
+  final String repairShopId;
   @override
   final String userId;
   @override
@@ -162,6 +171,7 @@ class _$RepairShopUserResponseImpl extends _RepairShopUserResponse {
             (identical(other.role, role) || other.role == role));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, repairShopId, userId, role);
 
@@ -171,20 +181,30 @@ class _$RepairShopUserResponseImpl extends _RepairShopUserResponse {
   _$$RepairShopUserResponseImplCopyWith<_$RepairShopUserResponseImpl>
       get copyWith => __$$RepairShopUserResponseImplCopyWithImpl<
           _$RepairShopUserResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RepairShopUserResponseImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _RepairShopUserResponse extends RepairShopUserResponse {
   const factory _RepairShopUserResponse(
-      {required final int id,
-      required final int repairShopId,
+      {required final String id,
+      required final String repairShopId,
       required final String userId,
       required final String role}) = _$RepairShopUserResponseImpl;
   const _RepairShopUserResponse._() : super._();
 
+  factory _RepairShopUserResponse.fromJson(Map<String, dynamic> json) =
+      _$RepairShopUserResponseImpl.fromJson;
+
   @override
-  int get id;
+  String get id;
   @override
-  int get repairShopId;
+  String get repairShopId;
   @override
   String get userId;
   @override
@@ -201,7 +221,7 @@ ChangeRoleRequest _$ChangeRoleRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ChangeRoleRequest {
-  String get targetUserId => throw _privateConstructorUsedError;
+  int get targetUserId => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -216,7 +236,7 @@ abstract class $ChangeRoleRequestCopyWith<$Res> {
           ChangeRoleRequest value, $Res Function(ChangeRoleRequest) then) =
       _$ChangeRoleRequestCopyWithImpl<$Res, ChangeRoleRequest>;
   @useResult
-  $Res call({String targetUserId, String role});
+  $Res call({int targetUserId, String role});
 }
 
 /// @nodoc
@@ -239,7 +259,7 @@ class _$ChangeRoleRequestCopyWithImpl<$Res, $Val extends ChangeRoleRequest>
       targetUserId: null == targetUserId
           ? _value.targetUserId
           : targetUserId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
@@ -256,7 +276,7 @@ abstract class _$$ChangeRoleRequestImplCopyWith<$Res>
       __$$ChangeRoleRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String targetUserId, String role});
+  $Res call({int targetUserId, String role});
 }
 
 /// @nodoc
@@ -277,7 +297,7 @@ class __$$ChangeRoleRequestImplCopyWithImpl<$Res>
       targetUserId: null == targetUserId
           ? _value.targetUserId
           : targetUserId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
@@ -297,7 +317,7 @@ class _$ChangeRoleRequestImpl extends _ChangeRoleRequest {
       _$$ChangeRoleRequestImplFromJson(json);
 
   @override
-  final String targetUserId;
+  final int targetUserId;
   @override
   final String role;
 
@@ -337,7 +357,7 @@ class _$ChangeRoleRequestImpl extends _ChangeRoleRequest {
 
 abstract class _ChangeRoleRequest extends ChangeRoleRequest {
   const factory _ChangeRoleRequest(
-      {required final String targetUserId,
+      {required final int targetUserId,
       required final String role}) = _$ChangeRoleRequestImpl;
   const _ChangeRoleRequest._() : super._();
 
@@ -345,7 +365,7 @@ abstract class _ChangeRoleRequest extends ChangeRoleRequest {
       _$ChangeRoleRequestImpl.fromJson;
 
   @override
-  String get targetUserId;
+  int get targetUserId;
   @override
   String get role;
   @override
@@ -360,7 +380,7 @@ KickUserRequest _$KickUserRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$KickUserRequest {
-  String get targetUserId => throw _privateConstructorUsedError;
+  int get targetUserId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -374,7 +394,7 @@ abstract class $KickUserRequestCopyWith<$Res> {
           KickUserRequest value, $Res Function(KickUserRequest) then) =
       _$KickUserRequestCopyWithImpl<$Res, KickUserRequest>;
   @useResult
-  $Res call({String targetUserId});
+  $Res call({int targetUserId});
 }
 
 /// @nodoc
@@ -396,7 +416,7 @@ class _$KickUserRequestCopyWithImpl<$Res, $Val extends KickUserRequest>
       targetUserId: null == targetUserId
           ? _value.targetUserId
           : targetUserId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ) as $Val);
   }
 }
@@ -409,7 +429,7 @@ abstract class _$$KickUserRequestImplCopyWith<$Res>
       __$$KickUserRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String targetUserId});
+  $Res call({int targetUserId});
 }
 
 /// @nodoc
@@ -429,7 +449,7 @@ class __$$KickUserRequestImplCopyWithImpl<$Res>
       targetUserId: null == targetUserId
           ? _value.targetUserId
           : targetUserId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ));
   }
 }
@@ -443,7 +463,7 @@ class _$KickUserRequestImpl extends _KickUserRequest {
       _$$KickUserRequestImplFromJson(json);
 
   @override
-  final String targetUserId;
+  final int targetUserId;
 
   @override
   String toString() {
@@ -479,7 +499,7 @@ class _$KickUserRequestImpl extends _KickUserRequest {
 }
 
 abstract class _KickUserRequest extends KickUserRequest {
-  const factory _KickUserRequest({required final String targetUserId}) =
+  const factory _KickUserRequest({required final int targetUserId}) =
       _$KickUserRequestImpl;
   const _KickUserRequest._() : super._();
 
@@ -487,7 +507,7 @@ abstract class _KickUserRequest extends KickUserRequest {
       _$KickUserRequestImpl.fromJson;
 
   @override
-  String get targetUserId;
+  int get targetUserId;
   @override
   @JsonKey(ignore: true)
   _$$KickUserRequestImplCopyWith<_$KickUserRequestImpl> get copyWith =>

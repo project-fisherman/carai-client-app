@@ -213,11 +213,11 @@ RouteBase get $mechanicDashboardRoute => GoRouteData.$route(
 extension $MechanicDashboardRouteExtension on MechanicDashboardRoute {
   static MechanicDashboardRoute _fromState(GoRouterState state) =>
       MechanicDashboardRoute(
-        shopId: int.parse(state.pathParameters['shopId']!),
+        shopId: state.pathParameters['shopId']!,
       );
 
   String get location => GoRouteData.$location(
-        '/mechanic-dashboard/${Uri.encodeComponent(shopId.toString())}',
+        '/mechanic-dashboard/${Uri.encodeComponent(shopId)}',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -233,11 +233,11 @@ extension $MechanicDashboardRouteExtension on MechanicDashboardRoute {
 extension $ManageWorkshopRouteExtension on ManageWorkshopRoute {
   static ManageWorkshopRoute _fromState(GoRouterState state) =>
       ManageWorkshopRoute(
-        shopId: int.parse(state.pathParameters['shopId']!),
+        shopId: state.pathParameters['shopId']!,
       );
 
   String get location => GoRouteData.$location(
-        '/mechanic-dashboard/${Uri.encodeComponent(shopId.toString())}/workshop',
+        '/mechanic-dashboard/${Uri.encodeComponent(shopId)}/workshop',
       );
 
   void go(BuildContext context) => context.go(location);

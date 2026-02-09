@@ -7,7 +7,7 @@ import '../providers/mechanic_dashboard_view_model.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
-  final int shopId;
+  final String shopId;
 
   const MechanicDashboardScreen({super.key, required this.shopId});
 

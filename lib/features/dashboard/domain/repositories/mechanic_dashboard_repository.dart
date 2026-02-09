@@ -13,5 +13,5 @@ abstract class MechanicDashboardRepository {
 
   Future<Either<Failure, List<RepairShop>>> getMyShops();
 
-  Future<Either<Failure, void>> leaveShop({required int shopId});
+  Future<Either<Failure, void>> leaveShop({required String shopId});
 }
