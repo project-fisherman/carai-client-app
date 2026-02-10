@@ -41,7 +41,9 @@ class MechanicDashboardScreen extends ConsumerWidget {
                     if (checklistCount == 0) {
                       return Consumer(
                         builder: (context, ref, child) {
-                          final roleAsync = ref.watch(userRoleProvider(shopId));
+                          final roleAsync = ref.watch(
+                            mechanicDashboardUserRoleProvider(shopId),
+                          );
                           return roleAsync.when(
                             data: (role) {
                               if (role.isOwnerOrManager) {

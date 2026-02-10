@@ -17,6 +17,7 @@ List<RouteBase> get $appRoutes => [
       $changePasswordRoute,
       $mechanicDashboardRoute,
       $checklistSelectionRoute,
+      $manageWorkshopRoute,
     ];
 
 RouteBase get $mainRoute => GoRouteData.$route(
@@ -203,26 +204,21 @@ extension $ChangePasswordRouteExtension on ChangePasswordRoute {
 RouteBase get $mechanicDashboardRoute => GoRouteData.$route(
       path: '/mechanic-dashboard/:shopId',
       factory: $MechanicDashboardRouteExtension._fromState,
-      routes: [
-        GoRouteData.$route(
-          path: 'workshop',
-          factory: $ManageWorkshopRouteExtension._fromState,
-        ),
-      ],
     );
 
 extension $MechanicDashboardRouteExtension on MechanicDashboardRoute {
   static MechanicDashboardRoute _fromState(GoRouterState state) =>
       MechanicDashboardRoute(
         shopId: state.pathParameters['shopId']!,
-        checklistCount:
-            int.parse(state.uri.queryParameters['checklist-count']!),
+        checklistCount: _$convertMapValue(
+            'checklist-count', state.uri.queryParameters, int.parse),
       );
 
   String get location => GoRouteData.$location(
         '/mechanic-dashboard/${Uri.encodeComponent(shopId)}',
         queryParams: {
-          'checklist-count': checklistCount.toString(),
+          if (checklistCount != null)
+            'checklist-count': checklistCount!.toString(),
         },
       );
 
@@ -236,6 +232,15 @@ extension $MechanicDashboardRouteExtension on MechanicDashboardRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+T? _$convertMapValue<T>(
+  String key,
+  Map<String, String> map,
+  T Function(String) converter,
+) {
+  final value = map[key];
+  return value == null ? null : converter(value);
+}
+
 RouteBase get $checklistSelectionRoute => GoRouteData.$route(
       path: '/select-checklist/:shopId',
       factory: $ChecklistSelectionRouteExtension._fromState,
@@ -245,11 +250,10 @@ extension $ChecklistSelectionRouteExtension on ChecklistSelectionRoute {
   static ChecklistSelectionRoute _fromState(GoRouterState state) =>
       ChecklistSelectionRoute(
         shopId: state.pathParameters['shopId']!,
-        shopId: state.pathParameters['shopId']!,
       );
 
   String get location => GoRouteData.$location(
-        '/mechanic-dashboard/${Uri.encodeComponent(shopId)}',
+        '/select-checklist/${Uri.encodeComponent(shopId)}',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -262,6 +266,11 @@ extension $ChecklistSelectionRouteExtension on ChecklistSelectionRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+RouteBase get $manageWorkshopRoute => GoRouteData.$route(
+      path: '/mechanic-dashboard/:shopId/workshop',
+      factory: $ManageWorkshopRouteExtension._fromState,
+    );
+
 extension $ManageWorkshopRouteExtension on ManageWorkshopRoute {
   static ManageWorkshopRoute _fromState(GoRouterState state) =>
       ManageWorkshopRoute(
@@ -270,7 +279,6 @@ extension $ManageWorkshopRouteExtension on ManageWorkshopRoute {
 
   String get location => GoRouteData.$location(
         '/mechanic-dashboard/${Uri.encodeComponent(shopId)}/workshop',
-        '/select-checklist/${Uri.encodeComponent(shopId)}',
       );
 
   void go(BuildContext context) => context.go(location);

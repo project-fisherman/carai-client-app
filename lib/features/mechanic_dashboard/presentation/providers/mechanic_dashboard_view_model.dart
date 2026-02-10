@@ -20,7 +20,10 @@ class MechanicDashboardViewModel extends _$MechanicDashboardViewModel {
 }
 
 @riverpod
-Future<RepairShopRole> userRole(UserRoleRef ref, String shopId) async {
+Future<RepairShopRole> mechanicDashboardUserRole(
+  MechanicDashboardUserRoleRef ref,
+  String shopId,
+) async {
   final api = ref.watch(repairShopApiProvider);
   final profile = await api.getMyProfile(shopId: shopId);
   return profile.role;
