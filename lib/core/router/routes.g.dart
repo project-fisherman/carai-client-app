@@ -18,6 +18,7 @@ List<RouteBase> get $appRoutes => [
       $mechanicDashboardRoute,
       $checklistSelectionRoute,
       $manageWorkshopRoute,
+      $checklistPreviewRoute,
     ];
 
 RouteBase get $mainRoute => GoRouteData.$route(
@@ -279,6 +280,36 @@ extension $ManageWorkshopRouteExtension on ManageWorkshopRoute {
 
   String get location => GoRouteData.$location(
         '/mechanic-dashboard/${Uri.encodeComponent(shopId)}/workshop',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $checklistPreviewRoute => GoRouteData.$route(
+      path: '/checklist-preview',
+      factory: $ChecklistPreviewRouteExtension._fromState,
+    );
+
+extension $ChecklistPreviewRouteExtension on ChecklistPreviewRoute {
+  static ChecklistPreviewRoute _fromState(GoRouterState state) =>
+      ChecklistPreviewRoute(
+        jsonUrl: state.uri.queryParameters['json-url']!,
+        checklistName: state.uri.queryParameters['checklist-name']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/checklist-preview',
+        queryParams: {
+          'json-url': jsonUrl,
+          'checklist-name': checklistName,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

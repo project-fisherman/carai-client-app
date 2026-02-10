@@ -60,7 +60,9 @@ class BasicCheckWidget extends StatelessWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.2) : const Color(0xFF2C2C2C),
+          color: isSelected
+              ? color.withValues(alpha: 0.2)
+              : const Color(0xFF2C2C2C),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? color : Colors.transparent,

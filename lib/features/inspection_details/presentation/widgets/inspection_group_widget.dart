@@ -45,7 +45,7 @@ class InspectionGroupWidget extends StatelessWidget {
               onAnswerChanged: (newValue) =>
                   onItemAnswerChanged(item.seqNo, newValue),
             );
-          }).toList(),
+          }),
 
           // Group Opinion (if needed, though schema removed it?
           // Wait, user said "remove bg_color, group_opinion".

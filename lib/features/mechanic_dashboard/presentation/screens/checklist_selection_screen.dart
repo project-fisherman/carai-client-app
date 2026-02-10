@@ -4,6 +4,7 @@ import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import '../../domain/entities/safety_checklist.dart';
 import '../providers/checklist_selection_view_model.dart';
+import '../../../../core/router/routes.dart';
 
 class ChecklistSelectionScreen extends ConsumerWidget {
   final String shopId;
@@ -61,10 +62,10 @@ class ChecklistSelectionScreen extends ConsumerWidget {
   Widget _buildChecklistCard(BuildContext context, SafetyChecklist checklist) {
     return GestureDetector(
       onTap: () {
-        // TODO: Handle checklist selection
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Selected: ${checklist.name}')));
+        ChecklistPreviewRoute(
+          jsonUrl: checklist.jsonUrl,
+          checklistName: checklist.name,
+        ).push(context);
       },
       child: Container(
         decoration: BoxDecoration(
