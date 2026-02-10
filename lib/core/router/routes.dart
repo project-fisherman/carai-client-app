@@ -98,23 +98,17 @@ class ChangePasswordRoute extends GoRouteData {
   }
 }
 
-@TypedGoRoute<MechanicDashboardRoute>(
-  path: '/mechanic-dashboard/:shopId',
-  routes: [TypedGoRoute<ManageWorkshopRoute>(path: 'workshop')],
-)
+@TypedGoRoute<MechanicDashboardRoute>(path: '/mechanic-dashboard/:shopId')
 class MechanicDashboardRoute extends GoRouteData {
   final String shopId;
-  final int checklistCount;
-  const MechanicDashboardRoute({
-    required this.shopId,
-    required this.checklistCount,
-  });
+  final int? checklistCount;
+  const MechanicDashboardRoute({required this.shopId, this.checklistCount});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return MechanicDashboardScreen(
       shopId: shopId,
-      checklistCount: checklistCount,
+      checklistCount: checklistCount ?? 0,
     );
   }
 }
@@ -131,6 +125,7 @@ class ChecklistSelectionRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<ManageWorkshopRoute>(path: '/mechanic-dashboard/:shopId/workshop')
 class ManageWorkshopRoute extends GoRouteData {
   final String shopId;
 

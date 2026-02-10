@@ -6,8 +6,8 @@ part of 'mechanic_dashboard_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$mechanicDashboardViewModelHash() =>
-    r'096d6a2edcef2497be8f40afbb4f35a65f44e928';
+String _$mechanicDashboardUserRoleHash() =>
+    r'31a151754c0e13db0cdcd1dc8db8ff463999e1cb';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,27 +30,28 @@ class _SystemHash {
   }
 }
 
-/// See also [userRole].
-@ProviderFor(userRole)
-const userRoleProvider = UserRoleFamily();
+/// See also [mechanicDashboardUserRole].
+@ProviderFor(mechanicDashboardUserRole)
+const mechanicDashboardUserRoleProvider = MechanicDashboardUserRoleFamily();
 
-/// See also [userRole].
-class UserRoleFamily extends Family<AsyncValue<RepairShopRole>> {
-  /// See also [userRole].
-  const UserRoleFamily();
+/// See also [mechanicDashboardUserRole].
+class MechanicDashboardUserRoleFamily
+    extends Family<AsyncValue<RepairShopRole>> {
+  /// See also [mechanicDashboardUserRole].
+  const MechanicDashboardUserRoleFamily();
 
-  /// See also [userRole].
-  UserRoleProvider call(
+  /// See also [mechanicDashboardUserRole].
+  MechanicDashboardUserRoleProvider call(
     String shopId,
   ) {
-    return UserRoleProvider(
+    return MechanicDashboardUserRoleProvider(
       shopId,
     );
   }
 
   @override
-  UserRoleProvider getProviderOverride(
-    covariant UserRoleProvider provider,
+  MechanicDashboardUserRoleProvider getProviderOverride(
+    covariant MechanicDashboardUserRoleProvider provider,
   ) {
     return call(
       provider.shopId,
@@ -69,31 +70,33 @@ class UserRoleFamily extends Family<AsyncValue<RepairShopRole>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'userRoleProvider';
+  String? get name => r'mechanicDashboardUserRoleProvider';
 }
 
-/// See also [userRole].
-class UserRoleProvider extends AutoDisposeFutureProvider<RepairShopRole> {
-  /// See also [userRole].
-  UserRoleProvider(
+/// See also [mechanicDashboardUserRole].
+class MechanicDashboardUserRoleProvider
+    extends AutoDisposeFutureProvider<RepairShopRole> {
+  /// See also [mechanicDashboardUserRole].
+  MechanicDashboardUserRoleProvider(
     String shopId,
   ) : this._internal(
-          (ref) => userRole(
-            ref as UserRoleRef,
+          (ref) => mechanicDashboardUserRole(
+            ref as MechanicDashboardUserRoleRef,
             shopId,
           ),
-          from: userRoleProvider,
-          name: r'userRoleProvider',
+          from: mechanicDashboardUserRoleProvider,
+          name: r'mechanicDashboardUserRoleProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$userRoleHash,
-          dependencies: UserRoleFamily._dependencies,
-          allTransitiveDependencies: UserRoleFamily._allTransitiveDependencies,
+                  : _$mechanicDashboardUserRoleHash,
+          dependencies: MechanicDashboardUserRoleFamily._dependencies,
+          allTransitiveDependencies:
+              MechanicDashboardUserRoleFamily._allTransitiveDependencies,
           shopId: shopId,
         );
 
-  UserRoleProvider._internal(
+  MechanicDashboardUserRoleProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -107,12 +110,13 @@ class UserRoleProvider extends AutoDisposeFutureProvider<RepairShopRole> {
 
   @override
   Override overrideWith(
-    FutureOr<RepairShopRole> Function(UserRoleRef provider) create,
+    FutureOr<RepairShopRole> Function(MechanicDashboardUserRoleRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: UserRoleProvider._internal(
-        (ref) => create(ref as UserRoleRef),
+      override: MechanicDashboardUserRoleProvider._internal(
+        (ref) => create(ref as MechanicDashboardUserRoleRef),
         from: from,
         name: null,
         dependencies: null,
@@ -125,12 +129,12 @@ class UserRoleProvider extends AutoDisposeFutureProvider<RepairShopRole> {
 
   @override
   AutoDisposeFutureProviderElement<RepairShopRole> createElement() {
-    return _UserRoleProviderElement(this);
+    return _MechanicDashboardUserRoleProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is UserRoleProvider && other.shopId == shopId;
+    return other is MechanicDashboardUserRoleProvider && other.shopId == shopId;
   }
 
   @override
@@ -142,21 +146,23 @@ class UserRoleProvider extends AutoDisposeFutureProvider<RepairShopRole> {
   }
 }
 
-mixin UserRoleRef on AutoDisposeFutureProviderRef<RepairShopRole> {
+mixin MechanicDashboardUserRoleRef
+    on AutoDisposeFutureProviderRef<RepairShopRole> {
   /// The parameter `shopId` of this provider.
   String get shopId;
 }
 
-class _UserRoleProviderElement
-    extends AutoDisposeFutureProviderElement<RepairShopRole> with UserRoleRef {
-  _UserRoleProviderElement(super.provider);
+class _MechanicDashboardUserRoleProviderElement
+    extends AutoDisposeFutureProviderElement<RepairShopRole>
+    with MechanicDashboardUserRoleRef {
+  _MechanicDashboardUserRoleProviderElement(super.provider);
 
   @override
-  String get shopId => (origin as UserRoleProvider).shopId;
+  String get shopId => (origin as MechanicDashboardUserRoleProvider).shopId;
 }
 
 String _$mechanicDashboardViewModelHash() =>
-    r'ce7193405e13bbe04e4a485fe03c8ec6529b4b8e';
+    r'096d6a2edcef2497be8f40afbb4f35a65f44e928';
 
 abstract class _$MechanicDashboardViewModel
     extends BuildlessAutoDisposeAsyncNotifier<List<RepairJob>> {
