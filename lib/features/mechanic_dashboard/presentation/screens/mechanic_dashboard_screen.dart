@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/router/routes.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
-import 'package:carai/core/router/routes.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
