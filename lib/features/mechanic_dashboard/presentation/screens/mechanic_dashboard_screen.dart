@@ -75,7 +75,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                       ),
                                       const SizedBox(height: 16),
                                       Text(
-                                        'Create First Checklist',
+                                        '첫 점검표 생성',
                                         style: TextStyle(
                                           color: Colors.white.withValues(
                                             alpha: 0.7,
@@ -131,7 +131,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 ),
                 error: (err, stack) => Center(
                   child: Text(
-                    'Error: $err',
+                    '오류: $err',
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),
@@ -176,7 +176,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Service Queue',
+                  '작업 대기열',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -225,7 +225,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'No Jobs Yet',
+            '아직 작업이 없습니다',
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.7),
               fontSize: 20,
@@ -234,7 +234,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Jobs will appear here when assigned',
+            '할당된 작업이 여기에 표시됩니다',
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.5),
               fontSize: 14,

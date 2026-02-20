@@ -61,7 +61,7 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
         if (mounted) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text('Error: $e')));
+          ).showSnackBar(SnackBar(content: Text('오류: $e')));
         }
       } finally {
         if (mounted) {
@@ -76,7 +76,7 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
     return AppScaffold(
       appBar: const AppNavigationBar(
         titleWidget: Text(
-          'CREATE WORKSHOP',
+          '사업장 생성',
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -119,7 +119,7 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  'Tap to add photo',
+                                  '사진을 추가하려면 탭하세요',
                                   style: TextStyle(color: Colors.grey),
                                 ),
                               ],
@@ -131,21 +131,21 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
                 const SizedBox(height: 24),
                 _buildTextField(
                   controller: _nameController,
-                  label: 'Shop Name',
-                  validator: (v) => v?.isEmpty == true ? 'Required' : null,
+                  label: '사업장 이름',
+                  validator: (v) => v?.isEmpty == true ? '필수 입력 항목입니다' : null,
                 ),
                 const SizedBox(height: 16),
                 _buildTextField(
                   controller: _addressController,
-                  label: 'Address',
-                  validator: (v) => v?.isEmpty == true ? 'Required' : null,
+                  label: '주소',
+                  validator: (v) => v?.isEmpty == true ? '필수 입력 항목입니다' : null,
                 ),
                 const SizedBox(height: 16),
                 _buildTextField(
                   controller: _phoneController,
-                  label: 'Phone Number',
+                  label: '전화번호',
                   keyboardType: TextInputType.phone,
-                  validator: (v) => v?.isEmpty == true ? 'Required' : null,
+                  validator: (v) => v?.isEmpty == true ? '필수 입력 항목입니다' : null,
                 ),
                 const SizedBox(height: 32),
                 SizedBox(
@@ -163,7 +163,7 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
                     child: _isLoading
                         ? const CircularProgressIndicator(color: Colors.black)
                         : const Text(
-                            'CREATE WORKSHOP',
+                            '사업장 생성',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

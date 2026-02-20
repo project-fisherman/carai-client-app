@@ -161,7 +161,7 @@ class WorkshopCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '$checklistCount Checklists',
+                          '$checklistCount개의 점검표',
                           style: TextStyle(
                             color: Colors.grey[300],
                             fontSize: 16,

@@ -36,7 +36,7 @@ class ServiceQueueCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Job #$jobId',
+                  '작업 #$jobId',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -75,22 +75,22 @@ class ServiceQueueCard extends StatelessWidget {
       case 'WAITING':
         backgroundColor = const Color(0xFFFEF3C7); // bg-amber-100
         textColor = const Color(0xFF92400E); // text-amber-800
-        displayText = 'Waiting';
+        displayText = '대기 중';
         break;
       case 'IN_PROGRESS':
         backgroundColor = const Color(0xFFDCFCE7); // bg-green-100
         textColor = const Color(0xFF166534); // text-green-800
-        displayText = 'In Progress';
+        displayText = '작업 중';
         break;
       case 'COMPLETED':
         backgroundColor = const Color(0xFFE0E7FF); // bg-indigo-100
         textColor = const Color(0xFF3730A3); // text-indigo-800
-        displayText = 'Completed';
+        displayText = '완료';
         break;
       case 'CANCELED':
         backgroundColor = const Color(0xFFFEE2E2); // bg-red-100
         textColor = const Color(0xFF991B1B); // text-red-800
-        displayText = 'Canceled';
+        displayText = '취소됨';
         break;
       default:
         backgroundColor = const Color(0xFFF5F5F4); // bg-stone-100

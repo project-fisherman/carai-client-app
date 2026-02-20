@@ -17,7 +17,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
     return AppScaffold(
       backgroundColor: const Color(0xFF23170f),
       appBar: AppNavigationBar(
-        title: 'Select Checklist',
+        title: '점검표 선택',
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -28,7 +28,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
           if (checklists.isEmpty) {
             return const Center(
               child: Text(
-                'No checklists available.',
+                '사용 가능한 점검표가 없습니다.',
                 style: TextStyle(color: Colors.white),
               ),
             );
@@ -52,7 +52,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
           child: CircularProgressIndicator(color: Colors.orange),
         ),
         error: (err, stack) => Center(
-          child: Text('Error: $err', style: const TextStyle(color: Colors.red)),
+          child: Text('오류: $err', style: const TextStyle(color: Colors.red)),
         ),
       ),
     );
@@ -64,7 +64,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
         // TODO: Handle checklist selection
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Selected: ${checklist.name}')));
+        ).showSnackBar(SnackBar(content: Text('선택됨: ${checklist.name}')));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -113,7 +113,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Text(
-                        'Preset',
+                        '기본',
                         style: TextStyle(
                           color: Colors.orange,
                           fontSize: 10,

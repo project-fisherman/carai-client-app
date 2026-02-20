@@ -48,9 +48,9 @@ class _EditUsernameSheetState extends ConsumerState<EditUsernameSheet> {
       if (!state.hasError) {
         Navigator.pop(context);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update: ${state.error}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('업데이트 실패: ${state.error}')));
       }
     }
   }
@@ -72,7 +72,7 @@ class _EditUsernameSheetState extends ConsumerState<EditUsernameSheet> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Text(
-            'Edit Username',
+            '사용자 이름 수정',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -81,14 +81,14 @@ class _EditUsernameSheetState extends ConsumerState<EditUsernameSheet> {
           ),
           const SizedBox(height: 16),
           AppInput(
-            label: 'Username',
-            placeholder: 'Enter new username',
+            label: '사용자 이름',
+            placeholder: '새 사용자 이름을 입력하세요',
             controller: _controller,
             enabled: !isLoading,
           ),
           const SizedBox(height: 24),
           AppButton(
-            text: 'SAVE',
+            text: '저장',
             onPressed: isLoading ? () {} : _save,
             isLoading: isLoading,
           ),
