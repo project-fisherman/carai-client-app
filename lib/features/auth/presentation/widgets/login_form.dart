@@ -34,9 +34,9 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     if (phone.isNotEmpty && password.isNotEmpty) {
       ref.read(authNotifierProvider.notifier).login(phone, username, password);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('모든 항목을 입력해주세요')));
     }
   }
 
@@ -50,7 +50,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         error: (message, _) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Error: $message'),
+              content: Text('오류: $message'),
               backgroundColor: Colors.red,
             ),
           );
@@ -62,8 +62,8 @@ class _LoginFormState extends ConsumerState<LoginForm> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppInput(
-          label: 'Phone number',
-          placeholder: '(555) 000-0000',
+          label: '전화번호',
+          placeholder: '010-0000-0000',
           controller: _phoneController,
           keyboardType: TextInputType.phone,
           suffixIcon: const Icon(
@@ -73,13 +73,13 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         ),
         const SizedBox(height: 20),
         AppInput(
-          label: 'Username',
-          placeholder: 'Enter username',
+          label: '사용자 이름',
+          placeholder: '사용자 이름을 입력하세요',
           controller: _usernameController,
         ),
         const SizedBox(height: 20),
         AppInput(
-          label: 'Password',
+          label: '비밀번호',
           placeholder: '••••••••',
           isPassword: !_isPasswordVisible,
           controller: _passwordController,
@@ -97,10 +97,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           ),
         ),
         const SizedBox(height: 32),
-        AppButton(text: 'Log In', onPressed: _onLogin, isLoading: isLoading),
+        AppButton(text: '로그인', onPressed: _onLogin, isLoading: isLoading),
         const SizedBox(height: 16),
         AppButton(
-          text: 'Sign Up',
+          text: '회원가입',
           onPressed: () {},
           style: AppButtonStyle.secondary,
         ),

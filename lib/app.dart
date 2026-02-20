@@ -14,7 +14,7 @@ class CaraiApp extends ConsumerWidget {
     final tokenRefreshState = ref.watch(tokenRefreshManagerProvider);
 
     return MaterialApp.router(
-      title: 'Carai Document Scanner',
+      title: 'Carai 문서 스캐너',
       scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

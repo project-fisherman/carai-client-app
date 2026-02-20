@@ -45,9 +45,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   void _onSendSms() {
     if (_phoneController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter phone number')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('전화번호를 입력해주세요')));
       return;
     }
     ref
@@ -58,9 +58,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   void _onVerify() {
     final smsCode = _otpControllers.map((e) => e.text).join();
     if (smsCode.length != 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter valid 6-digit code')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('올바른 6자리 인증번호를 입력해주세요')));
       return;
     }
     ref
@@ -72,7 +72,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+      ).showSnackBar(const SnackBar(content: Text('비밀번호가 일치하지 않습니다')));
       return;
     }
 
@@ -144,7 +144,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
               ),
               const SizedBox(height: 24),
               const Text(
-                'Device Registration',
+                '기기 등록',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -154,7 +154,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Enter your mobile number and create a password to set up access.',
+                '접근 권한 설정을 위해 휴대전화 번호를 입력하고 비밀번호를 생성하세요.',
                 style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
                 textAlign: TextAlign.center,
               ),
@@ -178,8 +178,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   children: [
                     AppInput(
                       label:
-                          'Mobile Number', // Actually label inside component covers layout
-                      placeholder: '(555) 000-0000',
+                          '휴대전화 번호', // Actually label inside component covers layout
+                      placeholder: '010-0000-0000',
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
                       suffixIcon: const Icon(
@@ -191,7 +191,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                     if (!isSmsSent) ...[
                       const SizedBox(height: 24),
                       AppButton(
-                        text: 'SEND SMS CODE',
+                        text: '인증번호 전송',
                         onPressed: isLoading ? () {} : _onSendSms,
                         isLoading:
                             isLoading &&
@@ -210,7 +210,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        "Verification & Security",
+                        "인증 및 보안",
                         style: TextStyle(
                           color: AppColors.textSecondary,
                           fontWeight: FontWeight.bold,
@@ -242,7 +242,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Enter SMS Code",
+                            "인증번호 입력",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -263,7 +263,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                     ? null
                                     : _onSendSms,
                                 child: Text(
-                                  "Resend",
+                                  "재전송",
                                   style: TextStyle(
                                     color: (remainingTime > 0 || isVerified)
                                         ? AppColors.textSecondary
@@ -289,7 +289,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
                       if (!isVerified)
                         AppButton(
-                          text: 'VERIFY',
+                          text: '인증하기',
                           onPressed: isLoading ? () {} : _onVerify,
                           isLoading: isLoading,
                         ),
@@ -300,14 +300,14 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         const SizedBox(height: 24),
 
                         AppInput(
-                          label: 'User Name',
-                          placeholder: 'Username',
+                          label: '사용자 이름',
+                          placeholder: '사용자 이름',
                           controller: _usernameController,
                           keyboardType: TextInputType.name,
                         ),
                         const SizedBox(height: 16),
                         AppInput(
-                          label: 'Create Password',
+                          label: '비밀번호 생성',
                           placeholder: '••••••••',
                           isPassword: true,
                           controller: _passwordController,
@@ -315,7 +315,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         ),
                         const SizedBox(height: 16),
                         AppInput(
-                          label: 'Confirm Password',
+                          label: '비밀번호 확인',
                           placeholder: '••••••••',
                           isPassword: true,
                           controller: _confirmPasswordController,
@@ -324,7 +324,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         const SizedBox(height: 32),
 
                         AppButton(
-                          text: 'COMPLETE REGISTRATION',
+                          text: '등록 완료',
                           onPressed: isLoading ? () {} : _onRegister,
                           isLoading: isLoading,
                         ),

@@ -46,7 +46,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               ),
             ),
             Text(
-              'DASHBOARD',
+              '대시보드',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -78,7 +78,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Welcome back,',
+                      '안녕하세요,',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 32, // md:text-4xl
@@ -88,7 +88,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     ),
                     userState.when(
                       data: (user) => Text(
-                        '${user?.name ?? "Mechanic"}.',
+                        '${user?.name ?? "정비사"}님.',
                         style: const TextStyle(
                           color: AppColors.primary,
                           fontSize: 32, // md:text-4xl
@@ -97,7 +97,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         ),
                       ),
                       loading: () => const Text(
-                        'Mechanic.',
+                        '정비사님.',
                         style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 32, // md:text-4xl
@@ -106,7 +106,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         ),
                       ),
                       error: (error, stackTrace) => const Text(
-                        'Mechanic.',
+                        '정비사님.',
                         style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 32, // md:text-4xl
@@ -117,7 +117,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Select a workshop to view active jobs.',
+                      '작업을 확인하려면 사업장을 선택하세요.',
                       style: TextStyle(
                         color:
                             Colors.grey, // text-slate-500 / dark:text-gray-400
@@ -188,7 +188,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 ),
                 error: (err, stack) => Center(
                   child: Text(
-                    'Error: $err',
+                    '오류: $err',
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),

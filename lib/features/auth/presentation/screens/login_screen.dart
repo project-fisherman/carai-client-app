@@ -134,7 +134,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 const SizedBox(height: 24),
                 const Text(
-                  'Welcome Back',
+                  '환영합니다',
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
@@ -145,7 +145,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Mechanic Dashboard',
+                  '정비사 대시보드',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -157,8 +157,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 // Form
                 AppInput(
-                  label: 'Phone number',
-                  placeholder: '(555) 000-0000',
+                  label: '전화번호',
+                  placeholder: '010-0000-0000',
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
                   isDarkMode: true,
@@ -169,14 +169,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 const SizedBox(height: 16),
                 AppInput(
-                  label: 'Username',
-                  placeholder: 'Enter username',
+                  label: '사용자 이름',
+                  placeholder: '사용자 이름을 입력하세요',
                   controller: _usernameController,
                   isDarkMode: true,
                 ),
                 const SizedBox(height: 16),
                 AppInput(
-                  label: 'Password',
+                  label: '비밀번호',
                   placeholder: '••••••••',
                   isPassword: true,
                   controller: _passwordController,
@@ -186,7 +186,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 // Buttons
                 AppButton(
-                  text: 'LOG IN',
+                  text: '로그인',
                   onPressed: isLoading
                       ? () {}
                       : _onLogin, // Prevent clicks logic handled in AppButton too but explicitly null callback disables styles often
@@ -194,14 +194,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 const SizedBox(height: 16),
                 AppButton(
-                  text: 'SIGN UP',
+                  text: '회원가입',
                   onPressed: isLoading ? () {} : _onSignup,
                   style: AppButtonStyle.secondary,
                 ),
 
                 const SizedBox(height: 40),
                 const Text(
-                  'Need help? Contact Supervisor',
+                  '도움이 필요하신가요? 관리자에게 문의하세요',
                   style: TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 18,

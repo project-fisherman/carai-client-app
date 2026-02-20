@@ -95,3 +95,8 @@ macos/Pods/
 .env
 .env.*
 !.env.example
+
+*.g.dart
+*.freezed.dart
+*.g.ts
+*.freezed.ts

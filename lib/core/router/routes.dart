@@ -84,7 +84,7 @@ class SuccessRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const AppScaffold(body: Center(child: Text('Success!')));
+    return const AppScaffold(body: Center(child: Text('성공!')));
   }
 }
 
