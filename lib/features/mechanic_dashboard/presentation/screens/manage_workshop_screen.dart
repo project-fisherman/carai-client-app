@@ -356,6 +356,9 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
   }
 
   Widget _buildUserItem(RepairShopUser user) {
+    final displayName = user.name.replaceAll(RegExp(r'\s+'), '');
+    final initials = displayName.isNotEmpty ? displayName.substring(0, 1) : '?';
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -374,11 +377,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    user.name.isNotEmpty
-                        ? user.name
-                              .substring(0, min(2, user.name.length))
-                              .toUpperCase()
-                        : '??',
+                    initials,
                     style: TextStyle(
                       color: user.role == RepairShopRole.owner
                           ? Colors.white
