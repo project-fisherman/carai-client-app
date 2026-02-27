@@ -129,7 +129,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 if ((widget.userRole == RepairShopRole.owner ||
                         widget.userRole == RepairShopRole.manager) &&
                     (widget.checklistCount ?? 0) != 0) ...[
-                  _buildRegisterChecklistButton(),
+                  _buildManageChecklistButton(),
                   const SizedBox(height: 32),
                 ],
                 _buildLeaveWorkshopButton(),
@@ -523,7 +523,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
     );
   }
 
-  Widget _buildRegisterChecklistButton() {
+  Widget _buildManageChecklistButton() {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -537,7 +537,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            ChecklistSelectionRoute(shopId: widget.shopId).push(context);
+            ChecklistManagementRoute(shopId: widget.shopId).push(context);
           },
           borderRadius: BorderRadius.circular(12),
           child: Padding(
@@ -551,15 +551,12 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                     color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(
-                    Icons.playlist_add_check,
-                    color: Colors.white,
-                  ),
+                  child: const Icon(Icons.settings, color: Colors.white),
                 ),
                 const SizedBox(width: 16),
                 const Expanded(
                   child: Text(
-                    '점검표 등록',
+                    '점검표 관리',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

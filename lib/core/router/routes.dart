@@ -11,6 +11,7 @@ import '../../features/mechanic_dashboard/domain/entities/repair_shop_user.dart'
 import '../../features/auth/presentation/screens/change_password_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/mechanic_dashboard_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/manage_workshop_screen.dart';
+import '../../features/mechanic_dashboard/presentation/screens/checklist_management_screen.dart';
 import '../../design_system/molecules/app_scaffold.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_selection_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_preview_screen.dart';
@@ -124,6 +125,18 @@ class ChecklistSelectionRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ChecklistSelectionScreen(shopId: shopId);
+  }
+}
+
+@TypedGoRoute<ChecklistManagementRoute>(path: '/checklist-management/:shopId')
+class ChecklistManagementRoute extends GoRouteData {
+  final String shopId;
+
+  const ChecklistManagementRoute({required this.shopId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ChecklistManagementScreen(shopId: shopId);
   }
 }
 
