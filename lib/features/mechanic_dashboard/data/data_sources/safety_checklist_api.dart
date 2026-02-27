@@ -23,7 +23,7 @@ class SafetyChecklistApi {
       '/safety-checklists',
       queryParameters: isPreset != null ? {'isPreset': isPreset} : null,
     );
-    final list = response.data['result'] as List;
+    final list = (response.data['result'] as List?) ?? [];
     return list.map((e) => SafetyChecklistResponseDto.fromJson(e)).toList();
   }
 

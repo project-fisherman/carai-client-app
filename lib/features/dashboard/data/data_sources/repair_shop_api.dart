@@ -24,7 +24,7 @@ class RepairShopApi {
 
   Future<List<RepairShopResponseDto>> getMyShops() async {
     final response = await _dio.get('/repair-shops/my');
-    final list = response.data['result'] as List;
+    final list = (response.data['result'] as List?) ?? [];
     return list.map((e) => RepairShopResponseDto.fromJson(e)).toList();
   }
 
