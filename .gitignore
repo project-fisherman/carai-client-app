@@ -95,3 +95,11 @@ macos/Pods/
 .env
 .env.*
 !.env.example
+
+*.g.ts
+*.freezed.ts
+# -----------------------
+# Auto-generated code
+# -----------------------
+*.g.dart
+*.freezed.dart
