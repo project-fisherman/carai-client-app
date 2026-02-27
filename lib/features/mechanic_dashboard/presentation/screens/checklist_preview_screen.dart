@@ -86,7 +86,7 @@ class _ChecklistPreviewScreenState
                 }),
 
                 const SizedBox(height: 24),
-                // Start Inspection Button (Placeholder action)
+                // Register checklist Button (Placeholder action)
                 SizedBox(
                   width: double.infinity,
                   height: 56,
@@ -109,7 +109,7 @@ class _ChecklistPreviewScreenState
                       );
                     },
                     child: const Text(
-                      'START INSPECTION',
+                      '체크리스트 등록',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
