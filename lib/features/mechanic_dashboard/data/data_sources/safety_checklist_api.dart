@@ -27,6 +27,14 @@ class SafetyChecklistApi {
     return list.map((e) => SafetyChecklistResponseDto.fromJson(e)).toList();
   }
 
+  Future<List<SafetyChecklistResponseDto>> getShopChecklists({
+    required String shopId,
+  }) async {
+    final response = await _dio.get('/repair-shops/$shopId/safety-checklists');
+    final list = (response.data['result'] as List?) ?? [];
+    return list.map((e) => SafetyChecklistResponseDto.fromJson(e)).toList();
+  }
+
   Future<InspectionForm> getChecklistPreview(String jsonUrl) async {
     // If jsonUrl is a full URL, Dio handles it.
     // If it's a relative path, we might need to handle it, but usually these are full URLs or relative to base.
