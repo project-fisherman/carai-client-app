@@ -10,11 +10,13 @@ import 'package:go_router/go_router.dart';
 class ChecklistPreviewScreen extends ConsumerStatefulWidget {
   final String jsonUrl;
   final String checklistName;
+  final String imageUrl;
 
   const ChecklistPreviewScreen({
     super.key,
     required this.jsonUrl,
     required this.checklistName,
+    required this.imageUrl,
   });
 
   @override
@@ -28,6 +30,48 @@ class _ChecklistPreviewScreenState
   // We can just use a Map<String, dynamic> like in InspectionDetailsScreen,
   // but since it's preview only, we don't need to persist or validate much.
   final Map<String, dynamic> _answers = {};
+
+  void _showImageDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.all(16),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            InteractiveViewer(
+              panEnabled: true,
+              scaleEnabled: true,
+              minScale: 1.0,
+              maxScale: 4.0,
+              child: Image.network(
+                widget.imageUrl,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey[800],
+                  padding: const EdgeInsets.all(32),
+                  child: const Icon(
+                    Icons.broken_image,
+                    color: Colors.white,
+                    size: 48,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: IconButton(
+                icon: const Icon(Icons.close, color: Colors.white, size: 32),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +87,32 @@ class _ChecklistPreviewScreenState
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => context.pop(),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: GestureDetector(
+              onTap: () => _showImageDialog(context),
+              child: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: Colors.white, width: 1),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: Image.network(
+                  widget.imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.broken_image,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: formAsync.when(
         data: (form) {

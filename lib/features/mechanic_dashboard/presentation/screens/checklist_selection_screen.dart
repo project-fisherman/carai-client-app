@@ -65,6 +65,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
         ChecklistPreviewRoute(
           jsonUrl: checklist.jsonUrl,
           checklistName: checklist.name,
+          imageUrl: checklist.imageUrl,
         ).push(context);
       },
       child: Container(

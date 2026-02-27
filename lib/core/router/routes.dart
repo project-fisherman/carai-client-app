@@ -142,10 +142,12 @@ class ManageWorkshopRoute extends GoRouteData {
 class ChecklistPreviewRoute extends GoRouteData {
   final String jsonUrl;
   final String checklistName;
+  final String imageUrl;
 
   const ChecklistPreviewRoute({
     required this.jsonUrl,
     required this.checklistName,
+    required this.imageUrl,
   });
 
   @override
@@ -154,6 +156,7 @@ class ChecklistPreviewRoute extends GoRouteData {
     return ChecklistPreviewScreen(
       jsonUrl: jsonUrl,
       checklistName: checklistName,
+      imageUrl: imageUrl,
     );
   }
 }
