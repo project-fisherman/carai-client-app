@@ -12,6 +12,7 @@ import '../../features/mechanic_dashboard/presentation/screens/mechanic_dashboar
 import '../../features/mechanic_dashboard/presentation/screens/manage_workshop_screen.dart';
 import '../../design_system/molecules/app_scaffold.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_selection_screen.dart';
+import '../../features/mechanic_dashboard/presentation/screens/checklist_preview_screen.dart';
 
 part 'routes.g.dart';
 
@@ -134,5 +135,33 @@ class ManageWorkshopRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ManageWorkshopScreen(shopId: shopId);
+  }
+}
+
+@TypedGoRoute<ChecklistPreviewRoute>(path: '/checklist-preview')
+class ChecklistPreviewRoute extends GoRouteData {
+  final String shopId;
+  final String checklistId;
+  final String jsonUrl;
+  final String checklistName;
+  final String imageUrl;
+
+  const ChecklistPreviewRoute({
+    required this.shopId,
+    required this.checklistId,
+    required this.jsonUrl,
+    required this.checklistName,
+    required this.imageUrl,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ChecklistPreviewScreen(
+      shopId: shopId,
+      checklistId: checklistId,
+      jsonUrl: jsonUrl,
+      checklistName: checklistName,
+      imageUrl: imageUrl,
+    );
   }
 }
