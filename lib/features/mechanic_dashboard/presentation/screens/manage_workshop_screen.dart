@@ -4,6 +4,7 @@ import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/router/routes.dart';
 import '../../domain/entities/repair_shop_user.dart';
 import '../providers/manage_workshop_view_model.dart';
 import '../../../auth/presentation/providers/auth_notifier.dart';
@@ -12,8 +13,15 @@ import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
 
 class ManageWorkshopScreen extends ConsumerStatefulWidget {
   final String shopId;
+  final RepairShopRole? userRole;
+  final int? checklistCount;
 
-  const ManageWorkshopScreen({super.key, required this.shopId});
+  const ManageWorkshopScreen({
+    super.key,
+    required this.shopId,
+    this.userRole,
+    this.checklistCount,
+  });
 
   @override
   ConsumerState<ManageWorkshopScreen> createState() =>
@@ -118,6 +126,12 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 ],
                 _buildActiveSection(activeUsers),
                 const SizedBox(height: 32),
+                if ((widget.userRole == RepairShopRole.owner ||
+                        widget.userRole == RepairShopRole.manager) &&
+                    (widget.checklistCount ?? 0) != 0) ...[
+                  _buildRegisterChecklistButton(),
+                  const SizedBox(height: 32),
+                ],
                 _buildLeaveWorkshopButton(),
                 const SizedBox(height: 100),
               ],
@@ -505,6 +519,62 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
             ),
           ],
         ],
+      ),
+    );
+  }
+
+  Widget _buildRegisterChecklistButton() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: const Color(0xFFE65100),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 4)),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            ChecklistSelectionRoute(shopId: widget.shopId).push(context);
+          },
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.playlist_add_check,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                const Expanded(
+                  child: Text(
+                    '점검표 등록',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white.withValues(alpha: 0.7),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

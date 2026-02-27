@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/router/routes.dart';
+import '../../domain/entities/repair_shop_user.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
 import '../widgets/service_queue_card.dart';
 
@@ -197,14 +198,37 @@ class MechanicDashboardScreen extends ConsumerWidget {
           ),
 
           // Profile Button (Right)
-          IconButton(
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.white,
-              size: 28,
-            ),
-            onPressed: () {
-              ManageWorkshopRoute(shopId: shopId).push(context);
+          Consumer(
+            builder: (context, ref, child) {
+              final roleAsync = ref.watch(
+                mechanicDashboardUserRoleProvider(shopId),
+              );
+              return IconButton(
+                icon: const Icon(
+                  Icons.account_circle,
+                  color: Colors.white,
+                  size: 28,
+                ),
+                onPressed: () {
+                  // We need to map the DTO role to the Domain role due to an enum conflict
+                  // They share the same string values 'OWNER', 'MANAGER', 'STAFF', 'INVITED'
+                  final userRoleString = roleAsync.value?.name;
+                  final domainRole = userRoleString != null
+                      ? RepairShopRole.values.firstWhere(
+                          (e) =>
+                              e.name.toUpperCase() ==
+                              userRoleString.toUpperCase(),
+                          orElse: () => RepairShopRole.staff,
+                        )
+                      : null;
+
+                  ManageWorkshopRoute(
+                    shopId: shopId,
+                    userRole: domainRole,
+                    checklistCount: checklistCount,
+                  ).push(context);
+                },
+              );
             },
           ),
         ],
