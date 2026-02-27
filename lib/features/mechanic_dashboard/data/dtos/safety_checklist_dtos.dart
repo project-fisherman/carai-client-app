@@ -6,7 +6,7 @@ part 'safety_checklist_dtos.g.dart';
 @freezed
 class SafetyChecklistResponseDto with _$SafetyChecklistResponseDto {
   const factory SafetyChecklistResponseDto({
-    required int id,
+    required String id,
     required String name,
     required String imageUrl,
     required String jsonUrl,
