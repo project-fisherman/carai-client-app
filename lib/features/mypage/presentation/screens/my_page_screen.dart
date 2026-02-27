@@ -20,7 +20,7 @@ class MyPageScreen extends ConsumerWidget {
 
     return AppScaffold(
       backgroundColor: const Color(0xFF23170f), // background-dark
-      appBar: const AppNavigationBar(title: '마이페이지'),
+      appBar: const AppNavigationBar(title: '내 정보'),
       body: SafeArea(
         child: userState.when(
           data: (user) {
