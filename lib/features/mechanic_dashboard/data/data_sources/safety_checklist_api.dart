@@ -35,4 +35,14 @@ class SafetyChecklistApi {
     final response = await _dio.get(jsonUrl);
     return InspectionForm.fromJson(response.data);
   }
+
+  Future<SafetyChecklistResponseDto> registerShopChecklist({
+    required String shopId,
+    required String checklistId,
+  }) async {
+    final response = await _dio.post(
+      '/repair-shops/$shopId/safety-checklists/$checklistId',
+    );
+    return SafetyChecklistResponseDto.fromJson(response.data['result']);
+  }
 }

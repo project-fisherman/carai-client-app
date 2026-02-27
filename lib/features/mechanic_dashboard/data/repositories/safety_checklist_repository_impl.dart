@@ -75,4 +75,34 @@ class SafetyChecklistRepositoryImpl implements SafetyChecklistRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, SafetyChecklist>> registerShopChecklist({
+    required String shopId,
+    required String checklistId,
+  }) async {
+    try {
+      final dto = await _api.registerShopChecklist(
+        shopId: shopId,
+        checklistId: checklistId,
+      );
+      final entity = SafetyChecklist(
+        id: dto.id,
+        name: dto.name,
+        imageUrl: dto.imageUrl,
+        jsonUrl: dto.jsonUrl,
+        htmlUrl: dto.htmlUrl,
+        isPreset: dto.isPreset,
+        createdAt: dto.createdAt != null
+            ? DateTime.parse(dto.createdAt!)
+            : null,
+        updatedAt: dto.updatedAt != null
+            ? DateTime.parse(dto.updatedAt!)
+            : null,
+      );
+      return Right(entity);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

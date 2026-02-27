@@ -5,15 +5,20 @@ import '../../../../design_system/molecules/app_navigation_bar.dart';
 import '../../../inspection_details/presentation/widgets/dynamic_header_form.dart';
 import '../../../inspection_details/presentation/widgets/inspection_group_widget.dart';
 import '../providers/checklist_preview_view_model.dart';
+import '../../data/repositories/safety_checklist_repository_impl.dart';
 import 'package:go_router/go_router.dart';
 
 class ChecklistPreviewScreen extends ConsumerStatefulWidget {
+  final String shopId;
+  final String checklistId;
   final String jsonUrl;
   final String checklistName;
   final String imageUrl;
 
   const ChecklistPreviewScreen({
     super.key,
+    required this.shopId,
+    required this.checklistId,
     required this.jsonUrl,
     required this.checklistName,
     required this.imageUrl,
@@ -167,16 +172,42 @@ class _ChecklistPreviewScreenState
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {
-                      // TODO: Navigate to create inspection with this checklist logic
-                      // For now just pop or show message
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Starting inspection from this template is not implemented yet.',
-                          ),
-                        ),
-                      );
+                    onPressed: () async {
+                      final nav = Navigator.of(context);
+                      final scaffold = ScaffoldMessenger.of(context);
+
+                      try {
+                        final repository = ref.read(
+                          safetyChecklistRepositoryProvider,
+                        );
+                        final result = await repository.registerShopChecklist(
+                          shopId: widget.shopId,
+                          checklistId: widget.checklistId,
+                        );
+
+                        result.fold(
+                          (failure) {
+                            scaffold.showSnackBar(
+                              SnackBar(
+                                content: Text('등록 실패: ${failure.message}'),
+                              ),
+                            );
+                          },
+                          (success) {
+                            scaffold.showSnackBar(
+                              const SnackBar(
+                                content: Text('점검표가 성공적으로 등록되었습니다.'),
+                              ),
+                            );
+                            nav.pop();
+                            nav.pop(); // Pop back to dashbaord
+                          },
+                        );
+                      } catch (e) {
+                        scaffold.showSnackBar(
+                          SnackBar(content: Text('오류 발생: $e')),
+                        );
+                      }
                     },
                     child: const Text(
                       '체크리스트 등록',

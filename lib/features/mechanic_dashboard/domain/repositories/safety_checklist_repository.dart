@@ -9,4 +9,9 @@ abstract class SafetyChecklistRepository {
   });
 
   Future<Either<Failure, InspectionForm>> getChecklistPreview(String jsonUrl);
+
+  Future<Either<Failure, SafetyChecklist>> registerShopChecklist({
+    required String shopId,
+    required String checklistId,
+  });
 }

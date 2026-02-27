@@ -63,6 +63,8 @@ class ChecklistSelectionScreen extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         ChecklistPreviewRoute(
+          shopId: shopId,
+          checklistId: checklist.id,
           jsonUrl: checklist.jsonUrl,
           checklistName: checklist.name,
           imageUrl: checklist.imageUrl,

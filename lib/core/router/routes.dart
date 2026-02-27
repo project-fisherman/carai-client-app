@@ -140,11 +140,15 @@ class ManageWorkshopRoute extends GoRouteData {
 
 @TypedGoRoute<ChecklistPreviewRoute>(path: '/checklist-preview')
 class ChecklistPreviewRoute extends GoRouteData {
+  final String shopId;
+  final String checklistId;
   final String jsonUrl;
   final String checklistName;
   final String imageUrl;
 
   const ChecklistPreviewRoute({
+    required this.shopId,
+    required this.checklistId,
     required this.jsonUrl,
     required this.checklistName,
     required this.imageUrl,
@@ -152,8 +156,9 @@ class ChecklistPreviewRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    // We will create this screen shortly
     return ChecklistPreviewScreen(
+      shopId: shopId,
+      checklistId: checklistId,
       jsonUrl: jsonUrl,
       checklistName: checklistName,
       imageUrl: imageUrl,
