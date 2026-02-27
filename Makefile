@@ -3,5 +3,5 @@
 build_runner:
 	fvm dart run build_runner build --delete-conflicting-outputs
 
-run: build_runner
-	fvm flutter run
+run:
+	./scripts/run_app.sh
