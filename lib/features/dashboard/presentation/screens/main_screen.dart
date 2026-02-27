@@ -34,28 +34,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     return AppScaffold(
       appBar: AppNavigationBar(
         automaticallyImplyLeading: false,
-        titleWidget: Column(
-          children: const [
-            Text(
-              'MECHANICMATE',
-              style: TextStyle(
-                color: AppColors.primary,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 2.0,
-              ),
-            ),
-            Text(
-              '대시보드',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w900,
-                letterSpacing: -0.5,
-              ),
-            ),
-          ],
-        ),
+        title: '사업장',
         actions: [
           Center(
             child: Padding(
