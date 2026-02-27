@@ -1,7 +1,7 @@
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import '../../../../core/router/routes.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
 import '../widgets/service_queue_card.dart';
@@ -143,72 +143,16 @@ class MechanicDashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    // Design: sticky header with blur.
-    // In Flutter, we can use a Container. For sticky behavior in a ScrollView, we'd use Slivers,
-    // but here we have a fixed header above the list, which is simpler and robust.
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(
-          0xFF23170f,
-        ).withValues(alpha: 0.95), // bg-background-dark/95
-        border: const Border(
-          bottom: BorderSide(color: Color(0xFF292524)), // border-stone-800
+    return AppNavigationBar(
+      title: '작업 대기열',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.account_circle, color: Colors.white, size: 28),
+          onPressed: () {
+            ManageWorkshopRoute(shopId: shopId).push(context);
+          },
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Back Button (Left)
-          IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white, size: 28),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-
-          // Title (Center)
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  '작업 대기열',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w800, // extrabold
-                    letterSpacing: -0.5, // tracking-tight
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  DateFormat('MMM dd, yyyy').format(DateTime.now()),
-                  style: TextStyle(
-                    color: Color(0xFFA8A29E), // text-stone-400
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Profile Button (Right)
-          IconButton(
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.white,
-              size: 28,
-            ),
-            onPressed: () {
-              ManageWorkshopRoute(shopId: shopId).push(context);
-            },
-          ),
-        ],
-      ),
+      ],
     );
   }
 
