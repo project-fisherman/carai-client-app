@@ -20,14 +20,14 @@ class MyPageScreen extends ConsumerWidget {
 
     return AppScaffold(
       backgroundColor: const Color(0xFF23170f), // background-dark
-      appBar: const AppNavigationBar(title: 'MY PAGE'),
+      appBar: const AppNavigationBar(title: '마이페이지'),
       body: SafeArea(
         child: userState.when(
           data: (user) {
             if (user == null) {
               return const Center(
                 child: Text(
-                  'User not found',
+                  '사용자를 찾을 수 없습니다',
                   style: TextStyle(color: Colors.white),
                 ),
               );
@@ -39,7 +39,7 @@ class MyPageScreen extends ConsumerWidget {
                 children: [
                   // Profile Info
                   _buildProfileItem(
-                    label: 'Username',
+                    label: '사용자 이름',
                     value: user.name,
                     onEdit: () {
                       showModalBottomSheet(
@@ -52,7 +52,7 @@ class MyPageScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 24),
                   _buildProfileItem(
-                    label: 'Phone Number',
+                    label: '전화번호',
                     value: user.phoneNumber,
                     // Phone number not editable
                   ),
@@ -60,7 +60,7 @@ class MyPageScreen extends ConsumerWidget {
 
                   // Actions
                   AppButton(
-                    text: 'CHANGE PASSWORD',
+                    text: '비밀번호 변경',
                     onPressed: () {
                       const ChangePasswordRoute().push(context);
                     },
@@ -70,7 +70,7 @@ class MyPageScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   AppButton(
-                    text: 'LOGOUT',
+                    text: '로그아웃',
                     onPressed: () async {
                       await ref.read(authNotifierProvider.notifier).logout();
                       // Navigation handled by auth listener usually, or we do it manually?
@@ -87,7 +87,7 @@ class MyPageScreen extends ConsumerWidget {
           },
           error: (err, stack) => Center(
             child: Text(
-              'Error: $err',
+              '오류: $err',
               style: const TextStyle(color: Colors.white),
             ),
           ),
@@ -119,7 +119,7 @@ class MyPageScreen extends ConsumerWidget {
               GestureDetector(
                 onTap: onEdit,
                 child: const Text(
-                  'Edit',
+                  '수정',
                   style: TextStyle(
                     color: AppColors.primary,
                     fontWeight: FontWeight.bold,

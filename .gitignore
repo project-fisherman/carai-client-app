@@ -96,6 +96,8 @@ macos/Pods/
 .env.*
 !.env.example
 
+*.g.ts
+*.freezed.ts
 # -----------------------
 # Auto-generated code
 # -----------------------

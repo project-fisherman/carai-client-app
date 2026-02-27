@@ -39,14 +39,14 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     if (oldPass.isEmpty || newPass.isEmpty || confirmPass.isEmpty) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Please fill all fields')));
+      ).showSnackBar(const SnackBar(content: Text('모든 항목을 입력해주세요')));
       return;
     }
 
     if (newPass != confirmPass) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('New passwords do not match')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('새 비밀번호가 일치하지 않습니다')));
       return;
     }
 
@@ -54,7 +54,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     if (!userState.hasValue || userState.value == null) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('User info not loaded')));
+      ).showSnackBar(const SnackBar(content: Text('사용자 정보를 불러오지 못했습니다')));
       return;
     }
     final user = userState.value!;
@@ -74,13 +74,13 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       if (mounted) {
         result.fold(
           (failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed: ${failure.message}')),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('실패: ${failure.message}')));
           },
           (_) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Password changed successfully')),
+              const SnackBar(content: Text('비밀번호가 성공적으로 변경되었습니다')),
             );
             Navigator.pop(context);
           },
@@ -150,7 +150,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       backgroundColor: const Color(0xFF23170f),
-      appBar: const AppNavigationBar(title: 'CHANGE PASSWORD'),
+      appBar: const AppNavigationBar(title: '비밀번호 변경'),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -158,8 +158,8 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _buildPasswordField(
-                label: 'Current Password',
-                placeholder: 'Enter current password',
+                label: '현재 비밀번호',
+                placeholder: '현재 비밀번호를 입력하세요',
                 controller: _oldPasswordController,
                 obscureText: !_showOldPassword,
                 onToggleVisibility: () {
@@ -168,8 +168,8 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
               ),
               const SizedBox(height: 24),
               _buildPasswordField(
-                label: 'New Password',
-                placeholder: 'Enter new password',
+                label: '새 비밀번호',
+                placeholder: '새 비밀번호를 입력하세요',
                 controller: _newPasswordController,
                 obscureText: !_showNewPassword,
                 onToggleVisibility: () {
@@ -178,8 +178,8 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
               ),
               const SizedBox(height: 24),
               _buildPasswordField(
-                label: 'Confirm New Password',
-                placeholder: 'Re-enter new password',
+                label: '새 비밀번호 확인',
+                placeholder: '새 비밀번호를 다시 입력하세요',
                 controller: _confirmPasswordController,
                 obscureText: !_showConfirmPassword,
                 onToggleVisibility: () {
@@ -188,7 +188,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
               ),
               const SizedBox(height: 48),
               AppButton(
-                text: 'CHANGE PASSWORD',
+                text: '비밀번호 변경',
                 onPressed: _isLoading ? () {} : _submit,
                 isLoading: _isLoading,
               ),

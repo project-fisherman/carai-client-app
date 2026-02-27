@@ -18,7 +18,7 @@ class RepairShopUserResponse with _$RepairShopUserResponse {
   factory RepairShopUserResponse.fromJson(Map<String, dynamic> json) =>
       _$RepairShopUserResponseFromJson(json);
 
-  RepairShopUser toDomain({String placeholderName = 'Unknown User'}) {
+  RepairShopUser toDomain({String placeholderName = '알 수 없는 사용자'}) {
     return RepairShopUser(
       id: id,
       repairShopId: repairShopId,

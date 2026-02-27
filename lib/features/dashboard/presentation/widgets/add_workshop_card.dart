@@ -42,7 +42,7 @@ class AddWorkshopCard extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               const Text(
-                'Add Workshop',
+                '사업장 추가',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -51,7 +51,7 @@ class AddWorkshopCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Register a new location',
+                '새로운 사업장 등록',
                 style: TextStyle(
                   color: Colors.grey[600], // zinc-500
                   fontSize: 16,

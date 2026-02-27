@@ -30,25 +30,22 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF2f221a),
-        title: const Text(
-          'Leave Workshop',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text('사업장 나가기', style: TextStyle(color: Colors.white)),
         content: const Text(
-          'Are you sure you want to leave this workshop?',
+          '정말로 이 사업장을 나가시겠습니까?',
           style: TextStyle(color: Color(0xFFA8A29E)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: const Text('취소'),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xFFF87171),
             ),
-            child: const Text('Leave'),
+            child: const Text('나가기'),
           ),
         ],
       ),
@@ -73,7 +70,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to leave workshop: ${failure.message}'),
+            content: Text('사업장 나가기 실패: ${failure.message}'),
             backgroundColor: const Color(0xFFEF4444),
           ),
         );
@@ -84,7 +81,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Successfully left the workshop'),
+            content: Text('사업장을 성공적으로 나갔습니다'),
             backgroundColor: Color(0xFF22C55E),
           ),
         );
@@ -99,7 +96,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
     );
 
     return AppScaffold(
-      appBar: const AppNavigationBar(title: 'Manage Workshop'),
+      appBar: const AppNavigationBar(title: '사업장 관리'),
       body: workshopState.when(
         data: (users) {
           final pendingUsers = users
@@ -128,7 +125,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => Center(child: Text('오류: $err')),
       ),
     );
   }
@@ -164,7 +161,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 const SizedBox(width: 16),
                 const Expanded(
                   child: Text(
-                    'Invite New Member',
+                    '새 멤버 초대',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -191,7 +188,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Text(
-            'PENDING REQUESTS (${users.length})',
+            '대기 중인 요청 (${users.length})',
             style: const TextStyle(
               color: Color(0xFFA8A29E),
               fontSize: 12,
@@ -265,7 +262,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                                   ),
                                 ),
                                 icon: const Icon(Icons.check),
-                                label: const Text('Accept'),
+                                label: const Text('수락'),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -313,7 +310,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
               child: Text(
-                'ACTIVE WORKSHOP MEMBERS',
+                '활성화된 사업장 멤버',
                 style: TextStyle(
                   color: Color(0xFFA8A29E),
                   fontSize: 12,
@@ -323,7 +320,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
               ),
             ),
             Text(
-              'TOTAL: ${users.length}',
+              '총 ${users.length}명',
               style: const TextStyle(
                 color: Color(0xFF57534E),
                 fontSize: 12,
@@ -359,6 +356,9 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
   }
 
   Widget _buildUserItem(RepairShopUser user) {
+    final displayName = user.name.replaceAll(RegExp(r'\s+'), '');
+    final initials = displayName.isNotEmpty ? displayName.substring(0, 1) : '?';
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -377,11 +377,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    user.name.isNotEmpty
-                        ? user.name
-                              .substring(0, min(2, user.name.length))
-                              .toUpperCase()
-                        : '??',
+                    initials,
                     style: TextStyle(
                       color: user.role == RepairShopRole.owner
                           ? Colors.white
@@ -423,7 +419,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                               ), // border-stone-700
                             ),
                             child: const Text(
-                              '(Me)',
+                              '(나)',
                               style: TextStyle(
                                 color: Color(0xFF78716C), // text-stone-500
                                 fontSize: 12,
@@ -477,7 +473,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                       ),
                     ),
                     icon: const Icon(Icons.edit_square, size: 20),
-                    label: const Text('Modify'),
+                    label: const Text('수정'),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -502,7 +498,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                       ),
                     ),
                     icon: const Icon(Icons.person_remove, size: 20),
-                    label: const Text('Remove'),
+                    label: const Text('제거'),
                   ),
                 ),
               ],
@@ -546,7 +542,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                   const Icon(Icons.logout, color: Color(0xCCEF4444), size: 24),
                 const SizedBox(width: 16),
                 const Text(
-                  'Leave Workshop',
+                  '사업장 나가기',
                   style: TextStyle(
                     color: Color(0xFFF87171),
                     fontSize: 18,
