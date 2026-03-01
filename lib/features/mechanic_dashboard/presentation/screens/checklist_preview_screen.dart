@@ -5,6 +5,8 @@ import '../../../../design_system/molecules/app_navigation_bar.dart';
 import '../../../inspection_details/presentation/widgets/dynamic_header_form.dart';
 import '../../../inspection_details/presentation/widgets/inspection_group_widget.dart';
 import '../providers/checklist_preview_view_model.dart';
+import '../providers/checklist_management_view_model.dart';
+import '../providers/checklist_selection_view_model.dart';
 import '../../data/repositories/safety_checklist_repository_impl.dart';
 import 'package:go_router/go_router.dart';
 
@@ -194,6 +196,16 @@ class _ChecklistPreviewScreenState
                             );
                           },
                           (success) {
+                            // Invalidate providers to refresh the lists
+                            ref.invalidate(
+                              shopChecklistsProvider(widget.shopId),
+                            );
+                            ref.invalidate(
+                              checklistSelectionViewModelProvider(
+                                widget.shopId,
+                              ),
+                            );
+
                             scaffold.showSnackBar(
                               const SnackBar(
                                 content: Text('점검표가 성공적으로 등록되었습니다.'),
