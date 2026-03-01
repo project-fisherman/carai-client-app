@@ -13,7 +13,9 @@ class ChecklistSelectionScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final checklistsAsync = ref.watch(checklistSelectionViewModelProvider);
+    final checklistsAsync = ref.watch(
+      checklistSelectionViewModelProvider(shopId),
+    );
 
     return AppScaffold(
       backgroundColor: const Color(0xFF23170f),

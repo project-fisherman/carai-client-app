@@ -16,4 +16,18 @@ class ShopChecklists extends _$ShopChecklists {
       (checklists) => checklists,
     );
   }
+
+  Future<void> removeChecklists({
+    required String shopId,
+    required List<String> checklistIds,
+  }) async {
+    final repository = ref.read(safetyChecklistRepositoryProvider);
+    final result = await repository.removeShopChecklists(
+      shopId: shopId,
+      checklistIds: checklistIds,
+    );
+    result.fold((failure) => throw Exception(failure.message), (_) {
+      ref.invalidateSelf();
+    });
+  }
 }

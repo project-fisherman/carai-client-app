@@ -17,21 +17,24 @@ class SafetyChecklistApi {
   SafetyChecklistApi(this._dio);
 
   Future<List<SafetyChecklistResponseDto>> getSafetyChecklists({
+    required String shopId,
     bool? isPreset,
   }) async {
     final response = await _dio.get(
-      '/safety-checklists',
+      '/repair-shops/$shopId/safety-checklists/unregistered',
       queryParameters: isPreset != null ? {'isPreset': isPreset} : null,
     );
-    final list = (response.data['result'] as List?) ?? [];
+    final list = (response.data['result']['items'] as List?) ?? [];
     return list.map((e) => SafetyChecklistResponseDto.fromJson(e)).toList();
   }
 
   Future<List<SafetyChecklistResponseDto>> getShopChecklists({
     required String shopId,
   }) async {
-    final response = await _dio.get('/repair-shops/$shopId/safety-checklists');
-    final list = (response.data['result'] as List?) ?? [];
+    final response = await _dio.get(
+      '/repair-shops/$shopId/safety-checklists/registered',
+    );
+    final list = (response.data['result']['items'] as List?) ?? [];
     return list.map((e) => SafetyChecklistResponseDto.fromJson(e)).toList();
   }
 
@@ -52,5 +55,15 @@ class SafetyChecklistApi {
       '/repair-shops/$shopId/safety-checklists/$checklistId',
     );
     return SafetyChecklistResponseDto.fromJson(response.data['result']);
+  }
+
+  Future<void> removeShopChecklists({
+    required String shopId,
+    required List<String> checklistIds,
+  }) async {
+    await _dio.post(
+      '/repair-shops/$shopId/safety-checklists/remove',
+      data: {'checklistIds': checklistIds},
+    );
   }
 }

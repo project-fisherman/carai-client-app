@@ -230,13 +230,65 @@ class _ChecklistManagementScreenState
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
+          onTap: () async {
             if (_isSelectionMode) {
               if (_selectedIds.isNotEmpty) {
-                // Delete API call logic will be here
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(const SnackBar(content: Text('삭제 기능은 준비중입니다.')));
+                final confirm = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('삭제 확인'),
+                    content: Text('${_selectedIds.length}개의 점검표를 삭제하시겠습니까?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text(
+                          '취소',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: const Text(
+                          '삭제',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
+                    backgroundColor: const Color(0xFF2f221a),
+                    titleTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    contentTextStyle: const TextStyle(color: Colors.white),
+                  ),
+                );
+
+                if (confirm == true && context.mounted) {
+                  try {
+                    await ref
+                        .read(shopChecklistsProvider(widget.shopId).notifier)
+                        .removeChecklists(
+                          shopId: widget.shopId,
+                          checklistIds: _selectedIds.toList(),
+                        );
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('점검표가 삭제되었습니다.')),
+                      );
+                      setState(() {
+                        _isSelectionMode = false;
+                        _selectedIds.clear();
+                      });
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('삭제 중 오류가 발생했습니다: $e')),
+                      );
+                    }
+                  }
+                }
               }
             } else {
               ChecklistSelectionRoute(shopId: widget.shopId).push(context);

@@ -22,10 +22,14 @@ class SafetyChecklistRepositoryImpl implements SafetyChecklistRepository {
 
   @override
   Future<Either<Failure, List<SafetyChecklist>>> getSafetyChecklists({
+    required String shopId,
     bool? isPreset,
   }) async {
     try {
-      final dtos = await _api.getSafetyChecklists(isPreset: isPreset);
+      final dtos = await _api.getSafetyChecklists(
+        shopId: shopId,
+        isPreset: isPreset,
+      );
       final entities = dtos
           .map(
             (dto) => SafetyChecklist(
@@ -131,6 +135,22 @@ class SafetyChecklistRepositoryImpl implements SafetyChecklistRepository {
             : null,
       );
       return Right(entity);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeShopChecklists({
+    required String shopId,
+    required List<String> checklistIds,
+  }) async {
+    try {
+      await _api.removeShopChecklists(
+        shopId: shopId,
+        checklistIds: checklistIds,
+      );
+      return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
