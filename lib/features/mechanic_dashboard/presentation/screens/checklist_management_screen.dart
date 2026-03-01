@@ -6,17 +6,58 @@ import '../../../../core/router/routes.dart';
 import '../providers/checklist_management_view_model.dart';
 import '../../domain/entities/safety_checklist.dart';
 
-class ChecklistManagementScreen extends ConsumerWidget {
+class ChecklistManagementScreen extends ConsumerStatefulWidget {
   final String shopId;
 
   const ChecklistManagementScreen({super.key, required this.shopId});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final checklistsAsync = ref.watch(shopChecklistsProvider(shopId));
+  ConsumerState<ChecklistManagementScreen> createState() =>
+      _ChecklistManagementScreenState();
+}
+
+class _ChecklistManagementScreenState
+    extends ConsumerState<ChecklistManagementScreen> {
+  bool _isSelectionMode = false;
+  final Set<String> _selectedIds = {};
+  @override
+  Widget build(BuildContext context) {
+    final checklistsAsync = ref.watch(shopChecklistsProvider(widget.shopId));
 
     return AppScaffold(
-      appBar: const AppNavigationBar(title: '점검표 관리'),
+      appBar: AppNavigationBar(
+        title: '점검표 관리',
+        actions:
+            checklistsAsync.whenOrNull(
+              data: (checklists) {
+                if (checklists.isEmpty) return null;
+                return [
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        if (_isSelectionMode) {
+                          _isSelectionMode = false;
+                          _selectedIds.clear();
+                        } else {
+                          _isSelectionMode = true;
+                        }
+                      });
+                    },
+                    child: Text(
+                      _isSelectionMode ? '취소' : '선택',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                ];
+              },
+            ) ??
+            [],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -69,7 +110,10 @@ class ChecklistManagementScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              _buildAddChecklistButton(context),
+              if (_isSelectionMode && _selectedIds.isEmpty)
+                const SizedBox.shrink()
+              else
+                _buildBottomButton(context),
             ],
           ),
         ),
@@ -78,54 +122,106 @@ class ChecklistManagementScreen extends ConsumerWidget {
   }
 
   Widget _buildChecklistCard(BuildContext context, SafetyChecklist checklist) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF2f221a),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onLongPress: () {
+          if (!_isSelectionMode) {
+            setState(() {
+              _isSelectionMode = true;
+              _selectedIds.add(checklist.id);
+            });
+          }
+        },
+        onTap: () {
+          if (_isSelectionMode) {
+            setState(() {
+              if (_selectedIds.contains(checklist.id)) {
+                _selectedIds.remove(checklist.id);
+              } else {
+                _selectedIds.add(checklist.id);
+              }
+            });
+          } else {
+            // Future feature: detail view or edit. For now, empty or basic preview.
+          }
+        },
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFF374151)),
-      ),
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              checklist.imageUrl,
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                width: 60,
-                height: 60,
-                color: const Color(0xFF374151),
-                child: const Icon(
-                  Icons.image_not_supported,
-                  color: Colors.grey,
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFF2f221a),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: _selectedIds.contains(checklist.id)
+                  ? const Color(0xFFE65100)
+                  : const Color(0xFF374151),
+            ),
+          ),
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              if (_isSelectionMode) ...[
+                Checkbox(
+                  value: _selectedIds.contains(checklist.id),
+                  activeColor: const Color(0xFFE65100),
+                  onChanged: (val) {
+                    setState(() {
+                      if (val == true) {
+                        _selectedIds.add(checklist.id);
+                      } else {
+                        _selectedIds.remove(checklist.id);
+                      }
+                    });
+                  },
+                ),
+                const SizedBox(width: 8),
+              ],
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  checklist.imageUrl,
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: 60,
+                    height: 60,
+                    color: const Color(0xFF374151),
+                    child: const Icon(
+                      Icons.image_not_supported,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              checklist.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  checklist.name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildAddChecklistButton(BuildContext context) {
+  Widget _buildBottomButton(BuildContext context) {
+    final isDeleteMode = _isSelectionMode && _selectedIds.isNotEmpty;
+    final color = isDeleteMode ? Colors.red : const Color(0xFFE65100);
+    final text = isDeleteMode ? '선택 삭제' : '점검표 등록';
+    final icon = isDeleteMode ? Icons.delete_outline : Icons.playlist_add_check;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: const Color(0xFFE65100),
+        color: color,
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 4)),
@@ -135,19 +231,28 @@ class ChecklistManagementScreen extends ConsumerWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            ChecklistSelectionRoute(shopId: shopId).push(context);
+            if (_isSelectionMode) {
+              if (_selectedIds.isNotEmpty) {
+                // Delete API call logic will be here
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('삭제 기능은 준비중입니다.')));
+              }
+            } else {
+              ChecklistSelectionRoute(shopId: widget.shopId).push(context);
+            }
           },
           borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(Icons.playlist_add_check, color: Colors.white),
-                SizedBox(width: 8),
+              children: [
+                Icon(icon, color: Colors.white),
+                const SizedBox(width: 8),
                 Text(
-                  '점검표 등록',
-                  style: TextStyle(
+                  text,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
