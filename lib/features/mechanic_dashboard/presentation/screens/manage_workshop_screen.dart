@@ -10,18 +10,13 @@ import '../providers/manage_workshop_view_model.dart';
 import '../../../auth/presentation/providers/auth_notifier.dart';
 import '../../../dashboard/data/repositories/mechanic_dashboard_repository_impl.dart';
 import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
+import '../providers/checklist_management_view_model.dart';
 
 class ManageWorkshopScreen extends ConsumerStatefulWidget {
   final String shopId;
   final RepairShopRole? userRole;
-  final int? checklistCount;
 
-  const ManageWorkshopScreen({
-    super.key,
-    required this.shopId,
-    this.userRole,
-    this.checklistCount,
-  });
+  const ManageWorkshopScreen({super.key, required this.shopId, this.userRole});
 
   @override
   ConsumerState<ManageWorkshopScreen> createState() =>
@@ -126,12 +121,27 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 ],
                 _buildActiveSection(activeUsers),
                 const SizedBox(height: 32),
-                if ((widget.userRole == RepairShopRole.owner ||
-                        widget.userRole == RepairShopRole.manager) &&
-                    (widget.checklistCount ?? 0) != 0) ...[
-                  _buildManageChecklistButton(),
-                  const SizedBox(height: 32),
-                ],
+                Builder(
+                  builder: (context) {
+                    final checklistsAsync = ref.watch(
+                      shopChecklistsProvider(widget.shopId),
+                    );
+                    final hasChecklists =
+                        (checklistsAsync.valueOrNull?.length ?? 0) > 0;
+
+                    if ((widget.userRole == RepairShopRole.owner ||
+                            widget.userRole == RepairShopRole.manager) &&
+                        hasChecklists) {
+                      return Column(
+                        children: [
+                          _buildManageChecklistButton(),
+                          const SizedBox(height: 32),
+                        ],
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
                 _buildLeaveWorkshopButton(),
                 const SizedBox(height: 100),
               ],

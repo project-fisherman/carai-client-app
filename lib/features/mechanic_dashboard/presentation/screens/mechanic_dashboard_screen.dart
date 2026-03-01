@@ -5,17 +5,13 @@ import 'package:intl/intl.dart';
 import '../../../../core/router/routes.dart';
 import '../../domain/entities/repair_shop_user.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
+import '../providers/checklist_management_view_model.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
   final String shopId;
-  final int checklistCount;
 
-  const MechanicDashboardScreen({
-    super.key,
-    required this.shopId,
-    required this.checklistCount,
-  });
+  const MechanicDashboardScreen({super.key, required this.shopId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,69 +34,83 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 data: (vehicles) {
                   // Show empty state if no jobs
                   if (vehicles.isEmpty) {
-                    if (checklistCount == 0) {
-                      return Consumer(
-                        builder: (context, ref, child) {
-                          final roleAsync = ref.watch(
-                            mechanicDashboardUserRoleProvider(shopId),
-                          );
-                          return roleAsync.when(
-                            data: (role) {
-                              if (role.isOwnerOrManager) {
-                                return Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 24.0,
-                                        ),
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            ChecklistSelectionRoute(
-                                              shopId: shopId,
-                                            ).push(context);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.orange,
-                                            shape: const CircleBorder(),
-                                            padding: const EdgeInsets.all(16),
+                    final checklistsAsync = ref.watch(
+                      shopChecklistsProvider(shopId),
+                    );
+                    return checklistsAsync.when(
+                      data: (checklists) {
+                        if (checklists.isEmpty) {
+                          return Consumer(
+                            builder: (context, ref, child) {
+                              final roleAsync = ref.watch(
+                                mechanicDashboardUserRoleProvider(shopId),
+                              );
+                              return roleAsync.when(
+                                data: (role) {
+                                  if (role.isOwnerOrManager) {
+                                    return Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 24.0,
+                                            ),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                ChecklistSelectionRoute(
+                                                  shopId: shopId,
+                                                ).push(context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.orange,
+                                                shape: const CircleBorder(),
+                                                padding: const EdgeInsets.all(
+                                                  16,
+                                                ),
+                                              ),
+                                              child: const Icon(
+                                                Icons.add,
+                                                color: Colors.white,
+                                                size: 32,
+                                              ),
+                                            ),
                                           ),
-                                          child: const Icon(
-                                            Icons.add,
-                                            color: Colors.white,
-                                            size: 32,
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            '첫 점검표 생성',
+                                            style: TextStyle(
+                                              color: Colors.white.withValues(
+                                                alpha: 0.7,
+                                              ),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                      const SizedBox(height: 16),
-                                      Text(
-                                        '첫 점검표 생성',
-                                        style: TextStyle(
-                                          color: Colors.white.withValues(
-                                            alpha: 0.7,
-                                          ),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
+                                    );
+                                  }
+                                  return _buildNoJobsView();
+                                },
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.orange,
                                   ),
-                                );
-                              }
-                              return _buildNoJobsView();
+                                ),
+                                error: (err, stack) => _buildNoJobsView(),
+                              );
                             },
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.orange,
-                              ),
-                            ),
-                            error: (err, stack) => _buildNoJobsView(),
                           );
-                        },
-                      );
-                    }
-                    return _buildNoJobsView();
+                        }
+                        return _buildNoJobsView();
+                      },
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(color: Colors.orange),
+                      ),
+                      error: (err, stack) => _buildNoJobsView(),
+                    );
                   }
 
                   return ListView.separated(
@@ -225,7 +235,6 @@ class MechanicDashboardScreen extends ConsumerWidget {
                   ManageWorkshopRoute(
                     shopId: shopId,
                     userRole: domainRole,
-                    checklistCount: checklistCount,
                   ).push(context);
                 },
               );
