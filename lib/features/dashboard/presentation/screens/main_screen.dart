@@ -146,7 +146,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           onTap: () {
                             MechanicDashboardRoute(
                               shopId: shop.id,
-                              checklistCount: shop.checklistCount,
                             ).push(context);
                           },
                         ),

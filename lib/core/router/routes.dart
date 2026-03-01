@@ -6,10 +6,12 @@ import '../../features/auth/presentation/screens/registration_screen.dart';
 import '../../features/dashboard/presentation/screens/main_screen.dart';
 import '../../features/mypage/presentation/screens/my_page_screen.dart';
 import '../../features/dashboard/presentation/screens/create_shop_screen.dart';
+import '../../features/mechanic_dashboard/domain/entities/repair_shop_user.dart';
 
 import '../../features/auth/presentation/screens/change_password_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/mechanic_dashboard_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/manage_workshop_screen.dart';
+import '../../features/mechanic_dashboard/presentation/screens/checklist_management_screen.dart';
 import '../../design_system/molecules/app_scaffold.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_selection_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_preview_screen.dart';
@@ -65,7 +67,7 @@ class DocumentRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return MechanicDashboardScreen(shopId: shopId, checklistCount: 0);
+    return MechanicDashboardScreen(shopId: shopId);
   }
 }
 
@@ -102,15 +104,11 @@ class ChangePasswordRoute extends GoRouteData {
 @TypedGoRoute<MechanicDashboardRoute>(path: '/mechanic-dashboard/:shopId')
 class MechanicDashboardRoute extends GoRouteData {
   final String shopId;
-  final int? checklistCount;
-  const MechanicDashboardRoute({required this.shopId, this.checklistCount});
+  const MechanicDashboardRoute({required this.shopId});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return MechanicDashboardScreen(
-      shopId: shopId,
-      checklistCount: checklistCount ?? 0,
-    );
+    return MechanicDashboardScreen(shopId: shopId);
   }
 }
 
@@ -126,15 +124,28 @@ class ChecklistSelectionRoute extends GoRouteData {
   }
 }
 
-@TypedGoRoute<ManageWorkshopRoute>(path: '/mechanic-dashboard/:shopId/workshop')
-class ManageWorkshopRoute extends GoRouteData {
+@TypedGoRoute<ChecklistManagementRoute>(path: '/checklist-management/:shopId')
+class ChecklistManagementRoute extends GoRouteData {
   final String shopId;
 
-  const ManageWorkshopRoute({required this.shopId});
+  const ChecklistManagementRoute({required this.shopId});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ManageWorkshopScreen(shopId: shopId);
+    return ChecklistManagementScreen(shopId: shopId);
+  }
+}
+
+@TypedGoRoute<ManageWorkshopRoute>(path: '/mechanic-dashboard/:shopId/workshop')
+class ManageWorkshopRoute extends GoRouteData {
+  final String shopId;
+  final RepairShopRole? userRole;
+
+  const ManageWorkshopRoute({required this.shopId, this.userRole});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ManageWorkshopScreen(shopId: shopId, userRole: userRole);
   }
 }
 
