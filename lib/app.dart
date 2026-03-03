@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:carai/core/constants/app_constants.dart';
 import 'package:carai/core/router/router_provider.dart';
 import 'package:carai/core/utils/global_keys.dart';
 import 'package:carai/design_system/foundations/app_colors.dart';
@@ -28,7 +30,7 @@ class CaraiApp extends ConsumerWidget {
       routerConfig: router,
       // Show loading overlay during token refresh
       builder: (context, child) {
-        return tokenRefreshState.when(
+        final content = tokenRefreshState.when(
           data: (_) => child ?? const SizedBox(),
           loading: () => const Scaffold(
             backgroundColor: AppColors.backgroundDark,
@@ -37,6 +39,26 @@ class CaraiApp extends ConsumerWidget {
             ),
           ),
           error: (error, stackTrace) => child ?? const SizedBox(),
+        );
+
+        final isMobile =
+            defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android;
+
+        if (isMobile) {
+          return content;
+        }
+
+        return ColoredBox(
+          color: Colors.white,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: AppConstants.mobileMaxWidth,
+              ),
+              child: content,
+            ),
+          ),
         );
       },
     );
