@@ -16,8 +16,9 @@ class FileApi {
   FileApi(this._dio);
 
   Future<String> uploadProfileImage(XFile file) async {
+    final bytes = await file.readAsBytes();
     final formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path, filename: file.name),
+      'file': MultipartFile.fromBytes(bytes, filename: file.name),
     });
 
     final response = await _dio.post('/api/files/profile', data: formData);

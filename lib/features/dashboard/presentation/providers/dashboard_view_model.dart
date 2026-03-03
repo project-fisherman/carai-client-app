@@ -61,7 +61,6 @@ class DashboardViewModel extends _$DashboardViewModel {
     required String phoneNumber,
     XFile? profileImage,
   }) async {
-    // We can assume profileImage is XFile as per repository
     final result = await ref
         .read(createShopUseCaseProvider)
         .call(
@@ -72,8 +71,6 @@ class DashboardViewModel extends _$DashboardViewModel {
         );
 
     result.fold((failure) => throw Exception(failure.message), (newShop) {
-      // Optimistically update or refresh
-      // Since we just added a shop, we can refresh the list
       refresh();
     });
   }

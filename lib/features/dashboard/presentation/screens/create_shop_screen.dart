@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:carai/design_system/foundations/app_colors.dart';
 import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import 'package:carai/design_system/molecules/app_scaffold.dart';
@@ -21,6 +21,7 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
   final _addressController = TextEditingController();
   final _phoneController = TextEditingController();
   XFile? _profileImage;
+  Uint8List? _profileImageBytes;
   bool _isLoading = false;
 
   final ImagePicker _picker = ImagePicker();
@@ -36,8 +37,10 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
   Future<void> _pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
+      final bytes = await image.readAsBytes();
       setState(() {
         _profileImage = image;
+        _profileImageBytes = bytes;
       });
     }
   }
@@ -100,9 +103,9 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
                     decoration: BoxDecoration(
                       color: Colors.grey[800],
                       borderRadius: BorderRadius.circular(16),
-                      image: _profileImage != null
+                      image: _profileImageBytes != null
                           ? DecorationImage(
-                              image: FileImage(File(_profileImage!.path)),
+                              image: MemoryImage(_profileImageBytes!),
                               fit: BoxFit.cover,
                             )
                           : null,
