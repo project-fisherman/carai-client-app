@@ -7,8 +7,6 @@ import '../../../../design_system/atoms/app_input.dart';
 import '../../../../design_system/molecules/app_scaffold.dart';
 import '../../../../design_system/foundations/app_colors.dart';
 import '../viewmodels/login_view_model.dart';
-import '../providers/auth_notifier.dart';
-import '../../domain/entities/user.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -57,15 +55,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         );
 
     // Check result after login completes
-    final state = ref.read(loginViewModelProvider);
+    final loginState = ref.read(loginViewModelProvider);
     if (mounted) {
-      state.when(
+      loginState.when(
         data: (_) {
-          // Login successful - show success message
-          // Navigation is handled by authNotifierProvider listener
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('로그인 성공!')));
+          // 로그인 성공 시에만 main screen으로 이동
+          const MainRoute().go(context);
         },
         error: (err, stack) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -86,16 +81,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Listen to auth state changes and navigate when logged in
-    ref.listen<AsyncValue<User?>>(authNotifierProvider, (previous, next) {
-      next.whenData((user) {
-        if (user != null && mounted) {
-          // User is logged in, navigate to main screen
-          const MainRoute().go(context);
-        }
-      });
-    });
-
     final state = ref.watch(loginViewModelProvider);
     final isLoading = state.isLoading;
 
