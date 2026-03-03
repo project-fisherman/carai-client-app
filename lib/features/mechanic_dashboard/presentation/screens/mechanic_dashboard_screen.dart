@@ -1,7 +1,7 @@
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:carai/design_system/molecules/app_navigation_bar.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/router/routes.dart';
 import '../../domain/entities/repair_shop_user.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
@@ -154,14 +154,19 @@ class MechanicDashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return AppNavigationBar(
-      title: '작업 대기열',
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.account_circle, color: Colors.white, size: 28),
-          onPressed: () {
-            ManageWorkshopRoute(shopId: shopId).push(context);
-          },
+    // Design: sticky header with blur.
+    // In Flutter, we can use a Container. For sticky behavior in a ScrollView, we'd use Slivers,
+    // but here we have a fixed header above the list, which is simpler and robust.
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(
+          0xFF23170f,
+        ).withValues(alpha: 0.95), // bg-background-dark/95
+        border: const Border(
+          bottom: BorderSide(color: Color(0xFF292524)), // border-stone-800
         ),
       ),
       child: Row(
