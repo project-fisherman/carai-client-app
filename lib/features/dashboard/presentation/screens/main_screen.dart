@@ -1,5 +1,5 @@
 import 'package:carai/design_system/foundations/app_colors.dart';
-import 'package:carai/design_system/molecules/app_navigation_bar.dart';
+
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:carai/features/dashboard/presentation/widgets/add_workshop_card.dart';
 import 'package:carai/features/dashboard/presentation/widgets/workshop_card.dart';
@@ -17,7 +17,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  final PageController _pageController = PageController(viewportFraction: 0.9);
+  final PageController _pageController = PageController(viewportFraction: 0.88);
   int _currentPage = 0;
 
   @override
@@ -32,88 +32,59 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final userState = ref.watch(userNotifierProvider);
 
     return AppScaffold(
-      appBar: AppNavigationBar(
-        automaticallyImplyLeading: false,
-        titleWidget: Column(
-          children: const [
-            Text(
-              'MECHANICMATE',
-              style: TextStyle(
-                color: AppColors.primary,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 2.0,
-              ),
-            ),
-            Text(
-              '대시보드',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w900,
-                letterSpacing: -0.5,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: _buildIconButton(Icons.account_circle),
-            ),
-          ),
-        ],
-      ),
       backgroundColor: const Color(0xFF23170f), // background-dark
       body: SafeArea(
         child: Column(
           children: [
             // Welcome Section
             Padding(
-              padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 8.0),
+              padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 0.0),
               child: SizedBox(
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      '안녕하세요,',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32, // md:text-4xl
-                        fontWeight: FontWeight.bold,
-                        height: 1.1,
-                      ),
-                    ),
-                    userState.when(
-                      data: (user) => Text(
-                        '${user?.name ?? "정비사"}님.',
-                        style: const TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 32, // md:text-4xl
-                          fontWeight: FontWeight.bold,
-                          height: 1.1,
+                    Row(
+                      children: [
+                        const Text(
+                          '안녕하세요, ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 32, // md:text-4xl
+                            fontWeight: FontWeight.bold,
+                            height: 1.1,
+                          ),
                         ),
-                      ),
-                      loading: () => const Text(
-                        '정비사님.',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 32, // md:text-4xl
-                          fontWeight: FontWeight.bold,
-                          height: 1.1,
+                        userState.when(
+                          data: (user) => Text(
+                            '${user?.name ?? "정비사"}님.',
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontSize: 32, // md:text-4xl
+                              fontWeight: FontWeight.bold,
+                              height: 1.1,
+                            ),
+                          ),
+                          loading: () => const Text(
+                            '정비사님.',
+                            style: TextStyle(
+                              color: AppColors.primary,
+                              fontSize: 32, // md:text-4xl
+                              fontWeight: FontWeight.bold,
+                              height: 1.1,
+                            ),
+                          ),
+                          error: (error, stackTrace) => const Text(
+                            '정비사님.',
+                            style: TextStyle(
+                              color: AppColors.primary,
+                              fontSize: 32, // md:text-4xl
+                              fontWeight: FontWeight.bold,
+                              height: 1.1,
+                            ),
+                          ),
                         ),
-                      ),
-                      error: (error, stackTrace) => const Text(
-                        '정비사님.',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 32, // md:text-4xl
-                          fontWeight: FontWeight.bold,
-                          height: 1.1,
-                        ),
-                      ),
+                      ],
                     ),
                     const SizedBox(height: 8),
                     const Text(
@@ -123,6 +94,53 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             Colors.grey, // text-slate-500 / dark:text-gray-400
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    TextButton(
+                      onPressed: () {
+                        const MyPageRoute().push(context);
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        padding: const EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          top: 13,
+                          bottom: 11,
+                        ),
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.account_circle,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            '내 정보',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              height: 1.0,
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                            size: 12,
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -164,8 +182,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   ];
 
                   return PageView.builder(
-                    controller: _pageController,
+                    controller: _pageController, // keep viewportFraction: 0.85
                     itemCount: allCards.length,
+                    padEnds:
+                        false, // This aligns the first item to the left edge of the PageView
                     onPageChanged: (int page) {
                       setState(() {
                         _currentPage = page;
@@ -173,9 +193,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     },
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                          vertical: 32.0,
+                        padding: EdgeInsets.only(
+                          left: index == 0 ? 24.0 : 8.0,
+                          right: 8.0,
+                          top: 24.0,
+                          bottom: 32.0,
                         ),
                         child: allCards[index],
                       );
@@ -211,22 +233,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildIconButton(IconData icon) {
-    return GestureDetector(
-      onTap: () {
-        if (icon == Icons.account_circle) {
-          const MyPageRoute().push(context);
-        }
-      },
-      child: Container(
-        width: 56,
-        height: 56,
-        alignment: Alignment.center,
-        child: Icon(icon, color: Colors.white, size: 32),
       ),
     );
   }
