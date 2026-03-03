@@ -23,22 +23,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    // Listen to auth state changes and navigate when logged in
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.listen<AsyncValue<User?>>(authNotifierProvider, (previous, next) {
-        next.whenData((user) {
-          if (user != null && mounted) {
-            // User is logged in, navigate to main screen
-            const MainRoute().go(context);
-          }
-        });
-      });
-    });
-  }
-
-  @override
   void dispose() {
     _phoneController.dispose();
     _usernameController.dispose();
@@ -102,6 +86,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Listen to auth state changes and navigate when logged in
+    ref.listen<AsyncValue<User?>>(authNotifierProvider, (previous, next) {
+      next.whenData((user) {
+        if (user != null && mounted) {
+          // User is logged in, navigate to main screen
+          const MainRoute().go(context);
+        }
+      });
+    });
+
     final state = ref.watch(loginViewModelProvider);
     final isLoading = state.isLoading;
 
