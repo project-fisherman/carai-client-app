@@ -12,6 +12,11 @@ FVM이 설치되어 있지 않다면, [공식 설치 가이드](https://fvm.app/
 ### 사용법
 **모든 Flutter 및 Dart 명령어는 반드시 `fvm` 접두어를 붙여서 실행해야 합니다.** `flutter`나 `dart` 명령어를 직접 사용하지 마세요.
 
+- **웹 실행 (Web Run - CORS 우회)**:
+  ```bash
+  fvm flutter run -d chrome --web-browser-flag "--disable-web-security"
+  ```
+  *(또는 `make run` 명렁어 사용)*
 - **패키지 가져오기**:
   ```bash
   fvm flutter pub get

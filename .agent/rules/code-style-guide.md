@@ -13,7 +13,7 @@ Your goal is to maintain a scalable, strictly typed codebase following Clean Arc
   - **NEVER** execute `flutter <command>` or `dart <command>` directly.
   - **ALWAYS** prefix with `fvm`.
 - **Common Commands**:
-  - Run App: `fvm flutter run`
+  - Run App (Web, bypass CORS): `fvm flutter run -d chrome --web-browser-flag "--disable-web-security"`
   - Get Packages: `fvm flutter pub get`
   - **Code Generation (Crucial)**: Whenever you modify Freezed models, Riverpod providers, or GoRouter routes, run:
     `fvm dart run build_runner build --delete-conflicting-outputs`
@@ -55,7 +55,7 @@ Your goal is to maintain a scalable, strictly typed codebase following Clean Arc
 ## 5. Flutter Specifics
 - **UI Composition**: Use `SizedBox` for spacing. Break down complex `build` methods into smaller Widgets.
 - **Async/Await**: Always return `Future<void>` or `Future<T>` for async functions.
-- **Target Platforms**: Focus on iOS and Android. Web and Desktop are disabled.
+- **Target Platforms**: Focus on Web. iOS, Android and Desktop are disabled.
 - **AppScaffold Usage**: You **MUST** use `AppScaffold` (from `design_system/molecules`) instead of `Scaffold` for all screens to ensure dynamic status bar coloring.
 - **AppNavigationBar Usage**: You **MUST** use `AppNavigationBar` (from `design_system/molecules`) whenever a TopAppBar is required.
 
