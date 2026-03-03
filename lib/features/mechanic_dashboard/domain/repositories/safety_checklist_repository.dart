@@ -1,9 +1,27 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failure.dart';
+import '../../../inspection_details/domain/entities/inspection_form.dart';
 import '../entities/safety_checklist.dart';
 
 abstract class SafetyChecklistRepository {
   Future<Either<Failure, List<SafetyChecklist>>> getSafetyChecklists({
+    required String shopId,
     bool? isPreset,
+  });
+
+  Future<Either<Failure, InspectionForm>> getChecklistPreview(String jsonUrl);
+
+  Future<Either<Failure, List<SafetyChecklist>>> getShopChecklists({
+    required String shopId,
+  });
+
+  Future<Either<Failure, SafetyChecklist>> registerShopChecklist({
+    required String shopId,
+    required String checklistId,
+  });
+
+  Future<Either<Failure, void>> removeShopChecklists({
+    required String shopId,
+    required List<String> checklistIds,
   });
 }

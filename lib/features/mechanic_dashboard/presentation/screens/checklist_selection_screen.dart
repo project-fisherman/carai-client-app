@@ -4,6 +4,7 @@ import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import '../../domain/entities/safety_checklist.dart';
 import '../providers/checklist_selection_view_model.dart';
+import '../../../../core/router/routes.dart';
 
 class ChecklistSelectionScreen extends ConsumerWidget {
   final String shopId;
@@ -12,7 +13,9 @@ class ChecklistSelectionScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final checklistsAsync = ref.watch(checklistSelectionViewModelProvider);
+    final checklistsAsync = ref.watch(
+      checklistSelectionViewModelProvider(shopId),
+    );
 
     return AppScaffold(
       backgroundColor: const Color(0xFF23170f),
@@ -61,10 +64,13 @@ class ChecklistSelectionScreen extends ConsumerWidget {
   Widget _buildChecklistCard(BuildContext context, SafetyChecklist checklist) {
     return GestureDetector(
       onTap: () {
-        // TODO: Handle checklist selection
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('선택됨: ${checklist.name}')));
+        ChecklistPreviewRoute(
+          shopId: shopId,
+          checklistId: checklist.id,
+          jsonUrl: checklist.jsonUrl,
+          checklistName: checklist.name,
+          imageUrl: checklist.imageUrl,
+        ).push(context);
       },
       child: Container(
         decoration: BoxDecoration(

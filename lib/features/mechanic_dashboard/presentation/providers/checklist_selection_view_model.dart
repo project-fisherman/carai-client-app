@@ -7,9 +7,9 @@ part 'checklist_selection_view_model.g.dart';
 @riverpod
 class ChecklistSelectionViewModel extends _$ChecklistSelectionViewModel {
   @override
-  FutureOr<List<SafetyChecklist>> build() async {
+  FutureOr<List<SafetyChecklist>> build(String shopId) async {
     final repository = ref.watch(safetyChecklistRepositoryProvider);
-    final result = await repository.getSafetyChecklists();
+    final result = await repository.getSafetyChecklists(shopId: shopId);
 
     return result.fold(
       (failure) => throw Exception(failure.message),

@@ -3,18 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import '../../../../core/router/routes.dart';
+import '../../domain/entities/repair_shop_user.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
+import '../providers/checklist_management_view_model.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
   final String shopId;
-  final int checklistCount;
 
-  const MechanicDashboardScreen({
-    super.key,
-    required this.shopId,
-    required this.checklistCount,
-  });
+  const MechanicDashboardScreen({super.key, required this.shopId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,69 +34,83 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 data: (vehicles) {
                   // Show empty state if no jobs
                   if (vehicles.isEmpty) {
-                    if (checklistCount == 0) {
-                      return Consumer(
-                        builder: (context, ref, child) {
-                          final roleAsync = ref.watch(
-                            mechanicDashboardUserRoleProvider(shopId),
-                          );
-                          return roleAsync.when(
-                            data: (role) {
-                              if (role.isOwnerOrManager) {
-                                return Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 24.0,
-                                        ),
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            ChecklistSelectionRoute(
-                                              shopId: shopId,
-                                            ).push(context);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.orange,
-                                            shape: const CircleBorder(),
-                                            padding: const EdgeInsets.all(16),
+                    final checklistsAsync = ref.watch(
+                      shopChecklistsProvider(shopId),
+                    );
+                    return checklistsAsync.when(
+                      data: (checklists) {
+                        if (checklists.isEmpty) {
+                          return Consumer(
+                            builder: (context, ref, child) {
+                              final roleAsync = ref.watch(
+                                mechanicDashboardUserRoleProvider(shopId),
+                              );
+                              return roleAsync.when(
+                                data: (role) {
+                                  if (role.isOwnerOrManager) {
+                                    return Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 24.0,
+                                            ),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                ChecklistSelectionRoute(
+                                                  shopId: shopId,
+                                                ).push(context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.orange,
+                                                shape: const CircleBorder(),
+                                                padding: const EdgeInsets.all(
+                                                  16,
+                                                ),
+                                              ),
+                                              child: const Icon(
+                                                Icons.add,
+                                                color: Colors.white,
+                                                size: 32,
+                                              ),
+                                            ),
                                           ),
-                                          child: const Icon(
-                                            Icons.add,
-                                            color: Colors.white,
-                                            size: 32,
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            '첫 점검표 생성',
+                                            style: TextStyle(
+                                              color: Colors.white.withValues(
+                                                alpha: 0.7,
+                                              ),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                      const SizedBox(height: 16),
-                                      Text(
-                                        '첫 점검표 생성',
-                                        style: TextStyle(
-                                          color: Colors.white.withValues(
-                                            alpha: 0.7,
-                                          ),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
+                                    );
+                                  }
+                                  return _buildNoJobsView();
+                                },
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.orange,
                                   ),
-                                );
-                              }
-                              return _buildNoJobsView();
+                                ),
+                                error: (err, stack) => _buildNoJobsView(),
+                              );
                             },
-                            loading: () => const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.orange,
-                              ),
-                            ),
-                            error: (err, stack) => _buildNoJobsView(),
                           );
-                        },
-                      );
-                    }
-                    return _buildNoJobsView();
+                        }
+                        return _buildNoJobsView();
+                      },
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(color: Colors.orange),
+                      ),
+                      error: (err, stack) => _buildNoJobsView(),
+                    );
                   }
 
                   return ListView.separated(
@@ -152,7 +163,80 @@ class MechanicDashboardScreen extends ConsumerWidget {
             ManageWorkshopRoute(shopId: shopId).push(context);
           },
         ),
-      ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Back Button (Left)
+          IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white, size: 28),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+
+          // Title (Center)
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '작업 대기열',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800, // extrabold
+                    letterSpacing: -0.5, // tracking-tight
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  DateFormat('MMM dd, yyyy').format(DateTime.now()),
+                  style: TextStyle(
+                    color: Color(0xFFA8A29E), // text-stone-400
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Profile Button (Right)
+          Consumer(
+            builder: (context, ref, child) {
+              final roleAsync = ref.watch(
+                mechanicDashboardUserRoleProvider(shopId),
+              );
+              return IconButton(
+                icon: const Icon(
+                  Icons.account_circle,
+                  color: Colors.white,
+                  size: 28,
+                ),
+                onPressed: () {
+                  // We need to map the DTO role to the Domain role due to an enum conflict
+                  // They share the same string values 'OWNER', 'MANAGER', 'STAFF', 'INVITED'
+                  final userRoleString = roleAsync.value?.name;
+                  final domainRole = userRoleString != null
+                      ? RepairShopRole.values.firstWhere(
+                          (e) =>
+                              e.name.toUpperCase() ==
+                              userRoleString.toUpperCase(),
+                          orElse: () => RepairShopRole.staff,
+                        )
+                      : null;
+
+                  ManageWorkshopRoute(
+                    shopId: shopId,
+                    userRole: domainRole,
+                  ).push(context);
+                },
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 

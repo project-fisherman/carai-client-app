@@ -22,7 +22,7 @@ class RepairJobApi {
       '/repair-shops/jobs/me',
       queryParameters: status != null ? {'status': status} : null,
     );
-    final list = response.data['result'] as List;
+    final list = (response.data['result'] as List?) ?? [];
     return list.map((e) => RepairJobResponseDto.fromJson(e)).toList();
   }
 }

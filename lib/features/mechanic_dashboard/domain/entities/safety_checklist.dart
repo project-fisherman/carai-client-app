@@ -5,7 +5,7 @@ part 'safety_checklist.freezed.dart';
 @freezed
 class SafetyChecklist with _$SafetyChecklist {
   const factory SafetyChecklist({
-    required int id,
+    required String id,
     required String name,
     required String imageUrl,
     required String jsonUrl,
