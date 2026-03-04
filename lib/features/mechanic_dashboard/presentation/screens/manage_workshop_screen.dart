@@ -10,7 +10,6 @@ import '../providers/manage_workshop_view_model.dart';
 import '../../../auth/presentation/providers/auth_notifier.dart';
 import '../../../dashboard/data/repositories/mechanic_dashboard_repository_impl.dart';
 import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
-import '../providers/checklist_management_view_model.dart';
 
 class ManageWorkshopScreen extends ConsumerStatefulWidget {
   final String shopId;
@@ -123,15 +122,8 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 const SizedBox(height: 32),
                 Builder(
                   builder: (context) {
-                    final checklistsAsync = ref.watch(
-                      shopChecklistsProvider(widget.shopId),
-                    );
-                    final hasChecklists =
-                        (checklistsAsync.valueOrNull?.length ?? 0) > 0;
-
-                    if ((widget.userRole == RepairShopRole.owner ||
-                            widget.userRole == RepairShopRole.manager) &&
-                        hasChecklists) {
+                    if (widget.userRole == RepairShopRole.owner ||
+                        widget.userRole == RepairShopRole.manager) {
                       return Column(
                         children: [
                           _buildManageChecklistButton(),
