@@ -23,10 +23,7 @@ FVM이 설치되어 있지 않다면, [공식 설치 가이드](https://fvm.app/
   ```bash
   fvm flutter pub get
   ```
-- **웹 빌드 (Web Build)**:
-  ```bash
-  make build_web
-  ```
+  
 - **코드 생성 (중요)**:
   `freezed`, `go_router_builder`, `riverpod_generator` 등을 사용하므로 아래 명령어를 통해 코드를 생성해야 합니다.
   ```bash
