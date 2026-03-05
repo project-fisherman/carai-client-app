@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:carai/core/router/router_provider.dart';
 import 'package:carai/core/router/routes.dart';
@@ -13,7 +13,7 @@ class DocumentViewModel extends _$DocumentViewModel {
     // Initial state is void (idle)
   }
 
-  Future<void> uploadDocument(File file) async {
+  Future<void> uploadDocument(XFile file) async {
     state = const AsyncLoading(); // Set loading state
 
     final repository = ref.read(documentRepositoryProvider);

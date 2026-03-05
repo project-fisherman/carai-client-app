@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:carai/core/utils/file/multipart_file_builder.dart';
 import 'dio_provider.dart';
 
 part 'file_api.g.dart';
@@ -16,10 +17,8 @@ class FileApi {
   FileApi(this._dio);
 
   Future<String> uploadProfileImage(XFile file) async {
-    final bytes = await file.readAsBytes();
-    final formData = FormData.fromMap({
-      'file': MultipartFile.fromBytes(bytes, filename: file.name),
-    });
+    final multipartFile = await buildMultipartFile(file);
+    final formData = FormData.fromMap({'file': multipartFile});
 
     final response = await _dio.post('/api/files/profile', data: formData);
 

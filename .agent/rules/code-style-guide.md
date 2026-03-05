@@ -55,7 +55,7 @@ Your goal is to maintain a scalable, strictly typed codebase following Clean Arc
 ## 5. Flutter Specifics
 - **UI Composition**: Use `SizedBox` for spacing. Break down complex `build` methods into smaller Widgets.
 - **Async/Await**: Always return `Future<void>` or `Future<T>` for async functions.
-- **Target Platforms**: Focus on Web. iOS, Android and Desktop are disabled.
+- **Target Platforms**: Focus on Web, iOS, and Android. Desktop is disabled.
 - **AppScaffold Usage**: You **MUST** use `AppScaffold` (from `design_system/molecules`) instead of `Scaffold` for all screens to ensure dynamic status bar coloring.
 - **AppNavigationBar Usage**: You **MUST** use `AppNavigationBar` (from `design_system/molecules`) whenever a TopAppBar is required.
 
@@ -80,3 +80,18 @@ Your goal is to maintain a scalable, strictly typed codebase following Clean Arc
 - **Submodule Sync**:
   - When referencing `server` code for implementing new client features, **ALWAYS** update the submodule from the remote first to ensure you are looking at the latest backend logic.
   - Command: `git submodule update --remote --merge`
+
+## 9. Platform-Specific Code Management
+- **Conditional Imports for Perfect Isolation**: 
+  - When using platform-specific libraries (e.g., `dart:io` vs `dart:html` or platform-bound packages), you **MUST** use the Conditional Import (Stub) pattern. This ensures zero dependency conflicts and prevents compilation errors across different platforms.
+  - **Implementation Strategy**:
+    1. **Stub File (`*_stub.dart`)**: Define the abstract interface/class and a default throwing initialization function.
+    2. **Web File (`*_web.dart`)**: Import web-only packages (e.g., `dart:html`) and implement the interface.
+    3. **Mobile File (`*_mobile.dart`)**: Import mobile-only packages (e.g., `dart:io`) and implement the interface.
+    4. **Entry Point (`*.dart`)**: Use conditional exports:
+       ```dart
+       export 'filename_stub.dart'
+           if (dart.library.io) 'filename_mobile.dart'
+           if (dart.library.html) 'filename_web.dart';
+       ```
+  - **Usage in Logic**: Upper layers (Repositories, UseCases, ViewModels, UI) must **ONLY** import the Entry Point. The Business Logic must never contain platform-checking conditional logic (`if (kIsWeb)`) for dependency execution.
