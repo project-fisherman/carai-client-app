@@ -1,7 +1,13 @@
-.PHONY: build_web build_runner
+.PHONY: build_web build_runner run_web run_android run_ios
 
 build_runner:
 	fvm dart run build_runner build --delete-conflicting-outputs
 
-run: build_runner
+run_web: build_runner
 	fvm flutter run -d chrome --web-browser-flag "--disable-web-security"
+
+run_android: build_runner
+	fvm flutter run -d android --debug
+
+run_ios: build_runner
+	fvm flutter run -d ios --debug
