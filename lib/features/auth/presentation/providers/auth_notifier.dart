@@ -47,15 +47,24 @@ class AuthNotifier extends _$AuthNotifier {
     );
 
     state = result.fold(
-      (failure) => AsyncValue.error(failure.message, StackTrace.current),
+      (failure) {
+        debugPrint('❌ [AuthNotifier] Login failed: ${failure.message}');
+        // data(null)로 설정해야 router가 isLoggedIn=false로 판단하여 로그인 화면에 머뭄
+        return const AsyncValue.data(null);
+      },
       (user) {
         debugPrint('✅ [AuthNotifier] Login successful, invalidating providers');
-        // Invalidate providers to refresh with new token
         ref.invalidate(dashboardViewModelProvider);
         ref.invalidate(userNotifierProvider);
         return AsyncValue.data(user);
       },
     );
+  }
+
+  /// LoginViewModel에서 직접 호출: 로그인 성공 후 전역 auth 상태 업데이트
+  void setUser(User user) {
+    debugPrint('✅ [AuthNotifier] setUser called');
+    state = AsyncValue.data(user);
   }
 
   Future<void> logout() async {

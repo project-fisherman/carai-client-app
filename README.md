@@ -1,6 +1,6 @@
 # Carai (문서 스캐너 앱)
 
-종이 문서를 디지털화하고 서버로 전송하며 관리하는 전문적인 Flutter 프로젝트입니다. 이 프로젝트는 iOS와 Android 모바일 플랫폼을 타겟으로 합니다.
+종이 문서를 디지털화하고 관리하며 서버로 전송하는 전문적인 Flutter 프로젝트입니다. 이 프로젝트는 **iOS, Android 네이티브 앱**과 **모바일 웹(PWA)** 크로스 플랫폼을 모두 공식 지원합니다. 모든 플랫폼에서 일관된 모바일 화면 비율과 사용성을 제공하도록 설계되었습니다.
 
 ## 1. FVM (Flutter Version Management) 설정 및 사용
 
@@ -12,14 +12,18 @@ FVM이 설치되어 있지 않다면, [공식 설치 가이드](https://fvm.app/
 ### 사용법
 **모든 Flutter 및 Dart 명령어는 반드시 `fvm` 접두어를 붙여서 실행해야 합니다.** `flutter`나 `dart` 명령어를 직접 사용하지 마세요.
 
+- **앱 실행 (플랫폼별 Make 명령어 제공)**:
+  ```bash
+  make run_web      # 웹 브라우저 (CORS 제한 해제 상태)로 실행
+  make run_android  # 연결된 안드로이드 기기/에뮬레이터로 실행
+  make run_ios      # 연결된 iOS 기기/시뮬레이터로 실행
+  ```
+  *(위 명령어들은 실행 전 자동으로 `build_runner`를 수행하여 코드를 최신화합니다)*
 - **패키지 가져오기**:
   ```bash
   fvm flutter pub get
   ```
-- **앱 실행**:
-  ```bash
-  fvm flutter run
-  ```
+  
 - **코드 생성 (중요)**:
   `freezed`, `go_router_builder`, `riverpod_generator` 등을 사용하므로 아래 명령어를 통해 코드를 생성해야 합니다.
   ```bash
@@ -88,5 +92,5 @@ lib/
 ## 지원 플랫폼
 - [x] Android
 - [x] iOS
-- [ ] Web (비활성화)
+- [x] Web (Mobile PWA)
 - [ ] Desktop (비활성화)

@@ -1,6 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../providers/auth_notifier.dart';
+import '../providers/auth_providers.dart';
+import '../../../dashboard/presentation/providers/dashboard_view_model.dart';
+import '../../../user/presentation/providers/user_notifier.dart';
 
 part 'login_view_model.g.dart';
 
@@ -20,18 +23,26 @@ class LoginViewModel extends _$LoginViewModel {
 
     final sanitizedPhoneNumber = phoneNumber.replaceAll('-', '');
 
-    // Delegate to AuthNotifier to update global auth state
-    await ref
-        .read(authNotifierProvider.notifier)
-        .login(sanitizedPhoneNumber, username, password);
+    // LoginUseCase를 직접 호출하여 성공/실패를 정확히 감지
+    final loginUseCase = ref.read(loginUseCaseProvider);
+    final result = await loginUseCase(
+      phoneNumber: sanitizedPhoneNumber,
+      username: username,
+      password: password,
+    );
 
-    // Reflect AuthNotifier state in this ViewModel
-    final authState = ref.read(authNotifierProvider);
-
-    state = authState.when(
-      data: (_) => const AsyncValue.data(null), // Success
-      error: (error, stack) => AsyncValue.error(error, stack),
-      loading: () => const AsyncValue.loading(),
+    result.fold(
+      (failure) {
+        // 실패: 에러 상태로 설정 (navigation 없음)
+        state = AsyncValue.error(failure.message, StackTrace.current);
+      },
+      (user) {
+        // 성공: AuthNotifier에 user 등록 및 관련 provider 무효화
+        ref.read(authNotifierProvider.notifier).setUser(user);
+        ref.invalidate(dashboardViewModelProvider);
+        ref.invalidate(userNotifierProvider);
+        state = const AsyncValue.data(null);
+      },
     );
   }
 }
