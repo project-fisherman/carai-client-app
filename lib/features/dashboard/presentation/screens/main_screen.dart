@@ -104,10 +104,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       style: TextButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         padding: const EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          top: 13,
-                          bottom: 11,
+                          left: 20,
+                          right: 20,
+                          top: 20,
+                          bottom: 20,
                         ),
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
