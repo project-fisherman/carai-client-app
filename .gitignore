@@ -103,3 +103,6 @@ macos/Pods/
 # -----------------------
 *.g.dart
 *.freezed.dart
+
+.firebase/
+firebase-debug.log

@@ -12,12 +12,15 @@ FVM이 설치되어 있지 않다면, [공식 설치 가이드](https://fvm.app/
 ### 사용법
 **모든 Flutter 및 Dart 명령어는 반드시 `fvm` 접두어를 붙여서 실행해야 합니다.** `flutter`나 `dart` 명령어를 직접 사용하지 마세요.
 
-- **앱 실행 (플랫폼별 Make 명령어 제공)**:
+- **앱 실행 및 배포 (플랫폼별 Make 명령어 제공)**:
   ```bash
   make run_web      # 웹 브라우저 (CORS 제한 해제 상태)로 실행
   make run_android  # 연결된 안드로이드 기기/에뮬레이터로 실행
   make run_ios      # 연결된 iOS 기기/시뮬레이터로 실행
+  make deploy_web   # 수동 Firebase 호스팅 배포 (웹 빌드 포함)
   ```
+  > **참고**: `make deploy_web` 실행 전 터미널에서 `firebase login` 명령어를 통해 구글 계정 인증이 먼저 되어 있어야 합니다.
+  
   *(위 명령어들은 실행 전 자동으로 `build_runner`를 수행하여 코드를 최신화합니다)*
 - **패키지 가져오기**:
   ```bash
