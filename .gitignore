@@ -105,3 +105,4 @@ macos/Pods/
 *.freezed.dart
 
 .firebase/
+firebase-debug.log
