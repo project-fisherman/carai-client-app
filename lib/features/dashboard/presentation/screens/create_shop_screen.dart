@@ -81,13 +81,13 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
         titleWidget: Text(
           '사업장 생성',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.textLight,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
-      backgroundColor: const Color(0xFF23170f),
+      backgroundColor: AppColors.backgroundDark,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -101,7 +101,7 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
                     height: 200,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.grey[800],
+                      color: AppColors.surfaceDark,
                       borderRadius: BorderRadius.circular(16),
                       image: _profileImageBytes != null
                           ? DecorationImage(
@@ -118,12 +118,14 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
                                 Icon(
                                   Icons.camera_alt,
                                   size: 48,
-                                  color: Colors.grey,
+                                  color: AppColors.textSecondaryDark,
                                 ),
                                 SizedBox(height: 8),
                                 Text(
                                   '사진을 추가하려면 탭하세요',
-                                  style: TextStyle(color: Colors.grey),
+                                  style: TextStyle(
+                                    color: AppColors.textSecondaryDark,
+                                  ),
                                 ),
                               ],
                             ),
@@ -158,13 +160,15 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
                     onPressed: _isLoading ? null : _submit,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.black,
+                      foregroundColor: AppColors.textDark,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     child: _isLoading
-                        ? const CircularProgressIndicator(color: Colors.black)
+                        ? const CircularProgressIndicator(
+                            color: AppColors.textDark,
+                          )
                         : const Text(
                             '사업장 생성',
                             style: TextStyle(
@@ -190,14 +194,14 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
   }) {
     return TextFormField(
       controller: controller,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: AppColors.textLight),
       keyboardType: keyboardType,
       validator: validator,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.grey),
+        labelStyle: const TextStyle(color: AppColors.textSecondaryDark),
         filled: true,
-        fillColor: const Color(0xFF2C2C2C),
+        fillColor: AppColors.surfaceDark,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,

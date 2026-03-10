@@ -1,3 +1,4 @@
+import 'package:carai/design_system/foundations/app_colors.dart';
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +22,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
     );
 
     return AppScaffold(
-      backgroundColor: const Color(0xFF23170f), // background-dark
+      backgroundColor: AppColors.backgroundDark, // background-dark
       body: SafeArea(
         child: Column(
           children: [
@@ -64,7 +65,8 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                                 ).push(context);
                                               },
                                               style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.orange,
+                                                backgroundColor:
+                                                    AppColors.primary,
                                                 shape: const CircleBorder(),
                                                 padding: const EdgeInsets.all(
                                                   16,
@@ -72,7 +74,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                               ),
                                               child: const Icon(
                                                 Icons.add,
-                                                color: Colors.white,
+                                                color: AppColors.textLight,
                                                 size: 32,
                                               ),
                                             ),
@@ -81,9 +83,8 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                           Text(
                                             '첫 점검표 생성',
                                             style: TextStyle(
-                                              color: Colors.white.withValues(
-                                                alpha: 0.7,
-                                              ),
+                                              color: AppColors.textLight
+                                                  .withValues(alpha: 0.7),
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -96,7 +97,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                 },
                                 loading: () => const Center(
                                   child: CircularProgressIndicator(
-                                    color: Colors.orange,
+                                    color: AppColors.primary,
                                   ),
                                 ),
                                 error: (err, stack) => _buildNoJobsView(),
@@ -107,7 +108,9 @@ class MechanicDashboardScreen extends ConsumerWidget {
                         return _buildNoJobsView();
                       },
                       loading: () => const Center(
-                        child: CircularProgressIndicator(color: Colors.orange),
+                        child: CircularProgressIndicator(
+                          color: AppColors.primary,
+                        ),
                       ),
                       error: (err, stack) => _buildNoJobsView(),
                     );
@@ -137,12 +140,12 @@ class MechanicDashboardScreen extends ConsumerWidget {
                   );
                 },
                 loading: () => const Center(
-                  child: CircularProgressIndicator(color: Colors.orange),
+                  child: CircularProgressIndicator(color: AppColors.primary),
                 ),
                 error: (err, stack) => Center(
                   child: Text(
                     '오류: $err',
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: AppColors.textLight),
                   ),
                 ),
               ),
@@ -162,11 +165,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(
-          0xFF23170f,
-        ).withValues(alpha: 0.95), // bg-background-dark/95
+        color: AppColors.backgroundDark.withValues(
+          alpha: 0.95,
+        ), // bg-background-dark/95
         border: const Border(
-          bottom: BorderSide(color: Color(0xFF292524)), // border-stone-800
+          bottom: BorderSide(color: AppColors.surfaceDark), // border-stone-800
         ),
       ),
       child: Row(
@@ -174,7 +177,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
         children: [
           // Back Button (Left)
           IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white, size: 28),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: AppColors.textLight,
+              size: 28,
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -188,7 +195,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 Text(
                   '작업 대기열',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.textLight,
                     fontSize: 24,
                     fontWeight: FontWeight.w800, // extrabold
                     letterSpacing: -0.5, // tracking-tight
@@ -198,7 +205,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                 Text(
                   DateFormat('MMM dd, yyyy').format(DateTime.now()),
                   style: TextStyle(
-                    color: Color(0xFFA8A29E), // text-stone-400
+                    color: AppColors.textSecondaryDark, // text-stone-400
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -216,7 +223,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
               return IconButton(
                 icon: const Icon(
                   Icons.account_circle,
-                  color: Colors.white,
+                  color: AppColors.textLight,
                   size: 28,
                 ),
                 onPressed: () {
@@ -253,13 +260,13 @@ class MechanicDashboardScreen extends ConsumerWidget {
           Icon(
             Icons.inbox_outlined,
             size: 80,
-            color: Colors.white.withValues(alpha: 0.3),
+            color: AppColors.textLight.withValues(alpha: 0.3),
           ),
           const SizedBox(height: 24),
           Text(
             '아직 작업이 없습니다',
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.7),
+              color: AppColors.textLight.withValues(alpha: 0.7),
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -268,7 +275,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
           Text(
             '할당된 작업이 여기에 표시됩니다',
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppColors.textLight.withValues(alpha: 0.5),
               fontSize: 14,
             ),
           ),

@@ -69,6 +69,9 @@ Your goal is to maintain a scalable, strictly typed codebase following Clean Arc
   - The `designs` folder contains app design screenshots and HTML prototypes.
   - You **MUST** develop Flutter screens based on the HTML prototypes in the `designs` folder.
   - **Strictly adhere** to color values, spacing, and other metrics defined in the HTML.
+  - **AppColors Enforcement**:
+    - You **MUST** use the predefined colors in `lib/design_system/foundations/app_colors.dart` (e.g., `AppColors.primary`, `AppColors.backgroundDark`).
+    - **NEVER** use hardcoded color values like `Color(0xFF...)` or `Colors.white`/`Colors.black` directly in UI code.
 - **Localization (Korean Only)**:
   - Even if the design prototypes or screenshots are in English, the actual app content **MUST BE in Korean**.
   - All UI text, error messages, and user-facing strings must be in Korean.

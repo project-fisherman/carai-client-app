@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../design_system/atoms/app_button.dart';
+import '../../../../design_system/foundations/app_colors.dart';
 import '../../../../design_system/molecules/app_navigation_bar.dart';
 import '../../../../design_system/molecules/app_scaffold.dart';
 import '../../../user/presentation/providers/user_notifier.dart';
@@ -103,12 +104,15 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       children: [
         Text(
           label,
-          style: const TextStyle(color: Color(0xFF999999), fontSize: 14),
+          style: const TextStyle(
+            color: AppColors.textSecondaryDark,
+            fontSize: 14,
+          ),
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF2C2C2C),
+            color: AppColors.surfaceDark,
             borderRadius: BorderRadius.circular(12),
           ),
           child: TextField(
@@ -116,14 +120,14 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
             obscureText: obscureText,
             enabled: !_isLoading,
             style: const TextStyle(
-              color: Colors.white,
+              color: AppColors.textLight,
               fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
             decoration: InputDecoration(
               hintText: placeholder,
               hintStyle: const TextStyle(
-                color: Color(0xFF666666),
+                color: AppColors.textSecondaryDark,
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
@@ -135,7 +139,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
               suffixIcon: IconButton(
                 icon: Icon(
                   obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: const Color(0xFF999999),
+                  color: AppColors.textSecondaryDark,
                 ),
                 onPressed: onToggleVisibility,
               ),
@@ -149,7 +153,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      backgroundColor: const Color(0xFF23170f),
+      backgroundColor: AppColors.backgroundDark,
       appBar: const AppNavigationBar(title: '비밀번호 변경'),
       body: SafeArea(
         child: SingleChildScrollView(
