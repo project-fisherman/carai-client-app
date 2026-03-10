@@ -74,9 +74,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       if (mounted) {
         result.fold(
           (failure) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('실패: ${failure.message}')));
+            // Error is handled globally by Dio Interceptor
           },
           (_) {
             ScaffoldMessenger.of(context).showSnackBar(

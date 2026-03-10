@@ -45,6 +45,9 @@ Your goal is to maintain a scalable, strictly typed codebase following Clean Arc
   - **NEVER** throw Exceptions in the Domain/Data layer.
   - Repositories must return `Future<Either<Failure, T>>` using `fpdart`.
   - Handle errors explicitly using `.fold()` in the Presentation layer.
+- **Global API Error Handling**:
+  - API errors (such as `success: false` or `DioException`) are handled **globally** by the Dio Interceptor (`dio_provider.dart`).
+  - **DO NOT** show error SnackBars for API failures in the ViewModels or UI (Screens/Widgets) to prevent duplicate messages.
 - **No BuildContext in Logic**:
   - **STRICTLY FORBIDDEN**: Using `BuildContext` inside ViewModels, Notifiers, or Repositories.
   - Use GlobalKeys or Router Listeners for navigation/dialogs triggered by logic.

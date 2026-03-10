@@ -89,9 +89,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   Widget build(BuildContext context) {
     ref.listen(registrationViewModelProvider, (previous, next) {
       if (next.error != null && next.error != previous?.error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next.error!), backgroundColor: Colors.red),
-        );
+        // Error is handled globally by Dio Interceptor
       }
       if (next.successMessage != null &&
           next.successMessage != previous?.successMessage) {

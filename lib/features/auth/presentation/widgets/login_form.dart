@@ -48,12 +48,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     ref.listen(authNotifierProvider, (previous, next) {
       next.whenOrNull(
         error: (message, _) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('오류: $message'),
-              backgroundColor: Colors.red,
-            ),
-          );
+          // Error is handled globally by Dio Interceptor
         },
       );
     });

@@ -63,12 +63,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           const MainRoute().go(context);
         },
         error: (err, stack) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('로그인 실패: $err'),
-              backgroundColor: Colors.red,
-            ),
-          );
+          // Error is handled globally by Dio Interceptor
         },
         loading: () {},
       );

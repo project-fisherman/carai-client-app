@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/auth/data/datasources/auth_local_data_source.dart';
+import '../utils/global_keys.dart';
 import 'auth_interceptor.dart';
 
 part 'dio_provider.g.dart';
@@ -33,6 +34,24 @@ Dio dio(DioRef ref) {
         debugPrint(
           '✅ [DIO] Response [${response.statusCode}] ${response.requestOptions.method} ${response.requestOptions.uri}: ${response.data}',
         );
+
+        if (response.data is Map<String, dynamic>) {
+          final data = response.data as Map<String, dynamic>;
+          if (data['success'] == false && data['error'] != null) {
+            final error = data['error'];
+            if (error is Map<String, dynamic>) {
+              final message = error['message'] as String?;
+              if (message != null && message.isNotEmpty) {
+                // Remove existing snackbars to avoid queueing
+                scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
+                scaffoldMessengerKey.currentState?.showSnackBar(
+                  SnackBar(content: Text(message), backgroundColor: Colors.red),
+                );
+              }
+            }
+          }
+        }
+
         return handler.next(response);
       },
       onError: (DioException e, handler) async {

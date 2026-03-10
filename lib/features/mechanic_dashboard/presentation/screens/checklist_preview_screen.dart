@@ -189,11 +189,7 @@ class _ChecklistPreviewScreenState
 
                         result.fold(
                           (failure) {
-                            scaffold.showSnackBar(
-                              SnackBar(
-                                content: Text('등록 실패: ${failure.message}'),
-                              ),
-                            );
+                            // Error is handled globally by Dio Interceptor
                           },
                           (success) {
                             // Invalidate providers to refresh the lists
@@ -216,9 +212,7 @@ class _ChecklistPreviewScreenState
                           },
                         );
                       } catch (e) {
-                        scaffold.showSnackBar(
-                          SnackBar(content: Text('오류 발생: $e')),
-                        );
+                        // Error is handled globally by Dio Interceptor
                       }
                     },
                     child: const Text(
