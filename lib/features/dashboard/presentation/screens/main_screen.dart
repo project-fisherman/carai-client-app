@@ -32,7 +32,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final userState = ref.watch(userNotifierProvider);
 
     return AppScaffold(
-      backgroundColor: const Color(0xFF23170f), // background-dark
+      backgroundColor: AppColors.backgroundDark, // background-dark
       body: SafeArea(
         child: Column(
           children: [
@@ -90,8 +90,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     const Text(
                       '작업을 확인하려면 사업장을 선택하세요.',
                       style: TextStyle(
-                        color:
-                            Colors.grey, // text-slate-500 / dark:text-gray-400
+                        color: AppColors
+                            .textSecondaryDark, // text-slate-500 / dark:text-gray-400
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                       ),
@@ -121,14 +121,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         children: const [
                           Icon(
                             Icons.account_circle,
-                            color: Colors.white,
+                            color: AppColors.textLight,
                             size: 20,
                           ),
                           SizedBox(width: 6),
                           Text(
                             '내 정보',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColors.textLight,
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
                               height: 1.0,
@@ -137,7 +137,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           SizedBox(width: 4),
                           Icon(
                             Icons.arrow_forward_ios,
-                            color: Colors.white,
+                            color: AppColors.textLight,
                             size: 12,
                           ),
                         ],
@@ -210,7 +210,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 error: (err, stack) => Center(
                   child: Text(
                     '오류: $err',
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: AppColors.textLight),
                   ),
                 ),
               ),
@@ -246,7 +246,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: isActive ? AppColors.primary : Colors.grey[700],
+        color: isActive ? AppColors.primary : AppColors.surfaceDark,
         boxShadow: isActive
             ? [
                 BoxShadow(

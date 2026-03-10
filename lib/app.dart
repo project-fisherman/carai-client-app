@@ -50,7 +50,7 @@ class CaraiApp extends ConsumerWidget {
         }
 
         return ColoredBox(
-          color: Colors.white,
+          color: AppColors.textLight,
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(

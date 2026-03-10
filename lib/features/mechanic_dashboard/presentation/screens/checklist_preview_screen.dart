@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../design_system/molecules/app_scaffold.dart';
 import '../../../../design_system/molecules/app_navigation_bar.dart';
+import '../../../../design_system/foundations/app_colors.dart';
 import '../../../inspection_details/presentation/widgets/dynamic_header_form.dart';
 import '../../../inspection_details/presentation/widgets/inspection_group_widget.dart';
 import '../providers/checklist_preview_view_model.dart';
@@ -56,11 +57,11 @@ class _ChecklistPreviewScreenState
                 widget.imageUrl,
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) => Container(
-                  color: Colors.grey[800],
+                  color: AppColors.surfaceDark,
                   padding: const EdgeInsets.all(32),
                   child: const Icon(
                     Icons.broken_image,
-                    color: Colors.white,
+                    color: AppColors.textLight,
                     size: 48,
                   ),
                 ),
@@ -70,7 +71,11 @@ class _ChecklistPreviewScreenState
               top: 0,
               right: 0,
               child: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white, size: 32),
+                icon: const Icon(
+                  Icons.close,
+                  color: AppColors.textLight,
+                  size: 32,
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -87,11 +92,11 @@ class _ChecklistPreviewScreenState
     );
 
     return AppScaffold(
-      backgroundColor: const Color(0xFF1E1C1A),
+      backgroundColor: AppColors.backgroundDark,
       appBar: AppNavigationBar(
         title: widget.checklistName,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
           onPressed: () => context.pop(),
         ),
         actions: [
@@ -104,7 +109,7 @@ class _ChecklistPreviewScreenState
                 height: 32,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: Colors.white, width: 1),
+                  border: Border.all(color: AppColors.textLight, width: 1),
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: Image.network(
@@ -112,7 +117,7 @@ class _ChecklistPreviewScreenState
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => const Icon(
                     Icons.broken_image,
-                    color: Colors.white,
+                    color: AppColors.textLight,
                     size: 20,
                   ),
                 ),
@@ -127,7 +132,7 @@ class _ChecklistPreviewScreenState
             return const Center(
               child: Text(
                 'No preview available.',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: AppColors.textLight),
               ),
             );
           }
@@ -169,7 +174,7 @@ class _ChecklistPreviewScreenState
                   height: 56,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE65100),
+                      backgroundColor: AppColors.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -218,7 +223,7 @@ class _ChecklistPreviewScreenState
                     child: const Text(
                       '체크리스트 등록',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.textLight,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -231,12 +236,12 @@ class _ChecklistPreviewScreenState
           );
         },
         loading: () => const Center(
-          child: CircularProgressIndicator(color: Color(0xFFE65100)),
+          child: CircularProgressIndicator(color: AppColors.primary),
         ),
         error: (err, stack) => Center(
           child: Text(
             'Error loading preview: $err',
-            style: const TextStyle(color: Colors.red),
+            style: const TextStyle(color: AppColors.placeholder),
           ),
         ),
       ),

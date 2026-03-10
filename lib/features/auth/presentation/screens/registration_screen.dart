@@ -109,11 +109,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     final remainingTime = state.remainingTime;
 
     return AppScaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: AppColors.backgroundDark,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: BackButton(color: AppColors.textDark),
+        leading: const BackButton(color: AppColors.textLight),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -146,14 +146,18 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textDark,
+                  color: AppColors.textLight,
+                  letterSpacing: -0.5,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               const Text(
                 '접근 권한 설정을 위해 휴대전화 번호를 입력하고 비밀번호를 생성하세요.',
-                style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: AppColors.textSecondaryDark,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -162,15 +166,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.surfaceDark,
                   borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
                 ),
                 child: Column(
                   children: [
@@ -180,6 +177,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                       placeholder: '010-0000-0000',
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
+                      isDarkMode: true,
                       suffixIcon: const Icon(
                         Icons.smartphone,
                         color: AppColors.placeholder,
@@ -204,18 +202,18 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 const SizedBox(height: 32),
                 const Row(
                   children: [
-                    Expanded(child: Divider()),
+                    Expanded(child: Divider(color: AppColors.surfaceDark)),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
                         "인증 및 보안",
                         style: TextStyle(
-                          color: AppColors.textSecondary,
+                          color: AppColors.textSecondaryDark,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    Expanded(child: Divider()),
+                    Expanded(child: Divider(color: AppColors.surfaceDark)),
                   ],
                 ),
                 const SizedBox(height: 32),
@@ -224,15 +222,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.surfaceDark,
                     borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
                   ),
                   child: Column(
                     children: [
@@ -244,6 +235,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
+                              color: AppColors.textLight,
                             ),
                           ),
                           Row(
@@ -264,7 +256,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                   "재전송",
                                   style: TextStyle(
                                     color: (remainingTime > 0 || isVerified)
-                                        ? AppColors.textSecondary
+                                        ? AppColors.textSecondaryDark
                                         : AppColors.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -294,7 +286,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
                       if (isVerified) ...[
                         const SizedBox(height: 24),
-                        const Divider(),
+                        const Divider(color: AppColors.surfaceDark),
                         const SizedBox(height: 24),
 
                         AppInput(
@@ -302,6 +294,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           placeholder: '사용자 이름',
                           controller: _usernameController,
                           keyboardType: TextInputType.name,
+                          isDarkMode: true,
                         ),
                         const SizedBox(height: 16),
                         AppInput(
@@ -310,6 +303,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           isPassword: true,
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
+                          isDarkMode: true,
                         ),
                         const SizedBox(height: 16),
                         AppInput(
@@ -318,6 +312,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           isPassword: true,
                           controller: _confirmPasswordController,
                           keyboardType: TextInputType.visiblePassword,
+                          isDarkMode: true,
                         ),
                         const SizedBox(height: 32),
 
@@ -349,14 +344,22 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         keyboardType: TextInputType.number,
         textAlign: TextAlign.center,
         maxLength: 1,
-        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textLight,
+        ),
         decoration: InputDecoration(
           counterText: "",
           filled: true,
-          fillColor: AppColors.backgroundLight,
+          fillColor: AppColors.backgroundDark,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: AppColors.border),
+            borderSide: const BorderSide(color: AppColors.surfaceDark),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: AppColors.surfaceDark),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),

@@ -19,7 +19,7 @@ class MyPageScreen extends ConsumerWidget {
     final userState = ref.watch(userNotifierProvider);
 
     return AppScaffold(
-      backgroundColor: const Color(0xFF23170f), // background-dark
+      backgroundColor: AppColors.backgroundDark, // background-dark
       appBar: const AppNavigationBar(title: '내 정보'),
       body: SafeArea(
         child: userState.when(
@@ -28,7 +28,7 @@ class MyPageScreen extends ConsumerWidget {
               return const Center(
                 child: Text(
                   '사용자를 찾을 수 없습니다',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColors.textLight),
                 ),
               );
             }
@@ -88,7 +88,7 @@ class MyPageScreen extends ConsumerWidget {
           error: (err, stack) => Center(
             child: Text(
               '오류: $err',
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: AppColors.textLight),
             ),
           ),
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -111,7 +111,8 @@ class MyPageScreen extends ConsumerWidget {
             Text(
               label,
               style: const TextStyle(
-                color: Color(0xFF999999), // placeholder color or similar
+                color:
+                    AppColors.textSecondaryDark, // placeholder color or similar
                 fontSize: 14,
               ),
             ),
@@ -134,13 +135,13 @@ class MyPageScreen extends ConsumerWidget {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
           decoration: BoxDecoration(
-            color: const Color(0xFF2C2C2C), // Slightly lighter than bg
+            color: AppColors.surfaceDark, // Slightly lighter than bg
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
             value,
             style: const TextStyle(
-              color: Colors.white,
+              color: AppColors.textLight,
               fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
