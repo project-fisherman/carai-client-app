@@ -48,9 +48,7 @@ class _EditUsernameSheetState extends ConsumerState<EditUsernameSheet> {
       if (!state.hasError) {
         Navigator.pop(context);
       } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('업데이트 실패: ${state.error}')));
+        // Error is handled globally by Dio Interceptor
       }
     }
   }

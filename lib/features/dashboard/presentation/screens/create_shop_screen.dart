@@ -61,11 +61,7 @@ class _CreateShopScreenState extends ConsumerState<CreateShopScreen> {
           context.pop(); // Go back to dashboard on success
         }
       } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('오류: $e')));
-        }
+        // Error is handled globally by Dio Interceptor
       } finally {
         if (mounted) {
           setState(() => _isLoading = false);

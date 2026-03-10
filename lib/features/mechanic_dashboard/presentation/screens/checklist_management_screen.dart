@@ -282,11 +282,7 @@ class _ChecklistManagementScreenState
                       });
                     }
                   } catch (e) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('삭제 중 오류가 발생했습니다: $e')),
-                      );
-                    }
+                    // Error is handled globally by Dio Interceptor
                   }
                 }
               }
