@@ -19,6 +19,7 @@ import '../../features/mechanic_dashboard/presentation/screens/checklist_preview
 import '../../features/inspection_details/presentation/screens/inspection_details_screen.dart';
 import '../../features/inspection_details/presentation/screens/ai_report_screen.dart';
 import '../../features/mechanic_dashboard/data/dtos/repair_job_dtos.dart';
+import '../../features/mechanic_dashboard/presentation/screens/search_history_screen.dart';
 
 part 'routes.g.dart';
 
@@ -137,6 +138,18 @@ class ChecklistManagementRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ChecklistManagementScreen(shopId: shopId);
+  }
+}
+
+@TypedGoRoute<SearchHistoryRoute>(path: '/search-history/:shopId')
+class SearchHistoryRoute extends GoRouteData {
+  final String shopId;
+
+  const SearchHistoryRoute({required this.shopId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SearchHistoryScreen(shopId: shopId);
   }
 }
 

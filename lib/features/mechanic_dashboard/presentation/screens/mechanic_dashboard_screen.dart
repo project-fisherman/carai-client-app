@@ -263,6 +263,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => SearchHistoryRoute(shopId: shopId).push(context),
+        backgroundColor: AppColors.primary,
+        child: const Icon(Icons.calendar_today, color: Colors.white),
+      ),
     );
   }
 

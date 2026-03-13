@@ -66,6 +66,23 @@ class RepairJobDetailResponseDto with _$RepairJobDetailResponseDto {
 }
 
 @freezed
+class RepairJobHistoryResponseDto with _$RepairJobHistoryResponseDto {
+  const factory RepairJobHistoryResponseDto({
+    required String id,
+    required String repairShopId,
+    required String jobId,
+    required String actorUserId,
+    String? assigneeUserId,
+    required String action,
+    String? fromStatus,
+    String? toStatus,
+  }) = _RepairJobHistoryResponseDto;
+
+  factory RepairJobHistoryResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$RepairJobHistoryResponseDtoFromJson(json);
+}
+
+@freezed
 class ReportResponseDto with _$ReportResponseDto {
   const factory ReportResponseDto({
     String? reportUrl,

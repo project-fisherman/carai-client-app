@@ -36,4 +36,10 @@ abstract class RepairJobRepository {
 
   /// AI 소견서 생성 상태 폴링
   Future<Either<Failure, ReportStatusResponseDto>> getReportStatus({required String jobId});
+
+  /// 업장 작업 내역 (history) 날짜별 조회
+  Future<Either<Failure, List<RepairJobHistoryResponseDto>>> getJobHistory({
+    required String shopId,
+    required String date,
+  });
 }

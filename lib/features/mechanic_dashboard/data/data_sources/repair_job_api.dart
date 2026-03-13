@@ -117,4 +117,20 @@ class RepairJobApi {
     );
     return ReportStatusResponseDto.fromJson(response.data['result']);
   }
+
+  /// GET /repair-shops/{shopId}/jobs/history
+  /// 업장 작업 히스토리 날짜별 조회
+  Future<List<RepairJobHistoryResponseDto>> getJobHistory({
+    required String shopId,
+    required String date,
+  }) async {
+    final response = await _dio.get(
+      '/repair-shops/$shopId/jobs/history',
+      queryParameters: {'date': date},
+    );
+    final resultList = response.data['result'] as List<dynamic>? ?? [];
+    return resultList
+        .map((e) => RepairJobHistoryResponseDto.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
 }

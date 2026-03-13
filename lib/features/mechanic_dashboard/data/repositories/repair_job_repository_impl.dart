@@ -138,4 +138,17 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<RepairJobHistoryResponseDto>>> getJobHistory({
+    required String shopId,
+    required String date,
+  }) async {
+    try {
+      final historyList = await _api.getJobHistory(shopId: shopId, date: date);
+      return Right(historyList);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }
