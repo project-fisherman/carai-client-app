@@ -122,6 +122,7 @@ class _InspectionDetailsScreenState
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text('임시저장 되었습니다.')),
                                 );
+                                Navigator.of(context).pop();
                               }
                             },
                             child: const Text(

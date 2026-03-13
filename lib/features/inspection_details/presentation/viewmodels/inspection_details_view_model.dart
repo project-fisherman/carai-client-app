@@ -55,19 +55,60 @@ class InspectionDetailsViewModel extends _$InspectionDetailsViewModel {
       }
     }
 
-    state = AsyncData(currentState.copyWith(answers: newAnswers));
+    state = AsyncData(currentState.copyWith(
+      answers: newAnswers,
+      baseJson: detail.job.checklistData,
+    ));
+  }
+
+  Map<String, dynamic> _buildChecklistData(InspectionDetailsState currentState) {
+    // Start with the original form JSON or previously saved checklistData
+    final Map<String, dynamic> json = Map.from(currentState.baseJson ?? currentState.form.toJson());
+    
+    // Inject header values
+    if (json['header'] is List) {
+      final headerList = json['header'] as List;
+      for (int i = 0; i < headerList.length; i++) {
+        final field = headerList[i] as Map<String, dynamic>;
+        final String? id = field['id'] as String?;
+        if (id != null && currentState.answers.containsKey(id)) {
+          field['value'] = currentState.answers[id];
+        }
+      }
+    }
+
+    // Inject group item values
+    if (json['groups'] is List) {
+      final groupsList = json['groups'] as List;
+      for (int i = 0; i < groupsList.length; i++) {
+        final group = groupsList[i] as Map<String, dynamic>;
+        if (group['items'] is List) {
+          final itemsList = group['items'] as List;
+          for (int j = 0; j < itemsList.length; j++) {
+            final item = itemsList[j] as Map<String, dynamic>;
+            final String seq = item['seq_no']?.toString() ?? '';
+            if (seq.isNotEmpty && currentState.answers.containsKey(seq)) {
+              item['value'] = currentState.answers[seq];
+            }
+          }
+        }
+      }
+    }
+    return json;
   }
 
   Future<bool> saveDraft(String jobId) async {
     if (!state.hasValue) return false;
     final currentState = state.value!;
     
+    final payload = _buildChecklistData(currentState);
+
     final repository = ref.read(repairJobRepositoryProvider);
     state = const AsyncLoading();
 
     final result = await repository.saveJobProgress(
       jobId: jobId,
-      checklistData: currentState.answers,
+      checklistData: payload,
     );
 
     return result.fold(
@@ -86,13 +127,15 @@ class InspectionDetailsViewModel extends _$InspectionDetailsViewModel {
     if (!state.hasValue) return false;
     final currentState = state.value!;
 
+    final payload = _buildChecklistData(currentState);
+
     final repository = ref.read(repairJobRepositoryProvider);
     state = const AsyncLoading();
 
     // First, save the current progress
     final saveResult = await repository.saveJobProgress(
       jobId: jobId,
-      checklistData: currentState.answers,
+      checklistData: payload,
     );
 
     return saveResult.fold(
@@ -121,16 +164,19 @@ class InspectionDetailsViewModel extends _$InspectionDetailsViewModel {
 class InspectionDetailsState {
   final InspectionForm form;
   final Map<String, dynamic> answers;
+  final Map<String, dynamic>? baseJson;
 
-  InspectionDetailsState({required this.form, required this.answers});
+  InspectionDetailsState({required this.form, required this.answers, this.baseJson});
 
   InspectionDetailsState copyWith({
     InspectionForm? form,
     Map<String, dynamic>? answers,
+    Map<String, dynamic>? baseJson,
   }) {
     return InspectionDetailsState(
       form: form ?? this.form,
       answers: answers ?? this.answers,
+      baseJson: baseJson ?? this.baseJson,
     );
   }
 }

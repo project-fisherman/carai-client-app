@@ -13,6 +13,7 @@ class RepairJobResponseDto with _$RepairJobResponseDto {
     String? checklistId,
     required String status,
     String? description,
+    Map<String, dynamic>? checklistData,
   }) = _RepairJobResponseDto;
 
   factory RepairJobResponseDto.fromJson(Map<String, dynamic> json) =>
