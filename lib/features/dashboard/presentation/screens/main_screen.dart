@@ -45,47 +45,51 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        const Text(
-                          '안녕하세요, ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 32, // md:text-4xl
-                            fontWeight: FontWeight.bold,
-                            height: 1.1,
-                          ),
-                        ),
-                        userState.when(
-                          data: (user) => Text(
-                            '${user?.name ?? "정비사"}님.',
-                            style: const TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 32, // md:text-4xl
-                              fontWeight: FontWeight.bold,
-                              height: 1.1,
-                            ),
-                          ),
-                          loading: () => const Text(
-                            '정비사님.',
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: [
+                          const Text(
+                            '안녕하세요, ',
                             style: TextStyle(
-                              color: AppColors.primary,
+                              color: Colors.white,
                               fontSize: 32, // md:text-4xl
                               fontWeight: FontWeight.bold,
                               height: 1.1,
                             ),
                           ),
-                          error: (error, stackTrace) => const Text(
-                            '정비사님.',
-                            style: TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 32, // md:text-4xl
-                              fontWeight: FontWeight.bold,
-                              height: 1.1,
+                          userState.when(
+                            data: (user) => Text(
+                              '${user?.name ?? "정비사"}님.',
+                              style: const TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 32, // md:text-4xl
+                                fontWeight: FontWeight.bold,
+                                height: 1.1,
+                              ),
+                            ),
+                            loading: () => const Text(
+                              '정비사님.',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 32, // md:text-4xl
+                                fontWeight: FontWeight.bold,
+                                height: 1.1,
+                              ),
+                            ),
+                            error: (error, stackTrace) => const Text(
+                              '정비사님.',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 32, // md:text-4xl
+                                fontWeight: FontWeight.bold,
+                                height: 1.1,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 8),
                     const Text(
