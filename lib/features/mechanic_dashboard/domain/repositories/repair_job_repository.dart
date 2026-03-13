@@ -36,4 +36,7 @@ abstract class RepairJobRepository {
 
   /// AI 소견서 생성 상태 폴링
   Future<Either<Failure, ReportStatusResponseDto>> getReportStatus({required String jobId});
+
+  /// AI 소견서 SMS 발송
+  Future<Either<Failure, void>> sendReport({required String jobId});
 }

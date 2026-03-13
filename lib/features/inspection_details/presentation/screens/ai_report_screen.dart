@@ -69,6 +69,98 @@ class AiReportScreen extends ConsumerWidget {
                                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                               ),
                             ),
+                            const SizedBox(height: 16),
+                            if (reportState.showSentSuccess)
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.check_circle, color: Colors.green, size: 20),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      '고객에게 문자가 전송되었습니다.',
+                                      style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            else
+                              ElevatedButton.icon(
+                                onPressed: reportState.isSending
+                                    ? null
+                                    : () async {
+                                        if (reportState.isSent) {
+                                          final confirmed = await showDialog<bool>(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              backgroundColor: AppColors.surfaceDark,
+                                              title: const Text('소견서 재전송', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                              content: const Text('고객에게 소견서 문자를 다시 보내시겠습니까?', style: TextStyle(color: AppColors.textSecondaryDark)),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () => Navigator.pop(context, false),
+                                                  child: const Text('취소', style: TextStyle(color: Colors.grey)),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () => Navigator.pop(context, true),
+                                                  child: const Text('확인', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                          if (confirmed != true) return;
+                                        }
+
+                                        try {
+                                          await ref
+                                              .read(aiReportViewModelProvider(jobId).notifier)
+                                              .sendReport();
+                                        } catch (e) {
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(content: Text('전송 실패: ${e.toString()}')),
+                                            );
+                                          }
+                                        }
+                                      },
+                                icon: reportState.isSending
+                                    ? const SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: AppColors.primary,
+                                        ),
+                                      )
+                                    : Icon(
+                                        reportState.isSent ? Icons.replay_rounded : Icons.send_rounded,
+                                        color: AppColors.primary,
+                                        size: 20,
+                                      ),
+                                label: Text(
+                                  reportState.isSending
+                                      ? '전송 중...'
+                                      : (reportState.isSent ? '문자 다시 보내기' : '고객에게 문자 보내기'),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.surfaceDark,
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                                  side: const BorderSide(color: AppColors.primary),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       ),

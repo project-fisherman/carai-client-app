@@ -1,26 +1,33 @@
 import 'dart:async';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:dio/dio.dart';
-import '../../../../core/network/dio_provider.dart';
 import '../../../mechanic_dashboard/data/repositories/repair_job_repository_impl.dart';
 
+part 'ai_report_view_model.freezed.dart';
 part 'ai_report_view_model.g.dart';
 
-class AiReportState {
-  final bool isGenerating;
-  final bool isFailed;
-  final String? reportUrl;
-  const AiReportState({this.isGenerating = false, this.isFailed = false, this.reportUrl});
+@freezed
+class AiReportState with _$AiReportState {
+  const factory AiReportState({
+    @Default(false) bool isGenerating,
+    @Default(false) bool isFailed,
+    @Default(false) bool isSending,
+    @Default(false) bool isSent,
+    @Default(false) bool showSentSuccess, // 추가: 성공 메시지 노출 여부
+    String? reportUrl,
+  }) = _AiReportState;
 }
 
 @riverpod
 class AiReportViewModel extends _$AiReportViewModel {
   Timer? _pollingTimer;
+  Timer? _cooldownTimer; // 추가: 쿨다운 타이머
 
   @override
   FutureOr<AiReportState> build(String jobId) async {
     ref.onDispose(() {
       _pollingTimer?.cancel();
+      _cooldownTimer?.cancel();
     });
 
     final repository = ref.read(repairJobRepositoryProvider);
@@ -55,6 +62,35 @@ class AiReportViewModel extends _$AiReportViewModel {
       },
       (_) {
         _startPolling();
+      },
+    );
+  }
+
+  Future<void> sendReport() async {
+    final currentState = state.valueOrNull;
+    if (currentState == null || currentState.reportUrl == null) return;
+
+    state = AsyncData(currentState.copyWith(isSending: true, isSent: false, showSentSuccess: false));
+
+    final repository = ref.read(repairJobRepositoryProvider);
+    final result = await repository.sendReport(jobId: jobId);
+
+    result.fold(
+      (failure) {
+        state = AsyncData(currentState.copyWith(isSending: false, isSent: false, showSentSuccess: false));
+        throw Exception(failure.message);
+      },
+      (_) {
+        state = AsyncData(currentState.copyWith(isSending: false, isSent: true, showSentSuccess: true));
+        
+        // 3초 후 성공 메시지 숨기고 다시 버튼으로 복구
+        _cooldownTimer?.cancel();
+        _cooldownTimer = Timer(const Duration(seconds: 3), () {
+          final nextState = state.valueOrNull;
+          if (nextState != null) {
+            state = AsyncData(nextState.copyWith(showSentSuccess: false));
+          }
+        });
       },
     );
   }
