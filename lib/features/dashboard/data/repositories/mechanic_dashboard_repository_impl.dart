@@ -119,15 +119,15 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
   }
 
   @override
-  Future<Either<Failure, void>> leaveShop({required String shopId}) async {
+  Future<Either<Failure, bool>> leaveShop({required String shopId}) async {
     try {
-      await _repairShopApi.leaveShop(shopId: shopId);
+      final success = await _repairShopApi.leaveShop(shopId: shopId);
 
       // Remove from local cache
       final box = Hive.box('repairShopsBox');
       await box.delete(shopId);
 
-      return const Right(null);
+      return Right(success);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
