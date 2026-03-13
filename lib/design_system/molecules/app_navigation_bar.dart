@@ -6,6 +6,7 @@ class AppNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final List<Widget>? actions;
   final bool automaticallyImplyLeading;
+  final PreferredSizeWidget? bottom;
 
   const AppNavigationBar({
     super.key,
@@ -14,6 +15,7 @@ class AppNavigationBar extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.actions,
     this.automaticallyImplyLeading = true,
+    this.bottom,
   });
 
   @override
@@ -40,9 +42,11 @@ class AppNavigationBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
       actions: actions,
+      bottom: bottom,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + (bottom?.preferredSize.height ?? 0));
 }

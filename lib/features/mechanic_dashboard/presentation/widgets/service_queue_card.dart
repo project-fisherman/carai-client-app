@@ -1,3 +1,4 @@
+import 'package:carai/design_system/foundations/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ServiceQueueCard extends StatelessWidget {
@@ -29,151 +30,194 @@ class ServiceQueueCard extends StatelessWidget {
       child: Opacity(
         opacity: isOpacityReduced ? 0.5 : 1.0,
         child: Container(
-          padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: const Color(0xFF292524), // bg-stone-800
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: const Color(0xFF44403C), // border-stone-700
-            width: 1,
+          decoration: BoxDecoration(
+            color: const Color(0xFF2C2C2C), // card-dark from design
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.3),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Status chip and Job ID
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          clipBehavior: Clip.antiAlias,
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Highlight Bar
+                Container(
+                  width: 6,
+                  color: _getStatusColor(status),
+                ),
                 Expanded(
-                  child: Text(
-                    customerName ?? '고객 미등록',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                (customerName ?? '고객 미등록').toUpperCase(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w900,
+                                  height: 1.0,
+                                  letterSpacing: -0.5,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            _buildStatusChip(status),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.directions_car,
+                              color: AppColors.primary,
+                              size: 18,
+                            ),
+                            const SizedBox(width: 8),
+                            if (carNumber != null)
+                              Text(
+                                carNumber!,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            if (carNumber != null && carModelCode != null)
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  '|',
+                                  style: TextStyle(color: Color(0xFF444444), fontSize: 14),
+                                ),
+                              ),
+                            if (carModelCode != null)
+                              Flexible(
+                                child: Text(
+                                  carModelCode!,
+                                  style: const TextStyle(
+                                    color: Color(0xFF999999),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                          ],
+                        ),
+                        if (description != null && description!.isNotEmpty) ...[
+                          const SizedBox(height: 12),
+                          Text(
+                            description!,
+                            style: const TextStyle(
+                              color: Color(0xFF999999),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              height: 1.4,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                        const SizedBox(height: 12),
+                        Text(
+                          'JOB ID: $jobId',
+                          style: const TextStyle(
+                            color: Color(0xFF444444),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: 8),
-                _buildStatusChip(status),
               ],
             ),
-            if (carNumber != null || carModelCode != null) ...[
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Icon(Icons.directions_car, color: Color(0xFFA8A29E), size: 16),
-                  const SizedBox(width: 6),
-                  if (carNumber != null)
-                    Text(
-                      carNumber!,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  if (carNumber != null && carModelCode != null)
-                    const Text(
-                      '  ·  ',
-                      style: TextStyle(color: Color(0xFF78716C), fontSize: 14),
-                    ),
-                  if (carModelCode != null)
-                    Flexible(
-                      child: Text(
-                        carModelCode!,
-                        style: const TextStyle(
-                          color: Color(0xFFA8A29E),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                ],
-              ),
-            ],
-            if (description != null && description!.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Text(
-                description!,
-                style: const TextStyle(
-                  color: Color(0xFF78716C), // text-stone-500
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ],
+          ),
         ),
-      )),
+      ),
     );
   }
 
+  Color _getStatusColor(String status) {
+    switch (status.toUpperCase()) {
+      case 'WAITING':
+        return Colors.amber;
+      case 'IN_PROGRESS':
+        return Colors.green;
+      case 'COMPLETED':
+        return Colors.blue;
+      case 'CANCELED':
+        return Colors.red;
+      case 'REPORT_GENERATING':
+        return Colors.orange;
+      case 'REPORT_COMPLETED':
+        return AppColors.primary;
+      case 'REPORT_FAILED':
+        return Colors.redAccent;
+      default:
+        return AppColors.primary;
+    }
+  }
+
   Widget _buildStatusChip(String status) {
-    Color backgroundColor;
-    Color textColor;
-    String displayText;
+    String text;
+    Color color = _getStatusColor(status);
 
     switch (status.toUpperCase()) {
       case 'WAITING':
-        backgroundColor = const Color(0xFFFEF3C7); // bg-amber-100
-        textColor = const Color(0xFF92400E); // text-amber-800
-        displayText = '대기 중';
+        text = '대기 중';
         break;
       case 'IN_PROGRESS':
-        backgroundColor = const Color(0xFFDCFCE7); // bg-green-100
-        textColor = const Color(0xFF166534); // text-green-800
-        displayText = '작업 중';
+        text = '작업 중';
         break;
       case 'COMPLETED':
-        backgroundColor = const Color(0xFFE0E7FF); // bg-indigo-100
-        textColor = const Color(0xFF3730A3); // text-indigo-800
-        displayText = '완료';
+        text = '완료';
         break;
       case 'CANCELED':
-        backgroundColor = const Color(0xFFFEE2E2); // bg-red-100
-        textColor = const Color(0xFF991B1B); // text-red-800
-        displayText = '취소됨';
+        text = '취소됨';
         break;
       case 'REPORT_GENERATING':
-        backgroundColor = const Color(0xFFFEF08A); // yellow-200
-        textColor = const Color(0xFF854D0E); // yellow-800
-        displayText = '소견서 생성 중';
+        text = '생성 중';
         break;
       case 'REPORT_COMPLETED':
-        backgroundColor = const Color(0xFFFAE8FF); // fuchsia-100
-        textColor = const Color(0xFF86198F); // fuchsia-800
-        displayText = '소견서 완료';
+        text = '완료됨'; // 소견서 완료
         break;
       case 'REPORT_FAILED':
-        backgroundColor = const Color(0xFFFEE2E2); // red-100
-        textColor = const Color(0xFF991B1B); // red-800
-        displayText = '소견서 실패';
+        text = '실패';
         break;
       default:
-        backgroundColor = const Color(0xFFF5F5F4); // bg-stone-100
-        textColor = const Color(0xFF292524); // text-stone-800
-        displayText = status;
+        text = status;
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(16),
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Text(
-        displayText,
+        text,
         style: TextStyle(
-          color: textColor,
+          color: color,
           fontSize: 12,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w900,
         ),
       ),
     );
