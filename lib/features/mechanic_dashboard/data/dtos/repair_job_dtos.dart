@@ -5,6 +5,18 @@ part 'repair_job_dtos.freezed.dart';
 part 'repair_job_dtos.g.dart';
 
 @freezed
+class IntakeSummaryDto with _$IntakeSummaryDto {
+  const factory IntakeSummaryDto({
+    String? customerName,
+    String? carNumber,
+    String? carModelCode,
+  }) = _IntakeSummaryDto;
+
+  factory IntakeSummaryDto.fromJson(Map<String, dynamic> json) =>
+      _$IntakeSummaryDtoFromJson(json);
+}
+
+@freezed
 class RepairJobResponseDto with _$RepairJobResponseDto {
   const factory RepairJobResponseDto({
     required String id,
@@ -14,6 +26,7 @@ class RepairJobResponseDto with _$RepairJobResponseDto {
     required String status,
     String? description,
     String? reportUrl,
+    IntakeSummaryDto? intakeSummary,
     Map<String, dynamic>? checklistData,
     DateTime? createdAt,
     DateTime? updatedAt,

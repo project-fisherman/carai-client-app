@@ -178,6 +178,9 @@ class MechanicDashboardScreen extends ConsumerWidget {
                         jobId: job.id,
                         status: job.status,
                         description: job.description,
+                        customerName: job.customerName,
+                        carNumber: job.carNumber,
+                        carModelCode: job.carModelCode,
                         isOpacityReduced:
                             job.status.toUpperCase() == 'CANCELED',
                         onTap: () async {
