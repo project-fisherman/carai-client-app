@@ -14,25 +14,22 @@ class LoginForm extends ConsumerStatefulWidget {
 
 class _LoginFormState extends ConsumerState<LoginForm> {
   final _phoneController = TextEditingController();
-  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
   @override
   void dispose() {
     _phoneController.dispose();
-    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   void _onLogin() {
     final phone = _phoneController.text.trim();
-    final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
     if (phone.isNotEmpty && password.isNotEmpty) {
-      ref.read(authNotifierProvider.notifier).login(phone, username, password);
+      ref.read(authNotifierProvider.notifier).login(phone, password);
     } else {
       ScaffoldMessenger.of(
         context,
@@ -65,12 +62,6 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             Icons.smartphone,
             color: AppColors.placeholder,
           ),
-        ),
-        const SizedBox(height: 20),
-        AppInput(
-          label: '사용자 이름',
-          placeholder: '사용자 이름을 입력하세요',
-          controller: _usernameController,
         ),
         const SizedBox(height: 20),
         AppInput(

@@ -16,7 +16,6 @@ class LoginViewModel extends _$LoginViewModel {
 
   Future<void> login({
     required String phoneNumber,
-    required String username,
     required String password,
   }) async {
     state = const AsyncValue.loading();
@@ -27,7 +26,6 @@ class LoginViewModel extends _$LoginViewModel {
     final loginUseCase = ref.read(loginUseCaseProvider);
     final result = await loginUseCase(
       phoneNumber: sanitizedPhoneNumber,
-      username: username,
       password: password,
     );
 
