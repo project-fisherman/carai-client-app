@@ -42,6 +42,7 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
               checklistId: jobDto.checklistId,
               status: jobDto.status,
               description: jobDto.description,
+              reportUrl: jobDto.reportUrl,
             ),
           )
           .toList();

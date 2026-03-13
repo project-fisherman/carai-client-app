@@ -13,6 +13,7 @@ class RepairJobResponseDto with _$RepairJobResponseDto {
     String? checklistId,
     required String status,
     String? description,
+    String? reportUrl,
     Map<String, dynamic>? checklistData,
   }) = _RepairJobResponseDto;
 

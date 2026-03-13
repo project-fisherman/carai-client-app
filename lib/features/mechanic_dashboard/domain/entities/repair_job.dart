@@ -11,5 +11,6 @@ class RepairJob with _$RepairJob {
     String? checklistId,
     required String status,
     String? description,
+    String? reportUrl,
   }) = _RepairJob;
 }

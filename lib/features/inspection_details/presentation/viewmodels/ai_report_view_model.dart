@@ -23,14 +23,14 @@ class AiReportViewModel extends _$AiReportViewModel {
     });
 
     final repository = ref.read(repairJobRepositoryProvider);
-    final result = await repository.getReportStatus(jobId: jobId);
+    final result = await repository.getMyJobDetail(jobId: jobId);
 
     return result.fold(
       (failure) => throw Exception(failure.message),
       (dto) {
-        if (dto.status == 'REPORT_COMPLETED' && dto.reportUrl != null) {
-          return AiReportState(isGenerating: false, reportUrl: dto.reportUrl);
-        } else if (dto.status == 'REPORT_GENERATING') {
+        if (dto.job.status == 'REPORT_COMPLETED' && dto.job.reportUrl != null) {
+          return AiReportState(isGenerating: false, reportUrl: dto.job.reportUrl);
+        } else if (dto.job.status == 'REPORT_GENERATING') {
           _startPolling();
           return const AiReportState(isGenerating: true, reportUrl: null);
         } else {
@@ -67,10 +67,25 @@ class AiReportViewModel extends _$AiReportViewModel {
           timer.cancel();
           state = AsyncError(failure.message, StackTrace.current);
         },
-        (dto) {
-          if (dto.status == 'REPORT_COMPLETED' && dto.reportUrl != null) {
+        (dto) async {
+          if (dto.status == 'REPORT_COMPLETED') {
             timer.cancel();
-            state = AsyncData(AiReportState(isGenerating: false, reportUrl: dto.reportUrl));
+            
+            // FETCH FULL DETAIL TO GET URL
+            final detailResult = await repository.getMyJobDetail(jobId: jobId);
+            
+            detailResult.fold(
+              (failure) {
+                state = AsyncError(failure.message, StackTrace.current);
+              },
+              (detailDto) {
+                if (detailDto.job.reportUrl != null) {
+                  state = AsyncData(AiReportState(isGenerating: false, reportUrl: detailDto.job.reportUrl));
+                } else {
+                  state = AsyncError('소견서가 생성되었으나 PDF 주소를 찾을 수 없습니다.', StackTrace.current);
+                }
+              }
+            );
           } else if (dto.status == 'REPORT_GENERATING') {
             // keep polling
           } else {
