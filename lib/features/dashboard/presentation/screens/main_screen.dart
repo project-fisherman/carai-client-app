@@ -277,9 +277,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 }
 
 class _InvitationBadgeButton extends ConsumerWidget {
-  final List<MyPendingInviteResponseDto> invites;
-
   const _InvitationBadgeButton({required this.invites});
+
+  final List<MyPendingInviteResponseDto> invites;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -287,7 +287,7 @@ class _InvitationBadgeButton extends ConsumerWidget {
       clipBehavior: Clip.none,
       children: [
         IconButton(
-          onPressed: () => _showInvitationListDialog(context, ref),
+          onPressed: () => _showInvitationListDialog(context),
           style: IconButton.styleFrom(
             backgroundColor: AppColors.surfaceDark,
             padding: const EdgeInsets.all(12),
@@ -324,88 +324,176 @@ class _InvitationBadgeButton extends ConsumerWidget {
     );
   }
 
-  void _showInvitationListDialog(BuildContext context, WidgetRef ref) {
+  void _showInvitationListDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surfaceDark,
-        title: const Text(
-          '작업장 초대',
-          style: TextStyle(color: Colors.white),
-        ),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 300),
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemCount: invites.length,
-              separatorBuilder: (context, index) => const Divider(
-                color: AppColors.inputBackgroundDark,
-                height: 24,
+      builder: (context) => const _InvitationListDialog(),
+    );
+  }
+}
+
+class _InvitationListDialog extends ConsumerWidget {
+  const _InvitationListDialog();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final invitationsAsync = ref.watch(invitationsViewModelProvider);
+
+    return invitationsAsync.when(
+      data: (invites) {
+        if (invites.isEmpty) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) Navigator.of(context).pop();
+          });
+          return const SizedBox.shrink();
+        }
+
+        return AlertDialog(
+          backgroundColor: AppColors.surfaceDark,
+          title: const Text(
+            '작업장 초대',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 400),
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: invites.length,
+                separatorBuilder: (context, index) => const Divider(
+                  color: AppColors.inputBackgroundDark,
+                  height: 32,
+                ),
+                itemBuilder: (context, index) {
+                  final invite = invites[index];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Workshop Name
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.storefront,
+                            color: AppColors.primary,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              invite.repairShop.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      // Address
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.location_on_outlined,
+                            color: AppColors.textSecondaryDark,
+                            size: 18,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              invite.repairShop.address,
+                              style: const TextStyle(
+                                color: AppColors.textSecondaryDark,
+                                fontSize: 14,
+                                height: 1.4,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      // Inviter (Placeholder as backend doesn't provide name yet)
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.person_outline,
+                            color: AppColors.textSecondaryDark,
+                            size: 18,
+                          ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            '관리자로부터 초대받음', // Placeholder
+                            style: TextStyle(
+                              color: AppColors.textSecondaryDark,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () async {
+                              final notifier = ref.read(invitationsViewModelProvider.notifier);
+                              await notifier.reject(invite.repairShopId);
+                            },
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            ),
+                            child: const Text(
+                              '거절',
+                              style: TextStyle(
+                                color: Colors.redAccent,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          ElevatedButton(
+                            onPressed: () async {
+                              final notifier = ref.read(invitationsViewModelProvider.notifier);
+                              await notifier.accept(invite.repairShopId);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: const Text(
+                              '수락',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
               ),
-              itemBuilder: (context, index) {
-                final invite = invites[index];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      invite.repairShop.name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      invite.repairShop.address,
-                      style: const TextStyle(
-                        color: AppColors.textSecondaryDark,
-                        fontSize: 14,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () async {
-                            final notifier = ref.read(invitationsViewModelProvider.notifier);
-                            final success = await notifier.reject(invite.repairShopId);
-                            if (success && context.mounted) {
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: const Text(
-                            '거절',
-                            style: TextStyle(color: Colors.redAccent),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        ElevatedButton(
-                          onPressed: () async {
-                            final notifier = ref.read(invitationsViewModelProvider.notifier);
-                            final success = await notifier.accept(invite.repairShopId);
-                            if (success && context.mounted) {
-                              Navigator.pop(context);
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                          ),
-                          child: const Text('수락'),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              },
             ),
           ),
-        ),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => AlertDialog(
+        backgroundColor: AppColors.surfaceDark,
+        title: const Text('오류', style: TextStyle(color: Colors.white)),
+        content: Text('초대 목록을 불러오는 중 오류가 발생했습니다: $err', style: const TextStyle(color: Colors.white)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('닫기'),
+          ),
+        ],
       ),
     );
   }
