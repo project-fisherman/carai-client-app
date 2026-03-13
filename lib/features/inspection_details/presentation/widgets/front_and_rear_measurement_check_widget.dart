@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'basic_check_widget.dart';
+import 'good_warning_check_widget.dart';
 
 class FrontAndRearMeasurementCheckWidget extends StatelessWidget {
   final String methodTemplate; // e.g., "트레드 깊이 (앞 %smm, 뒤 %smm)"
@@ -22,7 +22,7 @@ class FrontAndRearMeasurementCheckWidget extends StatelessWidget {
     List<Widget> children = [];
 
     // Basic Checks (Good/Warn) - Unified style with BasicCheckWidget
-    children.add(BasicCheckWidget(value: value, onChanged: onChanged));
+    children.add(GoodWarningCheckWidget(value: value, onChanged: onChanged));
     children.add(const SizedBox(height: 16));
 
     for (final line in lines) {

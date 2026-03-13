@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/inspection_item.dart';
-import 'basic_check_widget.dart';
+import 'good_warning_check_widget.dart';
 import 'front_and_rear_measurement_check_widget.dart';
 
 class InspectionItemWidget extends StatelessWidget {
@@ -51,7 +51,7 @@ class InspectionItemWidget extends StatelessWidget {
           const SizedBox(height: 8),
 
           // Method / Description
-          if (item.widgetType == InspectionItemWidgetType.basicCheck &&
+          if (item.widgetType == InspectionItemWidgetType.goodWarningCheck &&
               item.method.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(bottom: 12.0),
@@ -84,8 +84,8 @@ class InspectionItemWidget extends StatelessWidget {
 
   Widget _buildInput() {
     switch (item.widgetType) {
-      case InspectionItemWidgetType.basicCheck:
-        return BasicCheckWidget(value: answer, onChanged: onAnswerChanged);
+      case InspectionItemWidgetType.goodWarningCheck:
+        return GoodWarningCheckWidget(value: answer, onChanged: onAnswerChanged);
       case InspectionItemWidgetType.frontAndRearMeasurementCheck:
         return FrontAndRearMeasurementCheckWidget(
           methodTemplate: item.method,

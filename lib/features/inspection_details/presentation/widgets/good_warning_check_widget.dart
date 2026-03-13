@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class BasicCheckWidget extends StatelessWidget {
+class GoodWarningCheckWidget extends StatelessWidget {
   final Map<String, dynamic>? value;
   final ValueChanged<Map<String, dynamic>> onChanged;
 
-  const BasicCheckWidget({
+  const GoodWarningCheckWidget({
     super.key,
     required this.value,
     required this.onChanged,

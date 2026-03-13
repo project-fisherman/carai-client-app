@@ -25,7 +25,7 @@ Map<String, dynamic> _$$InspectionItemImplToJson(
     };
 
 const _$InspectionItemWidgetTypeEnumMap = {
-  InspectionItemWidgetType.basicCheck: 'basic_check',
+  InspectionItemWidgetType.goodWarningCheck: 'good_warning_check',
   InspectionItemWidgetType.frontAndRearMeasurementCheck:
       'front_and_rear_measurement_check',
 };

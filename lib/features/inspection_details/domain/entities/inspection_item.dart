@@ -17,8 +17,8 @@ class InspectionItem with _$InspectionItem {
 }
 
 enum InspectionItemWidgetType {
-  @JsonValue('basic_check')
-  basicCheck,
+  @JsonValue('good_warning_check')
+  goodWarningCheck,
   @JsonValue('front_and_rear_measurement_check')
   frontAndRearMeasurementCheck,
 }
