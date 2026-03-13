@@ -26,9 +26,10 @@ mixin _$InspectionItem {
   String get itemName => throw _privateConstructorUsedError;
   String get method => throw _privateConstructorUsedError;
   @JsonKey(
-      name: 'widget_type',
+      name: 'widget_type_id',
       unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
-  InspectionItemWidgetType get widgetType => throw _privateConstructorUsedError;
+  InspectionItemWidgetType? get widgetType =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,9 +48,9 @@ abstract class $InspectionItemCopyWith<$Res> {
       @JsonKey(name: 'item_name') String itemName,
       String method,
       @JsonKey(
-          name: 'widget_type',
+          name: 'widget_type_id',
           unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
-      InspectionItemWidgetType widgetType});
+      InspectionItemWidgetType? widgetType});
 }
 
 /// @nodoc
@@ -68,7 +69,7 @@ class _$InspectionItemCopyWithImpl<$Res, $Val extends InspectionItem>
     Object? seqNo = null,
     Object? itemName = null,
     Object? method = null,
-    Object? widgetType = null,
+    Object? widgetType = freezed,
   }) {
     return _then(_value.copyWith(
       seqNo: null == seqNo
@@ -83,10 +84,10 @@ class _$InspectionItemCopyWithImpl<$Res, $Val extends InspectionItem>
           ? _value.method
           : method // ignore: cast_nullable_to_non_nullable
               as String,
-      widgetType: null == widgetType
+      widgetType: freezed == widgetType
           ? _value.widgetType
           : widgetType // ignore: cast_nullable_to_non_nullable
-              as InspectionItemWidgetType,
+              as InspectionItemWidgetType?,
     ) as $Val);
   }
 }
@@ -104,9 +105,9 @@ abstract class _$$InspectionItemImplCopyWith<$Res>
       @JsonKey(name: 'item_name') String itemName,
       String method,
       @JsonKey(
-          name: 'widget_type',
+          name: 'widget_type_id',
           unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
-      InspectionItemWidgetType widgetType});
+      InspectionItemWidgetType? widgetType});
 }
 
 /// @nodoc
@@ -123,7 +124,7 @@ class __$$InspectionItemImplCopyWithImpl<$Res>
     Object? seqNo = null,
     Object? itemName = null,
     Object? method = null,
-    Object? widgetType = null,
+    Object? widgetType = freezed,
   }) {
     return _then(_$InspectionItemImpl(
       seqNo: null == seqNo
@@ -138,10 +139,10 @@ class __$$InspectionItemImplCopyWithImpl<$Res>
           ? _value.method
           : method // ignore: cast_nullable_to_non_nullable
               as String,
-      widgetType: null == widgetType
+      widgetType: freezed == widgetType
           ? _value.widgetType
           : widgetType // ignore: cast_nullable_to_non_nullable
-              as InspectionItemWidgetType,
+              as InspectionItemWidgetType?,
     ));
   }
 }
@@ -154,9 +155,9 @@ class _$InspectionItemImpl implements _InspectionItem {
       @JsonKey(name: 'item_name') required this.itemName,
       required this.method,
       @JsonKey(
-          name: 'widget_type',
+          name: 'widget_type_id',
           unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
-      required this.widgetType});
+      this.widgetType});
 
   factory _$InspectionItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$InspectionItemImplFromJson(json);
@@ -171,9 +172,9 @@ class _$InspectionItemImpl implements _InspectionItem {
   final String method;
   @override
   @JsonKey(
-      name: 'widget_type',
+      name: 'widget_type_id',
       unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
-  final InspectionItemWidgetType widgetType;
+  final InspectionItemWidgetType? widgetType;
 
   @override
   String toString() {
@@ -215,14 +216,13 @@ class _$InspectionItemImpl implements _InspectionItem {
 
 abstract class _InspectionItem implements InspectionItem {
   const factory _InspectionItem(
-          {@JsonKey(name: 'seq_no') required final int seqNo,
-          @JsonKey(name: 'item_name') required final String itemName,
-          required final String method,
-          @JsonKey(
-              name: 'widget_type',
-              unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
-          required final InspectionItemWidgetType widgetType}) =
-      _$InspectionItemImpl;
+      {@JsonKey(name: 'seq_no') required final int seqNo,
+      @JsonKey(name: 'item_name') required final String itemName,
+      required final String method,
+      @JsonKey(
+          name: 'widget_type_id',
+          unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
+      final InspectionItemWidgetType? widgetType}) = _$InspectionItemImpl;
 
   factory _InspectionItem.fromJson(Map<String, dynamic> json) =
       _$InspectionItemImpl.fromJson;
@@ -237,9 +237,9 @@ abstract class _InspectionItem implements InspectionItem {
   String get method;
   @override
   @JsonKey(
-      name: 'widget_type',
+      name: 'widget_type_id',
       unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
-  InspectionItemWidgetType get widgetType;
+  InspectionItemWidgetType? get widgetType;
   @override
   @JsonKey(ignore: true)
   _$$InspectionItemImplCopyWith<_$InspectionItemImpl> get copyWith =>

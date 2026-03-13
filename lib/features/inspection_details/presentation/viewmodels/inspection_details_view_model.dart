@@ -4,6 +4,7 @@ import '../../domain/entities/inspection_form.dart';
 import '../../../../core/network/dio_provider.dart';
 import '../../../mechanic_dashboard/data/dtos/repair_job_dtos.dart';
 import '../../../mechanic_dashboard/data/repositories/repair_job_repository_impl.dart';
+import '../../../mechanic_dashboard/presentation/providers/mechanic_dashboard_view_model.dart';
 
 part 'inspection_details_view_model.g.dart';
 
@@ -70,6 +71,7 @@ class InspectionDetailsViewModel extends _$InspectionDetailsViewModel {
           form: form,
           answers: answers,
           baseJson: baseJson,
+          shopId: detail.job.repairShopId.toString(),
         );
       },
     );
@@ -170,6 +172,7 @@ class InspectionDetailsViewModel extends _$InspectionDetailsViewModel {
       },
       (_) {
         state = AsyncData(currentState);
+        ref.invalidate(mechanicDashboardViewModelProvider(currentState.shopId));
         return true;
       },
     );
@@ -180,18 +183,21 @@ class InspectionDetailsState {
   final InspectionForm form;
   final Map<String, dynamic> answers;
   final Map<String, dynamic>? baseJson;
+  final String shopId;
 
-  InspectionDetailsState({required this.form, required this.answers, this.baseJson});
+  InspectionDetailsState({required this.form, required this.answers, this.baseJson, required this.shopId});
 
   InspectionDetailsState copyWith({
     InspectionForm? form,
     Map<String, dynamic>? answers,
     Map<String, dynamic>? baseJson,
+    String? shopId,
   }) {
     return InspectionDetailsState(
       form: form ?? this.form,
       answers: answers ?? this.answers,
       baseJson: baseJson ?? this.baseJson,
+      shopId: shopId ?? this.shopId,
     );
   }
 }

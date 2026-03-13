@@ -7,6 +7,7 @@ import '../widgets/dynamic_header_form.dart';
 import '../widgets/inspection_group_widget.dart';
 
 import '../../../mechanic_dashboard/data/dtos/repair_job_dtos.dart';
+import '../../../../core/router/routes.dart';
 
 class InspectionDetailsScreen extends ConsumerStatefulWidget {
   final String jobId;
@@ -46,7 +47,7 @@ class _InspectionDetailsScreenState
 
     return AppScaffold(
       backgroundColor: const Color(0xFF1E1C1A),
-      appBar: const AppNavigationBar(title: 'Inspection Details'),
+      appBar: const AppNavigationBar(title: ''),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: inspectionState.when(
@@ -171,9 +172,9 @@ class _InspectionDetailsScreenState
                                     .submit(widget.jobId);
                                 if (success && context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('작업이 완료되었습니다.')),
+                                    const SnackBar(content: Text('작업이 완료되었습니다. AI 소견서를 생성합니다.')),
                                   );
-                                  Navigator.of(context).pop();
+                                  AiReportRoute(jobId: widget.jobId).pushReplacement(context);
                                 }
                               }
                             },

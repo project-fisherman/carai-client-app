@@ -17,6 +17,7 @@ import '../../features/mechanic_dashboard/presentation/screens/checklist_selecti
 import '../../features/mechanic_dashboard/presentation/screens/job_checklist_selection_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_preview_screen.dart';
 import '../../features/inspection_details/presentation/screens/inspection_details_screen.dart';
+import '../../features/inspection_details/presentation/screens/ai_report_screen.dart';
 import '../../features/mechanic_dashboard/data/dtos/repair_job_dtos.dart';
 
 part 'routes.g.dart';
@@ -226,5 +227,19 @@ class InviteRoute extends GoRouteData {
     // But since this is a TypedGoRoute, we might need to handle it in the provider or a separate listener.
     // However, for simplicity here, we can use a static way or handle it in the build/redirect if we have access to ref.
     return '/'; // Always redirect to home
+  }
+}
+
+@TypedGoRoute<AiReportRoute>(path: '/ai-report/:jobId')
+class AiReportRoute extends GoRouteData {
+  final String jobId;
+
+  const AiReportRoute({required this.jobId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    // We haven't created the screen yet, so if it fails we will create it soon
+    // import will be added in the next step
+    return AiReportScreen(jobId: jobId);
   }
 }

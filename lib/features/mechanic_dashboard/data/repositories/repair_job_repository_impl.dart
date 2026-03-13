@@ -112,4 +112,14 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, ReportResponseDto>> generateReport({required String jobId}) async {
+    try {
+      final reportDto = await _api.generateReport(jobId: jobId);
+      return Right(reportDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

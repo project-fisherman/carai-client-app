@@ -96,4 +96,15 @@ class RepairJobApi {
     );
     return RepairJobDetailResponseDto.fromJson(response.data['result']);
   }
+
+  /// POST /repair-shops/jobs/{jobId}/report
+  /// AI 소견서 생성
+  Future<ReportResponseDto> generateReport({
+    required String jobId,
+  }) async {
+    final response = await _dio.post(
+      '/repair-shops/jobs/$jobId/report',
+    );
+    return ReportResponseDto.fromJson(response.data['result']);
+  }
 }

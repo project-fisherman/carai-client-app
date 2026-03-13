@@ -91,6 +91,9 @@ class InspectionItemWidget extends StatelessWidget {
           value: answer,
           onChanged: onAnswerChanged,
         );
+      case null:
+      default:
+        return const SizedBox.shrink();
     }
   }
 }
