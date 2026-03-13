@@ -213,9 +213,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                 },
                               );
                             }
-                          } else if (job.status.toUpperCase() == 'COMPLETED') {
-                            // Go to read-only view
-                            InspectionDetailsRoute(jobId: job.id, isReadOnly: true).push(context);
+                          } else if (job.status.toUpperCase() == 'COMPLETED' || 
+                                     job.status.toUpperCase() == 'REPORT_GENERATING' || 
+                                     job.status.toUpperCase() == 'REPORT_COMPLETED') {
+                            // Go to AI report view
+                            AiReportRoute(jobId: job.id).push(context);
                           }
                         },
                       );
