@@ -46,7 +46,7 @@ class RepairShopApi {
   }
 
   Future<void> acceptInvite({required String shopId}) async {
-    await _dio.post('/repair-shops/$shopId/accept');
+    await _dio.post('/repair-shops/$shopId/invites/phone/accept');
   }
 
   Future<void> rejectInvite({required String shopId}) async {
