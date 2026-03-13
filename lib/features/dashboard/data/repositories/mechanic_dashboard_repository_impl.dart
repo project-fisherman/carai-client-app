@@ -2,7 +2,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/file_api.dart';
 import '../data_sources/repair_shop_api.dart';
@@ -135,32 +134,20 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
   }
 
   @override
-  Future<Either<Failure, String>> inviteByPhone({
-    required String shopId,
-    required String phoneNumber,
-  }) async {
+  Future<Either<Failure, List<MyPendingInviteResponseDto>>>
+  getMyPendingInvites() async {
     try {
-      final response = await _repairShopApi.inviteByPhone(
-        shopId: shopId,
-        request: InviteByPhoneRequestDto(
-          phoneNumber: phoneNumber,
-          baseUrl: AppConstants.inviteBaseUrl,
-        ),
-      );
-      return Right(response.inviteToken);
+      final response = await _repairShopApi.getMyPendingInvites();
+      return Right(response);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, void>> acceptInviteByToken({
-    required String token,
-  }) async {
+  Future<Either<Failure, void>> acceptInvite({required String shopId}) async {
     try {
-      await _repairShopApi.acceptInviteByToken(
-        request: AcceptPhoneInviteRequestDto(token: token),
-      );
+      await _repairShopApi.acceptInvite(shopId: shopId);
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
@@ -168,12 +155,10 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> isInvitePendingByToken({
-    required String token,
-  }) async {
+  Future<Either<Failure, void>> rejectInvite({required String shopId}) async {
     try {
-      final pending = await _repairShopApi.isInvitePendingByToken(token: token);
-      return Right(pending);
+      await _repairShopApi.rejectInvite(shopId: shopId);
+      return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

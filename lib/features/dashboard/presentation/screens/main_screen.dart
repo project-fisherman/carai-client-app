@@ -8,7 +8,6 @@ import 'package:carai/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/dashboard_view_model.dart';
-import '../../../mechanic_dashboard/presentation/providers/invitation_provider.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -148,8 +147,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        if (ref.watch(isInvitationPendingProvider).value ?? false)
-                          _InvitationBadgeButton(),
                       ],
                     ),
                   ],
@@ -269,101 +266,3 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   }
 }
 
-class _InvitationBadgeButton extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        IconButton(
-          onPressed: () => _showInvitationDialog(context, ref),
-          style: IconButton.styleFrom(
-            backgroundColor: AppColors.surfaceDark,
-            padding: const EdgeInsets.all(12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          icon: const Icon(
-            Icons.mail_outline,
-            color: AppColors.primary,
-            size: 24,
-          ),
-        ),
-        Position81(
-          top: -4,
-          right: -4,
-          child: Container(
-            padding: const EdgeInsets.all(4),
-            decoration: const BoxDecoration(
-              color: Colors.red,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.priority_high,
-              color: Colors.white,
-              size: 10,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _showInvitationDialog(BuildContext context, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surfaceDark,
-        title: const Text(
-          '새로운 초대',
-          style: TextStyle(color: Colors.white),
-        ),
-        content: const Text(
-          '새로운 업장 초대장이 도착했습니다.\n수락하시겠습니까?',
-          style: TextStyle(color: AppColors.textSecondaryDark),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('나중에', style: TextStyle(color: Colors.white70)),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              await ref.read(invitationActionProvider.notifier).acceptInvitation();
-              // Refresh shops list
-              ref.read(dashboardViewModelProvider.notifier).refresh();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-            ),
-            child: const Text('수락하기'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class Position81 extends StatelessWidget {
-  final double? top;
-  final double? right;
-  final Widget child;
-
-  const Position81({
-    super.key,
-    this.top,
-    this.right,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: top,
-      right: right,
-      child: child,
-    );
-  }
-}

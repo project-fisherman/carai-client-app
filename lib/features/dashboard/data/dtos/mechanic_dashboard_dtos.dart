@@ -55,44 +55,12 @@ class RepairShopUserResponseDto with _$RepairShopUserResponseDto {
 }
 
 @freezed
-class InviteByPhoneRequestDto with _$InviteByPhoneRequestDto {
-  const factory InviteByPhoneRequestDto({
-    required String phoneNumber,
-    String? baseUrl,
-  }) = _InviteByPhoneRequestDto;
+class MyPendingInviteResponseDto with _$MyPendingInviteResponseDto {
+  const factory MyPendingInviteResponseDto({
+    required String repairShopId,
+    required RepairShopResponseDto repairShop,
+  }) = _MyPendingInviteResponseDto;
 
-  factory InviteByPhoneRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$InviteByPhoneRequestDtoFromJson(json);
-}
-
-@freezed
-class InviteByPhoneResponseDto with _$InviteByPhoneResponseDto {
-  const factory InviteByPhoneResponseDto({
-    required bool sent,
-    required String inviteToken,
-    required String expiresAt,
-  }) = _InviteByPhoneResponseDto;
-
-  factory InviteByPhoneResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$InviteByPhoneResponseDtoFromJson(json);
-}
-
-@freezed
-class AcceptPhoneInviteRequestDto with _$AcceptPhoneInviteRequestDto {
-  const factory AcceptPhoneInviteRequestDto({
-    required String token,
-  }) = _AcceptPhoneInviteRequestDto;
-
-  factory AcceptPhoneInviteRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$AcceptPhoneInviteRequestDtoFromJson(json);
-}
-
-@freezed
-class InvitePendingResponseDto with _$InvitePendingResponseDto {
-  const factory InvitePendingResponseDto({
-    required bool pending,
-  }) = _InvitePendingResponseDto;
-
-  factory InvitePendingResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$InvitePendingResponseDtoFromJson(json);
+  factory MyPendingInviteResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$MyPendingInviteResponseDtoFromJson(json);
 }
