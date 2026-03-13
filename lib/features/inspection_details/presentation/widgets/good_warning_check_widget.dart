@@ -12,40 +12,75 @@ class GoodWarningCheckWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // value structure: { 'is_good': bool?, 'is_warn': bool? }
-    final isGood = value?['is_good'] == true;
-    final isWarn = value?['is_warn'] == true;
+    // value structure: { 'status': 'good'|'warning'|null, 'comment': String? }
+    final status = value?['status'];
+    final comment = value?['comment']?.toString() ?? '';
+    final isGood = status == 'good';
+    final isWarn = status == 'warning';
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: _buildToggleButton(
-            label: '양호',
-            isSelected: isGood,
-            color: Colors.green,
-            onTap: () {
-              final newValue = Map<String, dynamic>.from(value ?? {});
-              newValue['is_good'] = !isGood;
-              if (newValue['is_good']) newValue['is_warn'] = false;
-              onChanged(newValue);
-            },
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: _buildToggleButton(
+                label: '양호',
+                isSelected: isGood,
+                color: Colors.green,
+                onTap: () {
+                  final newValue = Map<String, dynamic>.from(value ?? {});
+                  newValue['status'] = isGood ? null : 'good';
+                  onChanged(newValue);
+                },
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildToggleButton(
+                label: '권고',
+                isSelected: isWarn,
+                color: Colors.orange,
+                onTap: () {
+                  final newValue = Map<String, dynamic>.from(value ?? {});
+                  newValue['status'] = isWarn ? null : 'warning';
+                  onChanged(newValue);
+                },
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _buildToggleButton(
-            label: '권고',
-            isSelected: isWarn,
-            color: Colors.orange,
-            onTap: () {
-              final newValue = Map<String, dynamic>.from(value ?? {});
-              newValue['is_warn'] = !isWarn;
-              if (newValue['is_warn']) newValue['is_good'] = false;
-              onChanged(newValue);
-            },
-          ),
-        ),
+        const SizedBox(height: 12),
+        _buildCommentField(comment),
       ],
+    );
+  }
+
+  Widget _buildCommentField(String comment) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF2C2C2C),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextField(
+        controller: TextEditingController(text: comment)
+          ..selection = TextSelection.fromPosition(
+            TextPosition(offset: comment.length),
+          ),
+        onChanged: (v) {
+          final newValue = Map<String, dynamic>.from(value ?? {});
+          newValue['comment'] = v;
+          onChanged(newValue);
+        },
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+        decoration: const InputDecoration(
+          hintText: '특이사항 입력 (선택사항)',
+          hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          border: InputBorder.none,
+        ),
+        maxLines: 2,
+      ),
     );
   }
 

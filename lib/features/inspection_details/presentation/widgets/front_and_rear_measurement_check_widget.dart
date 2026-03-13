@@ -58,9 +58,9 @@ class FrontAndRearMeasurementCheckWidget extends StatelessWidget {
         }
 
         // Render Inputs
-        children.add(_buildMeasurementRow("앞 (Front)", 'value_1', frontUnit));
+        children.add(_buildMeasurementRow("앞 (Front)", 'front', frontUnit));
         children.add(const SizedBox(height: 8));
-        children.add(_buildMeasurementRow("뒤 (Rear)", 'value_2', rearUnit));
+        children.add(_buildMeasurementRow("뒤 (Rear)", 'rear', rearUnit));
         children.add(const SizedBox(height: 12)); // Spacing after inputs
       } else {
         // 3. Fallback: Just render the text line as description
@@ -77,9 +77,42 @@ class FrontAndRearMeasurementCheckWidget extends StatelessWidget {
       }
     }
 
+    // Add Comment Field at the very bottom
+    final comment = value?['comment']?.toString() ?? '';
+    children.add(const SizedBox(height: 4));
+    children.add(_buildCommentField(comment));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: children,
+    );
+  }
+
+  Widget _buildCommentField(String comment) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF2C2C2C),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextField(
+        controller: TextEditingController(text: comment)
+          ..selection = TextSelection.fromPosition(
+            TextPosition(offset: comment.length),
+          ),
+        onChanged: (v) {
+          final newValue = Map<String, dynamic>.from(value ?? {});
+          newValue['comment'] = v;
+          onChanged(newValue);
+        },
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+        decoration: const InputDecoration(
+          hintText: '특이사항 입력 (선택사항)',
+          hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          border: InputBorder.none,
+        ),
+        maxLines: 2,
+      ),
     );
   }
 

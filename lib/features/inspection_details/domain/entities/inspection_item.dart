@@ -9,7 +9,11 @@ class InspectionItem with _$InspectionItem {
     @JsonKey(name: 'seq_no') required int seqNo,
     @JsonKey(name: 'item_name') required String itemName,
     required String method,
-    @JsonKey(name: 'widget_type') required InspectionItemWidgetType widgetType,
+    @JsonKey(
+      name: 'widget_type',
+      unknownEnumValue: InspectionItemWidgetType.goodWarningCheck,
+    )
+    required InspectionItemWidgetType widgetType,
   }) = _InspectionItem;
 
   factory InspectionItem.fromJson(Map<String, dynamic> json) =>

@@ -25,7 +25,9 @@ mixin _$InspectionItem {
   @JsonKey(name: 'item_name')
   String get itemName => throw _privateConstructorUsedError;
   String get method => throw _privateConstructorUsedError;
-  @JsonKey(name: 'widget_type')
+  @JsonKey(
+      name: 'widget_type',
+      unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
   InspectionItemWidgetType get widgetType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +46,10 @@ abstract class $InspectionItemCopyWith<$Res> {
       {@JsonKey(name: 'seq_no') int seqNo,
       @JsonKey(name: 'item_name') String itemName,
       String method,
-      @JsonKey(name: 'widget_type') InspectionItemWidgetType widgetType});
+      @JsonKey(
+          name: 'widget_type',
+          unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
+      InspectionItemWidgetType widgetType});
 }
 
 /// @nodoc
@@ -98,7 +103,10 @@ abstract class _$$InspectionItemImplCopyWith<$Res>
       {@JsonKey(name: 'seq_no') int seqNo,
       @JsonKey(name: 'item_name') String itemName,
       String method,
-      @JsonKey(name: 'widget_type') InspectionItemWidgetType widgetType});
+      @JsonKey(
+          name: 'widget_type',
+          unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
+      InspectionItemWidgetType widgetType});
 }
 
 /// @nodoc
@@ -145,7 +153,10 @@ class _$InspectionItemImpl implements _InspectionItem {
       {@JsonKey(name: 'seq_no') required this.seqNo,
       @JsonKey(name: 'item_name') required this.itemName,
       required this.method,
-      @JsonKey(name: 'widget_type') required this.widgetType});
+      @JsonKey(
+          name: 'widget_type',
+          unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
+      required this.widgetType});
 
   factory _$InspectionItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$InspectionItemImplFromJson(json);
@@ -159,7 +170,9 @@ class _$InspectionItemImpl implements _InspectionItem {
   @override
   final String method;
   @override
-  @JsonKey(name: 'widget_type')
+  @JsonKey(
+      name: 'widget_type',
+      unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
   final InspectionItemWidgetType widgetType;
 
   @override
@@ -205,7 +218,9 @@ abstract class _InspectionItem implements InspectionItem {
           {@JsonKey(name: 'seq_no') required final int seqNo,
           @JsonKey(name: 'item_name') required final String itemName,
           required final String method,
-          @JsonKey(name: 'widget_type')
+          @JsonKey(
+              name: 'widget_type',
+              unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
           required final InspectionItemWidgetType widgetType}) =
       _$InspectionItemImpl;
 
@@ -221,7 +236,9 @@ abstract class _InspectionItem implements InspectionItem {
   @override
   String get method;
   @override
-  @JsonKey(name: 'widget_type')
+  @JsonKey(
+      name: 'widget_type',
+      unknownEnumValue: InspectionItemWidgetType.goodWarningCheck)
   InspectionItemWidgetType get widgetType;
   @override
   @JsonKey(ignore: true)

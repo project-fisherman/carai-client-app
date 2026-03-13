@@ -11,8 +11,9 @@ _$InspectionItemImpl _$$InspectionItemImplFromJson(Map<String, dynamic> json) =>
       seqNo: (json['seq_no'] as num).toInt(),
       itemName: json['item_name'] as String,
       method: json['method'] as String,
-      widgetType:
-          $enumDecode(_$InspectionItemWidgetTypeEnumMap, json['widget_type']),
+      widgetType: $enumDecode(
+          _$InspectionItemWidgetTypeEnumMap, json['widget_type'],
+          unknownValue: InspectionItemWidgetType.goodWarningCheck),
     );
 
 Map<String, dynamic> _$$InspectionItemImplToJson(

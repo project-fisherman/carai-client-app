@@ -70,13 +70,12 @@ class InspectionItemWidget extends StatelessWidget {
 
   Border? _buildBorder() {
     // If Good -> Green, Warn -> Orange border
-    final isGood = answer['is_good'] == true;
-    final isWarn = answer['is_warn'] == true;
+    final status = answer['status'];
 
-    if (isGood) {
+    if (status == 'good') {
       return const Border(left: BorderSide(color: Colors.green, width: 4));
     }
-    if (isWarn) {
+    if (status == 'warning') {
       return const Border(left: BorderSide(color: Colors.orange, width: 4));
     }
     return null;
