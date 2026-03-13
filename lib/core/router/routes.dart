@@ -9,6 +9,7 @@ import '../../features/dashboard/presentation/screens/create_shop_screen.dart';
 import '../../features/mechanic_dashboard/domain/entities/repair_shop_user.dart';
 
 import '../../features/auth/presentation/screens/change_password_screen.dart';
+import '../../features/auth/presentation/screens/forgot_password_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/mechanic_dashboard_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/manage_workshop_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_management_screen.dart';
@@ -92,6 +93,16 @@ class SuccessRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const AppScaffold(body: Center(child: Text('성공!')));
+  }
+}
+
+@TypedGoRoute<ForgotPasswordRoute>(path: '/forgot-password')
+class ForgotPasswordRoute extends GoRouteData {
+  const ForgotPasswordRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const ForgotPasswordScreen();
   }
 }
 

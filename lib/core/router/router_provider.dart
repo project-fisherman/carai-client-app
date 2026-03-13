@@ -46,8 +46,9 @@ GoRouter router(RouterRef ref) {
 
       final isLoggingIn = state.uri.path == const LoginRoute().location;
       final isSigningUp = state.uri.path == const RegistrationRoute().location;
+      final isForgotPassword = state.uri.path == const ForgotPasswordRoute().location;
 
-      if (!isLoggedIn && !isLoggingIn && !isSigningUp) {
+      if (!isLoggedIn && !isLoggingIn && !isSigningUp && !isForgotPassword) {
         return const LoginRoute().location;
       }
 
