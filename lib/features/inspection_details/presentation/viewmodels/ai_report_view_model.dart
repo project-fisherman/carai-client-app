@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:dio/dio.dart';
-import '../../../../core/network/dio_provider.dart';
 import '../../../mechanic_dashboard/data/repositories/repair_job_repository_impl.dart';
 
 part 'ai_report_view_model.g.dart';

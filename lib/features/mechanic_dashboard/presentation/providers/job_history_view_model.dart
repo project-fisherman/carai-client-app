@@ -1,7 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../core/error/failure.dart';
 import '../../data/dtos/repair_job_dtos.dart';
-import '../../domain/repositories/repair_job_repository.dart';
 import '../../data/repositories/repair_job_repository_impl.dart';
 
 part 'job_history_view_model.g.dart';

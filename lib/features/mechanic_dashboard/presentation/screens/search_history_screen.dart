@@ -3,7 +3,6 @@ import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../providers/job_history_view_model.dart';
@@ -62,63 +61,92 @@ class _SearchHistoryScreenState extends ConsumerState<SearchHistoryScreen> {
   }
 
   Widget _buildDatePicker() {
-    return InkWell(
-      onTap: () async {
-        final date = await showDatePicker(
-          context: context,
-          initialDate: _selectedDate,
-          firstDate: DateTime(2020),
-          lastDate: DateTime.now(),
-          builder: (context, child) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.dark(
-                  primary: AppColors.primary,
-                  onPrimary: AppColors.textLight,
-                  surface: AppColors.backgroundDark,
-                  onSurface: AppColors.textLight,
-                ),
-              ),
-              child: child!,
-            );
-          },
-        );
-
-        if (date != null && date != _selectedDate) {
-          setState(() {
-            _selectedDate = date;
-          });
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        decoration: const BoxDecoration(color: AppColors.backgroundDark),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              '날짜 선택',
-              style: TextStyle(
-                color: AppColors.textLight,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Row(
-              children: [
-                Text(
-                  _dateString,
-                  style: const TextStyle(
-                    color: AppColors.textLight,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.surfaceDark,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
+        ),
+      ),
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+      child: InkWell(
+        onTap: () async {
+          final date = await showDatePicker(
+            context: context,
+            initialDate: _selectedDate,
+            firstDate: DateTime(2020),
+            lastDate: DateTime.now(),
+            builder: (context, child) {
+              return Theme(
+                data: Theme.of(context).copyWith(
+                  colorScheme: const ColorScheme.dark(
+                    primary: AppColors.primary,
+                    onPrimary: AppColors.textLight,
+                    surface: AppColors.backgroundDark,
+                    onSurface: AppColors.textLight,
                   ),
                 ),
-                const SizedBox(width: 8),
-                const Icon(Icons.calendar_today, color: AppColors.primary, size: 20),
-              ],
-            ),
-          ],
+                child: child!,
+              );
+            },
+          );
+
+          if (date != null && date != _selectedDate) {
+            setState(() {
+              _selectedDate = date;
+            });
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.05),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '조회 날짜',
+                    style: TextStyle(
+                      color: Color(0xFF999999),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    '날짜 선택',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    _dateString,
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Icon(Icons.calendar_today_rounded, color: AppColors.primary, size: 20),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -135,53 +163,88 @@ class _SearchHistoryScreenState extends ConsumerState<SearchHistoryScreen> {
     }
 
     return ListView.separated(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       itemCount: history.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
+      separatorBuilder: (context, index) => const SizedBox(height: 16),
       itemBuilder: (context, index) {
         final item = history[index];
+        final statusColor = item.toStatus != null ? _getStatusColor(item.toStatus!) : AppColors.primary;
+        
         return Container(
-          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.surfaceDark,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            color: const Color(0xFF2C2C2C),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.3),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '동작: ${_translateAction(item.action)}',
-                    style: const TextStyle(
-                      color: AppColors.textLight,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+          clipBehavior: Clip.antiAlias,
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  width: 6,
+                  color: statusColor,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _translateAction(item.action).toUpperCase(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 16,
+                                letterSpacing: -0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '작업자: ${item.actorUserId}',
+                          style: const TextStyle(
+                            color: Color(0xFF999999),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        if (item.fromStatus != null || item.toStatus != null)
+                          Row(
+                            children: [
+                              if (item.fromStatus != null) ...[
+                                _buildStatusChip(item.fromStatus!),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Icon(
+                                    Icons.east_rounded,
+                                    color: Color(0xFF444444),
+                                    size: 16,
+                                  ),
+                                ),
+                              ],
+                              if (item.toStatus != null) _buildStatusChip(item.toStatus!),
+                            ],
+                          ),
+                      ],
                     ),
                   ),
-                  Text(
-                    '작업자: ${item.assigneeUserId != null ? item.actorUserId : "미지정"}', // Would ideally map user ID to name, showing ID for now or actor
-                    style: const TextStyle(color: AppColors.textLight, fontSize: 12),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              if (item.fromStatus != null || item.toStatus != null)
-                Row(
-                  children: [
-                    if (item.fromStatus != null) ...[
-                      _buildStatusChip(item.fromStatus!),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Icon(Icons.arrow_forward_rounded, color: AppColors.textLight, size: 16),
-                      ),
-                    ],
-                    if (item.toStatus != null) _buildStatusChip(item.toStatus!),
-                  ],
                 ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -207,66 +270,71 @@ class _SearchHistoryScreenState extends ConsumerState<SearchHistoryScreen> {
     }
   }
 
+  Color _getStatusColor(String status) {
+    switch (status.toUpperCase()) {
+      case 'WAITING':
+        return Colors.amber;
+      case 'IN_PROGRESS':
+        return Colors.green;
+      case 'COMPLETED':
+        return Colors.blue;
+      case 'CANCELED':
+        return Colors.red;
+      case 'REPORT_GENERATING':
+        return Colors.orange;
+      case 'REPORT_COMPLETED':
+        return AppColors.primary;
+      case 'REPORT_FAILED':
+        return Colors.redAccent;
+      default:
+        return AppColors.primary;
+    }
+  }
+
   Widget _buildStatusChip(String status) {
-    Color bgColor;
-    Color textColor;
     String text;
+    Color color = _getStatusColor(status);
 
     switch (status.toUpperCase()) {
-      case 'PENDING':
       case 'WAITING':
-        bgColor = AppColors.surfaceDark;
-        textColor = AppColors.textLight;
+      case 'PENDING':
         text = '대기 중';
         break;
       case 'IN_PROGRESS':
-        bgColor = AppColors.primary.withAlpha(51); // 0.2 opacity
-        textColor = AppColors.primary;
-        text = '진행 중';
+        text = '작업 중';
         break;
       case 'COMPLETED':
-        bgColor = Colors.blue.withAlpha(51);
-        textColor = Colors.blue;
-        text = '작업 완료';
+        text = '완료';
         break;
       case 'CANCELED':
-        bgColor = Colors.red.withAlpha(51);
-        textColor = Colors.red;
-        text = '작업 취소';
+        text = '취소됨';
         break;
       case 'REPORT_GENERATING':
-        bgColor = Colors.orange.withAlpha(51);
-        textColor = Colors.orange;
-        text = '소견서 생성 중';
+        text = '생성 중';
         break;
       case 'REPORT_COMPLETED':
-        bgColor = Colors.green.withAlpha(51);
-        textColor = Colors.green;
-        text = '소견서 생성 완료';
+        text = '완료됨';
         break;
       case 'REPORT_FAILED':
-        bgColor = Colors.red.withAlpha(51);
-        textColor = Colors.red;
-        text = '소견서 실패';
+        text = '실패';
         break;
       default:
-        bgColor = AppColors.surfaceDark;
-        textColor = AppColors.textLight;
         text = status;
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: bgColor,
+        color: color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Text(
         text,
         style: TextStyle(
-          color: textColor,
+          color: color,
           fontSize: 12,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w900,
         ),
       ),
     );
