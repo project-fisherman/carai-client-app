@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/router/routes.dart';
 import '../../../../design_system/molecules/app_scaffold.dart';
 import '../../../../design_system/molecules/app_navigation_bar.dart';
 import '../viewmodels/inspection_details_view_model.dart';
@@ -7,7 +9,6 @@ import '../widgets/dynamic_header_form.dart';
 import '../widgets/inspection_group_widget.dart';
 
 import '../../../mechanic_dashboard/data/dtos/repair_job_dtos.dart';
-import '../../../../core/router/routes.dart';
 
 class InspectionDetailsScreen extends ConsumerStatefulWidget {
   final String jobId;

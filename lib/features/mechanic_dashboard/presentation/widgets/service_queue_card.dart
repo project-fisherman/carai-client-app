@@ -4,6 +4,9 @@ class ServiceQueueCard extends StatelessWidget {
   final String jobId;
   final String status;
   final String? description;
+  final String? customerName;
+  final String? carNumber;
+  final String? carModelCode;
   final bool isOpacityReduced;
   final VoidCallback? onTap;
 
@@ -12,6 +15,9 @@ class ServiceQueueCard extends StatelessWidget {
     required this.jobId,
     required this.status,
     this.description,
+    this.customerName,
+    this.carNumber,
+    this.carModelCode,
     this.isOpacityReduced = false,
     this.onTap,
   });
@@ -35,30 +41,69 @@ class ServiceQueueCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Job ID and Status
+            // Status chip and Job ID
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '작업 #$jobId',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.3,
+                Expanded(
+                  child: Text(
+                    customerName ?? '고객 미등록',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.3,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(width: 8),
                 _buildStatusChip(status),
               ],
             ),
+            if (carNumber != null || carModelCode != null) ...[
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(Icons.directions_car, color: Color(0xFFA8A29E), size: 16),
+                  const SizedBox(width: 6),
+                  if (carNumber != null)
+                    Text(
+                      carNumber!,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  if (carNumber != null && carModelCode != null)
+                    const Text(
+                      '  ·  ',
+                      style: TextStyle(color: Color(0xFF78716C), fontSize: 14),
+                    ),
+                  if (carModelCode != null)
+                    Flexible(
+                      child: Text(
+                        carModelCode!,
+                        style: const TextStyle(
+                          color: Color(0xFFA8A29E),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                ],
+              ),
+            ],
             if (description != null && description!.isNotEmpty) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               Text(
                 description!,
                 style: const TextStyle(
-                  color: Color(0xFFA8A29E), // text-stone-400
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF78716C), // text-stone-500
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -95,6 +140,21 @@ class ServiceQueueCard extends StatelessWidget {
         backgroundColor = const Color(0xFFFEE2E2); // bg-red-100
         textColor = const Color(0xFF991B1B); // text-red-800
         displayText = '취소됨';
+        break;
+      case 'REPORT_GENERATING':
+        backgroundColor = const Color(0xFFFEF08A); // yellow-200
+        textColor = const Color(0xFF854D0E); // yellow-800
+        displayText = '소견서 생성 중';
+        break;
+      case 'REPORT_COMPLETED':
+        backgroundColor = const Color(0xFFFAE8FF); // fuchsia-100
+        textColor = const Color(0xFF86198F); // fuchsia-800
+        displayText = '소견서 완료';
+        break;
+      case 'REPORT_FAILED':
+        backgroundColor = const Color(0xFFFEE2E2); // red-100
+        textColor = const Color(0xFF991B1B); // red-800
+        displayText = '소견서 실패';
         break;
       default:
         backgroundColor = const Color(0xFFF5F5F4); // bg-stone-100

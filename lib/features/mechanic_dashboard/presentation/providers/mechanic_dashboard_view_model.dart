@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../dashboard/data/data_sources/repair_shop_api.dart';
 import '../../../dashboard/data/dtos/mechanic_dashboard_dtos.dart';
@@ -5,6 +6,10 @@ import '../../domain/entities/repair_job.dart';
 import '../../data/repositories/repair_job_repository_impl.dart';
 
 part 'mechanic_dashboard_view_model.g.dart';
+
+/// 대시보드 새로고침 시그널. AiReportScreen 등 외부 화면에서
+/// 값을 증가시키면 대시보드가 이를 감지하여 목록을 다시 불러옴.
+final dashboardRefreshSignalProvider = StateProvider<int>((ref) => 0);
 
 @riverpod
 class MechanicDashboardViewModel extends _$MechanicDashboardViewModel {

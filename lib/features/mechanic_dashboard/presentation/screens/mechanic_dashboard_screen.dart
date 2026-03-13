@@ -17,6 +17,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 외부 화면(AiReportScreen 등)에서 보낸 새로고침 시그널 감지
+    ref.listen(dashboardRefreshSignalProvider, (_, __) {
+      ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+    });
+
     // Watch the view model to get job list
     final vehicleListAsync = ref.watch(
       mechanicDashboardViewModelProvider(shopId),
@@ -152,7 +157,14 @@ class MechanicDashboardScreen extends ConsumerWidget {
                     );
                   }
 
-                  return NotificationListener<ScrollNotification>(
+                  return RefreshIndicator(
+                    color: AppColors.primary,
+                    backgroundColor: AppColors.surfaceDark,
+                    onRefresh: () async {
+                      ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                      await ref.read(mechanicDashboardViewModelProvider(shopId).future);
+                    },
+                    child: NotificationListener<ScrollNotification>(
                     onNotification: (ScrollNotification scrollInfo) {
                       if (scrollInfo.metrics.pixels >=
                           scrollInfo.metrics.maxScrollExtent - 200) {
@@ -163,6 +175,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                       return false;
                     },
                     child: ListView.separated(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.only(
                         left: 16,
                         right: 16,
@@ -178,9 +191,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
                         jobId: job.id,
                         status: job.status,
                         description: job.description,
+                        customerName: job.customerName,
+                        carNumber: job.carNumber,
+                        carModelCode: job.carModelCode,
                         isOpacityReduced:
-                            job.status.toUpperCase() == 'CANCELED' ||
-                            job.status.toUpperCase() == 'COMPLETED',
+                            job.status.toUpperCase() == 'CANCELED',
                         onTap: () async {
                           if (job.status.toUpperCase() == 'CANCELED') {
                             return; // Canceled jobs do nothing
@@ -206,22 +221,32 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                 },
                                 (detail) async {
                                   await InspectionDetailsRoute(
-                                    jobId: job.id, 
-                                    isReadOnly: false, 
+                                    jobId: job.id,
+                                    isReadOnly: false,
                                     $extra: detail,
-                                  ).push(context);
-                                  ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                                  ).push<bool>(context);
+                                  
+                                  if (context.mounted) {
+                                    ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                                  }
                                 },
                               );
                             }
-                          } else if (job.status.toUpperCase() == 'COMPLETED') {
-                            // Go to read-only view
-                            InspectionDetailsRoute(jobId: job.id, isReadOnly: true).push(context);
+                          } else if (job.status.toUpperCase() == 'COMPLETED' ||
+                                     job.status.toUpperCase() == 'REPORT_GENERATING' ||
+                                     job.status.toUpperCase() == 'REPORT_COMPLETED' ||
+                                     job.status.toUpperCase() == 'REPORT_FAILED') {
+                            // Go to AI report view
+                            await AiReportRoute(jobId: job.id).push(context);
+                            if (context.mounted) {
+                              ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                            }
                           }
                         },
                       );
                     },
                   ),
+                ),
                 );
               },
                 loading: () => const Center(

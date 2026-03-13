@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="overflow: hidden; overscroll-behavior: none;">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -25,10 +25,12 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="carai">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <!-- Favicon: dark/light mode support -->
+  <link rel="icon" type="image/svg+xml" href="favicon-dark.svg" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/svg+xml" href="favicon-light.svg" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/png" href="favicon.png">
 
   <title>carai</title>
   <link rel="manifest" href="manifest.json">
@@ -38,7 +40,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
 </head>
-<body style="background-color: #23170F">
+<body style="background-color: #23170F; overscroll-behavior: none; overflow: hidden; position: fixed; width: 100%; height: 100%;">
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

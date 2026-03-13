@@ -42,6 +42,12 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
               checklistId: jobDto.checklistId,
               status: jobDto.status,
               description: jobDto.description,
+              reportUrl: jobDto.reportUrl,
+              customerName: jobDto.intakeSummary?.customerName,
+              carNumber: jobDto.intakeSummary?.carNumber,
+              carModelCode: jobDto.intakeSummary?.carModelCode,
+              createdAt: jobDto.createdAt,
+              updatedAt: jobDto.updatedAt,
             ),
           )
           .toList();
@@ -114,10 +120,20 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
   }
 
   @override
-  Future<Either<Failure, ReportResponseDto>> generateReport({required String jobId}) async {
+  Future<Either<Failure, void>> generateReport({required String jobId}) async {
     try {
-      final reportDto = await _api.generateReport(jobId: jobId);
-      return Right(reportDto);
+      await _api.generateReport(jobId: jobId);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ReportStatusResponseDto>> getReportStatus({required String jobId}) async {
+    try {
+      final statusDto = await _api.getReportStatus(jobId: jobId);
+      return Right(statusDto);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

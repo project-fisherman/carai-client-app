@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +7,15 @@ import 'package:carai/core/router/router_provider.dart';
 import 'package:carai/core/utils/global_keys.dart';
 import 'package:carai/design_system/foundations/app_colors.dart';
 import 'package:carai/features/auth/presentation/providers/token_refresh_manager.dart';
+
+class AppScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.stylus,
+  };
+}
 
 class CaraiApp extends ConsumerWidget {
   const CaraiApp({super.key});
@@ -17,6 +27,7 @@ class CaraiApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'Carai 문서 스캐너',
+      scrollBehavior: AppScrollBehavior(),
       scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
