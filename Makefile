@@ -1,4 +1,4 @@
-.PHONY: build_web build_runner run_web run_android run_ios deploy_web_firebase
+.PHONY: build_web build_runner run_web run_android run_ios deploy_web deploy_functions
 
 build_runner:
 	fvm dart run build_runner build --delete-conflicting-outputs
@@ -15,3 +15,8 @@ run_ios: build_runner
 deploy_web: build_runner
 	fvm flutter build web --release
 	firebase deploy --only hosting
+
+deploy_functions:
+	cd functions && firebase deploy --only functions
+
+

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../analytics/analytics_service.dart';
 import '../../features/auth/data/datasources/auth_local_data_source.dart';
 import '../constants/app_constants.dart';
 import '../utils/global_keys.dart';
@@ -42,15 +43,27 @@ Dio dio(DioRef ref) {
           final data = response.data as Map<String, dynamic>;
           if (data['success'] == false && data['error'] != null) {
             final error = data['error'];
+            String? errorMessage;
             if (error is Map<String, dynamic>) {
-              final message = error['message'] as String?;
-              if (message != null && message.isNotEmpty) {
-                // Remove existing snackbars to avoid queueing
-                scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
-                scaffoldMessengerKey.currentState?.showSnackBar(
-                  SnackBar(content: Text(message), backgroundColor: Colors.red),
-                );
-              }
+              errorMessage = error['message'] as String?;
+            }
+
+            // Log Analytics Event (Triggers Cloud Function)
+            // Note: We don't await here to not block the response, but we trigger it
+            AnalyticsService.logApiError(
+              errorType: 'Success False',
+              method: response.requestOptions.method,
+              uri: response.requestOptions.uri.toString(),
+              message: errorMessage,
+              responseData: response.data,
+            );
+
+            if (errorMessage != null && errorMessage.isNotEmpty) {
+              // Remove existing snackbars to avoid queueing
+              scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
+              scaffoldMessengerKey.currentState?.showSnackBar(
+                SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+              );
             }
           }
         }
@@ -66,6 +79,15 @@ Dio dio(DioRef ref) {
             '❌ [DIO] Error Response: ${e.requestOptions.method} ${e.requestOptions.uri} - ${e.response?.data}',
           );
         }
+
+        // Log Analytics Event (Triggers Cloud Function)
+        AnalyticsService.logApiError(
+          errorType: 'DioException',
+          method: e.requestOptions.method,
+          uri: e.requestOptions.uri.toString(),
+          message: e.message,
+          responseData: e.response?.data,
+        );
 
         // Show global error snackbar for network/server errors
         scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
