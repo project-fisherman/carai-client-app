@@ -15,7 +15,7 @@ run_android: build_runner
 run_ios: build_runner
 	fvm flutter run -d ios --debug
 
-deploy_web: build_runner
+deploy_web: build_runner ensure_env
 	fvm flutter build web --release
 	firebase deploy --only hosting
 
