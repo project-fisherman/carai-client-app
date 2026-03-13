@@ -133,4 +133,26 @@ class RepairJobApi {
         .map((e) => RepairJobHistoryResponseDto.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  /// GET /repair-shops/{shopId}/jobs
+  /// 업장 전체 작업 조회 - 상태별, 커서 페이지네이션
+  Future<ShopJobsPageResponseDto> getShopJobs({
+    required String shopId,
+    String? status,
+    String? cursorUpdatedAt,
+    String? cursorId,
+    int size = 20,
+  }) async {
+    final response = await _dio.get(
+      '/repair-shops/$shopId/jobs',
+      queryParameters: {
+        if (status != null) 'status': status,
+        if (cursorUpdatedAt != null) 'cursorUpdatedAt': cursorUpdatedAt,
+        if (cursorId != null) 'cursorId': cursorId,
+        'size': size,
+      },
+    );
+    final result = response.data['result'] as Map<String, dynamic>?;
+    return ShopJobsPageResponseDto.fromJson(result ?? {});
+  }
 }

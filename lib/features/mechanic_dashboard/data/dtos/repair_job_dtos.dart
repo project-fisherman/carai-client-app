@@ -22,6 +22,7 @@ class RepairJobResponseDto with _$RepairJobResponseDto {
     required String id,
     required String repairShopId,
     required String assigneeUserId,
+    String? assigneeName,
     String? checklistId,
     required String status,
     String? description,
@@ -47,6 +48,19 @@ class MyJobsPageResponseDto with _$MyJobsPageResponseDto {
 
   factory MyJobsPageResponseDto.fromJson(Map<String, dynamic> json) =>
       _$MyJobsPageResponseDtoFromJson(json);
+}
+
+@freezed
+class ShopJobsPageResponseDto with _$ShopJobsPageResponseDto {
+  const factory ShopJobsPageResponseDto({
+    @Default([]) List<RepairJobResponseDto> jobs,
+    String? nextCursorUpdatedAt,
+    String? nextCursorId,
+    @Default(false) bool hasNext,
+  }) = _ShopJobsPageResponseDto;
+
+  factory ShopJobsPageResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$ShopJobsPageResponseDtoFromJson(json);
 }
 
 @freezed

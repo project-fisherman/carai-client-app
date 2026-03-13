@@ -151,4 +151,26 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, ShopJobsPageResponseDto>> getShopJobs({
+    required String shopId,
+    String? status,
+    String? cursorUpdatedAt,
+    String? cursorId,
+    int size = 20,
+  }) async {
+    try {
+      final page = await _api.getShopJobs(
+        shopId: shopId,
+        status: status,
+        cursorUpdatedAt: cursorUpdatedAt,
+        cursorId: cursorId,
+        size: size,
+      );
+      return Right(page);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }
