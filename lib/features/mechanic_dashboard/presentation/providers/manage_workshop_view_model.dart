@@ -75,8 +75,16 @@ class ManageWorkshopViewModel extends _$ManageWorkshopViewModel {
     );
   }
 
-  // Placeholder for Accept Invite
-  Future<void> acceptInvitePlaceholder() async {
-    // Not implemented as per instructions (Manager cannot accept for user)
+  Future<void> cancelInvitation(String targetUserId) async {
+    final repository = ref.read(manageWorkshopRepositoryProvider);
+    final result = await repository.kickUser(
+      shopId: shopId,
+      targetUserId: targetUserId,
+    );
+
+    result.fold(
+      (failure) => throw Exception(failure.message),
+      (_) => ref.invalidateSelf(),
+    );
   }
 }
