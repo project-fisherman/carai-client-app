@@ -138,4 +138,14 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> sendReport({required String jobId}) async {
+    try {
+      await _api.sendReport(jobId: jobId);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

@@ -1,16 +1,20 @@
 import 'dart:async';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:dio/dio.dart';
-import '../../../../core/network/dio_provider.dart';
 import '../../../mechanic_dashboard/data/repositories/repair_job_repository_impl.dart';
 
+part 'ai_report_view_model.freezed.dart';
 part 'ai_report_view_model.g.dart';
 
-class AiReportState {
-  final bool isGenerating;
-  final bool isFailed;
-  final String? reportUrl;
-  const AiReportState({this.isGenerating = false, this.isFailed = false, this.reportUrl});
+@freezed
+class AiReportState with _$AiReportState {
+  const factory AiReportState({
+    @Default(false) bool isGenerating,
+    @Default(false) bool isFailed,
+    @Default(false) bool isSending,
+    @Default(false) bool isSent,
+    String? reportUrl,
+  }) = _AiReportState;
 }
 
 @riverpod
@@ -55,6 +59,30 @@ class AiReportViewModel extends _$AiReportViewModel {
       },
       (_) {
         _startPolling();
+      },
+    );
+  }
+
+  Future<void> sendReport() async {
+    final currentState = state.valueOrNull;
+    if (currentState == null || currentState.reportUrl == null) return;
+
+    state = AsyncData(currentState.copyWith(isSending: true, isSent: false));
+
+    final repository = ref.read(repairJobRepositoryProvider);
+    final result = await repository.sendReport(jobId: jobId);
+
+    result.fold(
+      (failure) {
+        state = AsyncData(currentState.copyWith(isSending: false, isSent: false));
+        // We might want to show an error message. Since we are using AsyncValue,
+        // we can use error but it might replace the successful report data.
+        // For simple UI feedback, we can just update isSending to false.
+        // Let's keep the error handling simple for now.
+        throw Exception(failure.message);
+      },
+      (_) {
+        state = AsyncData(currentState.copyWith(isSending: false, isSent: true));
       },
     );
   }
