@@ -6,6 +6,7 @@ import '../../domain/usecases/logout_usecase.dart';
 import '../../domain/usecases/send_sms_code_usecase.dart';
 import '../../domain/usecases/signup_usecase.dart';
 import '../../domain/usecases/verify_sms_code_usecase.dart';
+import '../../domain/usecases/reset_password_usecase.dart';
 
 part 'auth_providers.g.dart';
 
