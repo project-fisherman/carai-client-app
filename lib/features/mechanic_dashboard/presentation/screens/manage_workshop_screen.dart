@@ -91,6 +91,83 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
     );
   }
 
+  Future<void> _showInviteDialog() async {
+    final phoneController = TextEditingController();
+    final inviteToken = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF2f221a),
+        title: const Text('새 멤버 초대', style: TextStyle(color: Colors.white)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              '초대할 멤버의 휴대폰 번호를 입력해주세요.',
+              style: TextStyle(color: Color(0xFFA8A29E)),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: phoneController,
+              keyboardType: TextInputType.phone,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintText: '010-0000-0000',
+                hintStyle: TextStyle(color: Color(0xFF78716C)),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF44403C)),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.primary),
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('취소'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final phoneNumber = phoneController.text.trim();
+              if (phoneNumber.isEmpty) return;
+
+              try {
+                final token = await ref
+                    .read(manageWorkshopViewModelProvider(widget.shopId).notifier)
+                    .inviteUser(phoneNumber);
+                if (context.mounted) Navigator.of(context).pop(token);
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('초대 실패: ${e.toString()}'),
+                      backgroundColor: const Color(0xFFEF4444),
+                    ),
+                  );
+                }
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+            ),
+            child: const Text('초대하기'),
+          ),
+        ],
+      ),
+    );
+
+    if (inviteToken != null && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('초대 메시지가 생성되었습니다.'),
+          backgroundColor: Color(0xFF22C55E),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final workshopState = ref.watch(
@@ -159,7 +236,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: _showInviteDialog,
           borderRadius: BorderRadius.circular(12),
           child: Padding(
             padding: const EdgeInsets.all(12),

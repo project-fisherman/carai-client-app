@@ -138,12 +138,16 @@ class MyPageScreen extends ConsumerWidget {
             color: AppColors.surfaceDark, // Slightly lighter than bg
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Text(
-            value,
-            style: const TextStyle(
-              color: AppColors.textLight,
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              style: const TextStyle(
+                color: AppColors.textLight,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ),

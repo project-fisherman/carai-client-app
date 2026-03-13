@@ -176,3 +176,17 @@ class ChecklistPreviewRoute extends GoRouteData {
     );
   }
 }
+
+@TypedGoRoute<InviteRoute>(path: '/invites/:token')
+class InviteRoute extends GoRouteData {
+  final String token;
+  const InviteRoute({required this.token});
+
+  @override
+  String? redirect(BuildContext context, GoRouterState state) {
+    // We cannot use ref.read inside GoRouteData directly comfortably without a provider
+    // But since this is a TypedGoRoute, we might need to handle it in the provider or a separate listener.
+    // However, for simplicity here, we can use a static way or handle it in the build/redirect if we have access to ref.
+    return '/'; // Always redirect to home
+  }
+}

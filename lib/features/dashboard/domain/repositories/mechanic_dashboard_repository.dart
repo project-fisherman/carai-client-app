@@ -14,4 +14,17 @@ abstract class MechanicDashboardRepository {
   Future<Either<Failure, List<RepairShop>>> getMyShops();
 
   Future<Either<Failure, void>> leaveShop({required String shopId});
+
+  Future<Either<Failure, String>> inviteByPhone({
+    required String shopId,
+    required String phoneNumber,
+  });
+
+  Future<Either<Failure, void>> acceptInviteByToken({
+    required String token,
+  });
+
+  Future<Either<Failure, bool>> isInvitePendingByToken({
+    required String token,
+  });
 }

@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/file_api.dart';
 import '../data_sources/repair_shop_api.dart';
@@ -128,6 +129,51 @@ class MechanicDashboardRepositoryImpl implements MechanicDashboardRepository {
       await box.delete(shopId);
 
       return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> inviteByPhone({
+    required String shopId,
+    required String phoneNumber,
+  }) async {
+    try {
+      final response = await _repairShopApi.inviteByPhone(
+        shopId: shopId,
+        request: InviteByPhoneRequestDto(
+          phoneNumber: phoneNumber,
+          baseUrl: AppConstants.inviteBaseUrl,
+        ),
+      );
+      return Right(response.inviteToken);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> acceptInviteByToken({
+    required String token,
+  }) async {
+    try {
+      await _repairShopApi.acceptInviteByToken(
+        request: AcceptPhoneInviteRequestDto(token: token),
+      );
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> isInvitePendingByToken({
+    required String token,
+  }) async {
+    try {
+      final pending = await _repairShopApi.isInvitePendingByToken(token: token);
+      return Right(pending);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

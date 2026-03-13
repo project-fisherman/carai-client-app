@@ -38,4 +38,29 @@ class RepairShopApi {
     final response = await _dio.get('/repair-shops/$shopId/me');
     return RepairShopUserResponseDto.fromJson(response.data['result']);
   }
+
+  Future<InviteByPhoneResponseDto> inviteByPhone({
+    required String shopId,
+    required InviteByPhoneRequestDto request,
+  }) async {
+    final response =
+        await _dio.post('/repair-shops/$shopId/invites/phone', data: request.toJson());
+    return InviteByPhoneResponseDto.fromJson(response.data['result']);
+  }
+
+  Future<void> acceptInviteByToken({
+    required AcceptPhoneInviteRequestDto request,
+  }) async {
+    await _dio.post('/repair-shops/invites/accept', data: request.toJson());
+  }
+
+  Future<bool> isInvitePendingByToken({
+    required String token,
+  }) async {
+    final response = await _dio.get(
+      '/repair-shops/invites/pending',
+      queryParameters: {'token': token},
+    );
+    return response.data['result']['pending'] as bool;
+  }
 }

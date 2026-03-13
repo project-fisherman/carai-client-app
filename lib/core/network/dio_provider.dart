@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/auth/data/datasources/auth_local_data_source.dart';
+import '../constants/app_constants.dart';
 import '../utils/global_keys.dart';
 import 'auth_interceptor.dart';
 
@@ -11,13 +12,15 @@ part 'dio_provider.g.dart';
 Dio dio(DioRef ref) {
   final dio = Dio(
     BaseOptions(
-      baseUrl: 'http://34.64.161.110:8080/',
+      baseUrl: AppConstants.apiBaseUrl,
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
     ),
   );
 
-  dio.interceptors.add(AuthInterceptor(ref.watch(authLocalDataSourceProvider)));
+  dio.interceptors.add(
+    AuthInterceptor(ref.watch(authLocalDataSourceProvider), ref),
+  );
 
   dio.interceptors.add(
     InterceptorsWrapper(
@@ -63,6 +66,16 @@ Dio dio(DioRef ref) {
             '❌ [DIO] Error Response: ${e.requestOptions.method} ${e.requestOptions.uri} - ${e.response?.data}',
           );
         }
+
+        // Show global error snackbar for network/server errors
+        scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          const SnackBar(
+            content: Text('알 수 없는 오류가 발생했습니다.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+
         return handler.next(e);
       },
     ),
