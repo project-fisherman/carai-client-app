@@ -11,6 +11,9 @@ class AppInput extends StatelessWidget {
   final bool enabled;
   final bool isDarkMode;
 
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onSubmitted;
+
   const AppInput({
     super.key,
     required this.label,
@@ -21,6 +24,8 @@ class AppInput extends StatelessWidget {
     this.keyboardType,
     this.enabled = true,
     this.isDarkMode = false,
+    this.textInputAction,
+    this.onSubmitted,
   });
 
   @override
@@ -67,6 +72,8 @@ class AppInput extends StatelessWidget {
             controller: controller,
             obscureText: isPassword,
             keyboardType: keyboardType,
+            textInputAction: textInputAction,
+            onSubmitted: onSubmitted,
             style: TextStyle(
               color: textColor,
               fontSize: 18,
