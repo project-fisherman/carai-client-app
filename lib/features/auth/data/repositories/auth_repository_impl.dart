@@ -28,13 +28,11 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, User>> login({
     required String phoneNumber,
-    required String username,
     required String password,
   }) async {
     try {
       final loginRequest = LoginRequest(
         phoneNumber: phoneNumber,
-        username: username,
         password: password,
       );
       final response = await _remoteDataSource.login(request: loginRequest);

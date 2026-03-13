@@ -17,23 +17,20 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _phoneController = TextEditingController();
-  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   void dispose() {
     _phoneController.dispose();
-    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   Future<void> _onLogin() async {
     final phoneNumber = _phoneController.text.trim();
-    final username = _usernameController.text.trim();
     final password = _passwordController.text.trim();
 
-    if (phoneNumber.isEmpty || username.isEmpty || password.isEmpty) {
+    if (phoneNumber.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -50,7 +47,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         .read(loginViewModelProvider.notifier)
         .login(
           phoneNumber: phoneNumber,
-          username: username,
           password: password,
         );
 
@@ -141,14 +137,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Icons.smartphone,
                     color: AppColors.placeholder,
                   ),
-                ),
-                const SizedBox(height: 16),
-                AppInput(
-                  label: '사용자 이름',
-                  placeholder: '사용자 이름을 입력하세요',
-                  controller: _usernameController,
-                  textInputAction: TextInputAction.next,
-                  isDarkMode: true,
                 ),
                 const SizedBox(height: 16),
                 AppInput(

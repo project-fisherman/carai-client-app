@@ -36,13 +36,11 @@ class AuthNotifier extends _$AuthNotifier {
 
   Future<void> login(
     String phoneNumber,
-    String username,
     String password,
   ) async {
     state = const AsyncValue.loading();
     final result = await _loginUseCase(
       phoneNumber: phoneNumber,
-      username: username,
       password: password,
     );
 

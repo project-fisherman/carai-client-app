@@ -1,6 +1,9 @@
-.PHONY: build_web build_runner run_web run_android run_ios deploy_web_firebase
+.PHONY: build_web build_runner run_web run_android run_ios deploy_web deploy_functions ensure_env
 
-build_runner:
+ensure_env:
+	@test -f .env || (echo "⚠️  .env 파일이 없습니다. 빈 .env를 생성합니다." && touch .env)
+
+build_runner: ensure_env
 	fvm dart run build_runner build --delete-conflicting-outputs
 
 run_web: build_runner
@@ -12,6 +15,9 @@ run_android: build_runner
 run_ios: build_runner
 	fvm flutter run -d ios --debug
 
-deploy_web: build_runner
+deploy_web: build_runner ensure_env
 	fvm flutter build web --release
 	firebase deploy --only hosting
+
+deploy_functions:
+	cd functions && firebase deploy --only functions
