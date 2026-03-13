@@ -78,16 +78,18 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
           ),
         );
       },
-      (_) {
+      (success) {
         ref.invalidate(dashboardViewModelProvider);
         context.go('/');
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('사업장을 성공적으로 나갔습니다'),
-            backgroundColor: Color(0xFF22C55E),
-          ),
-        );
+        if (success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('사업장을 성공적으로 나갔습니다'),
+              backgroundColor: Color(0xFF22C55E),
+            ),
+          );
+        }
       },
     );
   }

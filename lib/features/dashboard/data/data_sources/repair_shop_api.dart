@@ -28,8 +28,9 @@ class RepairShopApi {
     return list.map((e) => RepairShopResponseDto.fromJson(e)).toList();
   }
 
-  Future<void> leaveShop({required String shopId}) async {
-    await _dio.post('/repair-shops/$shopId/leave');
+  Future<bool> leaveShop({required String shopId}) async {
+    final response = await _dio.post('/repair-shops/$shopId/leave');
+    return response.data['result'] == 'success';
   }
 
   Future<RepairShopUserResponseDto> getMyProfile({
