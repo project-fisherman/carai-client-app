@@ -59,9 +59,20 @@ class ManageWorkshopViewModel extends _$ManageWorkshopViewModel {
     );
   }
 
-  // Placeholder for Invite
-  Future<void> inviteUserPlaceholder() async {
-    // Not implemented as per instructions
+  Future<String?> inviteUser(String phoneNumber) async {
+    final repository = ref.read(manageWorkshopRepositoryProvider);
+    final result = await repository.inviteByPhone(
+      shopId: shopId,
+      phoneNumber: phoneNumber,
+    );
+
+    return result.fold(
+      (failure) => throw Exception(failure.message),
+      (token) {
+        ref.invalidateSelf();
+        return token;
+      },
+    );
   }
 
   // Placeholder for Accept Invite

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/error/failure.dart';
 import '../../domain/entities/repair_shop_user.dart';
 import '../../domain/repositories/manage_workshop_repository.dart';
@@ -66,6 +67,28 @@ class ManageWorkshopRepositoryImpl implements ManageWorkshopRepository {
         ).toJson(),
       );
       return const Right(null);
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.message ?? 'Unknown API Error'));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> inviteByPhone({
+    required String shopId,
+    required String phoneNumber,
+  }) async {
+    try {
+      final response = await _dio.post(
+        '/repair-shops/$shopId/invites/phone',
+        data: {
+          'phoneNumber': phoneNumber,
+          'baseUrl': AppConstants.inviteBaseUrl,
+        },
+      );
+      // Backend ApiResponse uses 'result', not 'data'.
+      return Right(response.data['result']['inviteToken'] as String);
     } on DioException catch (e) {
       return Left(ServerFailure(e.message ?? 'Unknown API Error'));
     } catch (e) {
