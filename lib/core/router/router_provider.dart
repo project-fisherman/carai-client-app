@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/auth/data/datasources/auth_local_data_source.dart';
 import '../../features/auth/presentation/providers/auth_notifier.dart';
 import '../../features/auth/presentation/providers/token_refresh_manager.dart';
+import '../../features/mechanic_dashboard/presentation/providers/invitation_provider.dart';
 import 'routes.dart';
 import '../utils/global_keys.dart';
 
@@ -20,6 +21,14 @@ GoRouter router(RouterRef ref) {
     initialLocation: const MainRoute().location,
     routes: $appRoutes,
     redirect: (context, state) {
+      if (state.uri.path.startsWith('/invites/')) {
+        final token = state.pathParameters['token'];
+        if (token != null) {
+          ref.read(invitationStateProvider.notifier).saveToken(token);
+        }
+        return const MainRoute().location;
+      }
+
       // Wait for token refresh to complete
       if (tokenRefreshState.isLoading) {
         debugPrint('⏳ [Router] Token refresh in progress, waiting...');

@@ -9,6 +9,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('authBox');
   await Hive.openBox('repairShopsBox');
+  await Hive.openBox('invitationBox');
   // Register Hive adapters here if needed
 
   runApp(const ProviderScope(child: CaraiApp()));

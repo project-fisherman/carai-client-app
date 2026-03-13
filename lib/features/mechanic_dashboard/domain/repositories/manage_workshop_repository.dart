@@ -17,4 +17,9 @@ abstract class ManageWorkshopRepository {
     required String targetUserId,
     required RepairShopRole newRole,
   });
+
+  Future<Either<Failure, String>> inviteByPhone({
+    required String shopId,
+    required String phoneNumber,
+  });
 }
