@@ -177,15 +177,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: AppButtonStyle.secondary,
                 ),
 
-                const SizedBox(height: 40),
-                const Text(
-                  '도움이 필요하신가요? 관리자에게 문의하세요',
-                  style: TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
               ],
             ),
           ),
