@@ -2,6 +2,7 @@ import 'package:carai/design_system/foundations/app_colors.dart';
 import 'package:carai/design_system/molecules/app_navigation_bar.dart';
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/router/routes.dart';
@@ -152,7 +153,10 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
             ),
-            child: const Text('초대하기'),
+            child: const Text(
+              '초대하기',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -181,13 +185,37 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                   color: AppColors.backgroundDark,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: SelectableText(
-                  inviteUrl,
-                  style: const TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SelectableText(
+                        inviteUrl,
+                        style: const TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: inviteUrl));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('링크가 클립보드에 복사되었습니다.'),
+                            backgroundColor: AppColors.primary,
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.content_copy,
+                        color: AppColors.primary,
+                        size: 20,
+                      ),
+                      tooltip: '복사하기',
+                    ),
+                  ],
                 ),
               ),
             ],
