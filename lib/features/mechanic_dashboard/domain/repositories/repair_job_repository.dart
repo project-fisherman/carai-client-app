@@ -21,4 +21,10 @@ abstract class RepairJobRepository {
 
   /// 작업 종료
   Future<Either<Failure, RepairJobDetailResponseDto>> completeJob({required String jobId});
+
+  /// 임시저장 작업 재개
+  Future<Either<Failure, RepairJobDetailResponseDto>> resumeJob({required String jobId});
+
+  /// 작업 상세 조회
+  Future<Either<Failure, RepairJobDetailResponseDto>> getMyJobDetail({required String jobId});
 }

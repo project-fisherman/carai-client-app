@@ -1,6 +1,7 @@
+import 'dart:convert';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/inspection_form.dart';
-import '../../data/repositories/mock_inspection_repository.dart';
+import '../../../../core/network/dio_provider.dart';
 import '../../../mechanic_dashboard/data/dtos/repair_job_dtos.dart';
 import '../../../mechanic_dashboard/data/repositories/repair_job_repository_impl.dart';
 
@@ -8,22 +9,69 @@ part 'inspection_details_view_model.g.dart';
 
 @riverpod
 class InspectionDetailsViewModel extends _$InspectionDetailsViewModel {
-  // Use a customized state object if needed, but for now we can rely on a class
-  // containing both form and answers, or just handle answers in a separate provider.
-  // Ideally, this VM should expose the Form and hold the local state of answers.
-
-  // Let's create a local state class for this VM
   @override
-  Future<InspectionDetailsState> build() async {
-    final repository = ref.read(inspectionRepositoryProvider);
-    final result = await repository.getInspectionForm();
+  Future<InspectionDetailsState> build(String jobId) async {
+    final dio = ref.read(dioProvider);
+    final repository = ref.read(repairJobRepositoryProvider);
 
-    return result.fold(
+    final detailResult = await repository.getMyJobDetail(jobId: jobId);
+
+    return detailResult.fold(
       (failure) => throw failure,
-      (form) => InspectionDetailsState(
-        form: form,
-        answers: {}, // Start with empty answers
-      ),
+      (detail) async {
+        InspectionForm form;
+        final baseJson = detail.job.checklistData;
+
+        if (baseJson != null) {
+          form = InspectionForm.fromJson(baseJson);
+        } else if (detail.checklist?.jsonUrl != null) {
+          final response = await dio.get(detail.checklist!.jsonUrl!);
+          form = InspectionForm.fromJson(response.data);
+        } else {
+          throw Exception("Checklist data or URL is missing.");
+        }
+
+        final answers = <String, dynamic>{};
+
+        for (final field in form.header) {
+          if ((field.id == 'customerName' || field.id == 'customer_name') && detail.customerName != null) {
+            answers[field.id] = detail.customerName;
+          } else if ((field.id == 'customerContact' || field.id == 'customer_contact') && detail.customerPhoneNumber != null) {
+            answers[field.id] = detail.customerPhoneNumber;
+          } else if ((field.id == 'carNumber' || field.id == 'car_number') && detail.carNumber != null) {
+            answers[field.id] = detail.carNumber;
+          } else if (field.id == 'mileage' && detail.mileage != null) {
+             answers[field.id] = detail.mileage.toString(); 
+          }
+        }
+
+        if (baseJson != null) {
+          if (baseJson['header'] is List) {
+            for (final field in baseJson['header']) {
+               if (field is Map && field['id'] != null && field['value'] != null && field['value'].toString().isNotEmpty) {
+                 answers[field['id'].toString()] = field['value'];
+               }
+            }
+          }
+          if (baseJson['groups'] is List) {
+            for (final group in baseJson['groups']) {
+              if (group is Map && group['items'] is List) {
+                for (final item in group['items']) {
+                  if (item is Map && item['seq_no'] != null && item['value'] != null) {
+                     answers[item['seq_no'].toString()] = item['value'];
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return InspectionDetailsState(
+          form: form,
+          answers: answers,
+          baseJson: baseJson,
+        );
+      },
     );
   }
 
@@ -37,33 +85,11 @@ class InspectionDetailsViewModel extends _$InspectionDetailsViewModel {
     state = AsyncData(currentState.copyWith(answers: newAnswers));
   }
 
-  void initializeWithJobDetail(RepairJobDetailResponseDto detail) {
-    if (!state.hasValue) return;
-
-    final currentState = state.value!;
-    final newAnswers = Map<String, dynamic>.from(currentState.answers);
-
-    for (final field in currentState.form.header) {
-      if (field.id == 'customer_name' && detail.customerName != null) {
-        newAnswers[field.id] = detail.customerName;
-      } else if (field.id == 'customer_contact' && detail.customerPhoneNumber != null) {
-        newAnswers[field.id] = detail.customerPhoneNumber;
-      } else if (field.id == 'car_number' && detail.carNumber != null) {
-        newAnswers[field.id] = detail.carNumber;
-      } else if (field.id == 'mileage' && detail.mileage != null) {
-        newAnswers[field.id] = detail.mileage.toString(); // API typically serves as numbers but headers often parse as strings.
-      }
-    }
-
-    state = AsyncData(currentState.copyWith(
-      answers: newAnswers,
-      baseJson: detail.job.checklistData,
-    ));
-  }
-
   Map<String, dynamic> _buildChecklistData(InspectionDetailsState currentState) {
     // Start with the original form JSON or previously saved checklistData
-    final Map<String, dynamic> json = Map.from(currentState.baseJson ?? currentState.form.toJson());
+    // Use jsonEncode/Decode to ensure we are working with primitive Maps and deep copies
+    final String raw = jsonEncode(currentState.baseJson ?? currentState.form.toJson());
+    final Map<String, dynamic> json = jsonDecode(raw);
     
     // Inject header values
     if (json['header'] is List) {

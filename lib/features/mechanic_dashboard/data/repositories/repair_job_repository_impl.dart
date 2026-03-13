@@ -86,4 +86,24 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, RepairJobDetailResponseDto>> resumeJob({required String jobId}) async {
+    try {
+      final detailDto = await _api.resumeJob(jobId: jobId);
+      return Right(detailDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RepairJobDetailResponseDto>> getMyJobDetail({required String jobId}) async {
+    try {
+      final detailDto = await _api.getMyJobDetail(jobId: jobId);
+      return Right(detailDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

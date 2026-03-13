@@ -192,8 +192,26 @@ class MechanicDashboardScreen extends ConsumerWidget {
                               jobId: job.id,
                             ).push(context);
                           } else if (job.status.toUpperCase() == 'IN_PROGRESS') {
-                            // Directly go to editing
-                            InspectionDetailsRoute(jobId: job.id, isReadOnly: false).push(context);
+                            // Call resume API
+                            final repository = ref.read(repairJobRepositoryProvider);
+                            final result = await repository.resumeJob(jobId: job.id);
+                            
+                            if (context.mounted) {
+                              result.fold(
+                                (failure) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('작업을 불러오는데 실패했습니다: ${failure.message}')),
+                                  );
+                                },
+                                (detail) {
+                                  InspectionDetailsRoute(
+                                    jobId: job.id, 
+                                    isReadOnly: false, 
+                                    $extra: detail,
+                                  ).push(context);
+                                },
+                              );
+                            }
                           } else if (job.status.toUpperCase() == 'COMPLETED') {
                             // Go to read-only view
                             InspectionDetailsRoute(jobId: job.id, isReadOnly: true).push(context);

@@ -38,16 +38,11 @@ class _InspectionDetailsScreenState
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.jobDetail != null) {
-        ref.read(inspectionDetailsViewModelProvider.notifier).initializeWithJobDetail(widget.jobDetail!);
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final inspectionState = ref.watch(inspectionDetailsViewModelProvider);
+    final inspectionState = ref.watch(inspectionDetailsViewModelProvider(widget.jobId));
 
     return AppScaffold(
       backgroundColor: const Color(0xFF1E1C1A),
@@ -65,7 +60,7 @@ class _InspectionDetailsScreenState
                   answers: state.answers,
                   onAnswerChanged: (id, value) {
                     ref
-                        .read(inspectionDetailsViewModelProvider.notifier)
+                        .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
                         .updateAnswer(id, value);
                   },
                 ),
@@ -87,7 +82,7 @@ class _InspectionDetailsScreenState
                     allAnswers: state.answers,
                     onItemAnswerChanged: (seq, value) {
                       ref
-                          .read(inspectionDetailsViewModelProvider.notifier)
+                          .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
                           .updateAnswer(seq.toString(), value);
                     },
                   );
@@ -116,7 +111,7 @@ class _InspectionDetailsScreenState
                             ),
                             onPressed: () async {
                               final success = await ref
-                                  .read(inspectionDetailsViewModelProvider.notifier)
+                                  .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
                                   .saveDraft(widget.jobId);
                               if (success && context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -149,7 +144,7 @@ class _InspectionDetailsScreenState
                             ),
                             onPressed: () async {
                               final success = await ref
-                                  .read(inspectionDetailsViewModelProvider.notifier)
+                                  .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
                                   .submit(widget.jobId);
                               if (success && context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(

@@ -62,6 +62,28 @@ class RepairJobApi {
     return RepairJobDetailResponseDto.fromJson(response.data['result']);
   }
 
+  /// POST /repair-shops/jobs/{jobId}/resume
+  /// 작업 재개 (진행 중 진입)
+  Future<RepairJobDetailResponseDto> resumeJob({
+    required String jobId,
+  }) async {
+    final response = await _dio.post(
+      '/repair-shops/jobs/$jobId/resume',
+    );
+    return RepairJobDetailResponseDto.fromJson(response.data['result']);
+  }
+
+  /// GET /repair-shops/jobs/{jobId}
+  /// 작업 상세 조회
+  Future<RepairJobDetailResponseDto> getMyJobDetail({
+    required String jobId,
+  }) async {
+    final response = await _dio.get(
+      '/repair-shops/jobs/$jobId',
+    );
+    return RepairJobDetailResponseDto.fromJson(response.data['result']);
+  }
+
   /// POST /repair-shops/jobs/{jobId}/complete
   /// 작업 종료
   Future<RepairJobDetailResponseDto> completeJob({
