@@ -51,4 +51,7 @@ abstract class RepairJobRepository {
     required String shopId,
     required String date,
   });
+
+  /// AI 소견서 SMS 발송
+  Future<Either<Failure, void>> sendReport({required String jobId});
 }

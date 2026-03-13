@@ -155,4 +155,14 @@ class RepairJobApi {
     final result = response.data['result'] as Map<String, dynamic>?;
     return ShopJobsPageResponseDto.fromJson(result ?? {});
   }
+
+  /// POST /repair-shops/jobs/{jobId}/report/send
+  /// AI 소견서 SMS 발송
+  Future<void> sendReport({
+    required String jobId,
+  }) async {
+    await _dio.post(
+      '/repair-shops/jobs/$jobId/report/send',
+    );
+  }
 }
