@@ -1,8 +1,14 @@
 {
     "name": "carai",
     "short_name": "carai",
-    "start_url": ".",
+    "id": "/",
+    "start_url": "/",
+    "scope": "/",
     "display": "standalone",
+    "display_override": ["standalone", "window-controls-overlay"],
+    "launch_handler": {
+        "client_mode": "focus-existing"
+    },
     "background_color": "#23170F",
     "theme_color": "#23170F",
     "description": "A new Flutter project.",
