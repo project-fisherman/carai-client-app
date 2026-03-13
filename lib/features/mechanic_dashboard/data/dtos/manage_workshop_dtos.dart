@@ -10,6 +10,7 @@ class RepairShopUserResponse with _$RepairShopUserResponse {
     required String id,
     required String repairShopId,
     required String userId,
+    required String username,
     required String role,
   }) = _RepairShopUserResponse;
 
@@ -18,12 +19,12 @@ class RepairShopUserResponse with _$RepairShopUserResponse {
   factory RepairShopUserResponse.fromJson(Map<String, dynamic> json) =>
       _$RepairShopUserResponseFromJson(json);
 
-  RepairShopUser toDomain({String placeholderName = '알 수 없는 사용자'}) {
+  RepairShopUser toDomain() {
     return RepairShopUser(
       id: id,
       repairShopId: repairShopId,
       userId: userId,
-      name: placeholderName, // The server DTO doesn't have name :(
+      name: username,
       role: RepairShopRole.values.firstWhere(
         (e) => e.name.toUpperCase() == role.toUpperCase(),
         orElse: () => RepairShopRole.staff,
