@@ -42,6 +42,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   }
 
   void _onSendSms() {
+    if (ref.read(forgotPasswordViewModelProvider).isLoading) return;
+
     if (_phoneController.text.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('전화번호를 입력해주세요')));
@@ -52,6 +54,13 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           .showSnackBar(const SnackBar(content: Text('사용자 이름을 입력해주세요')));
       return;
     }
+
+    // Clear OTP fields when resending
+    for (var controller in _otpControllers) {
+      controller.clear();
+    }
+    _otpFocusNodes[0].requestFocus();
+
     ref
         .read(forgotPasswordViewModelProvider.notifier)
         .sendSmsCode(_phoneController.text);
@@ -104,6 +113,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     final isSmsSent = state.isSmsSent;
     final isVerified = state.isVerified;
     final remainingTime = state.remainingTime;
+    final resendCooldown = state.resendCooldown;
 
     return AppScaffold(
       backgroundColor: AppColors.backgroundDark,
@@ -255,13 +265,19 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                                   ),
                                 ),
                               TextButton(
-                                onPressed: (remainingTime > 0 || isVerified)
+                                onPressed: (isVerified ||
+                                        isLoading ||
+                                        resendCooldown > 0)
                                     ? null
                                     : _onSendSms,
                                 child: Text(
-                                  "재전송",
+                                  resendCooldown > 0
+                                      ? "재전송 (${resendCooldown}s)"
+                                      : "재전송",
                                   style: TextStyle(
-                                    color: (remainingTime > 0 || isVerified)
+                                    color: (isVerified ||
+                                            isLoading ||
+                                            resendCooldown > 0)
                                         ? AppColors.textSecondaryDark
                                         : AppColors.primary,
                                     fontWeight: FontWeight.bold,

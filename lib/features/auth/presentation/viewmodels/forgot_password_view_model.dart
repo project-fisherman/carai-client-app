@@ -15,6 +15,7 @@ class ForgotPasswordState with _$ForgotPasswordState {
     @Default(false) bool isVerified,
     @Default(false) bool isResetComplete,
     @Default(0) int remainingTime,
+    @Default(0) int resendCooldown,
     @Default(null) String? verificationToken,
     @Default(null) String? error,
   }) = _ForgotPasswordState;
@@ -47,6 +48,7 @@ class ForgotPasswordViewModel extends _$ForgotPasswordViewModel {
           isLoading: false,
           isSmsSent: true,
           remainingTime: expireSeconds,
+          resendCooldown: 10,
           isVerified: false,
           verificationToken: null,
         );
@@ -58,8 +60,15 @@ class ForgotPasswordViewModel extends _$ForgotPasswordViewModel {
     _timer?.cancel();
     state = state.copyWith(remainingTime: seconds);
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (state.remainingTime > 0) {
-        state = state.copyWith(remainingTime: state.remainingTime - 1);
+      if (state.remainingTime > 0 || state.resendCooldown > 0) {
+        state = state.copyWith(
+          remainingTime: state.remainingTime > 0
+              ? state.remainingTime - 1
+              : state.remainingTime,
+          resendCooldown: state.resendCooldown > 0
+              ? state.resendCooldown - 1
+              : state.resendCooldown,
+        );
       } else {
         timer.cancel();
       }
