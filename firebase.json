@@ -9,7 +9,11 @@
     "rewrites": [
       {
         "source": "/api/error",
-        "function": "sendapierrortotelegramv3"
+        "function": {
+          "functionId": "sendapierrortotelegramv3",
+          "region": "us-central1",
+          "pinTag": true
+        }
       },
       {
         "source": "**",
