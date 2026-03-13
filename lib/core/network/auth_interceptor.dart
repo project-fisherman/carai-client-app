@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/auth/data/datasources/auth_local_data_source.dart';
+import '../../features/auth/presentation/providers/auth_notifier.dart';
 
 class AuthInterceptor extends Interceptor {
   final AuthLocalDataSource _authLocalDataSource;
+  final Ref _ref;
 
-  AuthInterceptor(this._authLocalDataSource);
+  AuthInterceptor(this._authLocalDataSource, this._ref);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -26,11 +29,8 @@ class AuthInterceptor extends Interceptor {
       debugPrint(
         '⚠️ [AuthInterceptor] 401 Unauthorized: ${err.requestOptions.uri}',
       );
-      // Potential TODO: Handle automatic token refresh here if desired,
-      // but for now we are relying on foreground refresh or manual login.
-      // If we want 401 retry, we would need to depend on AuthRepository here which might cause circular dependency
-      // unless we break it differently.
-      // Given the requirement is "foreground token refresh", we stick to that first.
+      // Automatically logout on 401 to trigger redirect to login
+      _ref.read(authNotifierProvider.notifier).logout();
     }
     handler.next(err);
   }
