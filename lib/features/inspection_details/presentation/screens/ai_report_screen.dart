@@ -70,7 +70,7 @@ class AiReportScreen extends ConsumerWidget {
                               ),
                             ),
                             const SizedBox(height: 16),
-                            if (reportState.isSent)
+                            if (reportState.showSentSuccess)
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                 decoration: BoxDecoration(
@@ -95,6 +95,28 @@ class AiReportScreen extends ConsumerWidget {
                                 onPressed: reportState.isSending
                                     ? null
                                     : () async {
+                                        if (reportState.isSent) {
+                                          final confirmed = await showDialog<bool>(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              backgroundColor: AppColors.surfaceDark,
+                                              title: const Text('소견서 재전송', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                              content: const Text('고객에게 소견서 문자를 다시 보내시겠습니까?', style: TextStyle(color: AppColors.textSecondaryDark)),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () => Navigator.pop(context, false),
+                                                  child: const Text('취소', style: TextStyle(color: Colors.grey)),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () => Navigator.pop(context, true),
+                                                  child: const Text('확인', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                          if (confirmed != true) return;
+                                        }
+
                                         try {
                                           await ref
                                               .read(aiReportViewModelProvider(jobId).notifier)
@@ -116,9 +138,15 @@ class AiReportScreen extends ConsumerWidget {
                                           color: AppColors.primary,
                                         ),
                                       )
-                                    : const Icon(Icons.send_rounded, color: AppColors.primary, size: 20),
+                                    : Icon(
+                                        reportState.isSent ? Icons.replay_rounded : Icons.send_rounded,
+                                        color: AppColors.primary,
+                                        size: 20,
+                                      ),
                                 label: Text(
-                                  reportState.isSending ? '전송 중...' : '고객에게 문자 보내기',
+                                  reportState.isSending
+                                      ? '전송 중...'
+                                      : (reportState.isSent ? '문자 다시 보내기' : '고객에게 문자 보내기'),
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
