@@ -1,6 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/entities/inspection_form.dart';
 import '../../data/repositories/mock_inspection_repository.dart';
+import '../../../mechanic_dashboard/data/dtos/repair_job_dtos.dart';
+import '../../../mechanic_dashboard/data/repositories/repair_job_repository_impl.dart';
 
 part 'inspection_details_view_model.g.dart';
 
@@ -35,24 +37,84 @@ class InspectionDetailsViewModel extends _$InspectionDetailsViewModel {
     state = AsyncData(currentState.copyWith(answers: newAnswers));
   }
 
-  Future<void> submit() async {
+  void initializeWithJobDetail(RepairJobDetailResponseDto detail) {
     if (!state.hasValue) return;
-    final currentState = state.value!;
 
-    final repository = ref.read(inspectionRepositoryProvider);
+    final currentState = state.value!;
+    final newAnswers = Map<String, dynamic>.from(currentState.answers);
+
+    for (final field in currentState.form.header) {
+      if (field.id == 'customer_name' && detail.customerName != null) {
+        newAnswers[field.id] = detail.customerName;
+      } else if (field.id == 'customer_contact' && detail.customerPhoneNumber != null) {
+        newAnswers[field.id] = detail.customerPhoneNumber;
+      } else if (field.id == 'car_number' && detail.carNumber != null) {
+        newAnswers[field.id] = detail.carNumber;
+      } else if (field.id == 'mileage' && detail.mileage != null) {
+        newAnswers[field.id] = detail.mileage.toString(); // API typically serves as numbers but headers often parse as strings.
+      }
+    }
+
+    state = AsyncData(currentState.copyWith(answers: newAnswers));
+  }
+
+  Future<bool> saveDraft(String jobId) async {
+    if (!state.hasValue) return false;
+    final currentState = state.value!;
+    
+    final repository = ref.read(repairJobRepositoryProvider);
     state = const AsyncLoading();
 
-    final result = await repository.submitInspection(
-      currentState.form.meta.id,
-      currentState.answers,
+    final result = await repository.saveJobProgress(
+      jobId: jobId,
+      checklistData: currentState.answers,
     );
 
-    result.fold((failure) => state = AsyncError(failure, StackTrace.current), (
-      _,
-    ) {
-      // Restore state with success indication? Or just keep data.
-      state = AsyncData(currentState);
-    });
+    return result.fold(
+      (failure) {
+        state = AsyncError(failure, StackTrace.current);
+        return false;
+      },
+      (_) {
+        state = AsyncData(currentState);
+        return true;
+      },
+    );
+  }
+
+  Future<bool> submit(String jobId) async {
+    if (!state.hasValue) return false;
+    final currentState = state.value!;
+
+    final repository = ref.read(repairJobRepositoryProvider);
+    state = const AsyncLoading();
+
+    // First, save the current progress
+    final saveResult = await repository.saveJobProgress(
+      jobId: jobId,
+      checklistData: currentState.answers,
+    );
+
+    return saveResult.fold(
+      (failure) {
+        state = AsyncError(failure, StackTrace.current);
+        return false;
+      },
+      (_) async {
+        // Then complete the job
+        final completeResult = await repository.completeJob(jobId: jobId);
+        return completeResult.fold(
+          (failure) {
+            state = AsyncError(failure, StackTrace.current);
+            return false;
+          },
+          (_) {
+            state = AsyncData(currentState);
+            return true;
+          },
+        );
+      },
+    );
   }
 }
 

@@ -6,10 +6,19 @@ import '../viewmodels/inspection_details_view_model.dart';
 import '../widgets/dynamic_header_form.dart';
 import '../widgets/inspection_group_widget.dart';
 
-class InspectionDetailsScreen extends ConsumerStatefulWidget {
-  final bool isReadOnly;
+import '../../../mechanic_dashboard/data/dtos/repair_job_dtos.dart';
 
-  const InspectionDetailsScreen({super.key, this.isReadOnly = false});
+class InspectionDetailsScreen extends ConsumerStatefulWidget {
+  final String jobId;
+  final bool isReadOnly;
+  final RepairJobDetailResponseDto? jobDetail;
+
+  const InspectionDetailsScreen({
+    super.key,
+    required this.jobId,
+    this.isReadOnly = false,
+    this.jobDetail,
+  });
 
   @override
   ConsumerState<InspectionDetailsScreen> createState() =>
@@ -24,6 +33,16 @@ class _InspectionDetailsScreenState
   void dispose() {
     _notesController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.jobDetail != null) {
+        ref.read(inspectionDetailsViewModelProvider.notifier).initializeWithJobDetail(widget.jobDetail!);
+      }
+    });
   }
 
   @override
@@ -83,30 +102,73 @@ class _InspectionDetailsScreenState
                 // User said "remove footer".
                 // Let's just have the SAVE button.
                 if (!widget.isReadOnly)
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE65100),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 56,
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: Color(0xFFE65100)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () async {
+                              final success = await ref
+                                  .read(inspectionDetailsViewModelProvider.notifier)
+                                  .saveDraft(widget.jobId);
+                              if (success && context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('임시저장 되었습니다.')),
+                                );
+                              }
+                            },
+                            child: const Text(
+                              '임시저장',
+                              style: TextStyle(
+                                color: Color(0xFFE65100),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                      onPressed: () {
-                        ref
-                            .read(inspectionDetailsViewModelProvider.notifier)
-                            .submit();
-                      },
-                      child: const Text(
-                        'SAVE',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: SizedBox(
+                          height: 56,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFE65100),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () async {
+                              final success = await ref
+                                  .read(inspectionDetailsViewModelProvider.notifier)
+                                  .submit(widget.jobId);
+                              if (success && context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('작업이 완료되었습니다.')),
+                                );
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: const Text(
+                              '작업 완료',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 const SizedBox(height: 32),
               ],

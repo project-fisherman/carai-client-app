@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/error/failure.dart';
 import '../data_sources/repair_job_api.dart';
+import '../dtos/repair_job_dtos.dart';
 import '../../domain/entities/repair_job.dart';
 import '../../domain/entities/repair_job_page.dart';
 import '../../domain/repositories/repair_job_repository.dart';
@@ -57,10 +58,30 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
   }
 
   @override
-  Future<Either<Failure, void>> startJob({required String jobId, required String checklistId}) async {
+  Future<Either<Failure, RepairJobDetailResponseDto>> startJob({required String jobId, required String checklistId}) async {
     try {
-      await _api.startJob(jobId: jobId, checklistId: checklistId);
-      return const Right(null);
+      final detailDto = await _api.startJob(jobId: jobId, checklistId: checklistId);
+      return Right(detailDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RepairJobDetailResponseDto>> saveJobProgress({required String jobId, required Map<String, dynamic> checklistData}) async {
+    try {
+      final detailDto = await _api.saveJobProgress(jobId: jobId, checklistData: checklistData);
+      return Right(detailDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RepairJobDetailResponseDto>> completeJob({required String jobId}) async {
+    try {
+      final detailDto = await _api.completeJob(jobId: jobId);
+      return Right(detailDto);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

@@ -48,4 +48,28 @@ class RepairJobApi {
     );
     return RepairJobDetailResponseDto.fromJson(response.data['result']);
   }
+
+  /// POST /repair-shops/jobs/{jobId}/draft
+  /// 작업 임시저장
+  Future<RepairJobDetailResponseDto> saveJobProgress({
+    required String jobId,
+    required Map<String, dynamic> checklistData,
+  }) async {
+    final response = await _dio.post(
+      '/repair-shops/jobs/$jobId/draft',
+      data: {'checklistData': checklistData},
+    );
+    return RepairJobDetailResponseDto.fromJson(response.data['result']);
+  }
+
+  /// POST /repair-shops/jobs/{jobId}/complete
+  /// 작업 종료
+  Future<RepairJobDetailResponseDto> completeJob({
+    required String jobId,
+  }) async {
+    final response = await _dio.post(
+      '/repair-shops/jobs/$jobId/complete',
+    );
+    return RepairJobDetailResponseDto.fromJson(response.data['result']);
+  }
 }

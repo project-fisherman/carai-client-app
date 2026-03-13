@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failure.dart';
+import '../../data/dtos/repair_job_dtos.dart';
 import '../entities/repair_job.dart';
 import '../entities/repair_job_page.dart';
 
@@ -13,5 +14,11 @@ abstract class RepairJobRepository {
   });
 
   /// 작업 시작
-  Future<Either<Failure, void>> startJob({required String jobId, required String checklistId});
+  Future<Either<Failure, RepairJobDetailResponseDto>> startJob({required String jobId, required String checklistId});
+
+  /// 작업 임시저장
+  Future<Either<Failure, RepairJobDetailResponseDto>> saveJobProgress({required String jobId, required Map<String, dynamic> checklistData});
+
+  /// 작업 종료
+  Future<Either<Failure, RepairJobDetailResponseDto>> completeJob({required String jobId});
 }

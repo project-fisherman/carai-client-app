@@ -178,57 +178,19 @@ class MechanicDashboardScreen extends ConsumerWidget {
                         jobId: job.id,
                         status: job.status,
                         description: job.description,
-                        // Example logic for opacity: last item reduced opacity like design
                         isOpacityReduced:
-                            index == vehicles.length - 1 && vehicles.length > 3,
+                            job.status.toUpperCase() == 'CANCELED' ||
+                            job.status.toUpperCase() == 'COMPLETED',
                         onTap: () async {
                           if (job.status.toUpperCase() == 'CANCELED') {
                             return; // Canceled jobs do nothing
                           }
 
                           if (job.status.toUpperCase() == 'WAITING') {
-                            // Show dialog for WAITING status
-                            final shouldStart = await showDialog<bool>(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                backgroundColor: const Color(0xFF292524),
-                                title: const Text(
-                                  '작업 시작',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                content: const Text(
-                                  '작업을 시작하겠습니까?',
-                                  style: TextStyle(color: AppColors.textLight),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.of(context).pop(false),
-                                    child: const Text('취소', style: TextStyle(color: Colors.grey)),
-                                  ),
-                                  TextButton(
-                                    onPressed: () => Navigator.of(context).pop(true),
-                                    child: const Text('시작', style: TextStyle(color: AppColors.primary)),
-                                  ),
-                                ],
-                              ),
-                            );
-
-                            if (shouldStart == true) {
-                              // Call the API
-                              final repo = ref.read(repairJobRepositoryProvider);
-                              final result = await repo.startJob(jobId: job.id, checklistId: job.checklistId ?? '');
-                              result.fold(
-                                (failure) {
-                                  // Error handled globally or can show local snackbar
-                                },
-                                (_) {
-                                  // Refresh the list
-                                  ref.invalidate(mechanicDashboardViewModelProvider(shopId));
-                                  // Navigate to editing screen
-                                  InspectionDetailsRoute(jobId: job.id, isReadOnly: false).push(context);
-                                },
-                              );
-                            }
+                            JobChecklistSelectionRoute(
+                              shopId: shopId,
+                              jobId: job.id,
+                            ).push(context);
                           } else if (job.status.toUpperCase() == 'IN_PROGRESS') {
                             // Directly go to editing
                             InspectionDetailsRoute(jobId: job.id, isReadOnly: false).push(context);

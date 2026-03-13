@@ -7,7 +7,7 @@ part of 'inspection_details_view_model.dart';
 // **************************************************************************
 
 String _$inspectionDetailsViewModelHash() =>
-    r'ed8a36d3ab44ccfa5940575d6417de31802eb305';
+    r'e6fa54e2f1d3dd6efbd0a001fb4d5e3ecd2dfb86';
 
 /// See also [InspectionDetailsViewModel].
 @ProviderFor(InspectionDetailsViewModel)

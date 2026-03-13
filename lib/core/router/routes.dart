@@ -14,8 +14,10 @@ import '../../features/mechanic_dashboard/presentation/screens/manage_workshop_s
 import '../../features/mechanic_dashboard/presentation/screens/checklist_management_screen.dart';
 import '../../design_system/molecules/app_scaffold.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_selection_screen.dart';
+import '../../features/mechanic_dashboard/presentation/screens/job_checklist_selection_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_preview_screen.dart';
 import '../../features/inspection_details/presentation/screens/inspection_details_screen.dart';
+import '../../features/mechanic_dashboard/data/dtos/repair_job_dtos.dart';
 
 part 'routes.g.dart';
 
@@ -137,6 +139,19 @@ class ChecklistManagementRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<JobChecklistSelectionRoute>(path: '/job-checklist-selection/:shopId/:jobId')
+class JobChecklistSelectionRoute extends GoRouteData {
+  final String shopId;
+  final String jobId;
+
+  const JobChecklistSelectionRoute({required this.shopId, required this.jobId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return JobChecklistSelectionScreen(shopId: shopId, jobId: jobId);
+  }
+}
+
 @TypedGoRoute<ManageWorkshopRoute>(path: '/mechanic-dashboard/:shopId/workshop')
 class ManageWorkshopRoute extends GoRouteData {
   final String shopId;
@@ -182,15 +197,21 @@ class ChecklistPreviewRoute extends GoRouteData {
 class InspectionDetailsRoute extends GoRouteData {
   final String? jobId;
   final bool isReadOnly;
+  final RepairJobDetailResponseDto? $extra;
 
   const InspectionDetailsRoute({
     this.jobId,
     this.isReadOnly = false,
+    this.$extra,
   });
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return InspectionDetailsScreen(isReadOnly: isReadOnly);
+    return InspectionDetailsScreen(
+      jobId: jobId!,
+      isReadOnly: isReadOnly,
+      jobDetail: $extra,
+    );
   }
 }
 
