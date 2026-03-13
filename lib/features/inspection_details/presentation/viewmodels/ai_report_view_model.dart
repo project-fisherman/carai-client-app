@@ -8,8 +8,9 @@ part 'ai_report_view_model.g.dart';
 
 class AiReportState {
   final bool isGenerating;
+  final bool isFailed;
   final String? reportUrl;
-  const AiReportState({this.isGenerating = false, this.reportUrl});
+  const AiReportState({this.isGenerating = false, this.isFailed = false, this.reportUrl});
 }
 
 @riverpod
@@ -32,9 +33,11 @@ class AiReportViewModel extends _$AiReportViewModel {
           return AiReportState(isGenerating: false, reportUrl: dto.job.reportUrl);
         } else if (dto.job.status == 'REPORT_GENERATING') {
           _startPolling();
-          return const AiReportState(isGenerating: true, reportUrl: null);
+          return const AiReportState(isGenerating: true);
+        } else if (dto.job.status == 'REPORT_FAILED') {
+          return const AiReportState(isFailed: true);
         } else {
-          return const AiReportState(isGenerating: false, reportUrl: null);
+          return const AiReportState();
         }
       },
     );
@@ -89,8 +92,11 @@ class AiReportViewModel extends _$AiReportViewModel {
           } else if (dto.status == 'REPORT_GENERATING') {
             // keep polling but make sure state is isGenerating
             if (state.valueOrNull?.isGenerating != true) {
-              state = const AsyncData(AiReportState(isGenerating: true, reportUrl: null));
+              state = const AsyncData(AiReportState(isGenerating: true));
             }
+          } else if (dto.status == 'REPORT_FAILED') {
+            timer.cancel();
+            state = const AsyncData(AiReportState(isFailed: true));
           } else {
             timer.cancel();
             state = AsyncError('소견서 생성 중 상태 오류입니다: ${dto.status}', StackTrace.current);

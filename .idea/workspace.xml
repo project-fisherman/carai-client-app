@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="68d58c65-6e24-4e3d-bf85-b274c56a5513" name="Changes" comment="" />
+    <list default="true" id="68d58c65-6e24-4e3d-bf85-b274c56a5513" name="Changes" comment="Add support for displaying customer and car details in repair job dashboard and service queue cards">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/inspection_details/presentation/screens/ai_report_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/inspection_details/presentation/screens/ai_report_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/inspection_details/presentation/screens/inspection_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/inspection_details/presentation/screens/inspection_details_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/mechanic_dashboard/presentation/providers/mechanic_dashboard_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/mechanic_dashboard/presentation/providers/mechanic_dashboard_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/mechanic_dashboard/presentation/screens/mechanic_dashboard_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/mechanic_dashboard/presentation/screens/mechanic_dashboard_screen.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -128,8 +137,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1773433666196</updated>
-      <workItem from="1773433667596" duration="402000" />
+      <workItem from="1773433667596" duration="1569000" />
     </task>
+    <task id="LOCAL-00001" summary="- Update `.gitignore` to exclude `.claude` and `.omc` directories and files  &#10;- Refactor routing logic to improve transitions between `InspectionDetailsScreen` and AI report generation  &#10;- Update `.idea/workspace.xml` with configuration changes for project setup">
+      <option name="closed" value="true" />
+      <created>1773434199071</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1773434199071</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add support for displaying customer and car details in repair job dashboard and service queue cards">
+      <option name="closed" value="true" />
+      <created>1773434683798</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1773434683798</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -140,6 +166,11 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="- Update `.gitignore` to exclude `.claude` and `.omc` directories and files  &#10;- Refactor routing logic to improve transitions between `InspectionDetailsScreen` and AI report generation  &#10;- Update `.idea/workspace.xml` with configuration changes for project setup" />
+    <MESSAGE value="Add support for displaying customer and car details in repair job dashboard and service queue cards" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add support for displaying customer and car details in repair job dashboard and service queue cards" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

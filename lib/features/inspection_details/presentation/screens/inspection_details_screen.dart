@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../design_system/molecules/app_scaffold.dart';
 import '../../../../design_system/molecules/app_navigation_bar.dart';
 import '../viewmodels/inspection_details_view_model.dart';
@@ -8,6 +7,7 @@ import '../widgets/dynamic_header_form.dart';
 import '../widgets/inspection_group_widget.dart';
 
 import '../../../mechanic_dashboard/data/dtos/repair_job_dtos.dart';
+import '../../../../core/router/routes.dart';
 
 class InspectionDetailsScreen extends ConsumerStatefulWidget {
   final String jobId;
@@ -174,7 +174,7 @@ class _InspectionDetailsScreenState
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(content: Text('작업이 완료되었습니다. AI 소견서를 생성합니다.')),
                                   );
-                                  context.pop(true);
+                                  AiReportRoute(jobId: widget.jobId).pushReplacement(context);
                                 }
                               }
                             },

@@ -6,6 +6,7 @@ import '../../../../design_system/foundations/app_colors.dart';
 import '../../../../design_system/molecules/app_navigation_bar.dart';
 import '../../../../design_system/molecules/app_scaffold.dart';
 import '../viewmodels/ai_report_view_model.dart';
+import '../../../mechanic_dashboard/presentation/providers/mechanic_dashboard_view_model.dart';
 
 class AiReportScreen extends ConsumerWidget {
   final String jobId;
@@ -22,7 +23,10 @@ class AiReportScreen extends ConsumerWidget {
         title: 'AI 점검 소견서',
         leading: IconButton(
           icon: const Icon(Icons.close, color: AppColors.textLight),
-          onPressed: () => context.pop(),
+          onPressed: () {
+            ref.read(dashboardRefreshSignalProvider.notifier).state++;
+            context.pop();
+          },
         ),
       ),
       body: SafeArea(
@@ -63,6 +67,47 @@ class AiReportScreen extends ConsumerWidget {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
                                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else if (reportState.isFailed) {
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.error_outline, color: Colors.red, size: 64),
+                            const SizedBox(height: 24),
+                            const Text(
+                              '소견서 생성에 실패했습니다.',
+                              style: TextStyle(color: AppColors.textLight, fontSize: 18, fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 12),
+                            const Text(
+                              '다시 시도해 주세요.',
+                              style: TextStyle(color: Colors.grey, fontSize: 14),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 32),
+                            ElevatedButton.icon(
+                              onPressed: () async {
+                                await ref
+                                    .read(aiReportViewModelProvider(jobId).notifier)
+                                    .generateReport();
+                              },
+                              icon: const Icon(Icons.refresh, color: AppColors.textDark),
+                              label: const Text('소견서 재생성', style: TextStyle(color: AppColors.textDark, fontWeight: FontWeight.bold, fontSize: 16)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
                             ),
                           ],
@@ -187,7 +232,10 @@ class AiReportScreen extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () => context.pop(),
+                        onPressed: () {
+                          ref.read(dashboardRefreshSignalProvider.notifier).state++;
+                          context.pop();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           padding: const EdgeInsets.symmetric(vertical: 16),

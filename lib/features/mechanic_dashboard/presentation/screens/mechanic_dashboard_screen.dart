@@ -17,6 +17,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 외부 화면(AiReportScreen 등)에서 보낸 새로고침 시그널 감지
+    ref.listen(dashboardRefreshSignalProvider, (_, __) {
+      ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+    });
+
     // Watch the view model to get job list
     final vehicleListAsync = ref.watch(
       mechanicDashboardViewModelProvider(shopId),
@@ -207,23 +212,19 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                   );
                                 },
                                 (detail) async {
-                                  final completed = await InspectionDetailsRoute(
+                                  await InspectionDetailsRoute(
                                     jobId: job.id,
                                     isReadOnly: false,
                                     $extra: detail,
-                                  ).push<bool>(context);
-                                  if (completed == true && context.mounted) {
-                                    await AiReportRoute(jobId: job.id).push(context);
-                                  }
-                                  if (context.mounted) {
-                                    ref.invalidate(mechanicDashboardViewModelProvider(shopId));
-                                  }
+                                  ).push(context);
+                                  ref.invalidate(mechanicDashboardViewModelProvider(shopId));
                                 },
                               );
                             }
-                          } else if (job.status.toUpperCase() == 'COMPLETED' || 
-                                     job.status.toUpperCase() == 'REPORT_GENERATING' || 
-                                     job.status.toUpperCase() == 'REPORT_COMPLETED') {
+                          } else if (job.status.toUpperCase() == 'COMPLETED' ||
+                                     job.status.toUpperCase() == 'REPORT_GENERATING' ||
+                                     job.status.toUpperCase() == 'REPORT_COMPLETED' ||
+                                     job.status.toUpperCase() == 'REPORT_FAILED') {
                             // Go to AI report view
                             await AiReportRoute(jobId: job.id).push(context);
                             if (context.mounted) {

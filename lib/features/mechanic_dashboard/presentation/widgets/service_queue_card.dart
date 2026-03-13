@@ -151,6 +151,11 @@ class ServiceQueueCard extends StatelessWidget {
         textColor = const Color(0xFF86198F); // fuchsia-800
         displayText = '소견서 완료';
         break;
+      case 'REPORT_FAILED':
+        backgroundColor = const Color(0xFFFEE2E2); // red-100
+        textColor = const Color(0xFF991B1B); // red-800
+        displayText = '소견서 실패';
+        break;
       default:
         backgroundColor = const Color(0xFFF5F5F4); // bg-stone-100
         textColor = const Color(0xFF292524); // text-stone-800
