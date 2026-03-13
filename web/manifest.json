@@ -1,6 +1,6 @@
 {
-    "name": "carai",
-    "short_name": "carai",
+    "name": "Carai - AI 문서 스캐너",
+    "short_name": "Carai",
     "id": "/",
     "start_url": "/",
     "scope": "/",
@@ -11,7 +11,7 @@
     },
     "background_color": "#23170F",
     "theme_color": "#23170F",
-    "description": "A new Flutter project.",
+    "description": "AI 기반의 지능형 문서 스캐닝 및 관리 서비스입니다.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
