@@ -596,7 +596,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                         ), // border-stone-600
                       ),
                       child: Text(
-                        user.role.name.toUpperCase(),
+                        user.role.label,
                         style: const TextStyle(
                           color: AppColors.textSecondaryDark, // text-stone-400
                           fontSize: 10,

@@ -14,6 +14,19 @@ enum RepairShopRole {
 
   bool get isManagerOrHigher =>
       this == RepairShopRole.owner || this == RepairShopRole.manager;
+
+  String get label {
+    switch (this) {
+      case RepairShopRole.owner:
+        return '대표';
+      case RepairShopRole.manager:
+        return '관리자';
+      case RepairShopRole.staff:
+        return '직원';
+      case RepairShopRole.invited:
+        return '초대됨';
+    }
+  }
 }
 
 @freezed

@@ -22,4 +22,9 @@ abstract class ManageWorkshopRepository {
     required String shopId,
     required String phoneNumber,
   });
+
+  Future<Either<Failure, RepairShopUser>> searchUser({
+    required String name,
+    required String phoneNumber,
+  });
 }
