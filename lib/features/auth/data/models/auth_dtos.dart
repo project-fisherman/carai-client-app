@@ -141,6 +141,20 @@ class PhoneNumberDto with _$PhoneNumberDto {
 }
 
 @freezed
+class ResetPasswordRequest with _$ResetPasswordRequest {
+  const factory ResetPasswordRequest({
+    required String phoneNumber,
+    required String username,
+    required String phoneNumberVerificationToken,
+    required String newPassword,
+    required String newPasswordConfirmation,
+  }) = _ResetPasswordRequest;
+
+  factory ResetPasswordRequest.fromJson(Map<String, dynamic> json) =>
+      _$ResetPasswordRequestFromJson(json);
+}
+
+@freezed
 class ChangePasswordRequest with _$ChangePasswordRequest {
   const factory ChangePasswordRequest({
     required String phoneNumber,

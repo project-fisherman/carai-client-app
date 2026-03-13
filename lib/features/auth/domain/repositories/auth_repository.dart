@@ -30,4 +30,10 @@ abstract class AuthRepository {
     required String oldPassword,
     required String newPassword,
   });
+  Future<Either<Failure, void>> resetPassword({
+    required String phoneNumber,
+    required String username,
+    required String verificationToken,
+    required String newPassword,
+  });
 }

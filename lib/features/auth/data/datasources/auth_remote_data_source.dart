@@ -65,4 +65,8 @@ class AuthRemoteDataSource {
   Future<void> changePassword({required ChangePasswordRequest request}) async {
     await _dio.post('/auth/password/change', data: request.toJson());
   }
+
+  Future<void> resetPassword({required ResetPasswordRequest request}) async {
+    await _dio.post('/auth/password/reset', data: request.toJson());
+  }
 }

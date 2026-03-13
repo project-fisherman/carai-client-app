@@ -116,3 +116,6 @@ firebase-debug.log
 .claude/logs/
 .claude/memory/
 .claude/worktrees
+
+
+workspace.xml

@@ -148,7 +148,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   onSubmitted: (_) => _onLogin(),
                   isDarkMode: true,
                 ),
-                const SizedBox(height: 32),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      const ForgotPasswordRoute().push(context);
+                    },
+                    child: const Text(
+                      '비밀번호 찾기',
+                      style: TextStyle(
+                        color: AppColors.textSecondaryDark,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
 
                 // Buttons
                 AppButton(

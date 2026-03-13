@@ -2,34 +2,35 @@ import 'dart:async';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../providers/auth_providers.dart';
+import '../../domain/usecases/reset_password_usecase.dart';
 
-part 'registration_view_model.freezed.dart';
-part 'registration_view_model.g.dart';
+part 'forgot_password_view_model.freezed.dart';
+part 'forgot_password_view_model.g.dart';
 
 @freezed
-class RegistrationState with _$RegistrationState {
-  const factory RegistrationState({
+class ForgotPasswordState with _$ForgotPasswordState {
+  const factory ForgotPasswordState({
     @Default(false) bool isSmsSent,
     @Default(false) bool isLoading,
-    @Default(null) String? error,
-    @Default(null) String? successMessage,
-    @Default(null) String? verificationToken,
     @Default(false) bool isVerified,
+    @Default(false) bool isResetComplete,
     @Default(0) int remainingTime,
     @Default(0) int resendCooldown,
-  }) = _RegistrationState;
+    @Default(null) String? verificationToken,
+    @Default(null) String? error,
+  }) = _ForgotPasswordState;
 }
 
 @riverpod
-class RegistrationViewModel extends _$RegistrationViewModel {
+class ForgotPasswordViewModel extends _$ForgotPasswordViewModel {
   Timer? _timer;
 
   @override
-  RegistrationState build() {
+  ForgotPasswordState build() {
     ref.onDispose(() {
       _timer?.cancel();
     });
-    return const RegistrationState();
+    return const ForgotPasswordState();
   }
 
   Future<void> sendSmsCode(String phoneNumber) async {
@@ -46,7 +47,6 @@ class RegistrationViewModel extends _$RegistrationViewModel {
         return state.copyWith(
           isLoading: false,
           isSmsSent: true,
-          successMessage: "SMS Code Sent!",
           remainingTime: expireSeconds,
           resendCooldown: 10,
           isVerified: false,
@@ -83,57 +83,49 @@ class RegistrationViewModel extends _$RegistrationViewModel {
 
     final sanitizedPhoneNumber = phoneNumber.replaceAll('-', '');
     final verifySmsUseCase = ref.read(verifySmsCodeUseCaseProvider);
-    final verifyResult = await verifySmsUseCase(
+    final result = await verifySmsUseCase(
       phoneNumber: sanitizedPhoneNumber,
       code: smsCode,
     );
 
-    state = verifyResult.fold(
-      (failure) => state.copyWith(
-        isLoading: false,
-        error: "Verification Failed: ${failure.message}",
-      ),
+    state = result.fold(
+      (failure) => state.copyWith(isLoading: false, error: failure.message),
       (token) {
-        _timer?.cancel(); // Stop timer on success
+        _timer?.cancel();
         return state.copyWith(
           isLoading: false,
           isVerified: true,
           verificationToken: token,
-          successMessage: "Phone Verified!",
           remainingTime: 0,
         );
       },
     );
   }
 
-  Future<void> register({
+  Future<void> resetPassword({
     required String phoneNumber,
     required String username,
-    required String password,
+    required String newPassword,
   }) async {
     if (!state.isVerified || state.verificationToken == null) {
-      state = state.copyWith(error: "Please verify phone number first.");
+      state = state.copyWith(error: '전화번호 인증을 먼저 완료해주세요.');
       return;
     }
 
     state = state.copyWith(isLoading: true, error: null);
 
     final sanitizedPhoneNumber = phoneNumber.replaceAll('-', '');
-    final signupUseCase = ref.read(signupUseCaseProvider);
-
-    final signupResult = await signupUseCase(
+    final resetUseCase = ref.read(resetPasswordUseCaseProvider);
+    final result = await resetUseCase(
       phoneNumber: sanitizedPhoneNumber,
       username: username,
-      password: password,
       verificationToken: state.verificationToken!,
+      newPassword: newPassword,
     );
 
-    state = signupResult.fold(
+    state = result.fold(
       (failure) => state.copyWith(isLoading: false, error: failure.message),
-      (_) => state.copyWith(
-        isLoading: false,
-        successMessage: "Registration Successful!",
-      ),
+      (_) => state.copyWith(isLoading: false, isResetComplete: true),
     );
   }
 }

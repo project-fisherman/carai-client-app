@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../design_system/atoms/app_button.dart';
 import '../../../../design_system/atoms/app_input.dart';
 import '../../../../design_system/molecules/app_scaffold.dart';
 import '../../../../design_system/foundations/app_colors.dart';
-import '../viewmodels/registration_view_model.dart';
+import '../viewmodels/forgot_password_view_model.dart';
 
-class RegistrationScreen extends ConsumerStatefulWidget {
-  const RegistrationScreen({super.key});
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  ConsumerState<RegistrationScreen> createState() => _RegistrationScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
-class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _phoneController = TextEditingController();
-  final _usernameController =
-      TextEditingController(); // Added username field for signup (design had it)
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  // OTP Controllers
   final List<TextEditingController> _otpControllers = List.generate(
     6,
     (_) => TextEditingController(),
@@ -44,12 +42,16 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   }
 
   void _onSendSms() {
-    if (ref.read(registrationViewModelProvider).isLoading) return;
+    if (ref.read(forgotPasswordViewModelProvider).isLoading) return;
 
     if (_phoneController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('전화번호를 입력해주세요')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('전화번호를 입력해주세요')));
+      return;
+    }
+    if (_usernameController.text.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('사용자 이름을 입력해주세요')));
       return;
     }
 
@@ -60,58 +62,53 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     _otpFocusNodes[0].requestFocus();
 
     ref
-        .read(registrationViewModelProvider.notifier)
+        .read(forgotPasswordViewModelProvider.notifier)
         .sendSmsCode(_phoneController.text);
   }
 
   void _onVerify() {
     final smsCode = _otpControllers.map((e) => e.text).join();
     if (smsCode.length != 6) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('올바른 6자리 인증번호를 입력해주세요')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('올바른 6자리 인증번호를 입력해주세요')));
       return;
     }
-    ref
-        .read(registrationViewModelProvider.notifier)
-        .verifySmsCode(phoneNumber: _phoneController.text, smsCode: smsCode);
+    ref.read(forgotPasswordViewModelProvider.notifier).verifySmsCode(
+          phoneNumber: _phoneController.text,
+          smsCode: smsCode,
+        );
   }
 
-  void _onRegister() {
-    if (_passwordController.text != _confirmPasswordController.text) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('비밀번호가 일치하지 않습니다')));
+  void _onResetPassword() {
+    if (_passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('새 비밀번호를 입력해주세요')));
       return;
     }
-
-    ref
-        .read(registrationViewModelProvider.notifier)
-        .register(
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('비밀번호가 일치하지 않습니다')));
+      return;
+    }
+    ref.read(forgotPasswordViewModelProvider.notifier).resetPassword(
           phoneNumber: _phoneController.text,
           username: _usernameController.text,
-          password: _passwordController.text,
+          newPassword: _passwordController.text,
         );
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(registrationViewModelProvider, (previous, next) {
-      if (next.error != null && next.error != previous?.error) {
-        // Error is handled globally by Dio Interceptor
-      }
-      if (next.successMessage != null &&
-          next.successMessage != previous?.successMessage) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.successMessage!)));
-        if (next.successMessage == "Registration Successful!") {
-          context.go('/home'); // Or login
-        }
+    ref.listen(forgotPasswordViewModelProvider, (previous, next) {
+      if (next.isResetComplete && previous?.isResetComplete != true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('비밀번호가 변경되었습니다. 로그인해주세요.')),
+        );
+        Navigator.of(context).pop();
       }
     });
 
-    final state = ref.watch(registrationViewModelProvider);
+    final state = ref.watch(forgotPasswordViewModelProvider);
     final isLoading = state.isLoading;
     final isSmsSent = state.isSmsSent;
     final isVerified = state.isVerified;
@@ -144,7 +141,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                     ),
                   ),
                   child: const Icon(
-                    Icons.phonelink_setup,
+                    Icons.lock_reset,
                     color: AppColors.primary,
                     size: 40,
                   ),
@@ -152,7 +149,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
               ),
               const SizedBox(height: 24),
               const Text(
-                '기기 등록',
+                '비밀번호 찾기',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -163,7 +160,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                '접근 권한 설정을 위해 휴대전화 번호를 입력하고 비밀번호를 생성하세요.',
+                '가입 시 등록한 전화번호와 이름으로\n본인 인증 후 비밀번호를 재설정합니다.',
                 style: TextStyle(
                   fontSize: 16,
                   color: AppColors.textSecondaryDark,
@@ -172,7 +169,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Step 1: Phone
+              // Step 1: Phone + Username
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
@@ -182,26 +179,36 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 child: Column(
                   children: [
                     AppInput(
-                      label:
-                          '휴대전화 번호', // Actually label inside component covers layout
+                      label: '사용자 이름',
+                      placeholder: '가입 시 등록한 이름',
+                      controller: _usernameController,
+                      keyboardType: TextInputType.name,
+                      isDarkMode: true,
+                      enabled: !isVerified,
+                      suffixIcon: const Icon(
+                        Icons.person,
+                        color: AppColors.placeholder,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    AppInput(
+                      label: '휴대전화 번호',
                       placeholder: '010-0000-0000',
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
                       isDarkMode: true,
+                      enabled: !isVerified,
                       suffixIcon: const Icon(
                         Icons.smartphone,
                         color: AppColors.placeholder,
                       ),
-                      enabled: !isVerified,
                     ),
                     if (!isSmsSent) ...[
                       const SizedBox(height: 24),
                       AppButton(
                         text: '인증번호 전송',
                         onPressed: isLoading ? () {} : _onSendSms,
-                        isLoading:
-                            isLoading &&
-                            !isSmsSent, // Only show loading here if SMS not sent yet
+                        isLoading: isLoading && !isSmsSent,
                       ),
                     ],
                   ],
@@ -216,7 +223,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        "인증 및 보안",
+                        "본인 인증",
                         style: TextStyle(
                           color: AppColors.textSecondaryDark,
                           fontWeight: FontWeight.bold,
@@ -228,7 +235,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 ),
                 const SizedBox(height: 32),
 
-                // Step 2: Verification Details
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
@@ -283,7 +289,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      // OTP Input
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: List.generate(
@@ -302,19 +307,10 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
                       if (isVerified) ...[
                         const SizedBox(height: 24),
-                        const Divider(color: AppColors.surfaceDark),
+                        const Divider(color: AppColors.backgroundDark),
                         const SizedBox(height: 24),
-
                         AppInput(
-                          label: '사용자 이름',
-                          placeholder: '사용자 이름',
-                          controller: _usernameController,
-                          keyboardType: TextInputType.name,
-                          isDarkMode: true,
-                        ),
-                        const SizedBox(height: 16),
-                        AppInput(
-                          label: '비밀번호 생성',
+                          label: '새 비밀번호',
                           placeholder: '••••••••',
                           isPassword: true,
                           controller: _passwordController,
@@ -323,7 +319,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         ),
                         const SizedBox(height: 16),
                         AppInput(
-                          label: '비밀번호 확인',
+                          label: '새 비밀번호 확인',
                           placeholder: '••••••••',
                           isPassword: true,
                           controller: _confirmPasswordController,
@@ -331,10 +327,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           isDarkMode: true,
                         ),
                         const SizedBox(height: 32),
-
                         AppButton(
-                          text: '등록 완료',
-                          onPressed: isLoading ? () {} : _onRegister,
+                          text: '비밀번호 재설정',
+                          onPressed: isLoading ? () {} : _onResetPassword,
                           isLoading: isLoading,
                         ),
                       ],
@@ -351,10 +346,10 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   Widget _buildOtpDigit(int index) {
     return SizedBox(
-      width: 48, // slightly smaller to fit
+      width: 48,
       height: 64,
       child: TextField(
-        enabled: !ref.watch(registrationViewModelProvider).isVerified,
+        enabled: !ref.watch(forgotPasswordViewModelProvider).isVerified,
         controller: _otpControllers[index],
         focusNode: _otpFocusNodes[index],
         keyboardType: TextInputType.number,
