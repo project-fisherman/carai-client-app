@@ -2,7 +2,9 @@ import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/error/failure.dart';
 import '../data_sources/repair_job_api.dart';
+import '../dtos/repair_job_dtos.dart';
 import '../../domain/entities/repair_job.dart';
+import '../../domain/entities/repair_job_page.dart';
 import '../../domain/repositories/repair_job_repository.dart';
 
 part 'repair_job_repository_impl.g.dart';
@@ -18,21 +20,104 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
   RepairJobRepositoryImpl(this._api);
 
   @override
-  Future<Either<Failure, List<RepairJob>>> getMyJobs({String? status}) async {
+  Future<Either<Failure, RepairJobPage>> getMyJobs({
+    String? status,
+    String? cursorUpdatedAt,
+    String? cursorId,
+    int size = 20,
+  }) async {
     try {
-      final dtos = await _api.getMyJobs(status: status);
-      final jobs = dtos
+      final dto = await _api.getMyJobs(
+        status: status,
+        cursorUpdatedAt: cursorUpdatedAt,
+        cursorId: cursorId,
+        size: size,
+      );
+      final jobs = dto.jobs
           .map(
-            (dto) => RepairJob(
-              id: dto.id,
-              repairShopId: dto.repairShopId,
-              assigneeUserId: dto.assigneeUserId,
-              status: dto.status,
-              description: dto.description,
+            (jobDto) => RepairJob(
+              id: jobDto.id,
+              repairShopId: jobDto.repairShopId,
+              assigneeUserId: jobDto.assigneeUserId,
+              checklistId: jobDto.checklistId,
+              status: jobDto.status,
+              description: jobDto.description,
             ),
           )
           .toList();
-      return Right(jobs);
+      final page = RepairJobPage(
+        jobs: jobs,
+        nextCursorUpdatedAt: dto.nextCursorUpdatedAt,
+        nextCursorId: dto.nextCursorId,
+        hasNext: dto.hasNext,
+      );
+      return Right(page);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RepairJobDetailResponseDto>> startJob({required String jobId, required String checklistId}) async {
+    try {
+      final detailDto = await _api.startJob(jobId: jobId, checklistId: checklistId);
+      return Right(detailDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RepairJobDetailResponseDto>> saveJobProgress({required String jobId, required Map<String, dynamic> checklistData}) async {
+    try {
+      final detailDto = await _api.saveJobProgress(jobId: jobId, checklistData: checklistData);
+      return Right(detailDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RepairJobDetailResponseDto>> completeJob({
+    required String jobId,
+    required Map<String, dynamic> checklistData,
+  }) async {
+    try {
+      final detailDto = await _api.completeJob(
+        jobId: jobId,
+        checklistData: checklistData,
+      );
+      return Right(detailDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RepairJobDetailResponseDto>> resumeJob({required String jobId}) async {
+    try {
+      final detailDto = await _api.resumeJob(jobId: jobId);
+      return Right(detailDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, RepairJobDetailResponseDto>> getMyJobDetail({required String jobId}) async {
+    try {
+      final detailDto = await _api.getMyJobDetail(jobId: jobId);
+      return Right(detailDto);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ReportResponseDto>> generateReport({required String jobId}) async {
+    try {
+      final reportDto = await _api.generateReport(jobId: jobId);
+      return Right(reportDto);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

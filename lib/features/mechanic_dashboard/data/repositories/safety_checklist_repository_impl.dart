@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/error/failure.dart';
 import '../../domain/entities/safety_checklist.dart';
+import '../../domain/entities/checklist_page.dart';
 import '../../domain/repositories/safety_checklist_repository.dart';
 import '../../../inspection_details/domain/entities/inspection_form.dart';
 import '../data_sources/safety_checklist_api.dart';
@@ -21,34 +22,43 @@ class SafetyChecklistRepositoryImpl implements SafetyChecklistRepository {
   SafetyChecklistRepositoryImpl(this._api);
 
   @override
-  Future<Either<Failure, List<SafetyChecklist>>> getSafetyChecklists({
+  Future<Either<Failure, ChecklistPage>> getSafetyChecklists({
     required String shopId,
     bool? isPreset,
+    String? lastId,
+    int size = 20,
   }) async {
     try {
-      final dtos = await _api.getSafetyChecklists(
+      final dto = await _api.getSafetyChecklists(
         shopId: shopId,
         isPreset: isPreset,
+        lastId: lastId,
+        size: size,
       );
-      final entities = dtos
+      final entities = dto.items
           .map(
-            (dto) => SafetyChecklist(
-              id: dto.id,
-              name: dto.name,
-              imageUrl: dto.imageUrl,
-              jsonUrl: dto.jsonUrl,
-              htmlUrl: dto.htmlUrl,
-              isPreset: dto.isPreset,
-              createdAt: dto.createdAt != null
-                  ? DateTime.parse(dto.createdAt!)
+            (itemDto) => SafetyChecklist(
+              id: itemDto.id,
+              name: itemDto.name,
+              imageUrl: itemDto.imageUrl,
+              jsonUrl: itemDto.jsonUrl,
+              htmlUrl: itemDto.htmlUrl,
+              isPreset: itemDto.isPreset,
+              createdAt: itemDto.createdAt != null
+                  ? DateTime.parse(itemDto.createdAt!)
                   : null,
-              updatedAt: dto.updatedAt != null
-                  ? DateTime.parse(dto.updatedAt!)
+              updatedAt: itemDto.updatedAt != null
+                  ? DateTime.parse(itemDto.updatedAt!)
                   : null,
             ),
           )
           .toList();
-      return Right(entities);
+      final page = ChecklistPage(
+        items: entities,
+        nextLastId: dto.nextLastId,
+        hasMore: dto.hasMore,
+      );
+      return Right(page);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -81,30 +91,41 @@ class SafetyChecklistRepositoryImpl implements SafetyChecklistRepository {
   }
 
   @override
-  Future<Either<Failure, List<SafetyChecklist>>> getShopChecklists({
+  Future<Either<Failure, ChecklistPage>> getShopChecklists({
     required String shopId,
+    String? lastId,
+    int size = 20,
   }) async {
     try {
-      final dtos = await _api.getShopChecklists(shopId: shopId);
-      final entities = dtos
+      final dto = await _api.getShopChecklists(
+        shopId: shopId,
+        lastId: lastId,
+        size: size,
+      );
+      final entities = dto.items
           .map(
-            (dto) => SafetyChecklist(
-              id: dto.id,
-              name: dto.name,
-              imageUrl: dto.imageUrl,
-              jsonUrl: dto.jsonUrl,
-              htmlUrl: dto.htmlUrl,
-              isPreset: dto.isPreset,
-              createdAt: dto.createdAt != null
-                  ? DateTime.parse(dto.createdAt!)
+            (itemDto) => SafetyChecklist(
+              id: itemDto.id,
+              name: itemDto.name,
+              imageUrl: itemDto.imageUrl,
+              jsonUrl: itemDto.jsonUrl,
+              htmlUrl: itemDto.htmlUrl,
+              isPreset: itemDto.isPreset,
+              createdAt: itemDto.createdAt != null
+                  ? DateTime.parse(itemDto.createdAt!)
                   : null,
-              updatedAt: dto.updatedAt != null
-                  ? DateTime.parse(dto.updatedAt!)
+              updatedAt: itemDto.updatedAt != null
+                  ? DateTime.parse(itemDto.updatedAt!)
                   : null,
             ),
           )
           .toList();
-      return Right(entities);
+      final page = ChecklistPage(
+        items: entities,
+        nextLastId: dto.nextLastId,
+        hasMore: dto.hasMore,
+      );
+      return Right(page);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

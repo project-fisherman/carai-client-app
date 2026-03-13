@@ -16,26 +16,36 @@ class SafetyChecklistApi {
 
   SafetyChecklistApi(this._dio);
 
-  Future<List<SafetyChecklistResponseDto>> getSafetyChecklists({
+  Future<PagedChecklistResponseDto> getSafetyChecklists({
     required String shopId,
     bool? isPreset,
+    String? lastId,
+    int size = 20,
   }) async {
     final response = await _dio.get(
       '/repair-shops/$shopId/safety-checklists/unregistered',
-      queryParameters: isPreset != null ? {'isPreset': isPreset} : null,
+      queryParameters: {
+        if (isPreset != null) 'isPreset': isPreset,
+        if (lastId != null) 'lastId': lastId,
+        'size': size,
+      },
     );
-    final list = (response.data['result']['items'] as List?) ?? [];
-    return list.map((e) => SafetyChecklistResponseDto.fromJson(e)).toList();
+    return PagedChecklistResponseDto.fromJson(response.data['result']);
   }
 
-  Future<List<SafetyChecklistResponseDto>> getShopChecklists({
+  Future<PagedChecklistResponseDto> getShopChecklists({
     required String shopId,
+    String? lastId,
+    int size = 20,
   }) async {
     final response = await _dio.get(
       '/repair-shops/$shopId/safety-checklists/registered',
+      queryParameters: {
+        if (lastId != null) 'lastId': lastId,
+        'size': size,
+      },
     );
-    final list = (response.data['result']['items'] as List?) ?? [];
-    return list.map((e) => SafetyChecklistResponseDto.fromJson(e)).toList();
+    return PagedChecklistResponseDto.fromJson(response.data['result']);
   }
 
   Future<InspectionForm> getChecklistPreview(String jsonUrl) async {

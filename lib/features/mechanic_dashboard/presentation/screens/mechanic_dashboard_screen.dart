@@ -7,6 +7,7 @@ import '../../../../core/router/routes.dart';
 import '../../domain/entities/repair_shop_user.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
 import '../providers/checklist_management_view_model.dart';
+import '../../data/repositories/repair_job_repository_impl.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
@@ -151,14 +152,24 @@ class MechanicDashboardScreen extends ConsumerWidget {
                     );
                   }
 
-                  return ListView.separated(
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 16,
-                      bottom: 160, // pb-40 in design
-                    ),
-                    itemCount: vehicles.length,
+                  return NotificationListener<ScrollNotification>(
+                    onNotification: (ScrollNotification scrollInfo) {
+                      if (scrollInfo.metrics.pixels >=
+                          scrollInfo.metrics.maxScrollExtent - 200) {
+                        ref
+                            .read(mechanicDashboardViewModelProvider(shopId).notifier)
+                            .loadMore();
+                      }
+                      return false;
+                    },
+                    child: ListView.separated(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 16,
+                        bottom: 160, // pb-40 in design
+                      ),
+                      itemCount: vehicles.length,
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 16),
                     itemBuilder: (context, index) {
@@ -167,13 +178,52 @@ class MechanicDashboardScreen extends ConsumerWidget {
                         jobId: job.id,
                         status: job.status,
                         description: job.description,
-                        // Example logic for opacity: last item reduced opacity like design
                         isOpacityReduced:
-                            index == vehicles.length - 1 && vehicles.length > 3,
+                            job.status.toUpperCase() == 'CANCELED' ||
+                            job.status.toUpperCase() == 'COMPLETED',
+                        onTap: () async {
+                          if (job.status.toUpperCase() == 'CANCELED') {
+                            return; // Canceled jobs do nothing
+                          }
+
+                          if (job.status.toUpperCase() == 'WAITING') {
+                            await JobChecklistSelectionRoute(
+                              shopId: shopId,
+                              jobId: job.id,
+                            ).push(context);
+                            ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                          } else if (job.status.toUpperCase() == 'IN_PROGRESS') {
+                            // Call resume API
+                            final repository = ref.read(repairJobRepositoryProvider);
+                            final result = await repository.resumeJob(jobId: job.id);
+                            
+                            if (context.mounted) {
+                              result.fold(
+                                (failure) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('작업을 불러오는데 실패했습니다: ${failure.message}')),
+                                  );
+                                },
+                                (detail) async {
+                                  await InspectionDetailsRoute(
+                                    jobId: job.id, 
+                                    isReadOnly: false, 
+                                    $extra: detail,
+                                  ).push(context);
+                                  ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                                },
+                              );
+                            }
+                          } else if (job.status.toUpperCase() == 'COMPLETED') {
+                            // Go to read-only view
+                            InspectionDetailsRoute(jobId: job.id, isReadOnly: true).push(context);
+                          }
+                        },
                       );
                     },
-                  );
-                },
+                  ),
+                );
+              },
                 loading: () => const Center(
                   child: CircularProgressIndicator(color: AppColors.primary),
                 ),

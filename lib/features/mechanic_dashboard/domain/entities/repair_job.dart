@@ -8,6 +8,7 @@ class RepairJob with _$RepairJob {
     required String id,
     required String repairShopId,
     required String assigneeUserId,
+    String? checklistId,
     required String status,
     String? description,
   }) = _RepairJob;

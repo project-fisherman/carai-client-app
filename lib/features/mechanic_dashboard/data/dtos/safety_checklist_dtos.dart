@@ -19,3 +19,15 @@ class SafetyChecklistResponseDto with _$SafetyChecklistResponseDto {
   factory SafetyChecklistResponseDto.fromJson(Map<String, dynamic> json) =>
       _$SafetyChecklistResponseDtoFromJson(json);
 }
+
+@freezed
+class PagedChecklistResponseDto with _$PagedChecklistResponseDto {
+  const factory PagedChecklistResponseDto({
+    @Default([]) List<SafetyChecklistResponseDto> items,
+    String? nextLastId,
+    @Default(false) bool hasMore,
+  }) = _PagedChecklistResponseDto;
+
+  factory PagedChecklistResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$PagedChecklistResponseDtoFromJson(json);
+}

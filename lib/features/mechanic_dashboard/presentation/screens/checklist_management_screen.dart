@@ -88,14 +88,25 @@ class _ChecklistManagementScreenState
                       );
                     }
 
-                    return ListView.separated(
-                      itemCount: checklists.length,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        final checklist = checklists[index];
-                        return _buildChecklistCard(context, checklist);
+                    return NotificationListener<ScrollNotification>(
+                      onNotification: (ScrollNotification scrollInfo) {
+                        if (scrollInfo.metrics.pixels >=
+                            scrollInfo.metrics.maxScrollExtent - 200) {
+                          ref
+                              .read(shopChecklistsProvider(widget.shopId).notifier)
+                              .loadMore();
+                        }
+                        return false;
                       },
+                      child: ListView.separated(
+                        itemCount: checklists.length,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          final checklist = checklists[index];
+                          return _buildChecklistCard(context, checklist);
+                        },
+                      ),
                     );
                   },
                   loading: () => const Center(
