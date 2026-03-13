@@ -95,4 +95,32 @@ class ManageWorkshopRepositoryImpl implements ManageWorkshopRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, RepairShopUser>> searchUser({
+    required String name,
+    required String phoneNumber,
+  }) async {
+    try {
+      final response = await _dio.get(
+        '/users/search',
+        queryParameters: {
+          'name': name,
+          'phoneNumber': phoneNumber,
+        },
+      );
+      final json = response.data['result'];
+      return Right(RepairShopUser(
+        id: '', // Placeholder, id is for the membership, not the user
+        repairShopId: '',
+        userId: json['userId'] as String,
+        name: json['name'] as String,
+        role: RepairShopRole.staff, // Default role
+      ));
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.message ?? 'Unknown API Error'));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

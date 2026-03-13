@@ -31,11 +31,11 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF2f221a),
+        backgroundColor: AppColors.surfaceDark,
         title: const Text('사업장 나가기', style: TextStyle(color: Colors.white)),
         content: const Text(
           '정말로 이 사업장을 나가시겠습니까?',
-          style: TextStyle(color: Color(0xFFA8A29E)),
+          style: TextStyle(color: AppColors.textSecondaryDark),
         ),
         actions: [
           TextButton(
@@ -45,7 +45,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFFF87171),
+              foregroundColor: Colors.redAccent,
             ),
             child: const Text('나가기'),
           ),
@@ -96,14 +96,14 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
     final inviteToken = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF2f221a),
+        backgroundColor: AppColors.surfaceDark,
         title: const Text('새 멤버 초대', style: TextStyle(color: Colors.white)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
               '초대할 멤버의 휴대폰 번호를 입력해주세요.',
-              style: TextStyle(color: Color(0xFFA8A29E)),
+              style: TextStyle(color: AppColors.textSecondaryDark),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -112,9 +112,9 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
               style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintText: '010-0000-0000',
-                hintStyle: TextStyle(color: Color(0xFF78716C)),
+                hintStyle: TextStyle(color: AppColors.textSecondaryDark),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF44403C)),
+                  borderSide: BorderSide(color: AppColors.backgroundDark),
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: AppColors.primary),
@@ -159,10 +159,45 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
     );
 
     if (inviteToken != null && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('초대 메시지가 생성되었습니다.'),
-          backgroundColor: Color(0xFF22C55E),
+      final inviteUrl = 'https://carai.app/invites/$inviteToken';
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: AppColors.surfaceDark,
+          title: const Text('초대 링크 생성됨', style: TextStyle(color: Colors.white)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                '아래 링크를 복사하여 초대할 분에게 전달해주세요.',
+                style: TextStyle(color: AppColors.textSecondaryDark),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.backgroundDark,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: SelectableText(
+                  inviteUrl,
+                  style: const TextStyle(
+                    color: AppColors.primary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('닫기'),
+            ),
+          ],
         ),
       );
     }
@@ -283,7 +318,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
           child: Text(
             '대기 중인 요청 (${users.length})',
             style: const TextStyle(
-              color: Color(0xFFA8A29E),
+              color: AppColors.textSecondaryDark,
               fontSize: 12,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.5,
@@ -292,9 +327,9 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF2f221a),
+            color: AppColors.surfaceDark,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFF292524)),
+            border: Border.all(color: AppColors.backgroundDark),
           ),
           child: Column(
             children: users.asMap().entries.map((entry) {
@@ -314,15 +349,15 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                               width: 48,
                               height: 48,
                               decoration: BoxDecoration(
-                                color: const Color(0xFF292524), // bg-stone-800
+                                color: AppColors.backgroundDark, // bg-stone-800
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: const Color(0xFF374151),
+                                  color: AppColors.surfaceDark,
                                 ),
                               ),
                               child: const Icon(
                                 Icons.hourglass_empty,
-                                color: Color(0xFFA8A29E),
+                                color: AppColors.textSecondaryDark,
                               ),
                             ),
                             const SizedBox(width: 16),
@@ -342,31 +377,55 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                         Row(
                           children: [
                             Expanded(
-                              child: ElevatedButton.icon(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primary,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                icon: const Icon(Icons.check),
-                                label: const Text('수락'),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            SizedBox(
-                              width: 60,
-                              child: OutlinedButton(
-                                onPressed: () {},
+                              child: OutlinedButton.icon(
+                                onPressed: () async {
+                                  final confirmed = await showDialog<bool>(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      backgroundColor: AppColors.surfaceDark,
+                                      title: const Text(
+                                        '초대 취소',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      content: const Text(
+                                        '이 초대를 취소하시겠습니까?',
+                                        style: TextStyle(
+                                          color: AppColors.textSecondaryDark,
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, false),
+                                          child: const Text('아니오'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, true),
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: Colors.redAccent,
+                                          ),
+                                          child: const Text('예, 취소합니다'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+
+                                  if (confirmed == true) {
+                                    ref
+                                        .read(
+                                          manageWorkshopViewModelProvider(
+                                            widget.shopId,
+                                          ).notifier,
+                                        )
+                                        .cancelInvitation(user.userId);
+                                  }
+                                },
                                 style: OutlinedButton.styleFrom(
-                                  foregroundColor: const Color(0xFFA8A29E),
+                                  backgroundColor: AppColors.backgroundDark,
+                                  foregroundColor: AppColors.textSecondaryDark,
                                   side: const BorderSide(
-                                    color: Color(0xFF374151),
+                                    color: AppColors.surfaceDark,
                                   ),
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 12,
@@ -375,7 +434,8 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
-                                child: const Icon(Icons.close),
+                                icon: const Icon(Icons.close, size: 18),
+                                label: const Text('초대 취소'),
                               ),
                             ),
                           ],
@@ -384,7 +444,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                     ),
                   ),
                   if (!isLast)
-                    const Divider(color: Color(0xFF374151), height: 1),
+                    const Divider(color: AppColors.backgroundDark, height: 1),
                 ],
               );
             }).toList(),
@@ -405,7 +465,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
               child: Text(
                 '활성화된 사업장 멤버',
                 style: TextStyle(
-                  color: Color(0xFFA8A29E),
+                  color: AppColors.textSecondaryDark,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
@@ -415,7 +475,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
             Text(
               '총 ${users.length}명',
               style: const TextStyle(
-                color: Color(0xFF57534E),
+                color: AppColors.textSecondaryDark,
                 fontSize: 12,
                 fontFamily: 'monospace',
               ),
@@ -424,9 +484,9 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
         ),
         Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF2f221a),
+            color: AppColors.surfaceDark,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFF292524)),
+            border: Border.all(color: AppColors.backgroundDark),
           ),
           child: Column(
             children: users.asMap().entries.map((entry) {
@@ -438,7 +498,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 children: [
                   _buildUserItem(user),
                   if (!isLast)
-                    const Divider(color: Color(0xFF374151), height: 1),
+                    const Divider(color: AppColors.backgroundDark, height: 1),
                 ],
               );
             }).toList(),
@@ -464,9 +524,9 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 decoration: BoxDecoration(
                   color: user.role == RepairShopRole.owner
                       ? AppColors.primary
-                      : const Color(0xFF374151),
+                      : AppColors.backgroundDark,
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFF2f221a), width: 2),
+                  border: Border.all(color: AppColors.surfaceDark, width: 2),
                 ),
                 child: Center(
                   child: Text(
@@ -474,7 +534,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                     style: TextStyle(
                       color: user.role == RepairShopRole.owner
                           ? Colors.white
-                          : const Color(0xFFD6D3D1), // white or stone-300
+                          : AppColors.textSecondaryDark,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
@@ -505,16 +565,16 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF292524), // bg-stone-800
+                              color: AppColors.surfaceDark, // bg-stone-800
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
-                                color: const Color(0xFF44403C),
+                                color: AppColors.backgroundDark,
                               ), // border-stone-700
                             ),
                             child: const Text(
                               '(나)',
                               style: TextStyle(
-                                color: Color(0xFF78716C), // text-stone-500
+                                color: AppColors.textSecondaryDark, // text-stone-500
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -529,16 +589,16 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF374151), // bg-stone-700
+                        color: AppColors.backgroundDark, // bg-stone-700
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(
-                          color: const Color(0xFF4B5563),
+                          color: AppColors.surfaceDark,
                         ), // border-stone-600
                       ),
                       child: Text(
-                        user.role.name.toUpperCase(),
+                        user.role.label,
                         style: const TextStyle(
-                          color: Color(0xFFA8A29E), // text-stone-400
+                          color: AppColors.textSecondaryDark, // text-stone-400
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -553,47 +613,47 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
             const SizedBox(height: 16),
             Row(
               children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () {},
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: const Color(0xFF292524),
-                      foregroundColor: const Color(0xFFD6D3D1),
-                      side: const BorderSide(color: Color(0xFF374151)),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {},
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: AppColors.backgroundDark,
+                        foregroundColor: AppColors.textSecondaryDark,
+                        side: const BorderSide(color: AppColors.surfaceDark),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
+                      icon: const Icon(Icons.edit_square, size: 20),
+                      label: const Text('수정'),
                     ),
-                    icon: const Icon(Icons.edit_square, size: 20),
-                    label: const Text('수정'),
                   ),
-                ),
                 const SizedBox(width: 12),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      ref
-                          .read(
-                            manageWorkshopViewModelProvider(
-                              widget.shopId,
-                            ).notifier,
-                          )
-                          .kickUser(user.userId);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: const Color(0x80292524),
-                      foregroundColor: const Color(0xFF78716C),
-                      side: const BorderSide(color: Color(0xFF292524)),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        ref
+                            .read(
+                              manageWorkshopViewModelProvider(
+                                widget.shopId,
+                              ).notifier,
+                            )
+                            .kickUser(user.userId);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: AppColors.surfaceDark,
+                        foregroundColor: AppColors.textSecondaryDark,
+                        side: const BorderSide(color: AppColors.backgroundDark),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
+                      icon: const Icon(Icons.person_remove, size: 20),
+                      label: const Text('제거'),
                     ),
-                    icon: const Icon(Icons.person_remove, size: 20),
-                    label: const Text('제거'),
                   ),
-                ),
               ],
             ),
           ],
@@ -606,7 +666,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: const Color(0xFFE65100),
+        color: const Color(0xFFFF9800), // Slightly warmer orange
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 4)),
@@ -659,17 +719,17 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: const Color(0xFF2f221a),
+        color: AppColors.surfaceDark,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFF292524)),
+        border: Border.all(color: AppColors.backgroundDark),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: _isLeaving ? null : _handleLeaveWorkshop,
           borderRadius: BorderRadius.circular(12),
-          hoverColor: const Color(0xFF292524),
-          splashColor: const Color(0xFF44403C),
+          hoverColor: AppColors.backgroundDark,
+          splashColor: AppColors.surfaceDark,
           child: Container(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -680,17 +740,17 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                     width: 24,
                     height: 24,
                     child: CircularProgressIndicator(
-                      color: Color(0xCCEF4444),
+                      color: Colors.redAccent,
                       strokeWidth: 2,
                     ),
                   )
                 else
-                  const Icon(Icons.logout, color: Color(0xCCEF4444), size: 24),
+                  const Icon(Icons.logout, color: Colors.redAccent, size: 24),
                 const SizedBox(width: 16),
                 const Text(
                   '사업장 나가기',
                   style: TextStyle(
-                    color: Color(0xFFF87171),
+                    color: Colors.redAccent,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
