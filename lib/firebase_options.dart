@@ -48,29 +48,29 @@ class DefaultFirebaseOptions {
   }
 
   static FirebaseOptions get web => FirebaseOptions(
-    apiKey: dotenv.get('WEB_API_KEY'),
-    appId: dotenv.get('WEB_APP_ID'),
-    messagingSenderId: dotenv.get('WEB_MESSAGING_SENDER_ID'),
-    projectId: dotenv.get('WEB_PROJECT_ID'),
-    authDomain: dotenv.get('WEB_AUTH_DOMAIN'),
-    storageBucket: dotenv.get('WEB_STORAGE_BUCKET'),
-    measurementId: dotenv.get('WEB_MEASUREMENT_ID'),
+    apiKey: dotenv.get('WEB_API_KEY', fallback: ''),
+    appId: dotenv.get('WEB_APP_ID', fallback: ''),
+    messagingSenderId: dotenv.get('WEB_MESSAGING_SENDER_ID', fallback: ''),
+    projectId: dotenv.get('WEB_PROJECT_ID', fallback: ''),
+    authDomain: dotenv.get('WEB_AUTH_DOMAIN', fallback: ''),
+    storageBucket: dotenv.get('WEB_STORAGE_BUCKET', fallback: ''),
+    measurementId: dotenv.get('WEB_MEASUREMENT_ID', fallback: ''),
   );
 
   static FirebaseOptions get android => FirebaseOptions(
-    apiKey: dotenv.get('ANDROID_API_KEY'),
-    appId: dotenv.get('ANDROID_APP_ID'),
-    messagingSenderId: dotenv.get('ANDROID_MESSAGING_SENDER_ID'),
-    projectId: dotenv.get('ANDROID_PROJECT_ID'),
-    storageBucket: dotenv.get('ANDROID_STORAGE_BUCKET'),
+    apiKey: dotenv.get('ANDROID_API_KEY', fallback: ''),
+    appId: dotenv.get('ANDROID_APP_ID', fallback: ''),
+    messagingSenderId: dotenv.get('ANDROID_MESSAGING_SENDER_ID', fallback: ''),
+    projectId: dotenv.get('ANDROID_PROJECT_ID', fallback: ''),
+    storageBucket: dotenv.get('ANDROID_STORAGE_BUCKET', fallback: ''),
   );
 
   static FirebaseOptions get ios => FirebaseOptions(
-    apiKey: dotenv.get('IOS_API_KEY'),
-    appId: dotenv.get('IOS_APP_ID'),
-    messagingSenderId: dotenv.get('IOS_MESSAGING_SENDER_ID'),
-    projectId: dotenv.get('IOS_PROJECT_ID'),
-    storageBucket: dotenv.get('IOS_STORAGE_BUCKET'),
-    iosBundleId: dotenv.get('IOS_BUNDLE_ID'),
+    apiKey: dotenv.get('IOS_API_KEY', fallback: ''),
+    appId: dotenv.get('IOS_APP_ID', fallback: ''),
+    messagingSenderId: dotenv.get('IOS_MESSAGING_SENDER_ID', fallback: ''),
+    projectId: dotenv.get('IOS_PROJECT_ID', fallback: ''),
+    storageBucket: dotenv.get('IOS_STORAGE_BUCKET', fallback: ''),
+    iosBundleId: dotenv.get('IOS_BUNDLE_ID', fallback: ''),
   );
 }
