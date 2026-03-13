@@ -216,8 +216,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                     jobId: job.id,
                                     isReadOnly: false,
                                     $extra: detail,
-                                  ).push(context);
-                                  ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                                  ).push<bool>(context);
+                                  
+                                  if (context.mounted) {
+                                    ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                                  }
                                 },
                               );
                             }
