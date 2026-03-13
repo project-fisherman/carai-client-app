@@ -39,28 +39,17 @@ class RepairShopApi {
     return RepairShopUserResponseDto.fromJson(response.data['result']);
   }
 
-  Future<InviteByPhoneResponseDto> inviteByPhone({
-    required String shopId,
-    required InviteByPhoneRequestDto request,
-  }) async {
-    final response =
-        await _dio.post('/repair-shops/$shopId/invites/phone', data: request.toJson());
-    return InviteByPhoneResponseDto.fromJson(response.data['result']);
+  Future<List<MyPendingInviteResponseDto>> getMyPendingInvites() async {
+    final response = await _dio.get('/repair-shops/invites/my');
+    final list = (response.data['result'] as List?) ?? [];
+    return list.map((e) => MyPendingInviteResponseDto.fromJson(e)).toList();
   }
 
-  Future<void> acceptInviteByToken({
-    required AcceptPhoneInviteRequestDto request,
-  }) async {
-    await _dio.post('/repair-shops/invites/accept', data: request.toJson());
+  Future<void> acceptInvite({required String shopId}) async {
+    await _dio.post('/repair-shops/$shopId/accept');
   }
 
-  Future<bool> isInvitePendingByToken({
-    required String token,
-  }) async {
-    final response = await _dio.get(
-      '/repair-shops/invites/pending',
-      queryParameters: {'token': token},
-    );
-    return response.data['result']['pending'] as bool;
+  Future<void> rejectInvite({required String shopId}) async {
+    await _dio.post('/repair-shops/$shopId/reject');
   }
 }

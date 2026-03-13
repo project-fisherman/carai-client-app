@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:dio/dio.dart';
+// import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:dio/dio.dart';
 import '../config/env_config.dart';
 
 class AnalyticsService {
@@ -21,15 +21,18 @@ class AnalyticsService {
 
     debugPrint('📊 [Analytics] Logging api_error: $errorType, $uri');
     
+    /*
     // 문자열 길이 제한 (Analytics 파라미터 제약 고려)
     String safeResponseData = '';
     if (responseData != null) {
-      final dataStr = responseData.toString();
+      final dataStr = response_data.toString();
       safeResponseData = dataStr.length > 100 
           ? '${dataStr.substring(0, 97)}...' 
           : dataStr;
     }
+    */
 
+    /*
     final analytics = FirebaseAnalytics.instance;
     await analytics.logEvent(
       name: 'api_error',
@@ -42,7 +45,9 @@ class AnalyticsService {
       },
     );
     debugPrint('📊 [Analytics] Event logged');
+    */
 
+    /*
     // 2. HTTP POST to Hosting Rewrite Endpoint (Bypasses IAM / Restricts to Domain)
     try {
       final dio = Dio();
@@ -72,5 +77,6 @@ class AnalyticsService {
     } catch (e) {
       debugPrint('❌ [Analytics] Failed to call Hosting Endpoint: $e');
     }
+    */
   }
 }

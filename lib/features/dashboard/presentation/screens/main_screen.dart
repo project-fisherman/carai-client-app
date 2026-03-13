@@ -8,7 +8,8 @@ import 'package:carai/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/dashboard_view_model.dart';
-import '../../../mechanic_dashboard/presentation/providers/invitation_provider.dart';
+import '../providers/invitations_view_model.dart';
+import '../../data/dtos/mechanic_dashboard_dtos.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -148,8 +149,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        if (ref.watch(isInvitationPendingProvider).value ?? false)
-                          _InvitationBadgeButton(),
+                        ref.watch(invitationsViewModelProvider).when(
+                          data: (invites) {
+                            if (invites.isEmpty) return const SizedBox.shrink();
+                            return _InvitationBadgeButton(invites: invites);
+                          },
+                          loading: () => const SizedBox.shrink(),
+                          error: (_, __) => const SizedBox.shrink(),
+                        ),
                       ],
                     ),
                   ],
@@ -270,13 +277,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 }
 
 class _InvitationBadgeButton extends ConsumerWidget {
+  final List<MyPendingInviteResponseDto> invites;
+
+  const _InvitationBadgeButton({required this.invites});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
         IconButton(
-          onPressed: () => _showInvitationDialog(context, ref),
+          onPressed: () => _showInvitationListDialog(context, ref),
           style: IconButton.styleFrom(
             backgroundColor: AppColors.surfaceDark,
             padding: const EdgeInsets.all(12),
@@ -290,19 +301,22 @@ class _InvitationBadgeButton extends ConsumerWidget {
             size: 24,
           ),
         ),
-        Position81(
+        Positioned(
           top: -4,
           right: -4,
           child: Container(
-            padding: const EdgeInsets.all(4),
-            decoration: const BoxDecoration(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
               color: Colors.red,
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(
-              Icons.priority_high,
-              color: Colors.white,
-              size: 10,
+            child: Text(
+              '${invites.length}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -310,60 +324,90 @@ class _InvitationBadgeButton extends ConsumerWidget {
     );
   }
 
-  void _showInvitationDialog(BuildContext context, WidgetRef ref) {
+  void _showInvitationListDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.surfaceDark,
         title: const Text(
-          '새로운 초대',
+          '작업장 초대',
           style: TextStyle(color: Colors.white),
         ),
-        content: const Text(
-          '새로운 업장 초대장이 도착했습니다.\n수락하시겠습니까?',
-          style: TextStyle(color: AppColors.textSecondaryDark),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('나중에', style: TextStyle(color: Colors.white70)),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              await ref.read(invitationActionProvider.notifier).acceptInvitation();
-              // Refresh shops list
-              ref.read(dashboardViewModelProvider.notifier).refresh();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+        content: SizedBox(
+          width: double.maxFinite,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 300),
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemCount: invites.length,
+              separatorBuilder: (context, index) => const Divider(
+                color: AppColors.inputBackgroundDark,
+                height: 24,
+              ),
+              itemBuilder: (context, index) {
+                final invite = invites[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      invite.repairShop.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      invite.repairShop.address,
+                      style: const TextStyle(
+                        color: AppColors.textSecondaryDark,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            final notifier = ref.read(invitationsViewModelProvider.notifier);
+                            final success = await notifier.reject(invite.repairShopId);
+                            if (success && context.mounted) {
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: const Text(
+                            '거절',
+                            style: TextStyle(color: Colors.redAccent),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final notifier = ref.read(invitationsViewModelProvider.notifier);
+                            final success = await notifier.accept(invite.repairShopId);
+                            if (success && context.mounted) {
+                              Navigator.pop(context);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                          child: const Text('수락'),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
             ),
-            child: const Text('수락하기'),
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class Position81 extends StatelessWidget {
-  final double? top;
-  final double? right;
-  final Widget child;
-
-  const Position81({
-    super.key,
-    this.top,
-    this.right,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: top,
-      right: right,
-      child: child,
-    );
-  }
-}
