@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68d58c65-6e24-4e3d-bf85-b274c56a5513" name="Changes" comment="Add RefreshIndicator to screens for pull-to-refresh functionality and enhance UI consistency" />
+    <list default="true" id="68d58c65-6e24-4e3d-bf85-b274c56a5513" name="Changes" comment="Add dark and light mode favicons, enhance screen refresh and scroll behavior across UI" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -131,7 +131,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1773433666196</updated>
-      <workItem from="1773433667596" duration="2424000" />
+      <workItem from="1773433667596" duration="2923000" />
     </task>
     <task id="LOCAL-00001" summary="- Update `.gitignore` to exclude `.claude` and `.omc` directories and files  &#10;- Refactor routing logic to improve transitions between `InspectionDetailsScreen` and AI report generation  &#10;- Update `.idea/workspace.xml` with configuration changes for project setup">
       <option name="closed" value="true" />
@@ -165,7 +165,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773436092729</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add dark and light mode favicons, enhance screen refresh and scroll behavior across UI">
+      <option name="closed" value="true" />
+      <created>1773436500293</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1773436500293</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -182,7 +190,8 @@
     <MESSAGE value="Add support for displaying customer and car details in repair job dashboard and service queue cards" />
     <MESSAGE value="Add error handling for failed AI report generation and enhance dashboard refresh logic" />
     <MESSAGE value="Add RefreshIndicator to screens for pull-to-refresh functionality and enhance UI consistency" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add RefreshIndicator to screens for pull-to-refresh functionality and enhance UI consistency" />
+    <MESSAGE value="Add dark and light mode favicons, enhance screen refresh and scroll behavior across UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add dark and light mode favicons, enhance screen refresh and scroll behavior across UI" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
