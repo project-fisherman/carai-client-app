@@ -14,7 +14,11 @@ import '../../features/mechanic_dashboard/presentation/screens/manage_workshop_s
 import '../../features/mechanic_dashboard/presentation/screens/checklist_management_screen.dart';
 import '../../design_system/molecules/app_scaffold.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_selection_screen.dart';
+import '../../features/mechanic_dashboard/presentation/screens/job_checklist_selection_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_preview_screen.dart';
+import '../../features/inspection_details/presentation/screens/inspection_details_screen.dart';
+import '../../features/inspection_details/presentation/screens/ai_report_screen.dart';
+import '../../features/mechanic_dashboard/data/dtos/repair_job_dtos.dart';
 
 part 'routes.g.dart';
 
@@ -136,6 +140,19 @@ class ChecklistManagementRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<JobChecklistSelectionRoute>(path: '/job-checklist-selection/:shopId/:jobId')
+class JobChecklistSelectionRoute extends GoRouteData {
+  final String shopId;
+  final String jobId;
+
+  const JobChecklistSelectionRoute({required this.shopId, required this.jobId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return JobChecklistSelectionScreen(shopId: shopId, jobId: jobId);
+  }
+}
+
 @TypedGoRoute<ManageWorkshopRoute>(path: '/mechanic-dashboard/:shopId/workshop')
 class ManageWorkshopRoute extends GoRouteData {
   final String shopId;
@@ -177,6 +194,28 @@ class ChecklistPreviewRoute extends GoRouteData {
   }
 }
 
+@TypedGoRoute<InspectionDetailsRoute>(path: '/inspection-details')
+class InspectionDetailsRoute extends GoRouteData {
+  final String? jobId;
+  final bool isReadOnly;
+  final RepairJobDetailResponseDto? $extra;
+
+  const InspectionDetailsRoute({
+    this.jobId,
+    this.isReadOnly = false,
+    this.$extra,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return InspectionDetailsScreen(
+      jobId: jobId!,
+      isReadOnly: isReadOnly,
+      jobDetail: $extra,
+    );
+  }
+}
+
 @TypedGoRoute<InviteRoute>(path: '/invites/:token')
 class InviteRoute extends GoRouteData {
   final String token;
@@ -188,5 +227,19 @@ class InviteRoute extends GoRouteData {
     // But since this is a TypedGoRoute, we might need to handle it in the provider or a separate listener.
     // However, for simplicity here, we can use a static way or handle it in the build/redirect if we have access to ref.
     return '/'; // Always redirect to home
+  }
+}
+
+@TypedGoRoute<AiReportRoute>(path: '/ai-report/:jobId')
+class AiReportRoute extends GoRouteData {
+  final String jobId;
+
+  const AiReportRoute({required this.jobId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    // We haven't created the screen yet, so if it fails we will create it soon
+    // import will be added in the next step
+    return AiReportScreen(jobId: jobId);
   }
 }

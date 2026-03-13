@@ -2,37 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:carai/design_system/molecules/app_scaffold.dart';
 import 'package:carai/design_system/molecules/app_navigation_bar.dart';
+import 'package:carai/design_system/foundations/app_colors.dart';
 import '../../domain/entities/safety_checklist.dart';
-import '../providers/checklist_selection_view_model.dart';
+import '../providers/checklist_management_view_model.dart';
+import '../../data/repositories/repair_job_repository_impl.dart';
 import '../../../../core/router/routes.dart';
+import '../providers/mechanic_dashboard_view_model.dart';
+import '../../data/dtos/repair_job_dtos.dart';
+import 'package:go_router/go_router.dart';
 
-class ChecklistSelectionScreen extends ConsumerWidget {
+class JobChecklistSelectionScreen extends ConsumerWidget {
   final String shopId;
+  final String jobId;
 
-  const ChecklistSelectionScreen({super.key, required this.shopId});
+  const JobChecklistSelectionScreen({
+    super.key,
+    required this.shopId,
+    required this.jobId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final checklistsAsync = ref.watch(
-      checklistSelectionViewModelProvider(shopId),
-    );
+    final checklistsAsync = ref.watch(shopChecklistsProvider(shopId));
 
     return AppScaffold(
-      backgroundColor: const Color(0xFF23170f),
+      backgroundColor: AppColors.backgroundDark,
       appBar: AppNavigationBar(
         title: '점검표 선택',
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textLight),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: checklistsAsync.when(
         data: (checklists) {
           if (checklists.isEmpty) {
-            return const Center(
+            return Center(
               child: Text(
-                '사용 가능한 점검표가 없습니다.',
-                style: TextStyle(color: Colors.white),
+                '등록된 점검표가 없습니다.\n먼저 점검표를 등록해주세요.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppColors.textLight.withValues(alpha: 0.7)),
               ),
             );
           }
@@ -40,9 +49,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
             onNotification: (ScrollNotification scrollInfo) {
               if (scrollInfo.metrics.pixels >=
                   scrollInfo.metrics.maxScrollExtent - 200) {
-                ref
-                    .read(checklistSelectionViewModelProvider(shopId).notifier)
-                    .loadMore();
+                ref.read(shopChecklistsProvider(shopId).notifier).loadMore();
               }
               return false;
             },
@@ -57,13 +64,13 @@ class ChecklistSelectionScreen extends ConsumerWidget {
               itemCount: checklists.length,
               itemBuilder: (context, index) {
                 final checklist = checklists[index];
-                return _buildChecklistCard(context, checklist);
+                return _buildChecklistCard(context, ref, checklist);
               },
             ),
           );
         },
         loading: () => const Center(
-          child: CircularProgressIndicator(color: Colors.orange),
+          child: CircularProgressIndicator(color: AppColors.primary),
         ),
         error: (err, stack) => Center(
           child: Text('오류: $err', style: const TextStyle(color: Colors.red)),
@@ -72,16 +79,82 @@ class ChecklistSelectionScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildChecklistCard(BuildContext context, SafetyChecklist checklist) {
+  Widget _buildChecklistCard(
+    BuildContext context,
+    WidgetRef ref,
+    SafetyChecklist checklist,
+  ) {
     return GestureDetector(
-      onTap: () {
-        ChecklistPreviewRoute(
-          shopId: shopId,
-          checklistId: checklist.id,
-          jsonUrl: checklist.jsonUrl,
-          checklistName: checklist.name,
-          imageUrl: checklist.imageUrl,
-        ).push(context);
+      onTap: () async {
+        final shouldStart = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: const Color(0xFF292524),
+            title: const Text(
+              '작업 시작',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: Text(
+              '\'${checklist.name}\' 점검표로\n작업을 시작하겠습니까?',
+              style: const TextStyle(color: AppColors.textLight),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('취소', style: TextStyle(color: Colors.grey)),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('시작', style: TextStyle(color: AppColors.primary)),
+              ),
+            ],
+          ),
+        );
+
+        if (shouldStart == true && context.mounted) {
+          final repo = ref.read(repairJobRepositoryProvider);
+          // Show loading overlay
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (ctx) => const Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            ),
+          );
+
+          final result = await repo.startJob(
+            jobId: jobId,
+            checklistId: checklist.id,
+          );
+
+          // Pop loading
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
+
+          result.fold(
+            (failure) {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('시작 실패: ${failure.message}')),
+                );
+              }
+            },
+            (jobDetail) {
+              if (context.mounted) {
+                ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                // pop checklist selection screen
+                context.pop();
+                // push inspection details
+                InspectionDetailsRoute(
+                  jobId: jobId,
+                  isReadOnly: false,
+                  $extra: jobDetail,
+                ).push(context);
+              }
+            },
+          );
+        }
       },
       child: Container(
         decoration: BoxDecoration(

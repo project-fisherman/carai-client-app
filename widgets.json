@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "name": "good_warning_check",
+        "description": "기본 상태 점검 위젯 (상태와 코멘트만 입력)",
+        "value_schema": {
+            "status": "string (enum: good, warning)",
+            "comment": "string (optional)"
+        }
+    },
+    {
+        "id": 2,
+        "name": "front_and_rear_measurement_check",
+        "description": "전면/후면 측정값이 포함된 점검 위젯",
+        "value_schema": {
+            "status": "string (enum: good, warning)",
+            "measurements": {
+                "front": "number",
+                "rear": "number"
+            },
+            "comment": "string (optional)"
+        }
+    }
+]

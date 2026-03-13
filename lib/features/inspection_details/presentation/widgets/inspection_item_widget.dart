@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/inspection_item.dart';
-import 'basic_check_widget.dart';
+import 'good_warning_check_widget.dart';
 import 'front_and_rear_measurement_check_widget.dart';
 
 class InspectionItemWidget extends StatelessWidget {
@@ -51,7 +51,7 @@ class InspectionItemWidget extends StatelessWidget {
           const SizedBox(height: 8),
 
           // Method / Description
-          if (item.widgetType == InspectionItemWidgetType.basicCheck &&
+          if (item.widgetType == InspectionItemWidgetType.goodWarningCheck &&
               item.method.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(bottom: 12.0),
@@ -70,13 +70,12 @@ class InspectionItemWidget extends StatelessWidget {
 
   Border? _buildBorder() {
     // If Good -> Green, Warn -> Orange border
-    final isGood = answer['is_good'] == true;
-    final isWarn = answer['is_warn'] == true;
+    final status = answer['status'];
 
-    if (isGood) {
+    if (status == 'good') {
       return const Border(left: BorderSide(color: Colors.green, width: 4));
     }
-    if (isWarn) {
+    if (status == 'warning') {
       return const Border(left: BorderSide(color: Colors.orange, width: 4));
     }
     return null;
@@ -84,14 +83,17 @@ class InspectionItemWidget extends StatelessWidget {
 
   Widget _buildInput() {
     switch (item.widgetType) {
-      case InspectionItemWidgetType.basicCheck:
-        return BasicCheckWidget(value: answer, onChanged: onAnswerChanged);
+      case InspectionItemWidgetType.goodWarningCheck:
+        return GoodWarningCheckWidget(value: answer, onChanged: onAnswerChanged);
       case InspectionItemWidgetType.frontAndRearMeasurementCheck:
         return FrontAndRearMeasurementCheckWidget(
           methodTemplate: item.method,
           value: answer,
           onChanged: onAnswerChanged,
         );
+      case null:
+      default:
+        return const SizedBox.shrink();
     }
   }
 }

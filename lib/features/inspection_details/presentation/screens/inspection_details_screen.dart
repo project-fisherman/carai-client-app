@@ -6,8 +6,20 @@ import '../viewmodels/inspection_details_view_model.dart';
 import '../widgets/dynamic_header_form.dart';
 import '../widgets/inspection_group_widget.dart';
 
+import '../../../mechanic_dashboard/data/dtos/repair_job_dtos.dart';
+import '../../../../core/router/routes.dart';
+
 class InspectionDetailsScreen extends ConsumerStatefulWidget {
-  const InspectionDetailsScreen({super.key});
+  final String jobId;
+  final bool isReadOnly;
+  final RepairJobDetailResponseDto? jobDetail;
+
+  const InspectionDetailsScreen({
+    super.key,
+    required this.jobId,
+    this.isReadOnly = false,
+    this.jobDetail,
+  });
 
   @override
   ConsumerState<InspectionDetailsScreen> createState() =>
@@ -25,12 +37,17 @@ class _InspectionDetailsScreenState
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final inspectionState = ref.watch(inspectionDetailsViewModelProvider);
+    final inspectionState = ref.watch(inspectionDetailsViewModelProvider(widget.jobId));
 
     return AppScaffold(
       backgroundColor: const Color(0xFF1E1C1A),
-      appBar: const AppNavigationBar(title: 'Inspection Details'),
+      appBar: const AppNavigationBar(title: ''),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: inspectionState.when(
@@ -44,7 +61,7 @@ class _InspectionDetailsScreenState
                   answers: state.answers,
                   onAnswerChanged: (id, value) {
                     ref
-                        .read(inspectionDetailsViewModelProvider.notifier)
+                        .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
                         .updateAnswer(id, value);
                   },
                 ),
@@ -66,7 +83,7 @@ class _InspectionDetailsScreenState
                     allAnswers: state.answers,
                     onItemAnswerChanged: (seq, value) {
                       ref
-                          .read(inspectionDetailsViewModelProvider.notifier)
+                          .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
                           .updateAnswer(seq.toString(), value);
                     },
                   );
@@ -80,31 +97,100 @@ class _InspectionDetailsScreenState
                 // But usually there is a general note. I'll keep it but maybe not bind to schema yet if not present.
                 // User said "remove footer".
                 // Let's just have the SAVE button.
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE65100),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                if (!widget.isReadOnly)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 56,
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: Color(0xFFE65100)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () async {
+                              final success = await ref
+                                  .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
+                                  .saveDraft(widget.jobId);
+                              if (success && context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('임시저장 되었습니다.')),
+                                );
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: const Text(
+                              '임시저장',
+                              style: TextStyle(
+                                color: Color(0xFFE65100),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      ref
-                          .read(inspectionDetailsViewModelProvider.notifier)
-                          .submit();
-                    },
-                    child: const Text(
-                      'SAVE',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: SizedBox(
+                          height: 56,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFE65100),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () async {
+                              final confirm = await showDialog<bool>(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    backgroundColor: const Color(0xFF2C2A28),
+                                    title: const Text('작업 완료', style: TextStyle(color: Colors.white)),
+                                    content: const Text('작업을 완료하시겠습니까?', style: TextStyle(color: Colors.white70)),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(false),
+                                        child: const Text('취소', style: TextStyle(color: Colors.white54)),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(true),
+                                        child: const Text('완료', style: TextStyle(color: Color(0xFFE65100))),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+
+                              if (confirm == true) {
+                                if (!context.mounted) return;
+                                final success = await ref
+                                    .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
+                                    .submit(widget.jobId);
+                                if (success && context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('작업이 완료되었습니다. AI 소견서를 생성합니다.')),
+                                  );
+                                  AiReportRoute(jobId: widget.jobId).pushReplacement(context);
+                                }
+                              }
+                            },
+                            child: const Text(
+                              '작업 완료',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
                 const SizedBox(height: 32),
               ],
             );

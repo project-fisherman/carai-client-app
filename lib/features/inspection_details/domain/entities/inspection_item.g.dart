@@ -11,8 +11,9 @@ _$InspectionItemImpl _$$InspectionItemImplFromJson(Map<String, dynamic> json) =>
       seqNo: (json['seq_no'] as num).toInt(),
       itemName: json['item_name'] as String,
       method: json['method'] as String,
-      widgetType:
-          $enumDecode(_$InspectionItemWidgetTypeEnumMap, json['widget_type']),
+      widgetType: $enumDecodeNullable(
+          _$InspectionItemWidgetTypeEnumMap, json['widget_type_id'],
+          unknownValue: InspectionItemWidgetType.goodWarningCheck),
     );
 
 Map<String, dynamic> _$$InspectionItemImplToJson(
@@ -21,11 +22,10 @@ Map<String, dynamic> _$$InspectionItemImplToJson(
       'seq_no': instance.seqNo,
       'item_name': instance.itemName,
       'method': instance.method,
-      'widget_type': _$InspectionItemWidgetTypeEnumMap[instance.widgetType]!,
+      'widget_type_id': _$InspectionItemWidgetTypeEnumMap[instance.widgetType],
     };
 
 const _$InspectionItemWidgetTypeEnumMap = {
-  InspectionItemWidgetType.basicCheck: 'basic_check',
-  InspectionItemWidgetType.frontAndRearMeasurementCheck:
-      'front_and_rear_measurement_check',
+  InspectionItemWidgetType.goodWarningCheck: 1,
+  InspectionItemWidgetType.frontAndRearMeasurementCheck: 2,
 };
