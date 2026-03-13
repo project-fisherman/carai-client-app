@@ -44,12 +44,21 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   }
 
   void _onSendSms() {
+    if (ref.read(registrationViewModelProvider).isLoading) return;
+
     if (_phoneController.text.isEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('전화번호를 입력해주세요')));
       return;
     }
+
+    // Clear OTP fields when resending
+    for (var controller in _otpControllers) {
+      controller.clear();
+    }
+    _otpFocusNodes[0].requestFocus();
+
     ref
         .read(registrationViewModelProvider.notifier)
         .sendSmsCode(_phoneController.text);
@@ -107,6 +116,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     final isSmsSent = state.isSmsSent;
     final isVerified = state.isVerified;
     final remainingTime = state.remainingTime;
+    final resendCooldown = state.resendCooldown;
 
     return AppScaffold(
       backgroundColor: AppColors.backgroundDark,
@@ -249,13 +259,19 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                   ),
                                 ),
                               TextButton(
-                                onPressed: (remainingTime > 0 || isVerified)
+                                onPressed: (isVerified ||
+                                        isLoading ||
+                                        resendCooldown > 0)
                                     ? null
                                     : _onSendSms,
                                 child: Text(
-                                  "재전송",
+                                  resendCooldown > 0
+                                      ? "재전송 (${resendCooldown}s)"
+                                      : "재전송",
                                   style: TextStyle(
-                                    color: (remainingTime > 0 || isVerified)
+                                    color: (isVerified ||
+                                            isLoading ||
+                                            resendCooldown > 0)
                                         ? AppColors.textSecondaryDark
                                         : AppColors.primary,
                                     fontWeight: FontWeight.bold,

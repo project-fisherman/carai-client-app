@@ -16,6 +16,7 @@ class RegistrationState with _$RegistrationState {
     @Default(null) String? verificationToken,
     @Default(false) bool isVerified,
     @Default(0) int remainingTime,
+    @Default(0) int resendCooldown,
   }) = _RegistrationState;
 }
 
@@ -47,6 +48,7 @@ class RegistrationViewModel extends _$RegistrationViewModel {
           isSmsSent: true,
           successMessage: "SMS Code Sent!",
           remainingTime: expireSeconds,
+          resendCooldown: 10,
           isVerified: false,
           verificationToken: null,
         );
@@ -58,8 +60,15 @@ class RegistrationViewModel extends _$RegistrationViewModel {
     _timer?.cancel();
     state = state.copyWith(remainingTime: seconds);
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (state.remainingTime > 0) {
-        state = state.copyWith(remainingTime: state.remainingTime - 1);
+      if (state.remainingTime > 0 || state.resendCooldown > 0) {
+        state = state.copyWith(
+          remainingTime: state.remainingTime > 0
+              ? state.remainingTime - 1
+              : state.remainingTime,
+          resendCooldown: state.resendCooldown > 0
+              ? state.resendCooldown - 1
+              : state.resendCooldown,
+        );
       } else {
         timer.cancel();
       }
