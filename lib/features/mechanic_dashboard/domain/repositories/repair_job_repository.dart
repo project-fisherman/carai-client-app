@@ -31,6 +31,9 @@ abstract class RepairJobRepository {
   /// 작업 상세 조회
   Future<Either<Failure, RepairJobDetailResponseDto>> getMyJobDetail({required String jobId});
 
-  /// AI 소견서 생성
-  Future<Either<Failure, ReportResponseDto>> generateReport({required String jobId});
+  /// AI 소견서 생성 메세지 전송 (비동기)
+  Future<Either<Failure, void>> generateReport({required String jobId});
+
+  /// AI 소견서 생성 상태 폴링
+  Future<Either<Failure, ReportStatusResponseDto>> getReportStatus({required String jobId});
 }

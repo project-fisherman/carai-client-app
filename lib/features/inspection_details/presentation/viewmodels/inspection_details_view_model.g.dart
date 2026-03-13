@@ -7,7 +7,7 @@ part of 'inspection_details_view_model.dart';
 // **************************************************************************
 
 String _$inspectionDetailsViewModelHash() =>
-    r'82924b1c5b460d991f0f419e28c158f6c8f62143';
+    r'd5c5826ee1b97f07f1d743c9e8537763a11fabc4';
 
 /// Copied from Dart SDK
 class _SystemHash {

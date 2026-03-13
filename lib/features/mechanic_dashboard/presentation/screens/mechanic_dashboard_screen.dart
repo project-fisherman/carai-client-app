@@ -179,8 +179,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                         status: job.status,
                         description: job.description,
                         isOpacityReduced:
-                            job.status.toUpperCase() == 'CANCELED' ||
-                            job.status.toUpperCase() == 'COMPLETED',
+                            job.status.toUpperCase() == 'CANCELED',
                         onTap: () async {
                           if (job.status.toUpperCase() == 'CANCELED') {
                             return; // Canceled jobs do nothing

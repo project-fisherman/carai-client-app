@@ -99,12 +99,22 @@ class RepairJobApi {
 
   /// POST /repair-shops/jobs/{jobId}/report
   /// AI 소견서 생성
-  Future<ReportResponseDto> generateReport({
+  Future<void> generateReport({
     required String jobId,
   }) async {
-    final response = await _dio.post(
+    await _dio.post(
       '/repair-shops/jobs/$jobId/report',
     );
-    return ReportResponseDto.fromJson(response.data['result']);
+  }
+
+  /// GET /repair-shops/jobs/{jobId}/report/status
+  /// AI 소견서 생성 상태 조회
+  Future<ReportStatusResponseDto> getReportStatus({
+    required String jobId,
+  }) async {
+    final response = await _dio.get(
+      '/repair-shops/jobs/$jobId/report/status',
+    );
+    return ReportStatusResponseDto.fromJson(response.data['result']);
   }
 }

@@ -52,9 +52,20 @@ class RepairJobDetailResponseDto with _$RepairJobDetailResponseDto {
 @freezed
 class ReportResponseDto with _$ReportResponseDto {
   const factory ReportResponseDto({
-    required String reportUrl,
+    String? reportUrl,
   }) = _ReportResponseDto;
 
   factory ReportResponseDto.fromJson(Map<String, dynamic> json) =>
       _$ReportResponseDtoFromJson(json);
+}
+
+@freezed
+class ReportStatusResponseDto with _$ReportStatusResponseDto {
+  const factory ReportStatusResponseDto({
+    required String status,
+    String? reportUrl,
+  }) = _ReportStatusResponseDto;
+
+  factory ReportStatusResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$ReportStatusResponseDtoFromJson(json);
 }
