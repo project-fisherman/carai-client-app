@@ -12,5 +12,7 @@ class RepairJob with _$RepairJob {
     required String status,
     String? description,
     String? reportUrl,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) = _RepairJob;
 }

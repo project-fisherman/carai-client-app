@@ -43,6 +43,8 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
               status: jobDto.status,
               description: jobDto.description,
               reportUrl: jobDto.reportUrl,
+              createdAt: jobDto.createdAt,
+              updatedAt: jobDto.updatedAt,
             ),
           )
           .toList();

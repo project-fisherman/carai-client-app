@@ -217,7 +217,10 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                      job.status.toUpperCase() == 'REPORT_GENERATING' || 
                                      job.status.toUpperCase() == 'REPORT_COMPLETED') {
                             // Go to AI report view
-                            AiReportRoute(jobId: job.id).push(context);
+                            await AiReportRoute(jobId: job.id).push(context);
+                            if (context.mounted) {
+                              ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                            }
                           }
                         },
                       );

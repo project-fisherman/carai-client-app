@@ -117,8 +117,10 @@ class AiReportScreen extends ConsumerWidget {
                             ),
                             const SizedBox(height: 32),
                             ElevatedButton(
-                              onPressed: () {
-                                ref.read(aiReportViewModelProvider(jobId).notifier).generateReport();
+                              onPressed: () async {
+                                await ref
+                                    .read(aiReportViewModelProvider(jobId).notifier)
+                                    .generateReport();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,

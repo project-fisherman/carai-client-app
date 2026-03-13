@@ -87,7 +87,10 @@ class AiReportViewModel extends _$AiReportViewModel {
               }
             );
           } else if (dto.status == 'REPORT_GENERATING') {
-            // keep polling
+            // keep polling but make sure state is isGenerating
+            if (state.valueOrNull?.isGenerating != true) {
+              state = const AsyncData(AiReportState(isGenerating: true, reportUrl: null));
+            }
           } else {
             timer.cancel();
             state = AsyncError('소견서 생성 중 상태 오류입니다: ${dto.status}', StackTrace.current);

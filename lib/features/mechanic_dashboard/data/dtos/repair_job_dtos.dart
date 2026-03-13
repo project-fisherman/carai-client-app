@@ -15,6 +15,8 @@ class RepairJobResponseDto with _$RepairJobResponseDto {
     String? description,
     String? reportUrl,
     Map<String, dynamic>? checklistData,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) = _RepairJobResponseDto;
 
   factory RepairJobResponseDto.fromJson(Map<String, dynamic> json) =>
