@@ -220,7 +220,14 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
               .where((u) => u.role != RepairShopRole.invited)
               .toList();
 
-          return SingleChildScrollView(
+          return RefreshIndicator(
+            color: AppColors.primary,
+            backgroundColor: AppColors.surfaceDark,
+            onRefresh: () async {
+              ref.invalidate(manageWorkshopViewModelProvider(widget.shopId));
+            },
+            child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
@@ -250,6 +257,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                 const SizedBox(height: 100),
               ],
             ),
+          ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),

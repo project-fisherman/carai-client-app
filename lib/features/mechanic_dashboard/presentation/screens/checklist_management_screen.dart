@@ -88,24 +88,31 @@ class _ChecklistManagementScreenState
                       );
                     }
 
-                    return NotificationListener<ScrollNotification>(
-                      onNotification: (ScrollNotification scrollInfo) {
-                        if (scrollInfo.metrics.pixels >=
-                            scrollInfo.metrics.maxScrollExtent - 200) {
-                          ref
-                              .read(shopChecklistsProvider(widget.shopId).notifier)
-                              .loadMore();
-                        }
-                        return false;
+                    return RefreshIndicator(
+                      color: const Color(0xFFE65100),
+                      backgroundColor: const Color(0xFF2f221a),
+                      onRefresh: () async {
+                        ref.invalidate(shopChecklistsProvider(widget.shopId));
                       },
-                      child: ListView.separated(
-                        itemCount: checklists.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 12),
-                        itemBuilder: (context, index) {
-                          final checklist = checklists[index];
-                          return _buildChecklistCard(context, checklist);
+                      child: NotificationListener<ScrollNotification>(
+                        onNotification: (ScrollNotification scrollInfo) {
+                          if (scrollInfo.metrics.pixels >=
+                              scrollInfo.metrics.maxScrollExtent - 200) {
+                            ref
+                                .read(shopChecklistsProvider(widget.shopId).notifier)
+                                .loadMore();
+                          }
+                          return false;
                         },
+                        child: ListView.separated(
+                          itemCount: checklists.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 12),
+                          itemBuilder: (context, index) {
+                            final checklist = checklists[index];
+                            return _buildChecklistCard(context, checklist);
+                          },
+                        ),
                       ),
                     );
                   },

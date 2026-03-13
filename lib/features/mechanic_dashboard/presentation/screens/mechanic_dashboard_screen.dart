@@ -157,7 +157,13 @@ class MechanicDashboardScreen extends ConsumerWidget {
                     );
                   }
 
-                  return NotificationListener<ScrollNotification>(
+                  return RefreshIndicator(
+                    color: AppColors.primary,
+                    backgroundColor: AppColors.surfaceDark,
+                    onRefresh: () async {
+                      ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                    },
+                    child: NotificationListener<ScrollNotification>(
                     onNotification: (ScrollNotification scrollInfo) {
                       if (scrollInfo.metrics.pixels >=
                           scrollInfo.metrics.maxScrollExtent - 200) {
@@ -238,6 +244,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                       );
                     },
                   ),
+                ),
                 );
               },
                 loading: () => const Center(

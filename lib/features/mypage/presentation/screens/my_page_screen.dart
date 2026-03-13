@@ -32,7 +32,14 @@ class MyPageScreen extends ConsumerWidget {
                 ),
               );
             }
-            return SingleChildScrollView(
+            return RefreshIndicator(
+              color: AppColors.primary,
+              backgroundColor: AppColors.surfaceDark,
+              onRefresh: () async {
+                ref.invalidate(userNotifierProvider);
+              },
+              child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,6 +90,7 @@ class MyPageScreen extends ConsumerWidget {
                   ),
                 ],
               ),
+            ),
             );
           },
           error: (err, stack) => Center(

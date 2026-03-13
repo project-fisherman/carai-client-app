@@ -45,27 +45,34 @@ class JobChecklistSelectionScreen extends ConsumerWidget {
               ),
             );
           }
-          return NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification scrollInfo) {
-              if (scrollInfo.metrics.pixels >=
-                  scrollInfo.metrics.maxScrollExtent - 200) {
-                ref.read(shopChecklistsProvider(shopId).notifier).loadMore();
-              }
-              return false;
+          return RefreshIndicator(
+            color: AppColors.primary,
+            backgroundColor: AppColors.surfaceDark,
+            onRefresh: () async {
+              ref.invalidate(shopChecklistsProvider(shopId));
             },
-            child: GridView.builder(
-              padding: const EdgeInsets.all(16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.75,
-              ),
-              itemCount: checklists.length,
-              itemBuilder: (context, index) {
-                final checklist = checklists[index];
-                return _buildChecklistCard(context, ref, checklist);
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (ScrollNotification scrollInfo) {
+                if (scrollInfo.metrics.pixels >=
+                    scrollInfo.metrics.maxScrollExtent - 200) {
+                  ref.read(shopChecklistsProvider(shopId).notifier).loadMore();
+                }
+                return false;
               },
+              child: GridView.builder(
+                padding: const EdgeInsets.all(16),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.75,
+                ),
+                itemCount: checklists.length,
+                itemBuilder: (context, index) {
+                  final checklist = checklists[index];
+                  return _buildChecklistCard(context, ref, checklist);
+                },
+              ),
             ),
           );
         },
