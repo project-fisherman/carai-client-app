@@ -78,9 +78,15 @@ class RepairJobRepositoryImpl implements RepairJobRepository {
   }
 
   @override
-  Future<Either<Failure, RepairJobDetailResponseDto>> completeJob({required String jobId}) async {
+  Future<Either<Failure, RepairJobDetailResponseDto>> completeJob({
+    required String jobId,
+    required Map<String, dynamic> checklistData,
+  }) async {
     try {
-      final detailDto = await _api.completeJob(jobId: jobId);
+      final detailDto = await _api.completeJob(
+        jobId: jobId,
+        checklistData: checklistData,
+      );
       return Right(detailDto);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

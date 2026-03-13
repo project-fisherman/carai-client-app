@@ -88,9 +88,11 @@ class RepairJobApi {
   /// 작업 종료
   Future<RepairJobDetailResponseDto> completeJob({
     required String jobId,
+    required Map<String, dynamic> checklistData,
   }) async {
     final response = await _dio.post(
       '/repair-shops/jobs/$jobId/complete',
+      data: {'checklistData': checklistData},
     );
     return RepairJobDetailResponseDto.fromJson(response.data['result']);
   }

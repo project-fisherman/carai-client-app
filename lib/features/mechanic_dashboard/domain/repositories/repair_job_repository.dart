@@ -20,7 +20,10 @@ abstract class RepairJobRepository {
   Future<Either<Failure, RepairJobDetailResponseDto>> saveJobProgress({required String jobId, required Map<String, dynamic> checklistData});
 
   /// 작업 종료
-  Future<Either<Failure, RepairJobDetailResponseDto>> completeJob({required String jobId});
+  Future<Either<Failure, RepairJobDetailResponseDto>> completeJob({
+    required String jobId,
+    required Map<String, dynamic> checklistData,
+  });
 
   /// 임시저장 작업 재개
   Future<Either<Failure, RepairJobDetailResponseDto>> resumeJob({required String jobId});

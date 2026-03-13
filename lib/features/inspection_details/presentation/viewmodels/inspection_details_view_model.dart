@@ -158,30 +158,19 @@ class InspectionDetailsViewModel extends _$InspectionDetailsViewModel {
     final repository = ref.read(repairJobRepositoryProvider);
     state = const AsyncLoading();
 
-    // First, save the current progress
-    final saveResult = await repository.saveJobProgress(
+    final completeResult = await repository.completeJob(
       jobId: jobId,
       checklistData: payload,
     );
 
-    return saveResult.fold(
+    return completeResult.fold(
       (failure) {
         state = AsyncError(failure, StackTrace.current);
         return false;
       },
-      (_) async {
-        // Then complete the job
-        final completeResult = await repository.completeJob(jobId: jobId);
-        return completeResult.fold(
-          (failure) {
-            state = AsyncError(failure, StackTrace.current);
-            return false;
-          },
-          (_) {
-            state = AsyncData(currentState);
-            return true;
-          },
-        );
+      (_) {
+        state = AsyncData(currentState);
+        return true;
       },
     );
   }

@@ -187,10 +187,11 @@ class MechanicDashboardScreen extends ConsumerWidget {
                           }
 
                           if (job.status.toUpperCase() == 'WAITING') {
-                            JobChecklistSelectionRoute(
+                            await JobChecklistSelectionRoute(
                               shopId: shopId,
                               jobId: job.id,
                             ).push(context);
+                            ref.invalidate(mechanicDashboardViewModelProvider(shopId));
                           } else if (job.status.toUpperCase() == 'IN_PROGRESS') {
                             // Call resume API
                             final repository = ref.read(repairJobRepositoryProvider);
@@ -203,12 +204,13 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                     SnackBar(content: Text('작업을 불러오는데 실패했습니다: ${failure.message}')),
                                   );
                                 },
-                                (detail) {
-                                  InspectionDetailsRoute(
+                                (detail) async {
+                                  await InspectionDetailsRoute(
                                     jobId: job.id, 
                                     isReadOnly: false, 
                                     $extra: detail,
                                   ).push(context);
+                                  ref.invalidate(mechanicDashboardViewModelProvider(shopId));
                                 },
                               );
                             }

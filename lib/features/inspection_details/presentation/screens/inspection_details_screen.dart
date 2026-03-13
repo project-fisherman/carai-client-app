@@ -143,14 +143,38 @@ class _InspectionDetailsScreenState
                               ),
                             ),
                             onPressed: () async {
-                              final success = await ref
-                                  .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
-                                  .submit(widget.jobId);
-                              if (success && context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('작업이 완료되었습니다.')),
-                                );
-                                Navigator.of(context).pop();
+                              final confirm = await showDialog<bool>(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    backgroundColor: const Color(0xFF2C2A28),
+                                    title: const Text('작업 완료', style: TextStyle(color: Colors.white)),
+                                    content: const Text('작업을 완료하시겠습니까?', style: TextStyle(color: Colors.white70)),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(false),
+                                        child: const Text('취소', style: TextStyle(color: Colors.white54)),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(true),
+                                        child: const Text('완료', style: TextStyle(color: Color(0xFFE65100))),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+
+                              if (confirm == true) {
+                                if (!context.mounted) return;
+                                final success = await ref
+                                    .read(inspectionDetailsViewModelProvider(widget.jobId).notifier)
+                                    .submit(widget.jobId);
+                                if (success && context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('작업이 완료되었습니다.')),
+                                  );
+                                  Navigator.of(context).pop();
+                                }
                               }
                             },
                             child: const Text(
