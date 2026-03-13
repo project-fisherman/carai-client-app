@@ -204,12 +204,17 @@ class MechanicDashboardScreen extends ConsumerWidget {
                                   );
                                 },
                                 (detail) async {
-                                  await InspectionDetailsRoute(
-                                    jobId: job.id, 
-                                    isReadOnly: false, 
+                                  final completed = await InspectionDetailsRoute(
+                                    jobId: job.id,
+                                    isReadOnly: false,
                                     $extra: detail,
-                                  ).push(context);
-                                  ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                                  ).push<bool>(context);
+                                  if (completed == true && context.mounted) {
+                                    await AiReportRoute(jobId: job.id).push(context);
+                                  }
+                                  if (context.mounted) {
+                                    ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                                  }
                                 },
                               );
                             }

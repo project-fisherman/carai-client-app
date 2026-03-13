@@ -106,3 +106,12 @@ macos/Pods/
 
 .firebase/
 firebase-debug.log
+
+
+.omc
+# Claude local settings
+.claude/settings.local.json
+.claude/cache/
+.claude/logs/
+.claude/memory/
+.claude/worktrees
