@@ -93,6 +93,7 @@ class _ChecklistManagementScreenState
                       backgroundColor: const Color(0xFF2f221a),
                       onRefresh: () async {
                         ref.invalidate(shopChecklistsProvider(widget.shopId));
+                        await ref.read(shopChecklistsProvider(widget.shopId).future);
                       },
                       child: NotificationListener<ScrollNotification>(
                         onNotification: (ScrollNotification scrollInfo) {
@@ -105,6 +106,7 @@ class _ChecklistManagementScreenState
                           return false;
                         },
                         child: ListView.separated(
+                          physics: const AlwaysScrollableScrollPhysics(),
                           itemCount: checklists.length,
                           separatorBuilder: (context, index) =>
                               const SizedBox(height: 12),

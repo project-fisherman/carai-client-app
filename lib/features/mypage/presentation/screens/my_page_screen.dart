@@ -37,6 +37,7 @@ class MyPageScreen extends ConsumerWidget {
               backgroundColor: AppColors.surfaceDark,
               onRefresh: () async {
                 ref.invalidate(userNotifierProvider);
+                await ref.read(userNotifierProvider.future);
               },
               child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),

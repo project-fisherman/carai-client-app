@@ -50,6 +50,7 @@ class JobChecklistSelectionScreen extends ConsumerWidget {
             backgroundColor: AppColors.surfaceDark,
             onRefresh: () async {
               ref.invalidate(shopChecklistsProvider(shopId));
+              await ref.read(shopChecklistsProvider(shopId).future);
             },
             child: NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollInfo) {
@@ -60,6 +61,7 @@ class JobChecklistSelectionScreen extends ConsumerWidget {
                 return false;
               },
               child: GridView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

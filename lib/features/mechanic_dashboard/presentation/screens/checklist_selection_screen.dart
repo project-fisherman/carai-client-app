@@ -41,6 +41,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
             backgroundColor: const Color(0xFF2C2C2C),
             onRefresh: () async {
               ref.invalidate(checklistSelectionViewModelProvider(shopId));
+              await ref.read(checklistSelectionViewModelProvider(shopId).future);
             },
             child: NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollInfo) {
@@ -53,6 +54,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
                 return false;
               },
               child: GridView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

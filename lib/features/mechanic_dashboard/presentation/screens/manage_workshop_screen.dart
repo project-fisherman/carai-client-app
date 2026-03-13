@@ -225,6 +225,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
             backgroundColor: AppColors.surfaceDark,
             onRefresh: () async {
               ref.invalidate(manageWorkshopViewModelProvider(widget.shopId));
+              await ref.read(manageWorkshopViewModelProvider(widget.shopId).future);
             },
             child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),

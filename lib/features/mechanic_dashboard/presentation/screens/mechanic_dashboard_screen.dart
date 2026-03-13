@@ -162,6 +162,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                     backgroundColor: AppColors.surfaceDark,
                     onRefresh: () async {
                       ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                      await ref.read(mechanicDashboardViewModelProvider(shopId).future);
                     },
                     child: NotificationListener<ScrollNotification>(
                     onNotification: (ScrollNotification scrollInfo) {
@@ -174,6 +175,7 @@ class MechanicDashboardScreen extends ConsumerWidget {
                       return false;
                     },
                     child: ListView.separated(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       padding: const EdgeInsets.only(
                         left: 16,
                         right: 16,
