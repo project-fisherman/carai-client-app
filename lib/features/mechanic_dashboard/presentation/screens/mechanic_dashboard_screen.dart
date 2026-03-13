@@ -7,6 +7,7 @@ import '../../../../core/router/routes.dart';
 import '../../domain/entities/repair_shop_user.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
 import '../providers/checklist_management_view_model.dart';
+import '../../data/repositories/repair_job_repository_impl.dart';
 import '../widgets/service_queue_card.dart';
 
 class MechanicDashboardScreen extends ConsumerWidget {
@@ -151,14 +152,24 @@ class MechanicDashboardScreen extends ConsumerWidget {
                     );
                   }
 
-                  return ListView.separated(
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 16,
-                      bottom: 160, // pb-40 in design
-                    ),
-                    itemCount: vehicles.length,
+                  return NotificationListener<ScrollNotification>(
+                    onNotification: (ScrollNotification scrollInfo) {
+                      if (scrollInfo.metrics.pixels >=
+                          scrollInfo.metrics.maxScrollExtent - 200) {
+                        ref
+                            .read(mechanicDashboardViewModelProvider(shopId).notifier)
+                            .loadMore();
+                      }
+                      return false;
+                    },
+                    child: ListView.separated(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 16,
+                        bottom: 160, // pb-40 in design
+                      ),
+                      itemCount: vehicles.length,
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 16),
                     itemBuilder: (context, index) {
@@ -170,10 +181,67 @@ class MechanicDashboardScreen extends ConsumerWidget {
                         // Example logic for opacity: last item reduced opacity like design
                         isOpacityReduced:
                             index == vehicles.length - 1 && vehicles.length > 3,
+                        onTap: () async {
+                          if (job.status.toUpperCase() == 'CANCELED') {
+                            return; // Canceled jobs do nothing
+                          }
+
+                          if (job.status.toUpperCase() == 'WAITING') {
+                            // Show dialog for WAITING status
+                            final shouldStart = await showDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                backgroundColor: const Color(0xFF292524),
+                                title: const Text(
+                                  '작업 시작',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                content: const Text(
+                                  '작업을 시작하겠습니까?',
+                                  style: TextStyle(color: AppColors.textLight),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.of(context).pop(false),
+                                    child: const Text('취소', style: TextStyle(color: Colors.grey)),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Navigator.of(context).pop(true),
+                                    child: const Text('시작', style: TextStyle(color: AppColors.primary)),
+                                  ),
+                                ],
+                              ),
+                            );
+
+                            if (shouldStart == true) {
+                              // Call the API
+                              final repo = ref.read(repairJobRepositoryProvider);
+                              final result = await repo.startJob(jobId: job.id, checklistId: job.checklistId ?? '');
+                              result.fold(
+                                (failure) {
+                                  // Error handled globally or can show local snackbar
+                                },
+                                (_) {
+                                  // Refresh the list
+                                  ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+                                  // Navigate to editing screen
+                                  InspectionDetailsRoute(jobId: job.id, isReadOnly: false).push(context);
+                                },
+                              );
+                            }
+                          } else if (job.status.toUpperCase() == 'IN_PROGRESS') {
+                            // Directly go to editing
+                            InspectionDetailsRoute(jobId: job.id, isReadOnly: false).push(context);
+                          } else if (job.status.toUpperCase() == 'COMPLETED') {
+                            // Go to read-only view
+                            InspectionDetailsRoute(jobId: job.id, isReadOnly: true).push(context);
+                          }
+                        },
                       );
                     },
-                  );
-                },
+                  ),
+                );
+              },
                 loading: () => const Center(
                   child: CircularProgressIndicator(color: AppColors.primary),
                 ),

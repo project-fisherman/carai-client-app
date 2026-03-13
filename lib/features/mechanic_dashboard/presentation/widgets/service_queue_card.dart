@@ -5,6 +5,7 @@ class ServiceQueueCard extends StatelessWidget {
   final String status;
   final String? description;
   final bool isOpacityReduced;
+  final VoidCallback? onTap;
 
   const ServiceQueueCard({
     super.key,
@@ -12,14 +13,17 @@ class ServiceQueueCard extends StatelessWidget {
     required this.status,
     this.description,
     this.isOpacityReduced = false,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: isOpacityReduced ? 0.5 : 1.0,
-      child: Container(
-        padding: const EdgeInsets.all(16),
+    return GestureDetector(
+      onTap: onTap,
+      child: Opacity(
+        opacity: isOpacityReduced ? 0.5 : 1.0,
+        child: Container(
+          padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: const Color(0xFF292524), // bg-stone-800
           borderRadius: BorderRadius.circular(12),
@@ -62,7 +66,7 @@ class ServiceQueueCard extends StatelessWidget {
             ],
           ],
         ),
-      ),
+      )),
     );
   }
 

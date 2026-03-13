@@ -15,6 +15,7 @@ import '../../features/mechanic_dashboard/presentation/screens/checklist_managem
 import '../../design_system/molecules/app_scaffold.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_selection_screen.dart';
 import '../../features/mechanic_dashboard/presentation/screens/checklist_preview_screen.dart';
+import '../../features/inspection_details/presentation/screens/inspection_details_screen.dart';
 
 part 'routes.g.dart';
 
@@ -174,6 +175,22 @@ class ChecklistPreviewRoute extends GoRouteData {
       checklistName: checklistName,
       imageUrl: imageUrl,
     );
+  }
+}
+
+@TypedGoRoute<InspectionDetailsRoute>(path: '/inspection-details')
+class InspectionDetailsRoute extends GoRouteData {
+  final String? jobId;
+  final bool isReadOnly;
+
+  const InspectionDetailsRoute({
+    this.jobId,
+    this.isReadOnly = false,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return InspectionDetailsScreen(isReadOnly: isReadOnly);
   }
 }
 

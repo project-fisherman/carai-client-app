@@ -7,7 +7,9 @@ import '../widgets/dynamic_header_form.dart';
 import '../widgets/inspection_group_widget.dart';
 
 class InspectionDetailsScreen extends ConsumerStatefulWidget {
-  const InspectionDetailsScreen({super.key});
+  final bool isReadOnly;
+
+  const InspectionDetailsScreen({super.key, this.isReadOnly = false});
 
   @override
   ConsumerState<InspectionDetailsScreen> createState() =>
@@ -80,31 +82,32 @@ class _InspectionDetailsScreenState
                 // But usually there is a general note. I'll keep it but maybe not bind to schema yet if not present.
                 // User said "remove footer".
                 // Let's just have the SAVE button.
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE65100),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                if (!widget.isReadOnly)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFE65100),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      ref
-                          .read(inspectionDetailsViewModelProvider.notifier)
-                          .submit();
-                    },
-                    child: const Text(
-                      'SAVE',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      onPressed: () {
+                        ref
+                            .read(inspectionDetailsViewModelProvider.notifier)
+                            .submit();
+                      },
+                      child: const Text(
+                        'SAVE',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
                 const SizedBox(height: 32),
               ],
             );

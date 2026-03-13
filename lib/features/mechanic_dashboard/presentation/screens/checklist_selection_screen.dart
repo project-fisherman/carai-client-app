@@ -36,19 +36,30 @@ class ChecklistSelectionScreen extends ConsumerWidget {
               ),
             );
           }
-          return GridView.builder(
-            padding: const EdgeInsets.all(16),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 0.75,
-            ),
-            itemCount: checklists.length,
-            itemBuilder: (context, index) {
-              final checklist = checklists[index];
-              return _buildChecklistCard(context, checklist);
+          return NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (scrollInfo.metrics.pixels >=
+                  scrollInfo.metrics.maxScrollExtent - 200) {
+                ref
+                    .read(checklistSelectionViewModelProvider(shopId).notifier)
+                    .loadMore();
+              }
+              return false;
             },
+            child: GridView.builder(
+              padding: const EdgeInsets.all(16),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.75,
+              ),
+              itemCount: checklists.length,
+              itemBuilder: (context, index) {
+                final checklist = checklists[index];
+                return _buildChecklistCard(context, checklist);
+              },
+            ),
           );
         },
         loading: () => const Center(

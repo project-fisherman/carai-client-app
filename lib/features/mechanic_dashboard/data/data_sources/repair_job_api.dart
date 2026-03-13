@@ -16,13 +16,36 @@ class RepairJobApi {
   RepairJobApi(this._dio);
 
   /// GET /repair-shops/jobs/me
-  /// 내 작업 조회 - 상태별
-  Future<List<RepairJobResponseDto>> getMyJobs({String? status}) async {
+  /// 내 작업 조회 - 상태별, 커서 페이지네이션
+  Future<MyJobsPageResponseDto> getMyJobs({
+    String? status,
+    String? cursorUpdatedAt,
+    String? cursorId,
+    int size = 20,
+  }) async {
     final response = await _dio.get(
       '/repair-shops/jobs/me',
-      queryParameters: status != null ? {'status': status} : null,
+      queryParameters: {
+        if (status != null) 'status': status,
+        if (cursorUpdatedAt != null) 'cursorUpdatedAt': cursorUpdatedAt,
+        if (cursorId != null) 'cursorId': cursorId,
+        'size': size,
+      },
     );
-    final list = (response.data['result'] as List?) ?? [];
-    return list.map((e) => RepairJobResponseDto.fromJson(e)).toList();
+    final result = response.data['result'] as Map<String, dynamic>?;
+    return MyJobsPageResponseDto.fromJson(result ?? {});
+  }
+
+  /// POST /repair-shops/jobs/{jobId}/start
+  /// 작업 시작 (대기 중 -> 진행 중)
+  Future<RepairJobDetailResponseDto> startJob({
+    required String jobId,
+    required String checklistId,
+  }) async {
+    final response = await _dio.post(
+      '/repair-shops/jobs/$jobId/start',
+      data: {'checklistId': checklistId},
+    );
+    return RepairJobDetailResponseDto.fromJson(response.data['result']);
   }
 }
