@@ -89,14 +89,6 @@ macos/Pods/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# -----------------------
-# Environment Variables & Secrets
-# -----------------------
-# .env는 빈 플레이스홀더로 커밋 (Flutter asset 빌드용)
-# 실제 값은 로컬에서 추가하고 skip-worktree로 보호
-.env.*
-!.env.example
-
 *.g.ts
 *.freezed.ts
 # -----------------------
@@ -107,3 +99,4 @@ macos/Pods/
 
 .firebase/
 firebase-debug.log
+
