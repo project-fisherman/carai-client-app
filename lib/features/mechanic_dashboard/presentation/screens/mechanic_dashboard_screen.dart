@@ -50,7 +50,16 @@ class MechanicDashboardScreen extends ConsumerWidget {
                       indicatorWeight: 3,
                       labelColor: AppColors.primary,
                       unselectedLabelColor: AppColors.textSecondaryDark,
-                      labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      labelStyle: const TextStyle(
+                        fontSize: 16, 
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: -0.5,
+                      ),
+                      unselectedLabelStyle: const TextStyle(
+                        fontSize: 16, 
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.5,
+                      ),
                       tabs: const [
                         Tab(text: '내 작업'),
                         Tab(text: '업장 작업'),
@@ -59,37 +68,49 @@ class MechanicDashboardScreen extends ConsumerWidget {
                   ),
                   actions: [
                     // Profile Button (Right)
-                    Consumer(
-                      builder: (context, ref, child) {
-                        final roleAsync = ref.watch(
-                          mechanicDashboardUserRoleProvider(shopId),
-                        );
-                        return IconButton(
-                          icon: const Icon(
-                            Icons.account_circle,
-                            color: AppColors.textLight,
-                            size: 28,
-                          ),
-                          onPressed: () {
-                            // We need to map the DTO role to the Domain role due to an enum conflict
-                            // They share the same string values 'OWNER', 'MANAGER', 'STAFF', 'INVITED'
-                            final userRoleString = roleAsync.value?.name;
-                            final domainRole = userRoleString != null
-                                ? RepairShopRole.values.firstWhere(
-                                    (e) =>
-                                        e.name.toUpperCase() ==
-                                        userRoleString.toUpperCase(),
-                                    orElse: () => RepairShopRole.staff,
-                                  )
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Consumer(
+                        builder: (context, ref, child) {
+                          final roleAsync = ref.watch(
+                            mechanicDashboardUserRoleProvider(shopId),
+                          );
+                          return IconButton(
+                            icon: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.surfaceDark,
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.1),
+                                  width: 1,
+                                ),
+                              ),
+                              child: const Icon(
+                                Icons.person_rounded,
+                                color: AppColors.primary,
+                                size: 20,
+                              ),
+                            ),
+                            onPressed: () {
+                              final userRoleString = roleAsync.value?.name;
+                              final domainRole = userRoleString != null
+                                  ? RepairShopRole.values.firstWhere(
+                                      (e) =>
+                                          e.name.toUpperCase() ==
+                                          userRoleString.toUpperCase(),
+                                      orElse: () => RepairShopRole.staff,
+                                    )
                                 : null;
 
-                            ManageWorkshopRoute(
-                              shopId: shopId,
-                              userRole: domainRole,
-                            ).push(context);
-                          },
-                        );
-                      },
+                              ManageWorkshopRoute(
+                                shopId: shopId,
+                                userRole: domainRole,
+                              ).push(context);
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -100,10 +121,19 @@ class MechanicDashboardScreen extends ConsumerWidget {
                   ],
                 ),
                 floatingActionButton: activeIndex == 1
-                    ? FloatingActionButton(
+                    ? FloatingActionButton.extended(
                         onPressed: () => SearchHistoryRoute(shopId: shopId).push(context),
                         backgroundColor: AppColors.primary,
-                        child: const Icon(Icons.calendar_today, color: Colors.white),
+                        elevation: 4,
+                        icon: const Icon(Icons.history_rounded, color: Colors.white, size: 20),
+                        label: const Text(
+                          '히스토리',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 14,
+                          ),
+                        ),
                       )
                     : null,
               );
@@ -129,10 +159,11 @@ class _MyJobsView extends ConsumerWidget {
           Expanded(
             child: jobsAsync.when(
               data: (jobs) {
-                if (jobs.isEmpty) return _buildNoJobsView();
+                if (jobs.isEmpty) return _buildNoJobsView(context);
                 return RefreshIndicator(
                   color: AppColors.primary,
                   backgroundColor: AppColors.surfaceDark,
+                  displacement: 20,
                   onRefresh: () async {
                     ref.invalidate(mechanicDashboardViewModelProvider(shopId));
                     await ref.read(mechanicDashboardViewModelProvider(shopId).future);
@@ -147,7 +178,7 @@ class _MyJobsView extends ConsumerWidget {
                     },
                     child: ListView.separated(
                       physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.fromLTRB(20, 24, 20, 100),
                       itemCount: jobs.length,
                       separatorBuilder: (context, index) => const SizedBox(height: 16),
                       itemBuilder: (context, index) {
@@ -168,7 +199,18 @@ class _MyJobsView extends ConsumerWidget {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator(color: AppColors.primary)),
-              error: (err, stack) => Center(child: Text('오류: $err', style: const TextStyle(color: AppColors.textLight))),
+              error: (err, stack) => Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 48),
+                    const SizedBox(height: 16),
+                    Text('데이터를 불러오지 못했습니다\n$err', 
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: AppColors.textSecondaryDark)),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
@@ -176,14 +218,33 @@ class _MyJobsView extends ConsumerWidget {
     );
   }
 
-  Widget _buildNoJobsView() {
+  Widget _buildNoJobsView(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.inbox_outlined, size: 80, color: AppColors.textLight.withValues(alpha: 0.3)),
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.surfaceDark,
+            ),
+            child: const Icon(
+              Icons.assignment_turned_in_rounded, 
+              size: 48, 
+              color: AppColors.primary,
+            ),
+          ),
           const SizedBox(height: 24),
-          const Text('아직 작업이 없습니다', style: TextStyle(color: AppColors.textLight, fontSize: 20, fontWeight: FontWeight.w600)),
+          const Text(
+            '할당된 작업이 없습니다.',
+            style: TextStyle(
+              color: Colors.white, 
+              fontSize: 18, 
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+            ),
+          ),
         ],
       ),
     );
@@ -204,10 +265,11 @@ class _ShopJobsView extends ConsumerWidget {
           Expanded(
             child: jobsAsync.when(
               data: (jobs) {
-                if (jobs.isEmpty) return _buildNoJobsView();
+                if (jobs.isEmpty) return _buildNoJobsView(context);
                 return RefreshIndicator(
                   color: AppColors.primary,
                   backgroundColor: AppColors.surfaceDark,
+                  displacement: 20,
                   onRefresh: () async {
                     ref.invalidate(shopJobsViewModelProvider(shopId));
                     await ref.read(shopJobsViewModelProvider(shopId).future);
@@ -222,7 +284,7 @@ class _ShopJobsView extends ConsumerWidget {
                     },
                     child: ListView.separated(
                       physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.fromLTRB(20, 24, 20, 100),
                       itemCount: jobs.length,
                       separatorBuilder: (context, index) => const SizedBox(height: 16),
                       itemBuilder: (context, index) {
@@ -243,7 +305,18 @@ class _ShopJobsView extends ConsumerWidget {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator(color: AppColors.primary)),
-              error: (err, stack) => Center(child: Text('오류: $err', style: const TextStyle(color: AppColors.textLight))),
+              error: (err, stack) => Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 48),
+                    const SizedBox(height: 16),
+                    Text('데이터를 불러오지 못했습니다\n$err',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: AppColors.textSecondaryDark)),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
@@ -251,14 +324,33 @@ class _ShopJobsView extends ConsumerWidget {
     );
   }
 
-  Widget _buildNoJobsView() {
+  Widget _buildNoJobsView(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.assignment_outlined, size: 80, color: AppColors.textLight.withValues(alpha: 0.3)),
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.surfaceDark,
+            ),
+            child: const Icon(
+              Icons.search_off_rounded, 
+              size: 48, 
+              color: AppColors.primary,
+            ),
+          ),
           const SizedBox(height: 24),
-          const Text('업장에 등록된 작업이 없습니다', style: TextStyle(color: AppColors.textLight, fontSize: 20, fontWeight: FontWeight.w600)),
+          const Text(
+            '등록된 작업이 없습니다.',
+            style: TextStyle(
+              color: Colors.white, 
+              fontSize: 18, 
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+            ),
+          ),
         ],
       ),
     );
