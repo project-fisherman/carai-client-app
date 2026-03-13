@@ -330,7 +330,7 @@ class _InvitationBadgeButton extends ConsumerWidget {
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.surfaceDark,
         title: const Text(
-          '새로운 초대',
+          '작업장 초대',
           style: TextStyle(color: Colors.white),
         ),
         content: SizedBox(
