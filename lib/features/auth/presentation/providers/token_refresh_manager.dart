@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/repositories/auth_repository_impl.dart';
+import 'auth_notifier.dart';
 
 part 'token_refresh_manager.g.dart';
 
@@ -32,6 +33,8 @@ class TokenRefreshManager extends _$TokenRefreshManager {
         debugPrint(
           '❌ [TokenRefreshManager] Refresh failed: ${failure.message}',
         );
+        // Explicitly logout to clear stale session and trigger redirect to login
+        ref.read(authNotifierProvider.notifier).logout();
         return false;
       },
       (token) {
