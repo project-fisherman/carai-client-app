@@ -22,7 +22,13 @@ class FrontAndRearMeasurementCheckWidget extends StatelessWidget {
     List<Widget> children = [];
 
     // Basic Checks (Good/Warn) - Unified style with BasicCheckWidget
-    children.add(GoodWarningCheckWidget(value: value, onChanged: onChanged));
+    children.add(
+      GoodWarningCheckWidget(
+        value: value,
+        onChanged: onChanged,
+        showCommentField: false,
+      ),
+    );
     children.add(const SizedBox(height: 16));
 
     for (final line in lines) {

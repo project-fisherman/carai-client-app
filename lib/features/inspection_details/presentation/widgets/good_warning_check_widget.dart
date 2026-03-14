@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class GoodWarningCheckWidget extends StatelessWidget {
   final Map<String, dynamic>? value;
   final ValueChanged<Map<String, dynamic>> onChanged;
+  final bool showCommentField;
 
   const GoodWarningCheckWidget({
     super.key,
     required this.value,
     required this.onChanged,
+    this.showCommentField = true,
   });
 
   @override
@@ -50,8 +52,10 @@ class GoodWarningCheckWidget extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
-        _buildCommentField(comment),
+        if (showCommentField) ...[
+          const SizedBox(height: 12),
+          _buildCommentField(comment),
+        ],
       ],
     );
   }
