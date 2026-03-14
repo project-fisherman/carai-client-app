@@ -152,14 +152,12 @@ class JobChecklistSelectionScreen extends ConsumerWidget {
             (jobDetail) {
               if (context.mounted) {
                 ref.invalidate(mechanicDashboardViewModelProvider(shopId));
-                // pop checklist selection screen
-                context.pop();
-                // push inspection details
+                // push inspection details and replace current screen
                 InspectionDetailsRoute(
                   jobId: jobId,
                   isReadOnly: false,
                   $extra: jobDetail,
-                ).push(context);
+                ).pushReplacement(context);
               }
             },
           );
