@@ -550,6 +550,8 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
   Widget _buildUserItem(RepairShopUser user) {
     final displayName = user.name.replaceAll(RegExp(r'\s+'), '');
     final initials = displayName.isNotEmpty ? displayName.substring(0, 1) : '?';
+    final isOwner = widget.userRole == RepairShopRole.owner;
+    final canChangeRole = isOwner && user.role != RepairShopRole.owner;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -604,16 +606,16 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.surfaceDark, // bg-stone-800
+                              color: AppColors.surfaceDark,
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
                                 color: AppColors.backgroundDark,
-                              ), // border-stone-700
+                              ),
                             ),
                             child: const Text(
                               '(나)',
                               style: TextStyle(
-                                color: AppColors.textSecondaryDark, // text-stone-500
+                                color: AppColors.textSecondaryDark,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -628,16 +630,16 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.backgroundDark, // bg-stone-700
+                        color: AppColors.backgroundDark,
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(
                           color: AppColors.surfaceDark,
-                        ), // border-stone-600
+                        ),
                       ),
                       child: Text(
                         user.role.label,
                         style: const TextStyle(
-                          color: AppColors.textSecondaryDark, // text-stone-400
+                          color: AppColors.textSecondaryDark,
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -652,9 +654,10 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
             const SizedBox(height: 16),
             Row(
               children: [
+                if (canChangeRole)
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: () {},
+                      onPressed: () => _showChangeRoleDialog(user),
                       style: OutlinedButton.styleFrom(
                         backgroundColor: AppColors.backgroundDark,
                         foregroundColor: AppColors.textSecondaryDark,
@@ -668,7 +671,7 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
                       label: const Text('수정'),
                     ),
                   ),
-                const SizedBox(width: 12),
+                if (canChangeRole) const SizedBox(width: 12),
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: () {
@@ -699,6 +702,129 @@ class _ManageWorkshopScreenState extends ConsumerState<ManageWorkshopScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _showChangeRoleDialog(RepairShopUser user) async {
+    final newRole = user.role == RepairShopRole.staff
+        ? RepairShopRole.manager
+        : RepairShopRole.staff;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppColors.surfaceDark,
+        title: const Text('권한 변경', style: TextStyle(color: Colors.white)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${user.name}님의 권한을 변경하시겠습니까?',
+              style: const TextStyle(color: AppColors.textSecondaryDark),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.backgroundDark,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceDark,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      user.role.label,
+                      style: const TextStyle(
+                        color: AppColors.textSecondaryDark,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: AppColors.primary,
+                      size: 20,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      newRole.label,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('취소'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+            ),
+            child: const Text(
+              '변경',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    try {
+      await ref
+          .read(manageWorkshopViewModelProvider(widget.shopId).notifier)
+          .changeRole(user.userId, newRole);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${user.name}님의 권한이 ${newRole.label}(으)로 변경되었습니다.',
+          ),
+          backgroundColor: const Color(0xFF22C55E),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('권한 변경 실패: ${e.toString()}'),
+          backgroundColor: const Color(0xFFEF4444),
+        ),
+      );
+    }
   }
 
   Widget _buildManageChecklistButton() {

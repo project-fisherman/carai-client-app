@@ -75,6 +75,20 @@ class ManageWorkshopViewModel extends _$ManageWorkshopViewModel {
     );
   }
 
+  Future<void> changeRole(String targetUserId, RepairShopRole newRole) async {
+    final repository = ref.read(manageWorkshopRepositoryProvider);
+    final result = await repository.changeRole(
+      shopId: shopId,
+      targetUserId: targetUserId,
+      newRole: newRole,
+    );
+
+    result.fold(
+      (failure) => throw Exception(failure.message),
+      (_) => ref.invalidateSelf(),
+    );
+  }
+
   Future<void> cancelInvitation(String targetUserId) async {
     final repository = ref.read(manageWorkshopRepositoryProvider);
     final result = await repository.kickUser(
