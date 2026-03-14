@@ -10,6 +10,7 @@ class AppScaffold extends StatelessWidget {
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final Widget? drawer;
   final Widget? endDrawer;
+  final bool? resizeToAvoidBottomInset;
 
   const AppScaffold({
     super.key,
@@ -21,6 +22,7 @@ class AppScaffold extends StatelessWidget {
     this.floatingActionButtonLocation,
     this.drawer,
     this.endDrawer,
+    this.resizeToAvoidBottomInset,
   });
 
   @override
@@ -57,6 +59,7 @@ class AppScaffold extends StatelessWidget {
         floatingActionButtonLocation: floatingActionButtonLocation,
         drawer: drawer,
         endDrawer: endDrawer,
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       ),
     );
   }
