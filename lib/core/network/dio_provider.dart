@@ -21,7 +21,11 @@ Dio dio(DioRef ref) {
   );
 
   dio.interceptors.add(
-    AuthInterceptor(ref.watch(authLocalDataSourceProvider), ref),
+    AuthInterceptor(
+      ref.watch(authLocalDataSourceProvider),
+      ref,
+      AppConstants.apiBaseUrl,
+    ),
   );
 
   dio.interceptors.add(
@@ -44,6 +48,14 @@ Dio dio(DioRef ref) {
           final data = response.data as Map<String, dynamic>;
           if (data['success'] == false && data['error'] != null) {
             final error = data['error'];
+
+            // 토큰 만료 에러(12002)는 AuthInterceptor에서 자동 갱신 처리하므로 스킵
+            final errorCode =
+                error is Map<String, dynamic> ? error['code'] : null;
+            if (errorCode == 12002) {
+              return handler.next(response);
+            }
+
             String? errorMessage;
             if (error is Map<String, dynamic>) {
               errorMessage = error['message'] as String?;
