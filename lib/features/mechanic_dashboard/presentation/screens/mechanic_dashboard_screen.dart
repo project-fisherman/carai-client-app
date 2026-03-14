@@ -8,6 +8,7 @@ import '../../domain/entities/repair_shop_user.dart';
 import '../../data/dtos/repair_job_dtos.dart';
 import '../providers/mechanic_dashboard_view_model.dart';
 import '../providers/shop_jobs_view_model.dart';
+import '../providers/checklist_management_view_model.dart';
 import '../../data/repositories/repair_job_repository_impl.dart';
 import '../widgets/service_queue_card.dart';
 
@@ -362,17 +363,72 @@ Future<void> _handleJobTap(BuildContext context, WidgetRef ref, String shopId, d
   if (status == 'CANCELED') return;
 
   if (status == 'WAITING') {
-    await JobChecklistSelectionRoute(shopId: shopId, jobId: job.id).push(context);
-    ref.invalidate(mechanicDashboardViewModelProvider(shopId));
-    ref.invalidate(shopJobsViewModelProvider(shopId));
+    // Check if there are registered checklists before proceeding
+    try {
+      final checklists = await ref.read(shopChecklistsProvider(shopId).future);
+
+      if (checklists.isEmpty) {
+        if (context.mounted) {
+          final confirm = await showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+              backgroundColor: const Color(0xFF2C2A28),
+              title: const Text(
+                '등록된 점검표 없음',
+                style: TextStyle(color: Colors.white),
+              ),
+              content: const Text(
+                '작업을 시작하려면 먼저 점검표를 등록해야 합니다.\n점검표 관리 페이지로 이동하시겠습니까?',
+                style: TextStyle(color: Colors.white70),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('취소', style: TextStyle(color: Colors.white54)),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text(
+                    '이동',
+                    style: TextStyle(color: Color(0xFFE65100)),
+                  ),
+                ),
+              ],
+            ),
+          );
+
+          if (confirm == true && context.mounted) {
+            ChecklistManagementRoute(shopId: shopId).push(context);
+          }
+        }
+        return;
+      }
+
+      if (context.mounted) {
+        await JobChecklistSelectionRoute(
+          shopId: shopId,
+          jobId: job.id,
+        ).push(context);
+        ref.invalidate(mechanicDashboardViewModelProvider(shopId));
+        ref.invalidate(shopJobsViewModelProvider(shopId));
+      }
+    } catch (e) {
+      // Error is handled globally by Dio Interceptor
+    }
   } else if (status == 'IN_PROGRESS') {
     final repository = ref.read(repairJobRepositoryProvider);
     final result = await repository.resumeJob(jobId: job.id);
     if (context.mounted) {
       result.fold(
-        (failure) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('작업을 불러오는데 실패했습니다: ${failure.message}'))),
+        (failure) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('작업을 불러오는데 실패했습니다: ${failure.message}')),
+        ),
         (detail) async {
-          await InspectionDetailsRoute(jobId: job.id, isReadOnly: false, $extra: detail).push(context);
+          await InspectionDetailsRoute(
+            jobId: job.id,
+            isReadOnly: false,
+            $extra: detail,
+          ).push(context);
           if (context.mounted) {
             ref.invalidate(mechanicDashboardViewModelProvider(shopId));
             ref.invalidate(shopJobsViewModelProvider(shopId));
