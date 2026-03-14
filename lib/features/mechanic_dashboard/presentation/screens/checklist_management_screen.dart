@@ -163,7 +163,14 @@ class _ChecklistManagementScreenState
               }
             });
           } else {
-            // Future feature: detail view or edit. For now, empty or basic preview.
+            ChecklistPreviewRoute(
+              shopId: widget.shopId,
+              checklistId: checklist.id,
+              jsonUrl: checklist.jsonUrl,
+              checklistName: checklist.name,
+              imageUrl: checklist.imageUrl,
+              showRegisterButton: false,
+            ).push(context);
           }
         },
         borderRadius: BorderRadius.circular(12),

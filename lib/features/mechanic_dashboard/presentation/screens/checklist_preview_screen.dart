@@ -17,6 +17,7 @@ class ChecklistPreviewScreen extends ConsumerStatefulWidget {
   final String jsonUrl;
   final String checklistName;
   final String imageUrl;
+  final bool showRegisterButton;
 
   const ChecklistPreviewScreen({
     super.key,
@@ -25,6 +26,7 @@ class ChecklistPreviewScreen extends ConsumerStatefulWidget {
     required this.jsonUrl,
     required this.checklistName,
     required this.imageUrl,
+    this.showRegisterButton = true,
   });
 
   @override
@@ -167,70 +169,7 @@ class _ChecklistPreviewScreenState
                   );
                 }),
 
-                const SizedBox(height: 24),
-                // Register checklist Button (Placeholder action)
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () async {
-                      final nav = Navigator.of(context);
-                      final scaffold = ScaffoldMessenger.of(context);
-
-                      try {
-                        final repository = ref.read(
-                          safetyChecklistRepositoryProvider,
-                        );
-                        final result = await repository.registerShopChecklist(
-                          shopId: widget.shopId,
-                          checklistId: widget.checklistId,
-                        );
-
-                        result.fold(
-                          (failure) {
-                            // Error is handled globally by Dio Interceptor
-                          },
-                          (success) {
-                            // Invalidate providers to refresh the lists
-                            ref.invalidate(
-                              shopChecklistsProvider(widget.shopId),
-                            );
-                            ref.invalidate(
-                              checklistSelectionViewModelProvider(
-                                widget.shopId,
-                              ),
-                            );
-
-                            scaffold.showSnackBar(
-                              const SnackBar(
-                                content: Text('점검표가 성공적으로 등록되었습니다.'),
-                              ),
-                            );
-                            nav.pop();
-                            nav.pop(); // Pop back to dashbaord
-                          },
-                        );
-                      } catch (e) {
-                        // Error is handled globally by Dio Interceptor
-                      }
-                    },
-                    child: const Text(
-                      '체크리스트 등록',
-                      style: TextStyle(
-                        color: AppColors.textLight,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 24), // Space for breathing room
               ],
             ),
           );
@@ -245,6 +184,94 @@ class _ChecklistPreviewScreenState
           ),
         ),
       ),
+      bottomNavigationBar: widget.showRegisterButton
+          ? formAsync.maybeWhen(
+              data: (form) {
+                if (form == null) return null;
+                return Container(
+                  padding: EdgeInsets.fromLTRB(
+                    20,
+                    12,
+                    20,
+                    MediaQuery.of(context).padding.bottom + 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.backgroundDark,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, -5),
+                      ),
+                    ],
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
+                      ),
+                      onPressed: () async {
+                        final nav = Navigator.of(context);
+                        final scaffold = ScaffoldMessenger.of(context);
+
+                        try {
+                          final repository = ref.read(
+                            safetyChecklistRepositoryProvider,
+                          );
+                          final result = await repository.registerShopChecklist(
+                            shopId: widget.shopId,
+                            checklistId: widget.checklistId,
+                          );
+
+                          result.fold(
+                            (failure) {
+                              // Error is handled globally by Dio Interceptor
+                            },
+                            (success) {
+                              // Invalidate providers to refresh the lists
+                              ref.invalidate(
+                                shopChecklistsProvider(widget.shopId),
+                              );
+                              ref.invalidate(
+                                checklistSelectionViewModelProvider(
+                                  widget.shopId,
+                                ),
+                              );
+
+                              scaffold.showSnackBar(
+                                const SnackBar(
+                                  content: Text('점검표가 성공적으로 등록되었습니다.'),
+                                ),
+                              );
+                              nav.pop();
+                              nav.pop(); // Pop back to dashbaord
+                            },
+                          );
+                        } catch (e) {
+                          // Error is handled globally by Dio Interceptor
+                        }
+                      },
+                      child: const Text(
+                        '체크리스트 등록',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+              orElse: () => null,
+            )
+          : null,
     );
   }
 }

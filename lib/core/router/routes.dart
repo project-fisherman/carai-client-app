@@ -197,6 +197,7 @@ class ChecklistPreviewRoute extends GoRouteData {
   final String jsonUrl;
   final String checklistName;
   final String imageUrl;
+  final bool showRegisterButton;
 
   const ChecklistPreviewRoute({
     required this.shopId,
@@ -204,6 +205,7 @@ class ChecklistPreviewRoute extends GoRouteData {
     required this.jsonUrl,
     required this.checklistName,
     required this.imageUrl,
+    this.showRegisterButton = true,
   });
 
   @override
@@ -214,6 +216,7 @@ class ChecklistPreviewRoute extends GoRouteData {
       jsonUrl: jsonUrl,
       checklistName: checklistName,
       imageUrl: imageUrl,
+      showRegisterButton: showRegisterButton,
     );
   }
 }
