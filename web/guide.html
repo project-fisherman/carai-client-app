@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarAI 사용 가이드</title>
+  <link rel="icon" type="image/svg+xml" href="favicon-dark.svg" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/svg+xml" href="favicon-light.svg" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    :root {
+      --bg: #23170F;
+      --surface: #34241A;
+      --surface2: #3D2E22;
+      --primary: #F96706;
+      --primary-dim: rgba(249, 103, 6, 0.15);
+      --text: #FFFFFF;
+      --text-secondary: #9C8474;
+      --border: rgba(255,255,255,0.08);
+      --radius: 16px;
+      --max-w: 720px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 80px 24px 48px;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    }
+    .hero-icon {
+      width: 80px; height: 80px;
+      margin: 0 auto 24px;
+      background: var(--primary-dim);
+      border: 1px solid rgba(249,103,6,0.25);
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+    }
+    .hero h1 {
+      font-size: 32px; font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Layout */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 20px 100px;
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin: 32px 0 48px;
+      border: 1px solid var(--border);
+    }
+    .toc h2 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+    }
+    .toc li {
+      counter-increment: toc;
+    }
+    .toc a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .toc li:last-child a { border-bottom: none; }
+    .toc a:hover { color: var(--primary); }
+    .toc a::before {
+      content: counter(toc);
+      width: 28px; height: 28px;
+      background: var(--primary-dim);
+      color: var(--primary);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 56px;
+      scroll-margin-top: 32px;
+    }
+    .section-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section h2 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      margin-bottom: 20px;
+    }
+    .section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 28px 0 12px;
+      padding-left: 12px;
+      border-left: 3px solid var(--primary);
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 16px 0;
+    }
+
+    /* Flow */
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .flow-step {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .flow-arrow {
+      color: var(--primary);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* Status */
+    .status-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .status-badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .status-badge.waiting { background: #FEF3C7; color: #92400E; }
+    .status-badge.progress { background: #DCFCE7; color: #166534; }
+    .status-badge.completed { background: #E0E7FF; color: #3730A3; }
+    .status-badge.canceled { background: #FEE2E2; color: #991B1B; }
+    .status-badge.generating { background: #FEF08A; color: #854D0E; }
+    .status-badge.report-done { background: #FAE8FF; color: #86198F; }
+    .status-badge.failed { background: #FEE2E2; color: #991B1B; }
+    .status-arrow {
+      color: var(--text-secondary);
+      padding: 0 8px;
+      font-size: 16px;
+    }
+
+    /* Table */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th {
+      background: var(--surface2);
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    td {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      vertical-align: top;
+    }
+    td:first-child { font-weight: 600; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .check { color: var(--primary); font-weight: 700; text-align: center; }
+    .no { color: var(--text-secondary); text-align: center; }
+
+    /* Paragraph */
+    p, li {
+      color: rgba(255,255,255,0.8);
+      font-size: 15px;
+    }
+    ul, ol {
+      padding-left: 20px;
+      margin: 12px 0;
+    }
+    li { margin-bottom: 6px; }
+
+    /* Highlight */
+    .highlight {
+      background: var(--primary-dim);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* Feature grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    @media (max-width: 520px) {
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+    .feature-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .feature-item .icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .feature-item h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .feature-item p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* SMS Preview */
+    .sms-preview {
+      background: #fff;
+      color: #222;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 16px 0;
+      max-width: 320px;
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    .sms-preview .sender {
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #555;
+      font-size: 12px;
+    }
+    .sms-preview a {
+      color: #2563EB;
+      word-break: break-all;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 48px 0;
+    }
+
+    /* Back to top */
+    .back-top {
+      text-align: center;
+      margin-top: 48px;
+    }
+    .back-top a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .back-top a:hover { color: var(--primary); }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-icon">🚗</div>
+  <h1>CarAI 사용 가이드</h1>
+  <p>AI 기반 차량 점검 관리 시스템.<br>엑셀 수납 이력 분석부터 AI 정비 소견서 생성까지.</p>
+</div>
+
+<div class="container">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h2>목차</h2>
+    <ol>
+      <li><a href="#signup">회원가입 및 로그인</a></li>
+      <li><a href="#shop">업장 관리</a></li>
+      <li><a href="#checklist">안전점검표 관리</a></li>
+      <li><a href="#assign">접수 및 작업 할당</a></li>
+      <li><a href="#work">작업 진행</a></li>
+      <li><a href="#report">AI 소견서 생성</a></li>
+      <li><a href="#roles">역할 및 권한</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1. 회원가입 -->
+  <div class="section" id="signup">
+    <div class="section-label">Step 1</div>
+    <h2>회원가입 및 로그인</h2>
+
+    <h3>회원가입</h3>
+    <div class="flow">
+      <div class="flow-step">📱 전화번호 입력</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">🔢 인증코드 입력</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">👤 이름·비밀번호 설정</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">✅ 가입 완료</div>
+    </div>
+    <div class="card">
+      <ul>
+        <li>전화번호를 입력하면 <strong>SMS 인증코드</strong>(6자리)가 발송됩니다.</li>
+        <li>인증코드는 <strong>3분간 유효</strong>합니다.</li>
+        <li>인증 완료 후 이름과 비밀번호를 설정하면 가입이 완료됩니다.</li>
+        <li>비밀번호는 <strong>8자 이상</strong>, 영문+숫자 조합이 필요합니다.</li>
+      </ul>
+    </div>
+
+    <h3>로그인</h3>
+    <p>가입한 전화번호와 비밀번호로 로그인합니다. 로그인하면 자동으로 대시보드로 이동합니다.</p>
+
+    <h3>비밀번호 찾기</h3>
+    <p>로그인 화면에서 <strong>"비밀번호 찾기"</strong>를 누르면 전화번호 인증 후 새 비밀번호를 설정할 수 있습니다.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 2. 업장 관리 -->
+  <div class="section" id="shop">
+    <div class="section-label">Step 2</div>
+    <h2>업장 관리</h2>
+
+    <h3>업장 생성</h3>
+    <p>처음 사용 시 업장을 생성합니다. 업장을 생성한 사람은 자동으로 <strong>OWNER(소유자)</strong> 역할이 됩니다.</p>
+    <div class="card">
+      <ul>
+        <li><strong>업장 이름</strong> — 예: CarAI 정비소</li>
+        <li><strong>주소</strong> — 예: 서울시 강남구</li>
+        <li><strong>전화번호</strong> — 예: 02-1234-5678</li>
+      </ul>
+    </div>
+
+    <h3>직원 초대</h3>
+    <p>업장에 직원을 초대하는 두 가지 방법이 있습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>방법</th><th>설명</th></tr>
+        <tr><td>전화번호로 초대</td><td>직원의 전화번호를 입력하면 초대 링크가 SMS로 발송됩니다.</td></tr>
+        <tr><td>직접 초대</td><td>이미 가입된 사용자를 ID로 직접 초대합니다.</td></tr>
+      </table>
+    </div>
+    <p>초대받은 사용자는 초대를 수락하면 업장에 합류합니다.</p>
+
+    <h3>직원 관리</h3>
+    <div class="card">
+      <ul>
+        <li><strong>역할 변경</strong> — OWNER가 직원의 역할을 변경할 수 있습니다.</li>
+        <li><strong>직원 내보내기</strong> — MANAGER 이상이 직원을 내보낼 수 있습니다.</li>
+        <li><strong>업장 탈퇴</strong> — 본인이 직접 업장을 나갈 수 있습니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 3. 안전점검표 -->
+  <div class="section" id="checklist">
+    <div class="section-label">Step 3</div>
+    <h2>안전점검표 관리</h2>
+    <p>안전점검표는 차량 점검 시 사용하는 체크리스트입니다. 시스템에서 기본 제공하는 점검표를 업장에 등록하여 사용합니다.</p>
+
+    <div class="flow">
+      <div class="flow-step">📋 점검표 선택</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">👁️ 미리보기 확인</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">✅ 업장에 등록</div>
+    </div>
+
+    <div class="highlight">
+      등록된 점검표만 작업 시작 시 선택할 수 있습니다. MANAGER 이상의 권한이 필요합니다.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 4. 접수 및 작업 할당 -->
+  <div class="section" id="assign">
+    <div class="section-label">Step 4</div>
+    <h2>접수 및 작업 할당</h2>
+
+    <h3>엑셀 수납 이력 분석</h3>
+    <p>고객의 수납 이력 엑셀 파일을 업로드하면 시스템이 자동으로 분석합니다.</p>
+
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="icon">👤</div>
+        <h4>고객 정보 추출</h4>
+        <p>고객명, 전화번호, 차량번호, 차종을 자동 식별합니다.</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">💳</div>
+        <h4>결제 이력 정리</h4>
+        <p>최근 결제 내역을 날짜순으로 정리합니다.</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">🔧</div>
+        <h4>정비 항목 요약</h4>
+        <p>항목별 마지막 정비일과 주행거리를 요약합니다.</p>
+      </div>
+      <div class="feature-item">
+        <div class="icon">⚠️</div>
+        <h4>권장 정비 안내</h4>
+        <p>주기 초과 항목을 자동으로 알려줍니다.</p>
+      </div>
+    </div>
+
+    <h3>작업 할당</h3>
+    <p>분석 결과를 확인한 후, 담당 정비사에게 작업을 할당합니다.</p>
+    <div class="card">
+      <ul>
+        <li><strong>담당 정비사</strong>를 선택합니다.</li>
+        <li><strong>작업 설명</strong>을 입력합니다 (예: 엔진오일 교체 및 브레이크 점검).</li>
+        <li>고객/차량 정보와 수납 이력이 자동으로 첨부됩니다.</li>
+      </ul>
+    </div>
+    <div class="highlight">MANAGER 이상의 권한이 필요합니다.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 5. 작업 진행 -->
+  <div class="section" id="work">
+    <div class="section-label">Step 5</div>
+    <h2>작업 진행</h2>
+
+    <p>작업은 다음 상태를 거칩니다.</p>
+    <div class="status-flow">
+      <span class="status-badge waiting">대기 중</span>
+      <span class="status-arrow">→</span>
+      <span class="status-badge progress">작업 중</span>
+      <span class="status-arrow">→</span>
+      <span class="status-badge completed">완료</span>
+      <span class="status-arrow">→</span>
+      <span class="status-badge generating">소견서 생성 중</span>
+      <span class="status-arrow">→</span>
+      <span class="status-badge report-done">소견서 완료</span>
+    </div>
+
+    <h3>작업 시작</h3>
+    <p>대기 중인 작업을 선택하고 사용할 <strong>안전점검표를 선택</strong>하면 작업이 시작됩니다.</p>
+
+    <h3>점검 진행 및 임시 저장</h3>
+    <div class="card">
+      <ul>
+        <li>점검표의 각 항목을 체크하며 점검을 진행합니다.</li>
+        <li>중간에 <strong>임시 저장</strong>하면 나중에 이어서 진행할 수 있습니다.</li>
+        <li>앱을 종료해도 데이터가 유지됩니다.</li>
+      </ul>
+    </div>
+
+    <h3>작업 완료</h3>
+    <p>모든 점검이 끝나면 <strong>"작업 완료"</strong>를 눌러 최종 결과를 저장합니다. 완료 후 자동으로 AI 소견서 화면으로 이동합니다.</p>
+
+    <h3>작업 취소</h3>
+    <p>대기 중 또는 작업 중 상태의 작업은 취소할 수 있습니다.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 6. AI 소견서 -->
+  <div class="section" id="report">
+    <div class="section-label">Step 6</div>
+    <h2>AI 소견서 생성</h2>
+
+    <p>작업 완료 후, AI가 전문적인 정비 소견서를 자동 생성합니다.</p>
+
+    <div class="flow">
+      <div class="flow-step">📊 데이터 수집</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">🤖 AI 분석</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">📄 PDF 생성</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">📱 SMS 발송</div>
+    </div>
+
+    <h3>소견서에 포함되는 내용</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>섹션</th><th>내용</th></tr>
+        <tr><td>고객·차량 정보</td><td>고객명, 연락처, 차량번호, 주행거리</td></tr>
+        <tr><td>점검 결과</td><td>안전점검표 기반 항목별 상태</td></tr>
+        <tr><td>AI 종합 소견</td><td>차량 상태 평가, 주요 점검 사항, 권장 정비 항목</td></tr>
+        <tr><td>정비 이력</td><td>최근 정비 날짜, 내용, 주행거리</td></tr>
+      </table>
+    </div>
+
+    <div class="highlight">
+      AI 분석은 <strong>Claude AI</strong>가 20년 경력의 자동차 정비 전문가 관점에서 작성합니다.
+    </div>
+
+    <h3>고객 SMS 알림</h3>
+    <p>소견서가 생성되면 고객에게 자동으로 문자가 발송됩니다.</p>
+    <div class="sms-preview">
+      <div class="sender">📩 CarAI 정비소</div>
+      홍길동님, 차량 정비 소견서가 작성되었습니다.<br>
+      아래 링크에서 확인하실 수 있습니다.<br>
+      <a href="#">https://carai.app/reports/...</a>
+    </div>
+
+    <h3>소견서 생성 실패 시</h3>
+    <p>네트워크 오류 등으로 생성이 실패하면 <strong>"소견서 재생성"</strong> 버튼으로 다시 시도할 수 있습니다.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 7. 역할 및 권한 -->
+  <div class="section" id="roles">
+    <div class="section-label">참고</div>
+    <h2>역할 및 권한</h2>
+
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>기능</th>
+          <th style="text-align:center">OWNER</th>
+          <th style="text-align:center">MANAGER</th>
+          <th style="text-align:center">STAFF</th>
+        </tr>
+        <tr><td>업장 정보 수정/삭제</td><td class="check">O</td><td class="no">-</td><td class="no">-</td></tr>
+        <tr><td>직원 초대</td><td class="check">O</td><td class="check">O</td><td class="no">-</td></tr>
+        <tr><td>역할 변경</td><td class="check">O</td><td class="no">-</td><td class="no">-</td></tr>
+        <tr><td>직원 내보내기</td><td class="check">O</td><td class="check">O</td><td class="no">-</td></tr>
+        <tr><td>작업 할당</td><td class="check">O</td><td class="check">O</td><td class="no">-</td></tr>
+        <tr><td>점검표 등록/해제</td><td class="check">O</td><td class="check">O</td><td class="no">-</td></tr>
+        <tr><td>업장 작업 목록 조회</td><td class="check">O</td><td class="check">O</td><td class="check">O</td></tr>
+        <tr><td>내 작업 조회/진행</td><td class="check">O</td><td class="check">O</td><td class="check">O</td></tr>
+        <tr><td>AI 소견서 생성</td><td colspan="3" style="text-align:center; color: var(--text-secondary);">본인 작업만</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="back-top">
+    <a href="#signup">↑ 맨 위로</a>
+  </div>
+
+</div>
+
+</body>
+</html>
