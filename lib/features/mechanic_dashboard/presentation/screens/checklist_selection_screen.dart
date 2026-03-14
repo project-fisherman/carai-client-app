@@ -31,7 +31,7 @@ class ChecklistSelectionScreen extends ConsumerWidget {
           if (checklists.isEmpty) {
             return const Center(
               child: Text(
-                '사용 가능한 점검표가 없습니다.',
+                '더 이상 등록 가능한 점검표가 없습니다.',
                 style: TextStyle(color: Colors.white),
               ),
             );
