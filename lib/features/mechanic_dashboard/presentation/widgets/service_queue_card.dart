@@ -96,28 +96,23 @@ class ServiceQueueCard extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                            if (carNumber != null && carModelCode != null)
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8),
-                                child: Text(
-                                  '|',
-                                  style: TextStyle(color: Color(0xFF444444), fontSize: 14),
-                                ),
-                              ),
-                            if (carModelCode != null)
-                              Flexible(
-                                child: Text(
-                                  carModelCode!,
-                                  style: const TextStyle(
-                                    color: Color(0xFF999999),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
                           ],
                         ),
+                        if (carModelCode != null) ...[
+                          const SizedBox(height: 4),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 26),
+                            child: Text(
+                              carModelCode!,
+                              style: const TextStyle(
+                                color: Color(0xFF999999),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                         if (description != null && description!.isNotEmpty) ...[
                           const SizedBox(height: 12),
                           Text(
